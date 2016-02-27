@@ -9,7 +9,7 @@ package ebike;
 
 
 /**
- * 类描述：测试类
+ * 类描述：测试类1111111111111
  * @version: 1.0
  * @author: liuwu
  * @version: 2016年2月27日 上午10:36:25 
