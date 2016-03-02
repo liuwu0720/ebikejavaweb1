@@ -41,11 +41,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					alert("请输入密码!");
 					$("#password").focus();
 					return false;
-				} else if (!nullReg.test(ccode)) {
+				} 
+				/**else if (!nullReg.test(ccode)) {
 					alert("请输入验证码!");
 					$("#code").focus();
 					return false;
-				}
+				}**/
 				
 				$.post("<%=basePath %>userAction/checkUser",{
 					cuser : cuser,
@@ -90,7 +91,7 @@ html,body {
 					</tr>
 					<tr>
 						<td height="84">
-							<form action="/user_login.action" method="post"
+							<form action="<%=basePath %>userAction/loginToMain" method="post"
 								id="login_form" style="margin:0;padding:0;">
 								<table width="100%" height="84" border="0" cellpadding="0"
 									cellspacing="0">

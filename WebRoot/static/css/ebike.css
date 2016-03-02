@@ -1,0 +1,14 @@
+.menudiv{
+	font-size: 12px;
+	
+}
+.menudiv > ul{
+	list-style-type: none;
+}
+.menudiv>ul>li{
+	margin-top:5px;
+}
+
+.menudiv ul >li >a {
+	text-decoration: none;
+}

@@ -1,0 +1,306 @@
+@CHARSET "UTF-8";
+/*****全局样式*****/
+*{
+	margin:0;
+	padding:0;
+}
+html,body{
+	height:100%;
+}
+img{
+	border:0;
+}
+a:link {
+	text-decoration: none;
+	color:black;
+}
+a:visited {
+	text-decoration: none;
+	color:black;
+}
+a:hover {
+	text-decoration: none;
+	color:blue;
+}
+a:active {
+	text-decoration: none;
+	color:blue;
+}
+#noframe{
+	font-size:14px;
+	color:red;
+}
+/*****登录界面样式*****/
+#login_up{
+	height:67%;
+	background-color:#1075b1;
+}
+#login_middle{
+	width:100%;
+	height:402px;
+	background:url("../images/login_03.gif") left top repeat-x;
+}
+#login_down{
+	height:33%;
+	background-color:#152753;
+}
+#login_down_bg_img{
+	background:url("../images/login_03.gif") left -402px repeat-x;
+}
+#login_middle_img_1{
+	margin:0 auto 0 auto;
+	width:847px;
+	height:318px;
+	background:url("../images/login_01.gif") left top no-repeat;
+}
+#login_middle_img_2{
+	margin:0 auto 0 auto;
+	width:847px;
+	height:84px;
+}
+#login_middle_img_3{
+	margin:0 auto 0 auto;
+	width:847px;
+	height:206px;
+	background:url("../images/login_02.gif") left top no-repeat;
+}
+.login_middle_center{
+	float:left;
+}
+#login_middle_img_4{
+	width:381px;
+	height:84px;
+	background:url("../images/login_04.gif") left top no-repeat;
+}
+#login_middle_img_5{
+	width:162px;
+	height:84px;
+	background:url("../images/login_05.gif") left top no-repeat;
+}
+#login_middle_img_5 ul{
+	width:162px;
+	height:84px;
+	font-size:12px;
+	text-align:center;
+}
+#login_middle_img_5 ul li{
+	width:160px;
+	color:#adc9d9;
+	list-style-type:none;
+}
+#user_tip{
+	width:158px;
+	height:15px;
+	padding-top:3px;
+	color:red;
+}
+#password_tip{
+	width:158px;
+	height:15px;
+	padding-top:3px;
+	color:red;
+}
+#user{
+	width:100px;
+	height:17px;
+	border:solid 1px #153966;
+	font-size:12px;
+	color:#283439;
+	background-color:#87adbf;
+}
+#password{
+	width:100px;
+	height:17px;
+	border:solid 1px #153966;
+	font-size:12px;
+	color:#283439;
+	background-color:#87adbf;
+}
+#login_middle_img_6{
+	width:26px;
+	height:84px;
+	background:url("../images/login_06.gif") left top no-repeat;
+}
+#login_middle_img_7{
+	width:67px;
+	height:84px;
+	background:url("../images/login_07.gif") left top no-repeat;
+}
+#login_middle_img_7 ul{
+	width:67px;
+	height:84px;
+	text-align:center;
+}
+#login_middle_img_7 ul li{
+	width:67px;
+	height:20px;
+	list-style-type:none;
+	margin-top:17px;
+}
+#login_middle_img_8{
+	width:211px;
+	height:84px;
+	background:url("../images/login_08.gif") left top no-repeat;
+}
+/*****头部框架样式*****/
+#header_img_1{
+   	width:100%;
+	height:78px;
+	background:url("../images/frame_02.gif") left top repeat-x;
+}
+#header_img_2{
+   	width:429px;
+	height:78px;
+	float:left;
+   	background:url("../images/frame_01.gif") left top no-repeat;
+}
+#header_img_3{
+   	width:356px;
+	height:26px;
+	float:right;
+	margin-top:52px;
+   	background:url("../images/frame_11.gif") right bottom no-repeat;
+   	overflow:hidden;
+}
+#header_img_3 ul{
+   	width:356px;
+	height:17px;
+	float:right;
+	margin-top:5px;
+}
+#header_img_3 ul li{
+	float:right;
+	list-style-type:none;
+	margin-right:6px;
+}
+#header_img_4{
+   	width:100%;
+	height:40px;
+   	background:url("../images/frame_05.gif") left top repeat-x;
+}
+#header_img_5{
+   	width:20px;
+	height:40px;
+	float:left;
+   	background:url("../images/frame_03.gif") left top no-repeat;
+}
+#header_img_6{
+   	width:34px;
+	height:40px;
+	float:left;
+   	background:url("../images/frame_04.gif") left top no-repeat;
+}
+#header_img_7{
+   	width:17px;
+	height:40px;
+	float:right;
+   	background:url("../images/frame_06.gif") left top no-repeat;
+}
+#header_menu{
+   	width:135px;
+   	height:18px;
+	float:left;
+	margin-top:18px;
+	padding-left:35px;
+	padding-top:2px;
+}
+#header_menu_text{
+	width:52px;
+	height:13px;
+   	font-size:13px;
+	color:gray;
+	float:left;
+	margin-left:20px;
+}
+#header_menu_logo{
+	width:15px;
+	height:13px;
+	float:left;
+}
+#header_text{
+   	height:15px;
+   	margin-top:20px;
+   	margin-left:10px;
+   	float:left;
+   	font-size:12px;
+}
+
+/*****主框架样式*****/
+#main_name{
+	font-family: "楷体_GB2312";
+	font-size: 24px;
+	font-weight: bold;
+	color: #60AFFF;
+	margin-top: 30px;
+}
+#main_welcome{
+	width:100px;
+	height:100px;
+	background:url("../images/manager.png") left top;
+}
+/*****右框架样式*****/
+#right_img_1{
+	width:8px;
+	height:100%;
+	background:url("../images/frame_12.gif") left top repeat-y;
+}
+/*****底框架样式*****/
+#footer_img_1{
+	width:100%;
+	height:29px;
+	background:url("../images/frame_16.gif") left top repeat-x;
+}
+#footer_img_2{
+	width:20px;
+	height:29px;
+	float:left;
+	background:url("../images/frame_14.gif") left top no-repeat;
+}
+#footer_img_3{
+	width:180px;
+	height:29px;
+	float:left;
+	background:url("../images/frame_15.gif") left top repeat-x;
+}
+#footer_img_3 span{
+	font-size:10px;
+	margin-left:5px;
+}
+#footer_img_4{
+	width:17px;
+	height:29px;
+	float:right;
+	background:url("../images/frame_17.gif") left top no-repeat;
+}
+/*****404,505,禁止访问界面样式*****/
+#warn_frame{
+	width:300px;
+	height:100px;
+	font-size:12px;
+	border:1px solid #D2E9FF;
+	background-color:#EEF2FB;
+}
+#warn_frame_img{
+	width:77px;
+	height:32px;
+	float:left;
+	margin-top:35px;
+	text-align:right;
+}
+#warn_frame_msg{
+	float:left;
+	margin-top:45px;
+	padding-left:15px;
+	text-align:left;
+}
+/*****程序异常提示界面样式*****/
+#exception_frame{
+	margin:10px;
+	padding:10px;
+	font-size:12px;
+	border:1px solid #D2E9FF;
+	background-color:#EEF2FB;
+}
+#exception_frame span{
+	color:blue;
+}
