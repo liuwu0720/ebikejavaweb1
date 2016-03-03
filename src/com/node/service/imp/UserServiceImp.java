@@ -28,6 +28,7 @@ import com.node.model.TUser;
 import com.node.model.TUserRole;
 import com.node.service.IUserService;
 import com.node.util.HqlHelper;
+import com.node.util.SystemConstants;
 
 /**
  * 类描述：
@@ -165,6 +166,22 @@ public class UserServiceImp implements IUserService {
 			}
 			if (CollectionUtils.isNotEmpty(resources))
 				return resources;
+		}
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IUserService#getByIAchiveId(java.lang.Integer)
+	 */
+	@Override
+	public TUser getByIAchiveId(Integer id) {
+		List<TUser> tUsers = iUserDao.findByPropertys(new String[] {
+				"iArchiveType", "iArchive", "nEnable" }, new Object[] {
+				SystemConstants.IARCHIVETYPE_TRAFFICE, id, 0 });
+		if (CollectionUtils.isNotEmpty(tUsers)) {
+			return tUsers.get(0);
 		}
 		return null;
 	}

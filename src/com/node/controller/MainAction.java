@@ -98,9 +98,9 @@ public class MainAction {
 	@RequestMapping("/getSidebar")
 	public String getSidebar(HttpServletRequest request) {
 		TUser user = (TUser) request.getSession().getAttribute("user");
-		System.out.println(user.getId());
+		// System.out.println(user.getId());
 		// 一个用户可能有多个角色，所以对应资源进行去重处理
-		List<TRole> rolelist = iUserService.getAllRoleByUserId(44);
+		List<TRole> rolelist = iUserService.getAllRoleByUserId(user.getId());
 		List<TResource> resolist = new ArrayList<TResource>();
 		for (TRole role : rolelist) {
 			List<TResource> resources = iUserService.getByRoleid(role.getId());

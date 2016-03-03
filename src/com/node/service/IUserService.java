@@ -119,4 +119,15 @@ public interface IUserService {
 	 */
 	List<TResource> getByRoleid(Integer id);
 
+	/**
+	 * 方法描述：
+	 * 
+	 * @param id
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月3日 下午5:07:42
+	 */
+	TUser getByIAchiveId(Integer id);
+
 }

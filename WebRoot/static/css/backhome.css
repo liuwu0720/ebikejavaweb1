@@ -1,0 +1,107 @@
+/*Reset*/
+*{ outline:0; padding:0; margin:0; }
+/*HTML*/
+body { font-size:14px; line-height:1.6em; color:#000; font-family: "SimSun",Arial, Helvetica, sans-serif; background:#FFF;}
+a{ text-decoration:none; outline:none;}
+a:link{ color:#f1592a;}
+a:visited{ color:#f1592a;}
+a:hover{ color:#000;}
+ol,ul,li{ list-style: none outside none;}
+img{ border: none;}
+.fl { float: left;}
+.fr { float: right;}
+.clear{ clear: both;}
+/**************** Iframe *************************************/
+body.sidebar{ padding:10px 10px 0 5px;}
+body.control{ margin:0; padding:0; background:url(../image/backhome/iframe.png) repeat-y;}
+a#iframe_btn{ position:absolute; right:0;display:inline-block; width:10px; height:85px;}
+a.iframe_off{ background:url(../image/backhome/iframe_off.png) right no-repeat;}
+a.iframe_on{ background:url(../image/backhome/iframe_on.png) right no-repeat;}
+/*************************************************************/
+.header{}
+.logo{ height:62px; padding:5px; background:#febd7e url(../image/backhome/header.png) left top no-repeat;}
+.nav{ height:40px; line-height:40px; padding:0 5px; color:#FFF; background:#635a55;}
+.info{ float:left; width:300px; margin:0 50px 0 0; font-size:12px;}
+.menu{ float:left; font:bold 16px/40px "SimSun";}
+.menu ul{}
+.menu ul li{ float:left;}
+.menu ul li a{ display:inline-block; padding:0 10px; color:#FFF; }
+.menu ul li a:link,.menu ul li a:visited{ color:#FFF; }
+.menu ul li a:hover,.menu ul li a.active{ color:#f1592a; }
+
+body.main{ padding:10px; background:#fbfbfb url(../image/backhome/bg.png) left top repeat-x;}
+
+dl.tabs{ border:none; width:auto;}
+.tabs{ margin:0 0 10px 0;}
+.tabs dt{ font-weight:bold;}
+.tabs dt a{ display:inline-block; margin:0 1px 0 0;  height:38px; line-height:38px;  color:#FFF;}
+.tabs dt a span{ display:inline-block; padding:0 20px; height:38px; line-height:38px; background:#b6b4b4;}
+.tabs dt a span.on{  background:#e85627; }
+.tabs dt a.first span{ background:url(../image/backhome/tabs_left.png) no-repeat left; }
+.tabs dt a.last span{ background:url(../image/backhome/tabs_right.png) no-repeat right; }
+.tabs dt a.first span.on{ background:url(../image/backhome/tabs_on_left.png) no-repeat left; }
+.tabs dt a.last span.on{ background:url(../image/backhome/tabs_on_right.png) no-repeat right; }
+.tabs dd{ min-height:160px; padding:10px; border:1px #e85627 solid; background:#FFF url(../image/backhome/form.png) top left no-repeat;}
+.tabs dd.form{ min-height:500px; background:#FFF url(../image/backhome/form.png) bottom right no-repeat;}
+/**************** Table ***************************************/
+table{  border-collapse: collapse;}
+
+table.table_data{ text-align:center;}
+table.table_data tr.even{ background:#FFF;}
+table.table_data tr.odd{ background:#fbf1eb;}
+table.table_data tr.hover{ background:#fdeee4;}
+table.table_data td{ padding:5px; border:1px #e8bcae solid;}
+table.table_data th{ padding:5px; border:1px #e8bcae solid; background:#fae0d4;}
+
+table.table_form{ margin:10px auto;}
+table.table_form th{ text-align:right; font-weight:normal;}
+table.table_form td{ padding:3px 0;}
+/**************** Form ***************************************/
+.f_txt{ width:200px; height:30px; line-height:30px; border:1px #dbbdb0 solid;}
+.f_num{ width:35px; height:30px; line-height:30px; border:1px #dcd4d2 solid; }
+.p_txt{ width:30px;}
+.f_short{ width:100px;}
+.placeholder{ color:#aaa;}
+.f_btn,a.f_btn{ display:inline-block; width:202px; height:45px; cursor:pointer; border:none; color:#FFF; font:bold 16px/45px "Microsoft YaHei"; background:url(../image/backhome/btn.png) no-repeat;}
+.f_btn2,a.f_btn2{ display:inline-block; width:100px; height:30px; line-height:30px; cursor:pointer; border:none; background:url(../image/backhome/button.png) no-repeat;}
+.f_btn3{ display:inline-block; width:30px; height:30px; line-height:30px; cursor:pointer; border:none; background:url(../image/backhome/f_btn3.png) no-repeat;}
+.operate{ margin:2em 0; text-align:center;}
+
+/**************** Form Validate ***************************************/
+.ui-state-highlight{ border:1px #dbbdb0 dashed;}
+.ui-widget-content{ border:1px #dbbdb0 solid;}
+
+/*******************************************************/
+.batch{ margin:0 0 1em 0;}
+.search{ margin:0 0 1px 0; height:30px; line-height:30px; padding:10px; border:1px #e7c9c0 solid; background:url(../image/backhome/f_search.png) repeat-x bottom;}
+.search *{ vertical-align:middle;}
+
+.block{}
+.block_th{ height:40px; line-height:40px;padding:0 10px; color:#FFF; background:#e85627;}
+.block_con{ min-height:50px; padding:10px; border:1px #e85627 solid; background:#fbf1eb;}
+
+.box{ clear:both; margin:5px 0; padding:10px; border:1px #e6c8be solid; background:#FFF;}
+.num{ font-weight:bold; color:#e85627;}
+
+.columns{}
+.column_left{ float:left;}
+
+.page{ margin:1em 0; text-align:center;}
+.p_first{ display:inline-block; width:12px; height:12px; background:url(../image/backhome/p_first.png) no-repeat;}
+.p_prev{ display:inline-block; width:12px; height:12px; background:url(../image/backhome/p_prev.png) no-repeat;}
+.p_next{ display:inline-block; width:12px; height:12px; background:url(../image/backhome/p_next.png) no-repeat;}
+.p_end{ display:inline-block; width:12px; height:12px; background:url(../image/backhome/p_end.png) no-repeat;}
+/**************** Error ***************************************/
+.error{ margin:50px auto; width:600px; height:300px; padding:50px 150px 0 50px; border: 1px solid #E85627; background:#FFF url("../image/backhome/form.png") bottom left no-repeat; }
+.error_con{ padding:0 0 0 100px; background:url("../image/backhome/error.png") no-repeat left top;}
+.error_th{ color:#bdafa7; text-transform:uppercase; font:bold italic 60px/60px "Arial";}
+.error_info{ color:#635a55; font:24px/60px "Microsoft YaHei";}
+.error_code{ display:inline-block; font:bold 60px/60px "Arial"; }
+/*******************************************************/
+.batch{ height:30px; padding:0 0 0 8px; font-size:12px;}
+.batch a{ display: inline-block; margin-left:-18px; width:116px; height:46px; padding:5px 20px; color:#FFF; overflow:hidden; font-weight:bold; background:url("../image/backhome/setup.png") no-repeat;}
+.batch1{ height:56px; padding:0 0 0 18px; font-size:12px;}
+.batch1 a{ display: inline-block; margin-left:-18px; width:116px; height:46px; padding:5px 20px; color:#FFF; overflow:hidden; font-weight:bold; background:url("../image/backhome/setup.png") no-repeat;}
+.batch1 a.first{ background:url("../image/backhome/setup_first.png") no-repeat;}
+.batch1 a.last{background:url("../image/backhome/setup_last.png") no-repeat;}
+.batch1 a span.dec{ display:block;  font-size:11px; font-weight:normal;}

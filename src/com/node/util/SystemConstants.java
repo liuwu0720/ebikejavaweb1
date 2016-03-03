@@ -17,5 +17,13 @@ package com.node.util;
 public class SystemConstants {
 
 	public static final Integer SYS_RESOURCE_TYPE_OPERATION = 2;
+	/**
+	 * 交警支队的档案类型
+	 */
+	public static final Integer IARCHIVETYPE_TRAFFICE = 1;
+	/**
+	 * 有效
+	 */
+	public static final Integer ENABLE = 0;
 
 }
