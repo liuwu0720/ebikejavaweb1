@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import com.node.dao.IResourceDao;
 import com.node.dao.IRoleDao;
+import com.node.dao.IRoleResourceDao;
 import com.node.dao.IUserDao;
 import com.node.dao.IUserRoleDao;
 import com.node.model.TResource;
@@ -43,6 +44,9 @@ public class UserServiceImp implements IUserService {
 
 	@Autowired
 	IResourceDao iResourceDao;
+
+	@Autowired
+	IRoleResourceDao iRoleResourceDao;
 
 	@Autowired
 	IUserRoleDao iUserRoleDao;
@@ -152,12 +156,12 @@ public class UserServiceImp implements IUserService {
 	 */
 	@Override
 	public List<TResource> getByRoleid(Integer id) {
-		List<TRoleResource> rResources = iResourceDao.findByProperty("iRoleId",
-				id);
+		List<TRoleResource> rResources = iRoleResourceDao.findByProperty(
+				"iRoleId", id);
 		List<TResource> resources = new ArrayList<TResource>();
 		if (CollectionUtils.isNotEmpty(rResources)) {
 			for (TRoleResource rr : rResources) {
-				resources.add(iResourceDao.get(rr.getIResourceId()));
+				resources.add(iResourceDao.get(rr.getiResourceId()));
 			}
 			if (CollectionUtils.isNotEmpty(resources))
 				return resources;

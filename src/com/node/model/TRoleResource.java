@@ -24,8 +24,8 @@ public class TRoleResource implements java.io.Serializable {
 	// Fields
 
 	private Integer id;
-	private Integer IRoleId;
-	private Integer IResourceId;
+	private Integer iRoleId;
+	private Integer iResourceId;
 
 	// Constructors
 
@@ -34,7 +34,7 @@ public class TRoleResource implements java.io.Serializable {
 	}
 
 	// Property accessors
-	@SequenceGenerator(name = "RRID", sequenceName = "S_T_ROLE_RESOURCE", allocationSize = 1)
+	@SequenceGenerator(name = "RRID", sequenceName = "s_t_role_resource", allocationSize = 1)
 	@Id
 	@GeneratedValue(strategy = SEQUENCE, generator = "RRID")
 	@Column(name = "ID", unique = true, nullable = false, precision = 22, scale = 0)
@@ -47,21 +47,29 @@ public class TRoleResource implements java.io.Serializable {
 	}
 
 	@Column(name = "I_ROLE_ID", precision = 22, scale = 0)
-	public Integer getIRoleId() {
-		return this.IRoleId;
+	public Integer getiRoleId() {
+		return iRoleId;
 	}
 
-	public void setIRoleId(Integer iRoleId) {
-		this.IRoleId = iRoleId;
+	/**
+	 * @param iRoleId
+	 *            : set the property iRoleId.
+	 */
+	public void setiRoleId(Integer iRoleId) {
+		this.iRoleId = iRoleId;
 	}
 
 	@Column(name = "I_RESOURCE_ID", precision = 22, scale = 0)
-	public Integer getIResourceId() {
-		return this.IResourceId;
+	public Integer getiResourceId() {
+		return iResourceId;
 	}
 
-	public void setIResourceId(Integer iResourceId) {
-		this.IResourceId = iResourceId;
+	/**
+	 * @param iResourceId
+	 *            : set the property iResourceId.
+	 */
+	public void setiResourceId(Integer iResourceId) {
+		this.iResourceId = iResourceId;
 	}
 
 }
