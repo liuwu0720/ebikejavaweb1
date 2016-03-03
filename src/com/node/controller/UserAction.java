@@ -76,9 +76,11 @@ public class UserAction {
 		org.springframework.security.authentication.encoding.Md5PasswordEncoder t = new Md5PasswordEncoder();
 		String pw = t.encodePassword(cuser, cpassword);
 		if (tUser == null || !tUser.getVcPassword().equals(pw)) {
+
 			AjaxUtil.rendJson(response, false, "用户名或密码错误！");
 			return;
 		} else {
+			request.getSession().setAttribute("user", tUser);
 			AjaxUtil.rendJson(response, true, "验证通过");
 		}
 

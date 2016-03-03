@@ -7,8 +7,11 @@
  */
 package com.node.service;
 
+import java.util.List;
 import java.util.Map;
 
+import com.node.model.TResource;
+import com.node.model.TRole;
 import com.node.model.TUser;
 import com.node.util.HqlHelper;
 
@@ -93,5 +96,27 @@ public interface IUserService {
 	 * @version: 2016年3月2日 下午8:12:09
 	 */
 	void updateUser(TUser tUser);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param id
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月3日 上午9:14:16
+	 */
+	List<TRole> getAllRoleByUserId(Integer id);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param id
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月3日 上午10:37:26
+	 */
+	List<TResource> getByRoleid(Integer id);
 
 }

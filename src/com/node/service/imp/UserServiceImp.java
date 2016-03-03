@@ -7,6 +7,8 @@
  */
 package com.node.service.imp;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -14,8 +16,15 @@ import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.node.dao.IResourceDao;
+import com.node.dao.IRoleDao;
 import com.node.dao.IUserDao;
+import com.node.dao.IUserRoleDao;
+import com.node.model.TResource;
+import com.node.model.TRole;
+import com.node.model.TRoleResource;
 import com.node.model.TUser;
+import com.node.model.TUserRole;
 import com.node.service.IUserService;
 import com.node.util.HqlHelper;
 
@@ -31,6 +40,15 @@ public class UserServiceImp implements IUserService {
 
 	@Autowired
 	IUserDao iUserDao;
+
+	@Autowired
+	IResourceDao iResourceDao;
+
+	@Autowired
+	IUserRoleDao iUserRoleDao;
+
+	@Autowired
+	IRoleDao iRoleDao;
 
 	@Override
 	public TUser findById(int id) {
@@ -105,6 +123,46 @@ public class UserServiceImp implements IUserService {
 	public void updateUser(TUser tUser) {
 		// TODO Auto-generated method stub
 		iUserDao.update(tUser);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IUserService#getAllRoleByUserId(java.lang.Integer)
+	 */
+	@Override
+	public List<TRole> getAllRoleByUserId(Integer id) {
+		List<TUserRole> urList = iUserRoleDao.findByPropertys(new String[] {
+				"iUser", "nEnable" }, new Object[] { id, 0 });
+		List<TRole> roleList = new ArrayList<TRole>();
+		if (CollectionUtils.isNotEmpty(urList)) {
+			Iterator<TUserRole> urIt = urList.iterator();
+			while (urIt.hasNext()) {
+				roleList.add(iRoleDao.get(urIt.next().getiRole()));
+			}
+		}
+		return roleList;
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IUserService#getByRoleid(java.lang.Integer)
+	 */
+	@Override
+	public List<TResource> getByRoleid(Integer id) {
+		List<TRoleResource> rResources = iResourceDao.findByProperty("iRoleId",
+				id);
+		List<TResource> resources = new ArrayList<TResource>();
+		if (CollectionUtils.isNotEmpty(rResources)) {
+			for (TRoleResource rr : rResources) {
+				resources.add(iResourceDao.get(rr.getIResourceId()));
+			}
+			if (CollectionUtils.isNotEmpty(resources))
+				return resources;
+		}
+		return null;
 	}
 
 }
