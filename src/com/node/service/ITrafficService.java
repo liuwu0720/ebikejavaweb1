@@ -75,4 +75,14 @@ public interface ITrafficService {
 	 */
 	void update(TrafficUser trafficUser);
 
+	/**
+	 * 方法描述：
+	 * 
+	 * @param trafficId
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月4日 下午3:59:37
+	 */
+	void deleteById(int trafficId);
+
 }

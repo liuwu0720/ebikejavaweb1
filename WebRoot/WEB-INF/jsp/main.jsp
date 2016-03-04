@@ -12,11 +12,10 @@
 <title>市交警特殊行业电动自行车二维码管理系统</title>
 </head>
 <frameset rows ="112px,*">
-  	<frame noresize="noresize" frameborder="0"  scrolling="no" name="header" id="header" src="<%=basePath%>mainAction/getHeader"/>
-    <frameset id="frameset" cols="200px,10,*">
-        <frame noresize="noresize" frameborder="0" scrolling="auto"  id="sidebar" name="sidebar" src="<%=basePath%>mainAction/getSidebar">
-        <frame noresize="noresize" frameborder="0" scrolling="no"  name="control" id="control" src="<%=basePath%>mainAction/getControl">
-        <frame noresize="noresize" frameborder="0" scrolling="auto" id="main" name="main" src="<%=basePath%>mainAction/getWelcome">
+  	<frame noresize="noresize" border="2" border-color="#fff000" scrolling="no" name="header" id="header" src="<%=basePath%>mainAction/getHeader"/>
+    <frameset id="frameset" cols="230px,*" >
+        <frame noresize="noresize" frameborder="0" scrolling="auto" border="2" border-color="#fff000"  id="sidebar" name="sidebar" src="<%=basePath%>mainAction/getSidebar">
+        <frame noresize="noresize" frameborder="0" scrolling="auto" border="2" border-color="#fff000" id="main" name="main" src="<%=basePath%>mainAction/getWelcome">
     </frameset>
 </frameset><noframes></noframes>
 

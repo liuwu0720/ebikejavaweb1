@@ -11,7 +11,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <base href="<%=basePath%>"/>
 	<link rel="stylesheet" href="<%=basePath%>static/css/backhome.css" type="text/css"/>
 	<link rel="stylesheet" href="<%=basePath%>static/css/zTreeStyle.css" type="text/css"/>
-	<script type="text/javascript" src="<%=basePath%>static/js/jquery.min.js"></script>
+	<script type="text/javascript" src="<%=basePath%>static/js/jquery-1.7.2.min.js"></script>
 	<script type="text/javascript" src="<%=basePath%>static/js/ztree/js/jquery.ztree.core-3.5.js"></script>
 	
 	<script type="text/javascript" >

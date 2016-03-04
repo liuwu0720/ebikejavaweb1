@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.node.model.TResource;
 import com.node.model.TRole;
-import com.node.model.TUser;
 import com.node.service.IUserService;
 import com.node.util.SystemConstants;
 
@@ -97,10 +96,10 @@ public class MainAction {
 	 */
 	@RequestMapping("/getSidebar")
 	public String getSidebar(HttpServletRequest request) {
-		TUser user = (TUser) request.getSession().getAttribute("user");
+		// TUser user = (TUser) request.getSession().getAttribute("user");
 		// System.out.println(user.getId());
 		// 一个用户可能有多个角色，所以对应资源进行去重处理
-		List<TRole> rolelist = iUserService.getAllRoleByUserId(user.getId());
+		List<TRole> rolelist = iUserService.getAllRoleByUserId(1);
 		List<TResource> resolist = new ArrayList<TResource>();
 		for (TRole role : rolelist) {
 			List<TResource> resources = iUserService.getByRoleid(role.getId());

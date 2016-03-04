@@ -96,4 +96,15 @@ public class TrafficServiceImp implements ITrafficService {
 		iTrafficUserDao.updateCleanBefore(trafficUser);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.ITrafficService#deleteById(int)
+	 */
+	@Override
+	public void deleteById(int trafficId) {
+		// TODO Auto-generated method stub
+		iTrafficUserDao.deleteByKey(trafficId);
+	}
+
 }

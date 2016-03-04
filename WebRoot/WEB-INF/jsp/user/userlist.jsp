@@ -25,7 +25,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	$.ajaxSetup ({
-		   cache: false //关闭AJAX相应的缓存
+		   cache: false //å³é­AJAXç¸åºçç¼å­
 		});
 	var randomNu = (new Date().getTime()) ^ Math.random();
 	$("#dg").datagrid({
@@ -39,7 +39,7 @@ $(document).ready(function(){
 		rownumbers : true,
 		singleSelect : true,
 		height:700,
-		columns : [ [ {
+		columns : [ [{
 			field : 'vcAccount',
 			title : '用户账号',
 			align:'center',
@@ -78,10 +78,9 @@ $(document).ready(function(){
 			title:'操作',
 			align:'center',
 			width : 120,
-			formatter:function(value,index){
+			formatter:function(value,row,index){
 				
-				var dele = '<a href="#" onclick="deleteRow(this)">删除</a>';
-				return dele;
+				return "<a  href='javascript:void(0)'  onclick='deleteRow("+row.id+")'>删除</a>";
 			}
 		}
 
@@ -109,8 +108,36 @@ $(document).ready(function(){
 	});
 });
 
+function deleteRow(id){
+	$.messager.confirm('警告', '确认删除这条记录码', function(r){
+		if (r){
+			$.post("<%=basePath%>userAction/delTrafficUser", 
+					{ id:id},     
+					   function (data, textStatus)
+					   {     
+							
+						if (data.isSuccess) {
+							$.messager.show({ // show error message
+								title : '提示',
+								msg : data.message
+							});
+							$('#dgformDiv').dialog('close');
+							$("#dg").datagrid('reload');
+						}else{
+							alert(data.message);
+						}
+					   }
+				  ,"json");
+		}
+	});
+	
+}  
+
 //修改
 function updateRowData(){
+	$("#editSpan").show();
+	$("#addSpan").hide();
+	$('#dgform').form('clear');
 	 var row = $('#dg').datagrid('getSelected');
    if (row){
     	 $('#dgformDiv').dialog('open').dialog('setTitle', '编辑用户');
@@ -118,7 +145,6 @@ function updateRowData(){
      }else{
     	 $.messager.alert('提示','请选择你要修改的行');    
      } 
-     
      
 <%--   if(row){
     	 var id  = row.id;
@@ -147,7 +173,8 @@ function updateRowData(){
 }
 //添加
 function addRowData(){
-	
+	$("#addSpan").show();
+	$("#editSpan").hide();
 	$('#dgform').form('clear');
 	$('#dgformDiv').dialog('open').dialog('setTitle', '新增用户');
 	
@@ -205,7 +232,8 @@ function doSearch(){
 </head>
 <body class="easyui-layout">
 
-	<table id="dg" style="width:100%;">
+	<div style="margin-top: 10px;">
+	<table id="dg" style="width:90%;">
 		<div id="tb" style="padding: 5px; background: #E8F1FF;">
 			<span>用户姓名:</span> <input id="itemid"
 				style="line-height:26px;border:1px solid #ccc"> <span>
@@ -214,47 +242,49 @@ function doSearch(){
 				<a 	class="easyui-linkbutton" plain="true" onclick="doSearch()" iconCls="icon-search" >查询</a>
 		</div>
 	</table>
-
+</div>
 	<!-- 点编辑时弹出的表单 -->
 	<div id="dgformDiv" class="easyui-dialog"
 		style="width:500px;height:420px;padding:10px 60px 20px 60px;"
 		closed="true" buttons="#dlg-buttons2">
 		<form id="dgform" class="easyui-form" method="post"
-			data-options="novalidate:true">
-			<table class="table table-bordered table-condensed">
+			>
+			<table >
 				<tr style="display: none">
 					<td>id</td>
-					<td><input class="easyui-validatebox" type="text" name="id"></input>
+					<td><input class="easyui-validatebox" type="text" name="id" style="height: 32px"></input>
 					</td>
 				</tr>
 				<tr>
 					<td>用户姓名：</td>
 					<td><input class="easyui-validatebox" type="text"
-						data-options="required:true" name="vcNameString"></input></td>
+						data-options="required:true" name="vcNameString" style="height: 32px"></input></td>
 				</tr>
 				<tr>
 					<td>用户账号：</td>
 					<td><input class="easyui-validatebox" type="text"
-						data-options="required:true" name="vcAccount"></input></td>
+						data-options="required:true" name="vcAccount" style="height: 32px"></input></td>
 				</tr>
 				<tr>
 					<td>用户密码：</td>
-					<td><input class="easyui-validatebox" type="text" name="vcPw"></input></td>
+					<td><input class="easyui-validatebox" type="text" name="vcPw" style="height: 32px"></input>
+					<span id="addSpan" style="color: red;display: none">为空则密码默认为123456</span>
+					<span id="editSpan" style="color: red;display: none">为空则表示不修改密码</span>
+					</td>
 				</tr>
 				<tr>
 					<td>用户部门：</td>
 					<td><input class="easyui-validatebox" type="text"
-						data-options="required:true" name="vcDept"></input></td>
+						data-options="required:true" name="vcDept" style="height: 32px"></input></td>
 				</tr>
 				<tr>
 					<td>用户角色：</td>
 					<td><input class="easyui-validatebox" type="text"
-						name="vcRoleList"></input></td>
+						name="vcRoleList" style="height: 32px"></input></td>
 				</tr>
 			</table>
 		</form>
-	</div>
-	<div id="dlg-buttons2">
+		<div id="dlg-buttons2">
 		<a href="javascript:void(0)" class="easyui-linkbutton" id="saveBtn"
 			iconCls="icon-ok" onclick="updateSaveData()" style="width:90px">保存</a>
 		<a href="javascript:void(0)" class="easyui-linkbutton"
@@ -262,5 +292,7 @@ function doSearch(){
 			onclick="javascript:$('#dgformDiv').dialog('close')"
 			style="width:90px">取消</a>
 	</div>
+	</div>
+	
 </body>
 </html>

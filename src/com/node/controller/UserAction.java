@@ -205,6 +205,26 @@ public class UserAction {
 
 	/**
 	 * 
+	 * 方法描述：
+	 * 
+	 * @param id
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月4日 下午3:58:17
+	 */
+	@RequestMapping("/delTrafficUser")
+	public void delTrafficUser(String id, HttpServletResponse response) {
+		int trafficId = Integer.parseInt(id);
+		try {
+			iTrafficService.deleteById(trafficId);
+			AjaxUtil.rendJson(response, true, "操作成功！");
+		} catch (Exception e) {
+			AjaxUtil.rendJson(response, false, "操作失败");
+		}
+	}
+
+	/**
+	 * 
 	 * 方法描述：交警支队内部管理：新增或修改用户
 	 * 
 	 * @param tUser

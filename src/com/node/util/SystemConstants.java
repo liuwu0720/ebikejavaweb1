@@ -15,6 +15,9 @@ package com.node.util;
  * @version: 2016年3月3日 上午10:43:57
  */
 public class SystemConstants {
+	/**
+	 * 
+	 */
 
 	public static final Integer SYS_RESOURCE_TYPE_OPERATION = 2;
 	/**

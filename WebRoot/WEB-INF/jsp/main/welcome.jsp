@@ -14,7 +14,7 @@
 <body>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
-  <body>
+  <body style="background-color: #E3EEFF;">
 	<table width="100%" height="80%" border="0" cellpadding="0" cellspacing="0">
 		<tr>
 			<td align="center">
