@@ -5,282 +5,271 @@
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>无标题文档</title>
-<%-- <%@include file="../common/common.jsp"%> --%>
 
-<link rel="stylesheet" type="text/css"
-	href="<%=basePath%>static/css/easyui.css">
-<link rel="stylesheet" type="text/css"
-	href="<%=basePath%>static/css/icon.css">
-<link rel="stylesheet" type="text/css"
-	href="<%=basePath%>static/css/demo.css">
-<link rel="stylesheet" type="text/css"
-	href="<%=basePath%>static/css/color.css">
-<link rel="stylesheet" type="text/css"
-	href="<%=basePath%>static/css/ebike.css">	
-	<link rel="stylesheet" href="<%=basePath%>static/css/backhome.css"
-	type="text/css" />
-<link rel="stylesheet" href="<%=basePath%>static/css/zTreeStyle.css"
-	type="text/css" />
-<script type="text/javascript"
-	src="<%=basePath%>static/js/jquery-1.7.2.min.js"></script>
-	
-<script type="text/javascript"
-	src="<%=basePath%>static/js/jquery.easyui.min.js"></script>
-<script type="text/javascript"
-	src="<%=basePath%>static/js/easyui-lang-zh_CN.js"></script>
-<script type="text/javascript"
-	src="<%=basePath%>static/js/ztree/js/jquery.ztree.core-3.5.js"></script>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<base href="<%=basePath%>">
+
+<title>菜单管理</title>
+
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="This is my page">
+
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+
+<%@include file="../common/common.jsp"%>
 
 <script type="text/javascript">
+$(document).ready(function(){
+	$.ajaxSetup ({
+		   cache: false //
+		});
+	var randomNu = (new Date().getTime()) ^ Math.random();
+	$("#dg").datagrid({
 
-	var setting = {			
-			data: {
-				simpleData: {
-					enable: true,					
+		url : "<%=basePath%>resourceAction/queryAllResource?time=" + randomNu,
+		title :  "菜单管理",
+		iconCls : 'icon-edit',
+		striped : true,
+		fitColumns:true,   //数据列太少 未自适应
+		pagination : true,
+		rownumbers : true,
+		singleSelect : true,
+		height:700,
+		columns : [ [{
+			field : 'vcResourceName',
+			title : '菜单名称',
+			align:'center',
+			width : 120
+		},{
+			field : 'vcUrl',
+			title : '链接地址',
+			align:'center',
+			width : 220
+		},{
+			field : 'nSort',
+			title : '排序',
+			align:'center',
+			width : 120
+		},{
+			field : 'nEnable',
+			title : '是否有效',
+			align:'center',
+			width : 120,
+			formatter:function(value,index){
+				if(value == 0){
+					return "有效";
+				}else{
+					return "无效";
 				}
-			},
-			callback: {
-				onDblClick: onClick,
-				onRightClick: OnRightClick,
-				beforeClick: function(treeId, treeNode) {
-					var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-					if (treeNode.isParent) {
-						zTree.expandNode(treeNode);
-						return false;
-					}
-				}
 			}
-	};
-	
-	//显示右键菜单
-	function showRMenu(type, x, y,treeNode) {
-		
-		if (type !="root") {
-			$("#rMenu ul").show();
-			var type = treeNode.ntype;
-		
-			if(type==0){
-				$("#m_add").show();
-				$("#m_del").show();
-				$("#g_add").show();
-				
-				
-				$("#g_del").hide();					
-				$("#c_add").hide();
-				$("#c_del").hide();
-			}else if(type==1){
-				$("#c_add").show();
-				$("#g_del").show();
-				
-				$("#m_add").hide();
-				$("#g_add").hide();
-				$("#m_del").hide();
-				$("#c_del").hide();
-			}else if(type==2){
-				$("#c_del").show();
-				
-				$("#m_add").hide();
-				$("#g_add").hide();
-				$("#c_add").hide();
-				$("#m_del").hide();
-				$("#g_del").hide();
+		}, {
+			field : 'iParent',
+			title : '菜单类型',
+			align:'center',
+			width : 120,
+			formatter:function(value,index){
+				if(value == 0){
+					 return "<p style='color:red'>根菜单</p>";
+				}else{
+					 return "子菜单";
+				}  
+               
 			}
-			rMenu.css({"top":y+"px", "left":x+"px", "visibility":"visible"});
-
-			$("body").bind("mousedown", onBodyMouseDown);
-		}
-		
-	}
-	
-	//隐藏右键菜单
-	function hideRMenu() {
-		if (rMenu) rMenu.css({"visibility": "hidden"});
-		$("body").unbind("mousedown", onBodyMouseDown);
-	}
-	//鼠标右键点击事件
-	function onBodyMouseDown(event){
-		if (!(event.target.id == "rMenu" || $(event.target).parents("#rMenu").length>0)) {
-			rMenu.css({"visibility" : "hidden"});
-		}
-	}
-	
-	var addCount = 1;
-	function addTreeNode(resType) {
-		hideRMenu();
-		// 获得父id 
-		var pid = node.id;
-		var leef = 1;//是否叶子节点，默认不是
-		if(resType==2)leef=0;//当 添加的是操作，则是叶子节点
-		
-		
-		
-	}
-
-	
-	//删除
-	function removeTreeNode(resType) {
-		hideRMenu();
-		if(node.leaf>0){
-			var msg = "要删除的节点是父节点，如果删除将连同子节点一起删掉。\n\n请确认！";
-			if (confirm(msg)==true){
-				//删除并刷新页面
-				del();
-			}
-		}else{
-			//删除并刷新页面
-			del();
-		}
-		
-	}
-	//删除并刷新页面
-	function del(){
-		var url = "<%=basePath%>resource/delResource?resourceId="+node.id;
-		$.post(url,function(data){
-			showResponse(data);
-		})
-	}
-
-
-
-	//弹出页面
-	function onClick(event, treeId, treeNode, clickFlag) {
-		var id = treeNode.id;
-		var url = '<%=basePath%>resourceAction/getResourceByid';
-		$.ajax({
-			url:url,
-			data:{
-				resourceId:id,
-				resType:treeNode.ntype
-			},
-			dataType: "json",
-			success:function(data){
+		},{
+			field : 'vcParent',
+			title : '父菜单',
+			align:'center',
+			width : 120
+		},{
+			field : 'id',
+			title:'操作',
+			align:'center',
+			width : 120,
+			formatter:function(value,row,index){
 				
-   			  if(data){
-   				 $('#dgformDiv').dialog('open').dialog('setTitle', '编辑相关信息');
-   				 $('#dgform').form('load', data);
-   				
-   			  }
-   		  }
-		})
-
-	}
-	
-	function OnRightClick(event, treeId, treeNode) {
-		if (treeNode ) {
-			//有选择节点的
-			node=treeNode;
-			zTree.selectNode(treeNode);
-			showRMenu("node", event.clientX, event.clientY,treeNode);
-		}
-	}
-
-	var zTree, rMenu;
-	$(document).ready(function() {
-		var zNodes = ${jsonStr};
-		$.fn.zTree.init($("#treeDemo"), setting, zNodes);
-		zTree = $.fn.zTree.getZTreeObj("treeDemo");
-		var idvalue = getQueryString("idvalue");
-		if(null != idvalue){
-			var zjson = zTree.getNodeByParam("id",idvalue);
-			if(null !=zjson){
-				zTree.expandNode(zjson,true,false,true);
+				return "<a  href='javascript:void(0)'  onclick='deleteRow("+row.id+")'>删除</a>";
 			}
 		}
-		rMenu = $("#rMenu");
 
+		] ],
+
+		toolbar : [ {
+			id : 'btnadd2',
+			text : '新增',
+			iconCls : 'icon-add',
+			handler : function() {
+				addRowData();
+			}
+		},{
+			id : 'btnadd2',
+			text : '修改',
+			iconCls : 'icon-edit',
+			handler : function() {
+				
+				updateRowData();
+			}
+		} ],
+		onLoadSuccess:function(){  
+            $('#dg').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题  
+        }
 	});
 	
 	
-	/**
-	 * 获得url上的参数
-	 * create by hjx
-	 */
-	function getQueryString(name) {
-	    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-	    var r = window.location.search.substr(1).match(reg);
-	    if (r != null) return unescape(r[2]); return null;
-	    }
-</script>
+});
 
-
-<style type="text/css">
-div#rMenu {
-	position: absolute;
-	visibility: hidden;
-	top: 0;
-	background-color: #555;
-	text-align: left;
-	padding: 2px;
-}
-
-div#rMenu ul li {
-	margin: 1px 0;
-	padding: 0 5px;
-	cursor: pointer;
-	list-style: none outside none;
-	background-color: #DFDFDF;
-}
-</style>
-<body>
-	<div class="easyui-layout" style="width:90%;height:550px;">
+function deleteRow(id){
+	$.messager.confirm('警告', '确认删除这条记录码', function(r){
+		if (r){
+			$.post("<%=basePath%>resourceAction/del", 
+					{ id:id},     
+					   function (data, textStatus)
+					   {     
+							
+						if (data.isSuccess) {
+							$.messager.show({ // show error message
+								title : '提示',
+								msg : data.message
+							});
+							$('#dgformDiv').dialog('close');
+							$("#dg").datagrid('reload');
+						}else{
+							alert(data.message);
+						}
+					   }
+				  ,"json");
+		}
+	});
 	
-		<div region="west" split="true" title="资源列表" style="width:250px;">
-			<div class="tree">
-				<ul id="treeDemo" style="margin-left: 10px;" class="ztree"></ul>
-			</div>
-			<div id="rMenu">
-				<ul>
-					<li id="m_add" onclick="addTreeNode(0);">增加菜单</li>
-					<li id="m_del" onclick="removeTreeNode(0);">删除菜单</li>
+}  
+
+//修改
+function updateRowData(){
+	
+	 var row = $('#dg').datagrid('getSelected');
+   if (row){
+    	 $('#dgformDiv').dialog('open').dialog('setTitle', '编辑用户');
+    	 $('#dgform').form('load', row);
+     }else{
+    	 $.messager.alert('提示','请选择你要修改的行');    
+     } 
+
+   $('#cc').combobox({    
+	    url:'<%=basePath%>resourceAction/getParentResource',    
+	    valueField:'vcResourceName',    
+	    textField:'vcResourceName'   
+	}); 
+ 
+}
+//添加
+function addRowData(){
+	$('#dgform').form('clear');
+	 $('#dgformDiv').dialog('open').dialog('setTitle', '编辑用户');
+	$('#cc').combobox({    
+	    url:'<%=basePath%>resourceAction/getParentResource',    
+	    valueField:'vcResourceName',    
+	    textField:'vcResourceName'   
+	});  
+
+}
+function clearSelect(){
+	$('#cc').combobox("clear")
+}
+
+//保存操作
+
+function updateSaveData(){
+	$.messager.progress();
+	$('#dgform').form('submit', {
+				url : "<%=basePath%>resourceAction/saveOrUpdate",
+				onSubmit : function() {
+					var isValid = $("#dgform").form('enableValidation').form(
+							'validate');
+
+					if (!isValid) {
+						$.messager.progress('close'); // 如果表单是无效的则隐藏进度条
+					}
+					return isValid; // 返回false终止表单提交
+				},
+				success : function(data) {
 					
-				</ul>
-			</div>
-		</div>
-		<div id="content" region="center" title="操作说明" style="padding:5px;">
-			<p>1、双击菜单，强弹出该菜单的详情信息</p>
-			<p>2、单击右键，进行增加或删除菜单操作</p>
-		</div>
+					if (data.isSuccess) {
+						$.messager.show({ // show error message
+							title : '提示',
+							msg : data.message
+						});
+						$('#dgformDiv').dialog('close');
+						$("#dg").datagrid('reload');
+					}else{
+						alert(data.message);
+					}
+					$.messager.progress('close'); // 如果提交成功则隐藏进度条
+
+				}
+
+			});
+}
+
+
+
+</script>
+</head>
+<body class="easyui-layout">
+
+	<div style="margin-top: 10px;">
+	<table id="dg" style="width:90%;">
 		
-	</div>
-	
+	</table>
+</div>
 	<!-- 点编辑时弹出的表单 -->
 	<div id="dgformDiv" class="easyui-dialog"
-		style="width:500px;height:420px;"
+		style="width:550px;height:420px;padding:10px 20px 20px 20px;"
 		closed="true" buttons="#dlg-buttons2">
-		<form id="dgform" class="easyui-form" method="post">
+		<form id="dgform" class="easyui-form" method="post"
+			>
 			<table class="table">
 				<tr style="display: none">
 					<td>id</td>
-					<td><input class="easyui-validatebox" type="text" name="id" style="height: 32px"></input>
+					<td><input class="easyui-validatebox" type="text" name="id" ></input>
 					</td>
 				</tr>
 				<tr>
-					<td>资源名称：</td>
+					<td>菜单名称：</td>
 					<td><input class="easyui-validatebox" type="text"
-						data-options="required:true" name="vcResourceName" style="height: 32px"></input></td>
+						data-options="required:true" name="vcResourceName" ></input></td>
 				</tr>
 				<tr>
 					<td>链接地址：</td>
-					<td><input class="easyui-validatebox" type="text"	name="vcUrl" style="height: 32px"></input></td>
+					<td><input class="easyui-validatebox" type="text"
+						name="vcUrl" style="height: 32px;width:200px;"></input>
+						<span  style="color: red;">根菜单的链接地址为空</span>
+						</td>
 				</tr>
 				<tr>
-					<td>排序：</td>
-					<td><input class="easyui-validatebox" type="text" name="nSort" style="height: 32px"></input>
+					<td>排序</td>
+					<td><input class="easyui-numberspinner" name="nSort" data-options="increment:1" style="width:120px;height:30px;"></input>
 					</td>
 				</tr>
 				<tr>
-					<td>资源描述：</td>
-					<td>
-					<textarea rows="" cols="" name="vcDesc"></textarea>
+					<td>菜单图标：</td>
+					<td><input class="easyui-validatebox" type="text"
+						 name="vcIcon" style="height: 32px"></input>><span  style="color: red;">(菜单图案编码联系开发人员)</span>
 					</td>
 				</tr>
-				
+				<tr >
+					<td>父菜单</td>
+					<td><input id="cc" name="vcParent" style="height:30px;">
+					<a href="javacript:void(0)" onclick="clearSelect()">清空</a><span  style="color: red;">(为空则为根菜单)</span>  
+					</td>
+				</tr>
 			</table>
+				<input type="hidden" name="nEnable">	
 		</form>
 		<div id="dlg-buttons2">
 		<a href="javascript:void(0)" class="easyui-linkbutton" id="saveBtn"
@@ -291,5 +280,6 @@ div#rMenu ul li {
 			style="width:90px">取消</a>
 	</div>
 	</div>
+	
 </body>
 </html>

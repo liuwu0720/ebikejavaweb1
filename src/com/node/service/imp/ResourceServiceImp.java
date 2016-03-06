@@ -8,6 +8,7 @@
 package com.node.service.imp;
 
 import java.util.List;
+import java.util.Map;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -19,6 +20,8 @@ import org.springframework.stereotype.Service;
 import com.node.dao.IResourceDao;
 import com.node.model.TResource;
 import com.node.service.IResourceService;
+import com.node.util.HqlHelper;
+import com.node.util.SystemConstants;
 
 /**
  * 类描述：
@@ -88,4 +91,104 @@ public class ResourceServiceImp implements IResourceService {
 		return iResourceDao.get(parseInt);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.node.service.IResourceService#queryAllResource(com.node.util.HqlHelper
+	 * )
+	 */
+	@Override
+	public Map<String, Object> queryAllResource(HqlHelper hql) {
+		// TODO Auto-generated method stub
+		return iResourceDao.findAllByHqlHelp(hql);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IResourceService#getAllParentResource()
+	 */
+	@Override
+	public List<TResource> getAllParentResource() {
+		// TODO Auto-generated method stub
+		return iResourceDao.findByPropertys(
+				new String[] { "iParent", "nEnable" }, new Object[] { 0, 0 });
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.node.service.IResourceService#saveOrUpdate(com.node.model.TResource)
+	 */
+	@Override
+	public void saveOrUpdate(TResource tResource) {
+		// TODO Auto-generated method stub
+		iResourceDao.saveOrUpdate(tResource);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.node.service.IResourceService#getPidByResourceName(java.lang.String)
+	 */
+	@Override
+	public int getPidByResourceName(String vcParent) {
+		TResource tResource = iResourceDao.findByPropertys(
+				new String[] { "vcResourceName", "nEnable" },
+				new Object[] { vcParent, SystemConstants.ENABLE }).get(0);
+		return tResource.getId();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IResourceService#findIsExisteName(java.lang.String)
+	 */
+	@Override
+	public String findIsExisteName(String vcResourceName) {
+		String messageString = "success";
+		List<TResource> tResources = iResourceDao.findByPropertys(new String[] {
+				"vcResourceName", "nEnable" }, new Object[] { vcResourceName,
+				SystemConstants.ENABLE });
+		if (CollectionUtils.isNotEmpty(tResources)) {
+			messageString = "菜单名称【" + vcResourceName + "】已存在";
+		}
+		return messageString;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IResourceService#save(com.node.model.TResource)
+	 */
+	@Override
+	public void save(TResource tResource) {
+		// TODO Auto-generated method stub
+		iResourceDao.save(tResource);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IResourceService#getById(java.lang.Integer)
+	 */
+	@Override
+	public TResource getById(Integer id) {
+		// TODO Auto-generated method stub
+		return iResourceDao.get(id);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IResourceService#update(com.node.model.TResource)
+	 */
+	@Override
+	public void update(TResource tResource) {
+		// TODO Auto-generated method stub
+		iResourceDao.updateCleanBefore(tResource);
+	}
 }

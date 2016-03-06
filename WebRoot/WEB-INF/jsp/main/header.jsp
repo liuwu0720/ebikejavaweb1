@@ -23,7 +23,7 @@
 	<div>
 		<div class="header">
 			<i class="iconfont header-icon">&#xe600;</i>
-			<p>当前用户:管理员</p>
+			
 		</div>
 		<div class="header-tool">
 			<ul>

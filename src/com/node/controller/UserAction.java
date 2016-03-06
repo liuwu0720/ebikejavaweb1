@@ -13,7 +13,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -143,8 +142,7 @@ public class UserAction {
 	@ResponseBody
 	public Map<String, Object> queryAllUsers(HttpServletRequest request,
 			String vcNameString, String vcDept, HttpServletResponse response) {
-		HttpSession session = request.getSession();
-		TUser user = (TUser) session.getAttribute("user");
+
 		Page p = ServiceUtil.getcurrPage(request);
 		HqlHelper hql = new HqlHelper(TrafficUser.class);
 		if (StringUtils.isNotBlank(vcNameString)) {
@@ -155,11 +153,6 @@ public class UserAction {
 		}
 		hql.setQueryPage(p);
 		Map<String, Object> resultMap = iTrafficService.queryTrafficeUsers(hql);
-
-		/*
-		 * HqlHelper hql = new HqlHelper(TUser.class); hql.setQueryPage(p);
-		 * Map<String, Object> resultMap = iUserService.queryAllUsers(hql);
-		 */
 
 		return resultMap;
 
@@ -281,7 +274,8 @@ public class UserAction {
 					trafficUser.getVcAccount())) {
 				List<TrafficUser> trafficUsers = iTrafficService
 						.findByVcAccount(trafficUser.getVcAccount());
-				if (trafficUsers.size() > 0) {
+				if (CollectionUtils.isNotEmpty(trafficUsers)
+						&& trafficUsers.size() > 0) {
 					AjaxUtil.rendJson(response, false,
 							"账号【" + trafficUser.getVcAccount() + "】已被注册");
 				}

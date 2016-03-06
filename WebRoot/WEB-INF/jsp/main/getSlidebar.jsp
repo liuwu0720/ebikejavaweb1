@@ -1,66 +1,75 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%><%@ page
+	language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>树形菜单</title>
-<base href="<%=basePath%>"/>
-	<link rel="stylesheet" href="<%=basePath%>static/css/backhome.css" type="text/css"/>
-	<link rel="stylesheet" href="<%=basePath%>static/css/zTreeStyle.css" type="text/css"/>
-	<script type="text/javascript" src="<%=basePath%>static/js/jquery-1.7.2.min.js"></script>
-	<script type="text/javascript" src="<%=basePath%>static/js/ztree/js/jquery.ztree.core-3.5.js"></script>
-	
-	<script type="text/javascript" >
-	
-	function setFontCss(treeId, treeNode) {
-		return treeNode.level == 0 ? {color:"red",fontsize:"20px"} : {};
-	};
-	
-		var setting = {
-				view:{
-					showIcon: true,
-					fontCss : setFontCss
-				},
-				key:{
-					name:"name",
-					url:"url"
-				},
-				data: {
-					simpleData: {
-						enable: true,
-						idKey: "id",
-						pIdKey: "pId",
-						rootPId: 0
-					}
-				},
-				callback: {
-					beforeClick: function(treeId, treeNode) {
-						var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-						if (treeNode.isParent) {
-							zTree.expandNode(treeNode);
-							return false;
-						}
-					}
-				}
-		};
+<base href="<%=basePath%>" />
+<link rel="stylesheet" type="text/css"
+	href="<%=basePath%>static/css/ebike.css">
+<link rel="stylesheet" type="text/css"
+	href="<%=basePath%>static/css/iconfont.css">
+<script type="text/javascript"
+	src="<%=basePath%>static/js/jquery-1.7.2.min.js"></script>
 
-		var zNodes =${meaustr};
 
-		$(document).ready(function(){
-			$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+<script type="text/javascript">
+	$(document).ready(function() {
+		//页面中的DOM已经装载完成时，执行的代码
+		$(".menu-li > a").click(function() {
+			//找到主菜单项对应的子菜单项
+			var ulNode = $(this).next("ul");
+
+			if (ulNode.css("display") == "none") {
+
+				ulNode.slideDown("slow");
+
+			} else {
+				ulNode.slideUp("slow");
+			}
+
 		});
-	</script>
 
+	});
+</script>
+<style>
+</style>
 </head>
-<body class="sidebar">
-	<div class="tree">
-		<ul id="treeDemo" style="margin-left: 10px;" class="ztree"></ul>
+<body>
+	<div class="menu">
+		<div class="menu-title">
+			<p>当前用户:管理员</p>
+		</div>
+
+		<div class="menu-header">
+
+			<ul class="menu-ul">
+				<c:forEach items="${nodeResources }" var="node">
+					<li class="menu-li"><a href="javascript:void(0)">
+					<i class="iconfont">${node.vcIcon }</i>${node.vcResourceName } </a>
+						<ul>
+						<c:forEach items="${node.subTresources }" var="sub">
+							<li><a href="${sub.vcUrl }" target="main"><i class="iconfont">${sub.vcIcon }</i>${sub.vcResourceName }</a></li>
+						</c:forEach>	
+						</ul>
+					</li>
+				</c:forEach>
+			</ul>
+
+		</div>
+
 	</div>
-	
-	
+
+
 </body>
 </html>

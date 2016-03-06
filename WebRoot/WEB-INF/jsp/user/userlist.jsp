@@ -63,7 +63,14 @@ $(document).ready(function(){
 			field : 'nEnable',
 			title : '是否有效',
 			align:'center',
-			width : 120
+			width : 120,
+			formatter:function(value,index){
+				if(value == 0){
+					return "有效";
+				}else{
+					return "无效";
+				}
+			}
 		}, {
 			field : 'dtAddDate',
 			title : '添加时间',
@@ -245,11 +252,11 @@ function doSearch(){
 </div>
 	<!-- 点编辑时弹出的表单 -->
 	<div id="dgformDiv" class="easyui-dialog"
-		style="width:500px;height:420px;padding:10px 60px 20px 60px;"
+		style="width:550px;height:420px;padding:10px 60px 20px 60px;"
 		closed="true" buttons="#dlg-buttons2">
 		<form id="dgform" class="easyui-form" method="post"
 			>
-			<table >
+			<table class="table">
 				<tr style="display: none">
 					<td>id</td>
 					<td><input class="easyui-validatebox" type="text" name="id" style="height: 32px"></input>

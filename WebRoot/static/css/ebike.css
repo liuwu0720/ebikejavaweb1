@@ -11,6 +11,86 @@ a:link {
 	text-decoration: none;
 	
 }
+/* 左侧导航栏 */
+.menu{
+	background: #3F0A54;
+    color: #cccccc;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100px;
+    z-index: 12;
+    overflow: hidden;
+	width:200px;
+	padding:15px 10px 0 20px;
+	
+}
+.menu-header{
+	overflow-x: hidden;
+    overflow-y: auto;
+    width:200px;
+    height: 100%;
+}
+.menu a{
+	text-decoration: none;
+	color: #5E747B;
+}
+.menu ul{
+	list-style: none;
+}
+.menu-ul li{
+	margin: 5px 0;
+    border-top: 1px solid #3F0A54;
+    border-bottom: 1px solid #3F0A54;
+    position: relative;
+    display: block;
+}
+
+.menu-ul li a{
+	line-height: 13px;
+    font-size: 13px;
+    font-weight: 400;
+    border: 1px solid #3F0A54;
+    position: relative;
+    display: block;
+    padding: 10px 10px;
+  
+}
+.menu-ul li a:hover{
+	background: #3F0A54;
+    color: #fff;
+} 
+.menu-ul li ul li a {
+    padding-left: 55px;
+}
+
+
+.menu-ul li a i {
+    width: 30px;
+    text-align: center;
+    margin: 4px 10px 0 0;
+    font-size: 16px;
+    color: #D82A2A;
+}
+.menu-title{
+	padding: 10px;
+    height: 60px;
+    text-align: center;
+    position: relative;
+}
+
+.span-right{
+	position: absolute;
+    top: 10px;
+    right: 20px;
+    display:block;
+}
+.span-right > i{
+	font-size:12px;
+	display:block;
+}
+
 /* 页头样式 */
 .header {
 	width:400px;
@@ -69,6 +149,10 @@ a:link {
 	height:500px;
 }
 
+input{
+	height:32px;
+}
+
 table {
   border-spacing: 0;
   border-collapse: collapse;
@@ -95,6 +179,13 @@ th {
   max-width: 100%;
   margin-bottom: 20px;
 }
+.table>tr{
+	 padding: 8px;
+  line-height: 1.42857143;
+  vertical-align: top;
+  border-top: 1px solid #ddd;
+}
+
 .table > thead > tr > th,
 .table > tbody > tr > th,
 .table > tfoot > tr > th,

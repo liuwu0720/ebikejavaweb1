@@ -2,12 +2,16 @@ package com.node.model;
 
 import static javax.persistence.GenerationType.SEQUENCE;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * 资源表 TResource entity. @author MyEclipse Persistence Tools
@@ -34,6 +38,9 @@ public class TResource implements java.io.Serializable, Comparable {
 	private Integer iParent;
 	private Integer nSort;
 	private String vcIcon;
+	private String vcParent;
+
+	private List<TResource> subTresources = new ArrayList<TResource>();
 
 	// Constructors
 
@@ -42,7 +49,7 @@ public class TResource implements java.io.Serializable, Comparable {
 	}
 
 	// Property accessors
-	@SequenceGenerator(name = "RESOURCE", sequenceName = "S_RESOURCE", allocationSize = 1)
+	@SequenceGenerator(name = "RESOURCE", sequenceName = "S_T_RESOURCE", allocationSize = 1)
 	@Id
 	@GeneratedValue(strategy = SEQUENCE, generator = "RESOURCE")
 	@Column(name = "ID", unique = true, nullable = false, precision = 22, scale = 0)
@@ -191,11 +198,37 @@ public class TResource implements java.io.Serializable, Comparable {
 	 */
 	@Override
 	public int compareTo(Object o) {
-		if (this.getId() > ((TResource) o).getId()) {
+		if (this.getnSort() > ((TResource) o).getnSort()) {
 			return 1;
 		} else {
 			return -1;
 		}
+	}
+
+	@Transient
+	public List<TResource> getSubTresources() {
+		return subTresources;
+	}
+
+	/**
+	 * @param subTresources
+	 *            : set the property subTresources.
+	 */
+	public void setSubTresources(List<TResource> subTresources) {
+		this.subTresources = subTresources;
+	}
+
+	@Column(name = "VC_PARENT")
+	public String getVcParent() {
+		return vcParent;
+	}
+
+	/**
+	 * @param vcParent
+	 *            : set the property vcParent.
+	 */
+	public void setVcParent(String vcParent) {
+		this.vcParent = vcParent;
 	}
 
 }

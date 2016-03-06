@@ -28,5 +28,9 @@ public class SystemConstants {
 	 * 有效
 	 */
 	public static final Integer ENABLE = 0;
+	/**
+	 * 根菜单
+	 */
+	public static final Integer ROOT_PARENTID = 0;
 
 }

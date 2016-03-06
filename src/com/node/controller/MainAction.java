@@ -15,11 +15,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.node.model.TResource;
 import com.node.model.TRole;
 import com.node.service.IUserService;
-import com.node.util.SystemConstants;
 
 /**
  * 类描述：主页的页面加载
@@ -113,36 +108,32 @@ public class MainAction {
 		// 再加入List
 		List<TResource> reslist = new ArrayList<TResource>();
 		reslist.addAll(set);
-		JSONArray jsarr = new JSONArray();
-		Collections.sort(reslist);// 排序
+
+		List<TResource> nodeResources = null;
 		if (CollectionUtils.isNotEmpty(reslist)) {
-			for (TResource p : reslist) {
-				if (p.getnType() != SystemConstants.SYS_RESOURCE_TYPE_OPERATION) {
-					JSONObject obj = new JSONObject();
-					obj.element("id", p.getId());
-					obj.element("pId", p.getiParent());
-					obj.element("name", p.getVcResourceName());
-					obj.element("url", p.getVcUrl());
-					obj.element("target", "main");
-					if (StringUtils.isNotBlank(p.getVcIcon())) {
-						obj.element("iconSkin", p.getVcIcon());
-					}
-					if (p.getnType() == 0) {
-						obj.element("open", true);
-					}
-					jsarr.add(obj);
+			for (TResource tResource : reslist) {
+				if (tResource.getiParent() == 0) {
+					nodeResources = new ArrayList<TResource>();
+					nodeResources.add(tResource);
+					System.out.println(nodeResources);
 				}
 			}
+			Collections.sort(nodeResources);// 排序
+			for (TResource pResource : nodeResources) {
+				for (TResource subResource : reslist) {
+
+					if (subResource.getiParent().equals(pResource.getId())) {
+						pResource.getSubTresources().add(subResource);
+					}
+				}
+			}
+
+			request.setAttribute("nodeResources", nodeResources);
+
 		} else {
-			JSONObject obj = new JSONObject();
-			obj.element("id", 0);
-			obj.element("pId", 0);
-			obj.element("name", "您还没有授权，请联系管理员");
-			obj.element("target", "main");
-			jsarr.add(obj);
+			request.setAttribute("message", "您还没授权，请联系管理员");
 		}
 
-		request.setAttribute("meaustr", jsarr.toString());
 		return "main/getSlidebar";
 	}
 }

@@ -13,18 +13,17 @@ import org.hibernate.criterion.DetachedCriteria;
 import com.node.util.HqlHelper;
 import com.node.util.Page;
 
-public interface GenericDao< T extends Serializable , PK extends Serializable >
-{
+public interface GenericDao<T extends Serializable, PK extends Serializable> {
 	// -------------------- 基本检索、增加、修改、删除操作 --------------------
-	
+
 	/**
 	 * @Description: 根据主键获取实体。如果没有相应的实体，返回 null。
 	 * @param id
 	 * @return T 返回值描述
 	 * @throws
 	 */
-	public T get( PK id );
-	
+	public T get(PK id);
+
 	/**
 	 * @Description: 根据主键获取实体并加锁。如果没有相应的实体，返回 null。
 	 * @param id
@@ -32,16 +31,16 @@ public interface GenericDao< T extends Serializable , PK extends Serializable >
 	 * @return T 返回值描述
 	 * @throws
 	 */
-	public T getWithLock( PK id , LockMode lock );
-	
+	public T getWithLock(PK id, LockMode lock);
+
 	/**
 	 * @Description: 根据主键获取实体。如果没有相应的实体，抛出异常。
 	 * @param id
 	 * @return T 返回值描述
 	 * @throws
 	 */
-	public T load( PK id );
-	
+	public T load(PK id);
+
 	/**
 	 * @Description: 根据主键获取实体并加锁。如果没有相应的实体，抛出异常。
 	 * @param id
@@ -49,31 +48,31 @@ public interface GenericDao< T extends Serializable , PK extends Serializable >
 	 * @return T 返回值描述
 	 * @throws
 	 */
-	public T loadWithLock( PK id , LockMode lock );
-	
+	public T loadWithLock(PK id, LockMode lock);
+
 	/**
 	 * @Description: 获取全部实体。
 	 * @return List<T> 返回值描述
 	 * @throws
 	 */
-	public List< T > loadAll();
-	
+	public List<T> loadAll();
+
 	/**
 	 * @Description: 查找有效的数据，并按id升序排列
 	 * @return
 	 * @author hjx
 	 * @create_date 2014年7月17日 上午11:18:46
 	 */
-	public List< T > loadAllByEnable();
-	
+	public List<T> loadAllByEnable();
+
 	/**
 	 * @Description: 更新实体
 	 * @param entity
 	 *            void 返回值描述
 	 * @throws
 	 */
-	public void update( T entity );
-	
+	public void update(T entity);
+
 	/**
 	 * 
 	 * @Description: TODO(防止同一session两个对象时Hibernate报错))
@@ -82,7 +81,7 @@ public interface GenericDao< T extends Serializable , PK extends Serializable >
 	 * @author liuwu
 	 * @create_date 2015-5-19 下午6:00:19
 	 */
-	public void updateCleanBefore( T entity );
+	public void updateCleanBefore(T entity);
 
 	/**
 	 * @Description: 更新实体并加锁
@@ -91,42 +90,42 @@ public interface GenericDao< T extends Serializable , PK extends Serializable >
 	 *            void 返回值描述
 	 * @throws
 	 */
-	public void updateWithLock( T entity , LockMode lock );
-	
+	public void updateWithLock(T entity, LockMode lock);
+
 	/**
 	 * @Description: 存储实体到数据库
 	 * @param entity
 	 *            void 返回值描述
 	 * @throws
 	 */
-	public void save( T entity );
-	
+	public void save(T entity);
+
 	// saveWithLock()
-	
+
 	/**
 	 * @Description: 增加或更新实体
 	 * @param entity
 	 *            void 返回值描述
 	 * @throws
 	 */
-	public void saveOrUpdate( T entity );
-	
+	public void saveOrUpdate(T entity);
+
 	/**
 	 * @Description: 增加或更新集合中的全部实体
 	 * @param entities
 	 *            void 返回值描述
 	 * @throws
 	 */
-	public void saveOrUpdateAll( Collection< T > entities );
-	
+	public void saveOrUpdateAll(Collection<T> entities);
+
 	/**
 	 * @Description: 删除指定的实体
 	 * @param entity
 	 *            void 返回值描述
 	 * @throws
 	 */
-	public void delete( T entity );
-	
+	public void delete(T entity);
+
 	/**
 	 * @Description: 加锁并删除指定的实体
 	 * @param entity
@@ -134,16 +133,16 @@ public interface GenericDao< T extends Serializable , PK extends Serializable >
 	 *            void 返回值描述
 	 * @throws
 	 */
-	public void deleteWithLock( T entity , LockMode lock );
-	
+	public void deleteWithLock(T entity, LockMode lock);
+
 	/**
 	 * @Description: 根据主键删除指定实体
 	 * @param id
 	 *            void 返回值描述
 	 * @throws
 	 */
-	public void deleteByKey( PK id );
-	
+	public void deleteByKey(PK id);
+
 	/**
 	 * @Description: 根据主键加锁并删除指定的实体
 	 * @param id
@@ -151,16 +150,16 @@ public interface GenericDao< T extends Serializable , PK extends Serializable >
 	 *            void 返回值描述
 	 * @throws
 	 */
-	public void deleteByKeyWithLock( PK id , LockMode lock );
-	
+	public void deleteByKeyWithLock(PK id, LockMode lock);
+
 	/**
 	 * @Description: 删除集合中的全部实体
 	 * @param entities
 	 *            void 返回值描述
 	 * @throws
 	 */
-	public void deleteAll( Collection< T > entities );
-	
+	public void deleteAll(Collection<T> entities);
+
 	/**
 	 * @Description: 查找所有，并分页
 	 * @param page
@@ -169,8 +168,8 @@ public interface GenericDao< T extends Serializable , PK extends Serializable >
 	 *            没有记录数
 	 * @return
 	 */
-	public abstract List< T > findAll( Page page );
-	
+	public abstract List<T> findAll(Page page);
+
 	/**
 	 * @Description: 查找所有，并分页
 	 * @param page
@@ -179,17 +178,17 @@ public interface GenericDao< T extends Serializable , PK extends Serializable >
 	 *            没有记录数
 	 * @return
 	 */
-	public abstract List< T > findAllByEnable( Page page );
-	
-	public List< T > findAll();
-	
+	public abstract List<T> findAllByEnable(Page page);
+
+	public List<T> findAll();
+
 	/**
 	 * 与findByProperty相似，当properyName == value 时把相应的记录删除
 	 */
-	public abstract void deleteByProperty( String propertyName , Object value );
-	
-	public abstract List< T > findByExample( T example );
-	
+	public abstract void deleteByProperty(String propertyName, Object value);
+
+	public abstract List<T> findByExample(T example);
+
 	/**
 	 * @Description: 通过属性查找
 	 * @param propertyName
@@ -198,8 +197,23 @@ public interface GenericDao< T extends Serializable , PK extends Serializable >
 	 *            属性的值
 	 * @return
 	 */
-	public abstract List< T > findByProperty( String propertyName , Object value );
-	
+	public abstract List<T> findByProperty(String propertyName, Object value);
+
+	/**
+	 * 
+	 * 方法描述：通过属性查找并排序
+	 * 
+	 * @param propertyName
+	 * @param value
+	 * @param orderByProPertyName
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月5日 上午11:53:23
+	 */
+	public abstract List<T> findByPropertyOrderBy(String propertyName,
+			Object value, String orderByProPertyName);
+
 	/**
 	 * @Description: 通过多个属性查找
 	 * @param propertyNames
@@ -208,8 +222,9 @@ public interface GenericDao< T extends Serializable , PK extends Serializable >
 	 *            属性值数组
 	 * @return
 	 */
-	public abstract List< T > findByPropertys( String[] propertyNames , Object[] values );
-	
+	public abstract List<T> findByPropertys(String[] propertyNames,
+			Object[] values);
+
 	/**
 	 * @Description: 通过多个属性查找，并分页， 属性名称数组和属性值数组的序列要对应
 	 * 
@@ -223,8 +238,9 @@ public interface GenericDao< T extends Serializable , PK extends Serializable >
 	 *            每页内容条数
 	 * @return
 	 */
-	public List< T > findByPropertys( String[] propertyNames , Object[] values , Page page );
-	
+	public List<T> findByPropertys(String[] propertyNames, Object[] values,
+			Page page);
+
 	/**
 	 * @Description: 通过属性查找，并分页， 属性名称数组和属性值数组的序列要对应
 	 * 
@@ -238,22 +254,22 @@ public interface GenericDao< T extends Serializable , PK extends Serializable >
 	 *            每页内容条数
 	 * @return
 	 */
-	public List< T > findByProperty( String propertyName , Object value , Page page );
-	
+	public List<T> findByProperty(String propertyName, Object value, Page page);
+
 	/**
 	 * @Description: 统计所有记录的总数
 	 * @return 总数
 	 */
 	public int countAll();
-	
+
 	/**
 	 * @Description: 统计数据库中当propertyName=value时的记录总数
 	 * @param propertyName
 	 * @param value
 	 * @return
 	 */
-	public int countByProperty( String propertyName , Object value );
-	
+	public int countByProperty(String propertyName, Object value);
+
 	/**
 	 * 统计数据库中当多个propertyName=value时的记录总数
 	 * 
@@ -261,8 +277,8 @@ public interface GenericDao< T extends Serializable , PK extends Serializable >
 	 * @param values
 	 * @return
 	 */
-	public int countByPropertys( String[] propertyNames , Object[] values );
-	
+	public int countByPropertys(String[] propertyNames, Object[] values);
+
 	/**
 	 * @Description: 查找并通过某一属性排序
 	 * @param property
@@ -270,8 +286,8 @@ public interface GenericDao< T extends Serializable , PK extends Serializable >
 	 * @param isSequence
 	 *            是否顺序排序
 	 */
-	public List< T > findAndOrderByProperty( Page page );
-	
+	public List<T> findAndOrderByProperty(Page page);
+
 	/**
 	 * @Description: 查找并通过某一属性排序
 	 * @param property
@@ -279,19 +295,20 @@ public interface GenericDao< T extends Serializable , PK extends Serializable >
 	 * @param isSequence
 	 *            是否顺序排序
 	 */
-	public List< T > findAllAndOrderByProperty( String propertyName , boolean isSequence );
-	
+	public List<T> findAllAndOrderByProperty(String propertyName,
+			boolean isSequence);
+
 	// -------------------- HSQL
 	// ----------------------------------------------
-	
+
 	/**
 	 * @Description: 使用HSQL语句直接增加、更新、删除实体
 	 * @param queryString
 	 * @return int 返回值描述
 	 * @throws
 	 */
-	public int bulkUpdate( String queryString );
-	
+	public int bulkUpdate(String queryString);
+
 	/**
 	 * @Description: 使用带参数的HSQL语句增加、更新、删除实体
 	 * @param queryString
@@ -299,16 +316,16 @@ public interface GenericDao< T extends Serializable , PK extends Serializable >
 	 * @return int 返回值描述
 	 * @throws
 	 */
-	public int bulkUpdate( String queryString , Object[] values );
-	
+	public int bulkUpdate(String queryString, Object[] values);
+
 	/**
 	 * @Description: 使用HSQL语句检索数据
 	 * @param queryString
 	 * @return List 返回值描述
 	 * @throws
 	 */
-	public List< T > find( String queryString );
-	
+	public List<T> find(String queryString);
+
 	/**
 	 * @Description: 使用带参数的HSQL语句检索数据
 	 * @param queryString
@@ -316,8 +333,8 @@ public interface GenericDao< T extends Serializable , PK extends Serializable >
 	 * @return List 返回值描述
 	 * @throws
 	 */
-	public List< T > find( String queryString , Object[] values );
-	
+	public List<T> find(String queryString, Object[] values);
+
 	/**
 	 * @Description: 使用带命名的参数的HSQL语句检索数据
 	 * @param queryString
@@ -326,17 +343,17 @@ public interface GenericDao< T extends Serializable , PK extends Serializable >
 	 * @return List 返回值描述
 	 * @throws
 	 */
-	public List findByNamedParam( String queryString , String[] paramNames ,
-	        Object[] values );
-	
+	public List findByNamedParam(String queryString, String[] paramNames,
+			Object[] values);
+
 	/**
 	 * @Description: 使用命名的HSQL语句检索数据
 	 * @param queryName
 	 * @return List 返回值描述
 	 * @throws
 	 */
-	public List findByNamedQuery( String queryName );
-	
+	public List findByNamedQuery(String queryName);
+
 	/**
 	 * @Description: 使用带参数的命名HSQL语句检索数据
 	 * @param queryName
@@ -344,8 +361,8 @@ public interface GenericDao< T extends Serializable , PK extends Serializable >
 	 * @return List 返回值描述
 	 * @throws
 	 */
-	public List findByNamedQuery( String queryName , Object[] values );
-	
+	public List findByNamedQuery(String queryName, Object[] values);
+
 	/**
 	 * @Description: 使用带命名参数的命名HSQL语句检索数据
 	 * @param queryName
@@ -354,17 +371,17 @@ public interface GenericDao< T extends Serializable , PK extends Serializable >
 	 * @return List 返回值描述
 	 * @throws
 	 */
-	public List findByNamedQueryAndNamedParam( String queryName , String[] paramNames ,
-	        Object[] values );
-	
+	public List findByNamedQueryAndNamedParam(String queryName,
+			String[] paramNames, Object[] values);
+
 	/**
 	 * @Description: 使用HSQL语句检索数据，返回 Iterator
 	 * @param queryString
 	 * @return Iterator 返回值描述
 	 * @throws
 	 */
-	public Iterator iterate( String queryString );
-	
+	public Iterator iterate(String queryString);
+
 	/**
 	 * @Description: 使用带参数HSQL语句检索数据，返回 Iterator
 	 * @param queryString
@@ -372,41 +389,41 @@ public interface GenericDao< T extends Serializable , PK extends Serializable >
 	 * @return Iterator 返回值描述
 	 * @throws
 	 */
-	public Iterator iterate( String queryString , Object[] values );
-	
+	public Iterator iterate(String queryString, Object[] values);
+
 	/**
 	 * @Description: 关闭检索返回的 Iterator
 	 * @param it
 	 *            void 返回值描述
 	 * @throws
 	 */
-	public void closeIterator( Iterator it );
-	
+	public void closeIterator(Iterator it);
+
 	// -------------------------------- Criteria
 	// ------------------------------
-	
+
 	/**
 	 * @Description: 创建与会话无关的检索标准对象
 	 * @return DetachedCriteria 返回值描述
 	 * @throws
 	 */
 	public DetachedCriteria createDetachedCriteria();
-	
+
 	/**
 	 * @Description: 创建与会话绑定的检索标准对象
 	 * @return Criteria 返回值描述
 	 * @throws
 	 */
 	public Criteria createCriteria();
-	
+
 	/**
 	 * @Description: 使用指定的检索标准检索数据
 	 * @param criteria
 	 * @return List 返回值描述
 	 * @throws
 	 */
-	public List findByCriteria( DetachedCriteria criteria );
-	
+	public List findByCriteria(DetachedCriteria criteria);
+
 	/**
 	 * @Description: 使用指定的检索标准检索数据，返回部分记录
 	 * @param criteria
@@ -415,9 +432,9 @@ public interface GenericDao< T extends Serializable , PK extends Serializable >
 	 * @return List 返回值描述
 	 * @throws
 	 */
-	public List findByCriteria( DetachedCriteria criteria , int firstResult ,
-	        int maxResults );
-	
+	public List findByCriteria(DetachedCriteria criteria, int firstResult,
+			int maxResults);
+
 	/**
 	 * @Description: 使用指定的实体及属性检索（满足除主键外属性＝实体值）数据
 	 * @param entity
@@ -425,8 +442,8 @@ public interface GenericDao< T extends Serializable , PK extends Serializable >
 	 * @return List<T> 返回值描述
 	 * @throws
 	 */
-	public List< T > findEqualByEntity( T entity , String[] propertyNames );
-	
+	public List<T> findEqualByEntity(T entity, String[] propertyNames);
+
 	/**
 	 * @Description: 使用指定的实体及属性(非主键)检索（满足属性 like 串实体值）数据
 	 * @param entity
@@ -434,16 +451,16 @@ public interface GenericDao< T extends Serializable , PK extends Serializable >
 	 * @return List<T> 返回值描述
 	 * @throws
 	 */
-	public List< T > findLikeByEntity( T entity , String[] propertyNames );
-	
+	public List<T> findLikeByEntity(T entity, String[] propertyNames);
+
 	/**
 	 * @Description: 使用指定的检索标准检索数据，返回指定范围的记录
 	 * @param criteria
 	 * @return Integer 返回值描述
 	 * @throws
 	 */
-	public Integer getRowCount( DetachedCriteria criteria );
-	
+	public Integer getRowCount(DetachedCriteria criteria);
+
 	/**
 	 * @Description: 使用指定的检索标准检索数据，返回指定统计值
 	 * @param criteria
@@ -452,12 +469,12 @@ public interface GenericDao< T extends Serializable , PK extends Serializable >
 	 * @return Object 返回值描述
 	 * @throws
 	 */
-	public Object getStatValue( DetachedCriteria criteria , String propertyName ,
-	        String StatName );
-	
+	public Object getStatValue(DetachedCriteria criteria, String propertyName,
+			String StatName);
+
 	// -------------------------------- Others
 	// --------------------------------
-	
+
 	/**
 	 * @Description: 加锁指定的实体
 	 * @param entity
@@ -465,22 +482,22 @@ public interface GenericDao< T extends Serializable , PK extends Serializable >
 	 *            void 返回值描述
 	 * @throws
 	 */
-	public void lock( T entity , LockMode lockMode );
-	
+	public void lock(T entity, LockMode lockMode);
+
 	/**
 	 * @Description: 强制初始化指定的实体
 	 * @param proxy
 	 *            void 返回值描述
 	 * @throws
 	 */
-	public void initialize( Object proxy );
-	
+	public void initialize(Object proxy);
+
 	/**
 	 * @Description: 强制立即更新缓冲数据到数据库（否则仅在事务提交时才更新） void 返回值描述
 	 * @throws
 	 */
 	public void flush();
-	
+
 	/**
 	 * 
 	 * @Description: 根据hql返回查询的记录数 count
@@ -489,8 +506,8 @@ public interface GenericDao< T extends Serializable , PK extends Serializable >
 	 * @author chenbin
 	 * @create_date 2014-7-16 下午6:48:59
 	 */
-	public int getCountHQL( String hql , Object[] values );
-	
+	public int getCountHQL(String hql, Object[] values);
+
 	/**
 	 * 
 	 * @Description: 根据sql返回查询的记录数 count
@@ -499,8 +516,8 @@ public interface GenericDao< T extends Serializable , PK extends Serializable >
 	 * @author chenbin
 	 * @create_date 2014-7-16 下午6:48:59
 	 */
-	public int getCountSQL( String sql );
-	
+	public int getCountSQL(String sql);
+
 	/**
 	 * 
 	 * @Description: 根据所传的SQL语句 查出数据 并分页
@@ -510,10 +527,10 @@ public interface GenericDao< T extends Serializable , PK extends Serializable >
 	 * @author chenbin
 	 * @create_date 2014-7-16 下午6:42:29
 	 */
-	public List< String[] > getDateBySQL( String sql , Page page );
-	
-	public Map< String , Object > findAllByHqlHelp( HqlHelper hql );
-	
+	public List<String[]> getDateBySQL(String sql, Page page);
+
+	public Map<String, Object> findAllByHqlHelp(HqlHelper hql);
+
 	/**
 	 * 
 	 * @Description: 传sql,分页对象 语句分装 easy ui 所需要的Map
@@ -523,12 +540,11 @@ public interface GenericDao< T extends Serializable , PK extends Serializable >
 	 * @author chenbin
 	 * @create_date 2014-8-5 下午6:34:08
 	 */
-	public Map< String , Object > getSpringSQL( String sql , Page page );
-	
-	public Object getDateBySQL( String sql );
-	
-	public List< T > findByPropertysOrderBy( String[] propertyNames ,
-	        Object[] values , String orderByParam );
-	
+	public Map<String, Object> getSpringSQL(String sql, Page page);
+
+	public Object getDateBySQL(String sql);
+
+	public List<T> findByPropertysOrderBy(String[] propertyNames,
+			Object[] values, String orderByParam);
 
 }

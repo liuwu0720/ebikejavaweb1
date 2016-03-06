@@ -17,7 +17,22 @@
 }
 .icon-shezhi:before { content: "\e601"; }
 .icon-yonghu:before { content: "\e602"; }
+.icon-quyu:before { content: "\e607"; }
+.icon-danwei:before { content: "\e608"; }
+.icon-heimingdan:before { content: "\e609"; }
 .icon-tuichu:before { content: "\e605"; }
 .icon-mima:before { content: "\e603"; }
 .icon-tuichu1:before { content: "\e604"; }
+.icon-iconfont39:before { content: "\e606"; }
+.icon-jikediancanicon43:before { content: "\e60a"; }
+.icon-jiaoseguanli:before { content: "\e60b"; }
+.icon-bumen:before { content: "\e60c"; }
+.icon-zhuxiao:before { content: "\e60d"; }
+.icon-beian:before { content: "\e60e"; }
 .icon-diandongche:before { content: "\e600"; }
+.icon-peieguanli:before { content: "\e60f"; }
+.icon-xingye:before { content: "\e610"; }
+.icon-caidan:before { content: "\e611"; }
+.icon-m-InformationChanges:before { content: "\e612"; }
+.icon-zhiliangjianyan:before { content: "\e613"; }
+.icon-shenpi:before { content: "\e614"; }

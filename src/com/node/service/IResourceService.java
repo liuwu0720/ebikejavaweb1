@@ -8,8 +8,10 @@
 package com.node.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.node.model.TResource;
+import com.node.util.HqlHelper;
 
 /**
  * 类描述：
@@ -51,5 +53,89 @@ public interface IResourceService {
 	 * @version: 2016年3月4日 下午7:54:12
 	 */
 	TResource get(int parseInt);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param hql
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月5日 下午1:43:15
+	 */
+	Map<String, Object> queryAllResource(HqlHelper hql);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月5日 下午2:36:34
+	 */
+	List<TResource> getAllParentResource();
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param tResource
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月5日 下午2:52:53
+	 */
+	void saveOrUpdate(TResource tResource);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param vcParent
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月5日 下午5:49:07
+	 */
+	int getPidByResourceName(String vcParent);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param vcResourceName
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月5日 下午5:54:54
+	 */
+	String findIsExisteName(String vcResourceName);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param tResource
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月5日 下午6:00:11
+	 */
+	void save(TResource tResource);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param id
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月5日 下午6:04:16
+	 */
+	TResource getById(Integer id);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param tResource
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月5日 下午6:07:20
+	 */
+	void update(TResource tResource);
 
 }
