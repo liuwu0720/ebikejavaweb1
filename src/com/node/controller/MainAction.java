@@ -89,6 +89,7 @@ public class MainAction {
 	 * @author: liuwu
 	 * @version: 2016年3月2日 上午10:33:56
 	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping("/getSidebar")
 	public String getSidebar(HttpServletRequest request) {
 		// TUser user = (TUser) request.getSession().getAttribute("user");
@@ -109,21 +110,24 @@ public class MainAction {
 		List<TResource> reslist = new ArrayList<TResource>();
 		reslist.addAll(set);
 
-		List<TResource> nodeResources = null;
+		List<TResource> nodeResources = new ArrayList<TResource>();
 		if (CollectionUtils.isNotEmpty(reslist)) {
 			for (TResource tResource : reslist) {
 				if (tResource.getiParent() == 0) {
-					nodeResources = new ArrayList<TResource>();
 					nodeResources.add(tResource);
 					System.out.println(nodeResources);
 				}
 			}
 			Collections.sort(nodeResources);// 排序
+			Collections.sort(reslist);// 排序
+			@SuppressWarnings("unused")
+			List<TResource> subResources = new ArrayList<TResource>();
 			for (TResource pResource : nodeResources) {
 				for (TResource subResource : reslist) {
 
 					if (subResource.getiParent().equals(pResource.getId())) {
 						pResource.getSubTresources().add(subResource);
+
 					}
 				}
 			}

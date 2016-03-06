@@ -32,5 +32,9 @@ public class SystemConstants {
 	 * 根菜单
 	 */
 	public static final Integer ROOT_PARENTID = 0;
+	/**
+	 * 无效
+	 */
+	public static final Integer DISABLE = 1;
 
 }

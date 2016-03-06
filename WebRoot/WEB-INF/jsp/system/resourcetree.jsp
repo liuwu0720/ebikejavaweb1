@@ -88,13 +88,18 @@ $(document).ready(function(){
 			align:'center',
 			width : 120
 		},{
+			field : 'vcDesc',
+			title : '功能描述',
+			align:'center',
+			width : 120
+		},{
 			field : 'id',
 			title:'操作',
 			align:'center',
 			width : 120,
 			formatter:function(value,row,index){
 				
-				return "<a  href='javascript:void(0)'  onclick='deleteRow("+row.id+")'>删除</a>";
+				return "<a  href='javascript:void(0)'  onclick='deleteRow("+row.id+")'>禁用</a>";
 			}
 		}
 
@@ -163,7 +168,8 @@ function updateRowData(){
    $('#cc').combobox({    
 	    url:'<%=basePath%>resourceAction/getParentResource',    
 	    valueField:'vcResourceName',    
-	    textField:'vcResourceName'   
+	    textField:'vcResourceName',
+	    value:row.vcParent   //默认选中的值       
 	}); 
  
 }
@@ -174,7 +180,8 @@ function addRowData(){
 	$('#cc').combobox({    
 	    url:'<%=basePath%>resourceAction/getParentResource',    
 	    valueField:'vcResourceName',    
-	    textField:'vcResourceName'   
+	    textField:'vcResourceName',
+	    value:''
 	});  
 
 }
@@ -198,7 +205,7 @@ function updateSaveData(){
 					return isValid; // 返回false终止表单提交
 				},
 				success : function(data) {
-					
+					var data = eval('(' + data + ')'); // change the JSON
 					if (data.isSuccess) {
 						$.messager.show({ // show error message
 							title : '提示',
@@ -229,7 +236,7 @@ function updateSaveData(){
 </div>
 	<!-- 点编辑时弹出的表单 -->
 	<div id="dgformDiv" class="easyui-dialog"
-		style="width:550px;height:420px;padding:10px 20px 20px 20px;"
+		style="width:550px;height:450px;padding:10px 20px 20px 20px;"
 		closed="true" buttons="#dlg-buttons2">
 		<form id="dgform" class="easyui-form" method="post"
 			>
@@ -259,13 +266,19 @@ function updateSaveData(){
 				<tr>
 					<td>菜单图标：</td>
 					<td><input class="easyui-validatebox" type="text"
-						 name="vcIcon" style="height: 32px"></input>><span  style="color: red;">(菜单图案编码联系开发人员)</span>
+						 name="vcIcon" style="height: 32px"></input><span  style="color: red;">(菜单图案编码联系开发人员)</span>
 					</td>
 				</tr>
 				<tr >
 					<td>父菜单</td>
 					<td><input id="cc" name="vcParent" style="height:30px;">
-					<a href="javacript:void(0)" onclick="clearSelect()">清空</a><span  style="color: red;">(为空则为根菜单)</span>  
+					<a style="cursor: pointer;" onclick="clearSelect()">清空</a><span  style="color: red;">(为空则为根菜单)</span>  
+					</td>
+				</tr>
+				<tr>
+					<td>功能描述</td>
+					<td>
+						<textarea rows="5" cols="30" name="vcDesc"></textarea>  
 					</td>
 				</tr>
 			</table>

@@ -202,9 +202,18 @@ public class ResourceAction {
 	 * @author: liuwu
 	 * @version: 2016年3月5日 下午4:56:17
 	 */
-	@RequestMapping("/addRow")
-	public String addRow() {
-		return "system/addResource";
+	@RequestMapping("/del")
+	public void addRow(HttpServletRequest request, String id,
+			HttpServletResponse response) {
+		int tResourceId = Integer.parseInt(id);
+		TResource tResource = iResourceService.get(tResourceId);
+		tResource.setnEnable(SystemConstants.DISABLE);
+		try {
+			iResourceService.update(tResource);
+			AjaxUtil.rendJson(response, true, "操作成功");
+		} catch (Exception e) {
+			AjaxUtil.rendJson(response, false, "系统错误");
+		}
 
 	}
 }
