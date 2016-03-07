@@ -20,5 +20,3 @@
 	href="<%=basePath%>static/css/color.css">
 <link rel="stylesheet" type="text/css"
 	href="<%=basePath%>static/css/ebike.css">
-<link rel="stylesheet" type="text/css"
-	href="<%=basePath%>static/css/jquery-webox.css">	

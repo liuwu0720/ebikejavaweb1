@@ -13,8 +13,8 @@ a:link {
 }
 /* 左侧导航栏 */
 .menu{
-	background: #3F0A54;
-    color: #cccccc;
+	background: #fff;
+    color: #C84AFC;
     position: fixed;
     top: 0;
     left: 0;
@@ -24,7 +24,6 @@ a:link {
     overflow: hidden;
 	width:200px;
 	padding:15px 10px 0 20px;
-	
 }
 .menu-header{
 	overflow-x: hidden;
@@ -32,6 +31,12 @@ a:link {
     width:200px;
     height: 100%;
 }
+.menu-icon{
+	color:#fff;
+	backgroud:#5E747B;
+	text-align:center;
+}
+
 .menu a{
 	text-decoration: none;
 	color: #5E747B;
@@ -41,25 +46,26 @@ a:link {
 }
 .menu-ul li{
 	margin: 5px 0;
-    border-top: 1px solid #3F0A54;
-    border-bottom: 1px solid #3F0A54;
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid #fff;
     position: relative;
     display: block;
+  	
 }
 
 .menu-ul li a{
 	line-height: 13px;
     font-size: 13px;
     font-weight: 400;
-    border: 1px solid #3F0A54;
+    border: 1px solid #fff;
     position: relative;
     display: block;
     padding: 10px 10px;
   
 }
 .menu-ul li a:hover{
-	background: #3F0A54;
-    color: #fff;
+	background:#ccc;
+    color: #C84AFC;
 } 
 .menu-ul li ul li a {
     padding-left: 55px;
@@ -71,7 +77,7 @@ a:link {
     text-align: center;
     margin: 4px 10px 0 0;
     font-size: 16px;
-    color: #fff;
+    color: #C84AFC;
 }
 
 .menu-title{

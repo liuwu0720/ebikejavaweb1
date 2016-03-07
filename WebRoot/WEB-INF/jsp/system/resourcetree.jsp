@@ -229,7 +229,7 @@ function updateSaveData(){
 </head>
 <body class="easyui-layout">
 
-	<div style="margin-top: 10px;">
+	<div>
 	<table id="dg" style="width:90%;">
 		
 	</table>

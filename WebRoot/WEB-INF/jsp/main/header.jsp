@@ -18,7 +18,7 @@
 <link rel="stylesheet" type="text/css"
 	href="<%=basePath%>static/css/ebike.css">
 </head>
-<body style="background-color: #3F0A54;">
+<body style="background-color: #E8F1FF;">
 	<!--  <i class="iconfont header-icon">&#xe600;</i> -->
 	<div>
 		<div class="header">

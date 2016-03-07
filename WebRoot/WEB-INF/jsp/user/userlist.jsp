@@ -239,7 +239,7 @@ function doSearch(){
 </head>
 <body class="easyui-layout">
 
-	<div style="margin-top: 10px;">
+	<div>
 	<table id="dg" style="width:90%;">
 		<div id="tb" style="padding: 5px; background: #E8F1FF;">
 			<span>用户姓名:</span> <input id="itemid"

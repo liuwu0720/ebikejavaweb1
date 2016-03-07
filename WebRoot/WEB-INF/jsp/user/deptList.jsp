@@ -22,12 +22,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	-->
 <%@include file="../common/common.jsp"%>
 <script type="text/javascript">
+ var nodePid = 0;
 	$(document).ready(function(){
-	
+		$('#tt').tree({    
+		    url:'<%=basePath%>deptAction/getTree' ,
+		    onClick: function(node){
+		    	//$("#pid").attr("value",node.id);
+		    	nodePid = node.id;
+		    	$("#dg").datagrid("reload",{
+		    		"vcPid":node.id
+		    	});
+			}
+		});  
 		$("#dg").datagrid({
 
-		url : "<%=basePath%>userAction/queryAllUsers",
-		title :  "用户管理",
+		url : "<%=basePath%>deptAction/queryAllDepts" ,
+		title :  "部门管理",
 		iconCls : 'icon-edit',
 		striped : true,
 		fitColumns:true,   //数据列太少 未自适应
@@ -36,23 +46,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		singleSelect : true,
 		height:700,
 		columns : [ [{
-			field : 'vcAccount',
-			title : '用户账号',
-			align:'center',
-			width : 120
-		},{
-			field : 'vcNameString',
-			title : '用户姓名',
-			align:'center',
-			width : 120
-		},{
 			field : 'vcDept',
-			title : '用户所属部门',
+			title : '部门名称',
 			align:'center',
 			width : 120
 		},{
-			field : 'vcRoleList',
-			title : '用户角色',
+			field : 'vcPdept',
+			title : '上级部门',
+			align:'center',
+			width : 120
+		},{
+			field : 'vcAdd',
+			title : '添加人',
 			align:'center',
 			width : 120
 		},{
@@ -68,7 +73,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				}
 			}
 		}, {
-			field : 'dtAddDate',
+			field : 'dtAdd',
 			title : '添加时间',
 			align:'center',
 			width : 120,
@@ -110,21 +115,113 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         }
 	});
 	});
+	
+	//添加
+	function addRowData(){
+		$('#dgform').form('clear');
+		$('#dgform').form('load',{
+			"vcPid":nodePid
+		});
+
+
+		$('#dgformDiv').dialog('open').dialog('setTitle', '新增用户');
+		
+	}
+	
+	//保存操作
+	function updateSaveData(){
+		$.messager.progress();
+		$('#dgform').form(
+				'submit',
+				{
+
+					url : "<%=basePath%>deptAction/saveOrUpdate",
+					onSubmit : function() {
+						var isValid = $("#dgform").form('enableValidation').form(
+								'validate');
+
+						if (!isValid) {
+							$.messager.progress('close'); // 如果表单是无效的则隐藏进度条
+						}
+						return isValid; // 返回false终止表单提交
+					},
+					success : function(data) {
+						var data = eval('(' + data + ')'); // change the JSON
+						
+						if (data.isSuccess) {
+							$.messager.show({ // show error message
+								title : '提示',
+								msg : data.message
+							});
+							$('#dgformDiv').dialog('close');
+							$("#dg").datagrid('reload');
+							$('#tt').tree('reload');
+						}else{
+							alert(data.message);
+						}
+						$.messager.progress('close'); // 如果提交成功则隐藏进度条
+
+					}
+
+				}
+
+		);
+	}
+	
+	$('#tt').tree({
+		onClick: function(node){
+			console.log(node);  // 在用户点击的时候提示
+		}
+	});
+
+
 	</script>
 
   </head>
    <body class="easyui-layout">   
-    <div data-options="region:'west',title:'部门总览',split:true" style="width:180px" >wwww</div>   
+    <div data-options="region:'west',title:'部门总览',split:true" style="width:15%;" >
+		<ul class="easyui-tree" id="tt"></ul>  
+		
+	</div>   
     <div   data-options="region:'center',title:'部门详情'" class="center">
     	<table id="dg">
 		<div id="tb" style="padding: 5px; background: #E8F1FF;">
-			<span>用户姓名:</span> <input id="itemid"
-				style="line-height:26px;border:1px solid #ccc"> <span>
-				所属部门:</span> <input id="productid"
+			<span>
+				部门名称:</span> <input id="productid"
 				style="line-height:26px;border:1px solid #ccc"> 
 				<a 	class="easyui-linkbutton" plain="true" onclick="doSearch()" iconCls="icon-search" >查询</a>
 		</div>
 	</table>
     </div>   
+    
+    	<!-- 点新增或编辑时弹出的表单 -->
+	<div id="dgformDiv" class="easyui-dialog"
+		style="width:350px;height:220px;padding:10px 20px 20px 20px;"
+		closed="true" buttons="#dlg-buttons2">
+		<form id="dgform" class="easyui-form" method="post"
+			>
+			<table class="table">
+				<tr style="display: none">
+					<td>id</td>
+					<td><input class="easyui-validatebox" type="text" name="id" style="height: 32px"></input>
+					</td>
+				</tr>
+				<tr>
+					<td>部门名称：</td>
+					<td><input class="easyui-validatebox" type="text"
+						data-options="required:true" name="vcDept" style="height: 32px"></input></td>
+				</tr>
+				<tr><input type="hidden" id="pid" name="vcPid">
+				</tr>
+			</table>
+		</form>
+		<div id="dlg-buttons2">
+		<a href="javascript:void(0)" class="easyui-linkbutton" id="saveBtn"
+			iconCls="icon-ok" onclick="updateSaveData()" style="width:90px">保存</a>
+		<a href="javascript:void(0)" class="easyui-linkbutton"
+			iconCls="icon-cancel"
+			onclick="javascript:$('#dgformDiv').dialog('close')"
+			style="width:90px">取消</a>
+	</div>
 </body> 
 </html>
