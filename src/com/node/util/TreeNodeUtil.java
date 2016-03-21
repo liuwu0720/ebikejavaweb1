@@ -10,6 +10,8 @@ package com.node.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.node.object.JsonTreeData;
+
 /**
  * 类描述：描述: 获取树节点集合
  * 
@@ -68,7 +70,10 @@ public class TreeNodeUtil {
 				// 递归获取子节点下的子节点
 				jsonTreeData.setChildren(getChildrenNode(jsonTreeData.getId(),
 						treeDataList));
+				jsonTreeData.setState("closed");
 				newTreeDataList.add(jsonTreeData);
+			} else {
+				jsonTreeData.setState("open");
 			}
 		}
 		return newTreeDataList;

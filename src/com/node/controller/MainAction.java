@@ -15,14 +15,14 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.node.model.TResource;
-import com.node.model.TRole;
-import com.node.service.IUserService;
+import com.node.model.JtMenu;
+import com.node.model.JtUser;
+import com.node.service.IJtUserService;
 
 /**
  * 类描述：主页的页面加载
@@ -36,7 +36,7 @@ import com.node.service.IUserService;
 public class MainAction {
 
 	@Autowired
-	private IUserService iUserService;
+	IJtUserService iJtUserService;
 
 	/**
 	 * 
@@ -92,52 +92,44 @@ public class MainAction {
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/getSidebar")
 	public String getSidebar(HttpServletRequest request) {
-		// TUser user = (TUser) request.getSession().getAttribute("user");
-		// System.out.println(user.getId());
-		// 一个用户可能有多个角色，所以对应资源进行去重处理
-		List<TRole> rolelist = iUserService.getAllRoleByUserId(1);
-		List<TResource> resolist = new ArrayList<TResource>();
-		for (TRole role : rolelist) {
-			List<TResource> resources = iUserService.getByRoleid(role.getId());
-			if (CollectionUtils.isNotEmpty(resources))
-				resolist.addAll(resources);
+		JtUser jtUser = (JtUser) request.getSession().getAttribute("jtUser");
+		String userRole = jtUser.getUserRole();
+		String userRolePri = jtUser.getUserPri();
+		List<JtMenu> jtMenus = iJtUserService.getByRole(userRole);
+		List<JtMenu> jtMenus2 = new ArrayList<>();
+		if (StringUtils.isNotBlank(userRolePri)) {
+			String[] menuArray = userRolePri.split(",");
+			for (String menuStr : menuArray) {
+				JtMenu jtMenu = iJtUserService.getByMenuId(Integer
+						.parseInt(menuStr));
+				jtMenus2.add(jtMenu);
+			}
 		}
-		// 转换为 Set 去重
-		Set<TResource> set = new HashSet<TResource>();
-		set.addAll(resolist);
+		// 转入set去重s
+		Set<JtMenu> jtMenuSet = new HashSet<JtMenu>();
+		jtMenuSet.addAll(jtMenus);
+		jtMenuSet.addAll(jtMenus2);
 
-		// 再加入List
-		List<TResource> reslist = new ArrayList<TResource>();
-		reslist.addAll(set);
-
-		List<TResource> nodeResources = new ArrayList<TResource>();
-		if (CollectionUtils.isNotEmpty(reslist)) {
-			for (TResource tResource : reslist) {
-				if (tResource.getiParent() == 0) {
-					nodeResources.add(tResource);
-					System.out.println(nodeResources);
-				}
+		List<JtMenu> allJtMenus = new ArrayList<>();
+		allJtMenus.addAll(jtMenuSet);
+		// 排序处理
+		Collections.sort(allJtMenus);
+		List<JtMenu> nodeJtMenus = new ArrayList<JtMenu>();
+		for (JtMenu jtMenu : allJtMenus) {
+			if (jtMenu.getiParent().equals(0)) {
+				nodeJtMenus.add(jtMenu);
 			}
-			Collections.sort(nodeResources);// 排序
-			Collections.sort(reslist);// 排序
-			@SuppressWarnings("unused")
-			List<TResource> subResources = new ArrayList<TResource>();
-			for (TResource pResource : nodeResources) {
-				for (TResource subResource : reslist) {
-
-					if (subResource.getiParent().equals(pResource.getId())) {
-						pResource.getSubTresources().add(subResource);
-
-					}
-				}
-			}
-
-			request.setAttribute("nodeResources", nodeResources);
-
-		} else {
-			request.setAttribute("message", "您还没授权，请联系管理员");
 		}
 
+		for (JtMenu nodeJtMenu : nodeJtMenus) {
+			for (JtMenu subJtMenu : allJtMenus) {
+				if (subJtMenu.getiParent().equals(nodeJtMenu.getId())) {
+					nodeJtMenu.getSubJtMenus().add(subJtMenu);
+				}
+			}
+		}
+		request.setAttribute("nodeJtMenus", nodeJtMenus);
+		System.out.println("jtMenuSet = " + jtMenuSet);
 		return "main/getSlidebar";
 	}
 }

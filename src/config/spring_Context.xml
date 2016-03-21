@@ -25,8 +25,8 @@
 		destroy-method="close">
 		<property name="driverClass" value="oracle.jdbc.OracleDriver" />
 		<property name="jdbcUrl" value="jdbc:oracle:thin:@127.0.0.1:1521:orcl" />
-		<property name="user" value="liuwu" />
-		<property name="password" value="liuwu" />
+		<property name="user" value="ebikein" />
+		<property name="password" value="ebikein" />
 		<!-- 指定连接数据库连接池的最大连接数 -->
 		<property name="maxPoolSize" value="40" />
 		<!-- 指定连接数据库连接池的最小连接数 -->

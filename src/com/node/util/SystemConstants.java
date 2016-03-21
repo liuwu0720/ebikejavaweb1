@@ -36,5 +36,9 @@ public class SystemConstants {
 	 * 无效
 	 */
 	public static final Integer DISABLE = 1;
+	/**
+	 * 根部门ID
+	 */
+	public static final String ROOT_DEPTID = "30015";
 
 }

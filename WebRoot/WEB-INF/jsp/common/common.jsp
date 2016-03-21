@@ -4,12 +4,11 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <script type="text/javascript"
 	src="<%=basePath%>static/js/jquery.min.js"></script>
+
 <script type="text/javascript"
 	src="<%=basePath%>static/js/jquery.easyui.min.js"></script>
 <script type="text/javascript"
 	src="<%=basePath%>static/js/easyui-lang-zh_CN.js"></script>
-<script type="text/javascript"
-	src="<%=basePath%>static/js/jquery-webox.js"></script>	
 <link rel="stylesheet" type="text/css"
 	href="<%=basePath%>static/css/easyui.css">
 <link rel="stylesheet" type="text/css"
@@ -20,3 +19,4 @@
 	href="<%=basePath%>static/css/color.css">
 <link rel="stylesheet" type="text/css"
 	href="<%=basePath%>static/css/ebike.css">
+

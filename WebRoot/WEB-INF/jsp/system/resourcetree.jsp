@@ -13,12 +13,6 @@
 
 <title>菜单管理</title>
 
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="0">
-<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-<meta http-equiv="description" content="This is my page">
-
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
@@ -33,7 +27,7 @@ $(document).ready(function(){
 	var randomNu = (new Date().getTime()) ^ Math.random();
 	$("#dg").datagrid({
 
-		url : "<%=basePath%>resourceAction/queryAllResource?time=" + randomNu,
+		url : "<%=basePath%>systemAction/queryAll?time=" + randomNu,
 		title :  "菜单管理",
 		iconCls : 'icon-edit',
 		striped : true,
@@ -43,25 +37,25 @@ $(document).ready(function(){
 		singleSelect : true,
 		height:700,
 		columns : [ [{
-			field : 'vcResourceName',
+			field : 'vcMenu',
 			title : '菜单名称',
 			align:'center',
-			width : 120
+			width : 80
 		},{
 			field : 'vcUrl',
 			title : '链接地址',
 			align:'center',
-			width : 220
+			width : 120
 		},{
 			field : 'nSort',
 			title : '排序',
 			align:'center',
-			width : 120
+			width : 20
 		},{
 			field : 'nEnable',
 			title : '是否有效',
 			align:'center',
-			width : 120,
+			width : 50,
 			formatter:function(value,index){
 				if(value == 0){
 					return "有效";
@@ -73,7 +67,7 @@ $(document).ready(function(){
 			field : 'iParent',
 			title : '菜单类型',
 			align:'center',
-			width : 120,
+			width : 50,
 			formatter:function(value,index){
 				if(value == 0){
 					 return "<p style='color:red'>根菜单</p>";
@@ -86,12 +80,12 @@ $(document).ready(function(){
 			field : 'vcParent',
 			title : '父菜单',
 			align:'center',
-			width : 120
+			width : 50
 		},{
 			field : 'vcDesc',
 			title : '功能描述',
 			align:'center',
-			width : 120
+			width : 150
 		},{
 			field : 'id',
 			title:'操作',
@@ -132,7 +126,7 @@ $(document).ready(function(){
 function deleteRow(id){
 	$.messager.confirm('警告', '确认删除这条记录码', function(r){
 		if (r){
-			$.post("<%=basePath%>resourceAction/del", 
+			$.post("<%=basePath%>systemAction/del", 
 					{ id:id},     
 					   function (data, textStatus)
 					   {     
@@ -166,10 +160,10 @@ function updateRowData(){
      } 
 
    $('#cc').combobox({    
-	    url:'<%=basePath%>resourceAction/getParentResource',    
-	    valueField:'vcResourceName',    
-	    textField:'vcResourceName',
-	    value:row.vcParent   //默认选中的值       
+	    url:'<%=basePath%>systemAction/getParentMenu',    
+	    valueField:'id',    
+	    textField:'vcMenu',
+	    value:row.iParent   //默认选中的值       
 	}); 
  
 }
@@ -178,9 +172,9 @@ function addRowData(){
 	$('#dgform').form('clear');
 	 $('#dgformDiv').dialog('open').dialog('setTitle', '编辑用户');
 	$('#cc').combobox({    
-	    url:'<%=basePath%>resourceAction/getParentResource',    
-	    valueField:'vcResourceName',    
-	    textField:'vcResourceName',
+	    url:'<%=basePath%>systemAction/getParentMenu',    
+	    valueField:'id',    
+	    textField:'vcMenu',
 	    value:''
 	});  
 
@@ -194,7 +188,7 @@ function clearSelect(){
 function updateSaveData(){
 	$.messager.progress();
 	$('#dgform').form('submit', {
-				url : "<%=basePath%>resourceAction/saveOrUpdate",
+				url : "<%=basePath%>systemAction/saveOrUpdate",
 				onSubmit : function() {
 					var isValid = $("#dgform").form('enableValidation').form(
 							'validate');
@@ -238,8 +232,7 @@ function updateSaveData(){
 	<div id="dgformDiv" class="easyui-dialog"
 		style="width:550px;height:450px;padding:10px 20px 20px 20px;"
 		closed="true" buttons="#dlg-buttons2">
-		<form id="dgform" class="easyui-form" method="post"
-			>
+		<form id="dgform" class="easyui-form" method="post">
 			<table class="table">
 				<tr style="display: none">
 					<td>id</td>
@@ -249,7 +242,7 @@ function updateSaveData(){
 				<tr>
 					<td>菜单名称：</td>
 					<td><input class="easyui-validatebox" type="text"
-						data-options="required:true" name="vcResourceName" ></input></td>
+						data-options="required:true" name="vcMenu" ></input></td>
 				</tr>
 				<tr>
 					<td>链接地址：</td>
@@ -271,7 +264,7 @@ function updateSaveData(){
 				</tr>
 				<tr >
 					<td>父菜单</td>
-					<td><input id="cc" name="vcParent" style="height:30px;">
+					<td><input id="cc" name="iParent" style="height:30px;">
 					<a style="cursor: pointer;" onclick="clearSelect()">清空</a><span  style="color: red;">(为空则为根菜单)</span>  
 					</td>
 				</tr>

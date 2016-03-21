@@ -47,20 +47,16 @@
 </head>
 <body>
 	<div class="menu">
-		<div class="menu-title">
-			<p>当前用户:管理员</p>
-		</div>
-
 		<div class="menu-header">
 			<div class="menu-icon">菜单管理</div>
 			<ul class="menu-ul">
-				<c:forEach items="${nodeResources }" var="node">
+				<c:forEach items="${nodeJtMenus }" var="node">
 					<li class="menu-li">
 					<span style="color:blue;"><a href="javascript:void(0)">
-					<i class="iconfont">${node.vcIcon }</i>${node.vcResourceName } </a></span>
+					<i class="iconfont">${node.vcIcon }</i>${node.vcMenu } </a></span>
 						<ul>
-						<c:forEach items="${node.subTresources }" var="sub">
-							<li><a href="${sub.vcUrl }" target="main"><i class="iconfont">${sub.vcIcon }</i>${sub.vcResourceName }</a></li>
+						<c:forEach items="${node.subJtMenus }" var="sub">
+							<li><a href="${sub.vcUrl }" target="main"><i class="iconfont">${sub.vcIcon }</i>${sub.vcMenu }</a></li>
 						</c:forEach>	
 						</ul>
 					</li>
