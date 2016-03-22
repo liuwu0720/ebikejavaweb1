@@ -29,7 +29,7 @@ public class JtMenu implements java.io.Serializable, Comparable<Object> {
 	private String vcMenu;
 	private String vcUrl;
 	private Integer nEnable;
-	private Integer nSort;
+	private Integer nSort = 0;
 	private String vcIcon;
 	private Integer iParent;
 	private String vcParent;
@@ -105,7 +105,12 @@ public class JtMenu implements java.io.Serializable, Comparable<Object> {
 
 	@Column(name = "N_SORT", precision = 0)
 	public Integer getnSort() {
-		return this.nSort;
+		if (this.nSort == null) {
+			return 0;
+		} else {
+			return this.nSort;
+		}
+
 	}
 
 	public void setnSort(Integer nSort) {

@@ -89,13 +89,16 @@ public class MainAction {
 	 * @author: liuwu
 	 * @version: 2016年3月2日 上午10:33:56
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "unused" })
 	@RequestMapping("/getSidebar")
 	public String getSidebar(HttpServletRequest request) {
 		JtUser jtUser = (JtUser) request.getSession().getAttribute("jtUser");
 		String userRole = jtUser.getUserRole();
 		String userRolePri = jtUser.getUserPri();
-		List<JtMenu> jtMenus = iJtUserService.getByRole(userRole);
+		List<JtMenu> jtMenus = null;
+		if (StringUtils.isNotBlank(userRole)) {
+			jtMenus = iJtUserService.getByRole(userRole);
+		}
 		List<JtMenu> jtMenus2 = new ArrayList<>();
 		if (StringUtils.isNotBlank(userRolePri)) {
 			String[] menuArray = userRolePri.split(",");
@@ -107,8 +110,12 @@ public class MainAction {
 		}
 		// 转入set去重s
 		Set<JtMenu> jtMenuSet = new HashSet<JtMenu>();
-		jtMenuSet.addAll(jtMenus);
-		jtMenuSet.addAll(jtMenus2);
+		if (jtMenus != null && jtMenus.size() > 0) {
+			jtMenuSet.addAll(jtMenus);
+		}
+		if (jtMenus2 != null && jtMenus2.size() > 0) {
+			jtMenuSet.addAll(jtMenus2);
+		}
 
 		List<JtMenu> allJtMenus = new ArrayList<>();
 		allJtMenus.addAll(jtMenuSet);
@@ -129,7 +136,9 @@ public class MainAction {
 			}
 		}
 		request.setAttribute("nodeJtMenus", nodeJtMenus);
-		System.out.println("jtMenuSet = " + jtMenuSet);
+		if (nodeJtMenus.size() == 0) {
+			request.setAttribute("message", "你还有授权，无法操作");
+		}
 		return "main/getSlidebar";
 	}
 }

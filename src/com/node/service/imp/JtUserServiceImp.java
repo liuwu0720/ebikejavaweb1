@@ -11,17 +11,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.node.dao.IJtMenuDao;
+import com.node.dao.IJtRoleDao;
 import com.node.dao.IJtRoleMenuDao;
 import com.node.dao.IJtUserDao;
 import com.node.model.JtMenu;
+import com.node.model.JtRole;
 import com.node.model.JtRoleMenu;
 import com.node.model.JtUser;
 import com.node.service.IJtUserService;
 import com.node.util.HqlHelper;
+import com.node.util.Page;
 
 /**
  * 类描述：
@@ -40,6 +44,9 @@ public class JtUserServiceImp implements IJtUserService {
 
 	@Autowired
 	IJtMenuDao iJtMenuDao;
+
+	@Autowired
+	IJtRoleDao iJtRoleDao;
 
 	/*
 	 * (non-Javadoc)
@@ -99,5 +106,154 @@ public class JtUserServiceImp implements IJtUserService {
 	public Map<String, Object> queryByHql(HqlHelper hql) {
 		// TODO Auto-generated method stub
 		return iJtUserDao.findAllByHqlHelp(hql);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IJtUserService#getBySpringSql(java.lang.String,
+	 * com.node.util.Page)
+	 */
+	@Override
+	public Map<String, Object> getBySpringSql(String sql, Page p) {
+		// TODO Auto-generated method stub
+		return iJtUserDao.getSpringSQL(sql, p);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.node.service.IJtUserService#getRoleNameByRoleCode(java.lang.String)
+	 */
+	@Override
+	public String getRoleNameByRoleCode(String userRole) {
+		if (StringUtils.isBlank(userRole)) {
+			return null;
+		} else {
+			String[] roleIds = userRole.split(",");
+			String roleName = "";
+			for (String id : roleIds) {
+				JtRole jtRole = iJtRoleDao.get(Integer.parseInt(id));
+				if (StringUtils.isNotBlank(jtRole.getRoleName())) {
+					roleName += jtRole.getRoleName() + "   ";
+				}
+
+			}
+			return roleName;
+		}
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IJtUserService#deleteJtUserById(int)
+	 */
+	@Override
+	public void deleteJtUserById(int jtuserId) {
+		// TODO Auto-generated method stub
+		iJtUserDao.deleteByKey(jtuserId);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IJtUserService#getJtUserById(int)
+	 */
+	@Override
+	public JtUser getJtUserById(int jtuserId) {
+		// TODO Auto-generated method stub
+		return iJtUserDao.get(jtuserId);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IJtUserService#updateJtUser(com.node.model.JtUser)
+	 */
+	@Override
+	public void updateJtUser(JtUser jtUser) {
+		// TODO Auto-generated method stub
+		iJtUserDao.updateCleanBefore(jtUser);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IJtUserService#save(com.node.model.JtUser)
+	 */
+	@Override
+	public void save(JtUser jtUser) {
+		// TODO Auto-generated method stub
+		iJtUserDao.save(jtUser);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IJtUserService#getAllRoles()
+	 */
+	@Override
+	public List<JtRole> getAllRoles() {
+		// TODO Auto-generated method stub
+		return iJtRoleDao.findByProperty("roleState", "1");
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IJtUserService#getAllMenus()
+	 */
+	@Override
+	public List<JtMenu> getAllMenus() {
+		// TODO Auto-generated method stub
+		return iJtMenuDao.findAll();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.node.service.IJtUserService#getAllRolesByHql(com.node.util.HqlHelper)
+	 */
+	@Override
+	public Map<String, Object> getAllRolesByHql(HqlHelper hql) {
+		// TODO Auto-generated method stub
+		return iJtRoleDao.findAllByHqlHelp(hql);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IJtUserService#deleteRoleById(int)
+	 */
+	@Override
+	public void deleteRoleById(int delId) {
+		// TODO Auto-generated method stub
+		iJtRoleDao.deleteByKey(delId);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IJtUserService#saveJtRole(com.node.model.JtRole)
+	 */
+	@Override
+	public void saveJtRole(JtRole jtRole) {
+		// TODO Auto-generated method stub
+		iJtRoleDao.save(jtRole);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.node.service.IJtUserService#updateJtUserRole(com.node.model.JtRole)
+	 */
+	@Override
+	public void updateJtUserRole(JtRole jtRole) {
+		// TODO Auto-generated method stub
+		iJtRoleDao.update(jtRole);
 	}
 }

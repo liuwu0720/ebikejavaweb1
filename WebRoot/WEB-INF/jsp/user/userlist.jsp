@@ -31,6 +31,88 @@ $(document).ready(function(){
 		   cache: false //å³é­AJAXç¸åºçç¼å­
 		});
 	
+	var randomNu = (new Date().getTime()) ^ Math.random();
+	var h = getHeight('dg');
+	var size = getPageSize(h);
+	var w = getWidth(400);
+	$("#dg").datagrid({
+
+		url : "<%=basePath%>userAction/queryAllUsers?time=" + randomNu,
+		title :  "用户管理",
+		iconCls : 'icon-edit',
+		striped : true,
+		fitColumns:true,   //数据列太少 未自适应
+		pagination : true,
+		rownumbers : true,
+		singleSelect : true,
+		pageSize:20,
+		singleSelect : true,//只选中单行
+		height:h,
+		columns : [ [{
+			field : 'userCode',
+			title : '用户账号',
+			align:'center',
+			width : 120
+		},{
+			field : 'userName',
+			title : '用户姓名',
+			align:'center',
+			width : 120
+		},{
+			field : 'userOrgName',
+			title : '用户所属部门',
+			align:'center',
+			width : 120
+		},{
+			field : 'userRoleName',
+			title : '用户角色',
+			align:'center',
+			width : 120
+		},{
+			field : 'null',
+			title : '备注说明',
+			align:'center',
+			width : 180,
+			formatter:function(value,row,index){
+				if(row.id > 0){
+					return "已转入本系统";
+				}else{
+					return "<p style='color:red'>OA系统用户, 未转入本系统</p>";
+				}
+			}
+		}, {
+			field : 'opDate',
+			title : '添加时间',
+			align:'center',
+			width : 120
+		},{
+			field : 'id',
+			title:'操作',
+			align:'center',
+			width : 120,
+			formatter:function(value,row,index){
+				var del =  "<a  href='javascript:void(0)'  onclick='deleteRow("+row.id+")'>删除</a>&nbsp;&nbsp;&nbsp;";
+				var auth = "<a  href='javascript:void(0)'  onclick='authRow("+row.id+")'>授权</a>&nbsp;&nbsp;&nbsp;";
+				var reset = "<a  href='javascript:void(0)'  onclick='resetRow("+row.id+")'>重置密码</a>&nbsp;&nbsp;&nbsp;";
+				var adduser = "<a  href='javascript:void(0)'  onclick='addIntoUser(\""+row.userCode+"\")'>转入本系统</a>&nbsp;&nbsp;&nbsp;";
+				if(row.id > 0){
+					return del + auth + reset;
+				}else{
+					return adduser;
+				}
+				
+			}
+		}
+
+		] ],
+
+		onLoadSuccess:function(){  
+            $('#dg').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题  
+        }
+	});
+	
+	
+
 	$.ajax({
 			url:'deptAction/getTree',
 			type:'post',
@@ -50,101 +132,45 @@ $(document).ready(function(){
 				idKey: "id",
 				pIdKey: "pid"
 			}
+		},
+		callback: {
+			onClick: onClick
 		}
 	};	
-	
-	var randomNu = (new Date().getTime()) ^ Math.random();
-	$("#dg").datagrid({
-
-		url : "<%=basePath%>userAction/queryAllUsers?time=" + randomNu,
-		title :  "用户管理",
-		iconCls : 'icon-edit',
-		striped : true,
-		fitColumns:true,   //数据列太少 未自适应
-		pagination : true,
-		rownumbers : true,
-		singleSelect : true,
-		height:700,
-		columns : [ [{
-			field : 'userCode',
-			title : '用户账号',
-			align:'center',
-			width : 120
-		},{
-			field : 'userName',
-			title : '用户姓名',
-			align:'center',
-			width : 120
-		},{
-			field : 'vcDept',
-			title : '用户所属部门',
-			align:'center',
-			width : 120
-		},{
-			field : 'vcRoleList',
-			title : '用户角色',
-			align:'center',
-			width : 120
-		},{
-			field : 'nEnable',
-			title : '是否有效',
-			align:'center',
-			width : 120,
-			formatter:function(value,index){
-				if(value == 0){
-					return "有效";
-				}else{
-					return "无效";
-				}
-			}
-		}, {
-			field : 'dtAddDate',
-			title : '添加时间',
-			align:'center',
-			width : 120,
-			formatter:function(value,index){
-				var unixTimestamp = new Date(value);   
-                return unixTimestamp.toLocaleString();
-			}
-		},{
-			field : 'id',
-			title:'操作',
-			align:'center',
-			width : 120,
-			formatter:function(value,row,index){
-				
-				return "<a  href='javascript:void(0)'  onclick='deleteRow("+row.id+")'>删除</a>";
-			}
-		}
-
-		] ],
-
-		toolbar : [ {
-			id : 'btnadd2',
-			text : '新增',
-			iconCls : 'icon-add',
-			handler : function() {
-				addRowData();
-			}
-		},{
-			id : 'btnadd2',
-			text : '修改',
-			iconCls : 'icon-edit',
-			handler : function() {
-				
-				updateRowData();
-			}
-		} ],
-		onLoadSuccess:function(){  
-            $('#dg').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题  
-        }
-	});
+	function onClick(e, treeId, treeNode){
+		var deptId = treeNode.id;
+		$('#dg').datagrid('load',{
+			deptId: deptId
+		});
+	}
 });
+//转入本系统
+function addIntoUser(userCode){
+	$.messager.confirm('警告', '确认转入本系统吗?', function(r){
+		if(r){
+			$.post("<%=basePath%>userAction/addIntoUser",{
+				userCode:userCode
+			},function(data,textStatus){
+				if (data.isSuccess) {
+					$.messager.show({ // show error message
+						title : '提示',
+						msg : data.message
+					});
+					$("#dg").datagrid('reload');
+				}else{
+					alert(data.message);
+				}
+			},"json");
+		}
+	});
+}
 
+
+//删除
 function deleteRow(id){
-	$.messager.confirm('警告', '确认删除这条记录码', function(r){
+	$.messager.confirm('警告', '确认从本系统中删除这条记录吗?', function(r){
 		if (r){
-			$.post("<%=basePath%>userAction/delTrafficUser", 
+			$.post("<%=basePath%>userAction/delJtuser", 
 					{ id:id},     
 					   function (data, textStatus)
 					   {     
@@ -154,7 +180,7 @@ function deleteRow(id){
 								title : '提示',
 								msg : data.message
 							});
-							$('#dgformDiv').dialog('close');
+							
 							$("#dg").datagrid('reload');
 						}else{
 							alert(data.message);
@@ -166,19 +192,29 @@ function deleteRow(id){
 	
 }  
 
-//修改
-function updateRowData(){
-	$("#editSpan").show();
-	$("#addSpan").hide();
-	$('#dgform').form('clear');
-	 var row = $('#dg').datagrid('getSelected');
-   if (row){
-    	 $('#dgformDiv').dialog('open').dialog('setTitle', '编辑用户');
-    	 $('#dgform').form('load', row);
-     }else{
-    	 $.messager.alert('提示','请选择你要修改的行');    
-     } 
-  
+//密码重置
+function resetRow(id){
+	$.messager.confirm('警告', '重置后密码为该用户的账号，请确认?', function(r){
+		if (r){
+			$.post("<%=basePath%>userAction/resetJtuser", 
+					{ id:id},     
+					   function (data, textStatus)
+					   {     
+							
+						if (data.isSuccess) {
+							$.messager.show({ // show error message
+								title : '提示',
+								msg : data.message
+							});
+							
+							$("#dg").datagrid('reload');
+						}else{
+							alert(data.message);
+						}
+					   }
+				  ,"json");
+		}
+	});
 	
 }
 //添加
@@ -189,7 +225,10 @@ function addRowData(){
 	$('#dgformDiv').dialog('open').dialog('setTitle', '新增用户');
 	
 }
-
+//授权
+function authRow(id){
+	window.location.href="<%=basePath%>userAction/authRow?id="+id
+}
 
 //保存操作
 
@@ -235,14 +274,14 @@ function updateSaveData(){
 //查询功能
 function doSearch(){
 	$('#dg').datagrid('load',{
-		vcNameString: $('#itemid').val(),
-		vcDept: $('#productid').val()
+		userName: $('#userName').val(),
+		userCode: $('#usercode').val()
 	});
 }
 </script>
 </head>
 <body class="easyui-layout">
-<div data-options="region:'west',title:'部门总览',split:true" style="width:25%;" >
+<div data-options="region:'west',title:'部门总览',split:true" style="width:20%;" >
 		<div class="zTreeDemoBackground left">
 				
 				<ul id="deptTree" class="ztree"></ul>

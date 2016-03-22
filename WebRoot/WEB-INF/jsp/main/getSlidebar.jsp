@@ -47,6 +47,7 @@
 </head>
 <body>
 	<div class="menu">
+	<p style="color: red">${message }</p>
 		<div class="menu-header">
 			<div class="menu-icon">菜单管理</div>
 			<ul class="menu-ul">

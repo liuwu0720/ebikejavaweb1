@@ -9,6 +9,8 @@
 	src="<%=basePath%>static/js/jquery.easyui.min.js"></script>
 <script type="text/javascript"
 	src="<%=basePath%>static/js/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript"
+	src="<%=basePath%>static/js/common.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="<%=basePath%>static/css/easyui.css">
 <link rel="stylesheet" type="text/css"

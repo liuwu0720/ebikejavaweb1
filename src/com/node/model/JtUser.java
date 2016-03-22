@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * JtUser entity. @author MyEclipse Persistence Tools
@@ -26,8 +27,10 @@ public class JtUser implements java.io.Serializable {
 	private String userPassword;
 	private String userName;
 	private String userOrg;
+	private String userOrgName;
 	private String userState;
 	private String userRole;
+	private String userRoleName;
 	private String opIp;
 	private String opDate;
 	private String opRemark;
@@ -161,6 +164,32 @@ public class JtUser implements java.io.Serializable {
 
 	public void setUserPri(String userPri) {
 		this.userPri = userPri;
+	}
+
+	@Transient
+	public String getUserRoleName() {
+		return userRoleName;
+	}
+
+	/**
+	 * @param userRoleName
+	 *            : set the property userRoleName.
+	 */
+	public void setUserRoleName(String userRoleName) {
+		this.userRoleName = userRoleName;
+	}
+
+	@Transient
+	public String getUserOrgName() {
+		return userOrgName;
+	}
+
+	/**
+	 * @param userOrgName
+	 *            : set the property userOrgName.
+	 */
+	public void setUserOrgName(String userOrgName) {
+		this.userOrgName = userOrgName;
 	}
 
 }

@@ -7,6 +7,11 @@
  */
 package com.node.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,13 +23,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.node.model.JtMenu;
+import com.node.model.JtRole;
 import com.node.model.JtUser;
 import com.node.service.IJtUserService;
 import com.node.util.AjaxUtil;
-import com.node.util.HqlHelper;
 import com.node.util.Page;
 import com.node.util.ServiceUtil;
-import com.node.util.SystemConstants;
 
 /**
  * 类描述：用户首页登录、用户增删改查的一些操作
@@ -124,21 +129,242 @@ public class UserAction {
 	 * @author: liuwu
 	 * @version: 2016年3月21日 下午5:12:59
 	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping("/queryAllUsers")
 	@ResponseBody
 	public Map<String, Object> queryAllUsers(HttpServletRequest request,
-			String deptId) {
+			String userCode, String userName, String deptId) {
 		Page p = ServiceUtil.getcurrPage(request);
-		HqlHelper hql = new HqlHelper(JtUser.class);
-		if (StringUtils.isBlank(deptId)) {
-			hql.addEqual("userOrg", SystemConstants.ROOT_DEPTID);
-		} else {
-			hql.addEqual("userOrg", deptId);
+		StringBuffer sql = new StringBuffer(
+				"select t.id, t.USER_CODE, t.USER_NAME, t.ORG_ID,d.org_name, t.FLAG, j.id as jid,j.user_role,j.OP_DATE,j.USER_STATE  "
+						+ " from oa_user_view t  left join jt_user j   on t.USER_CODE = j.user_code LEFT JOIN "
+						+ " OA_DEPT_VIEW D ON t.ORG_ID=d.ORG_ID where t.USER_CODE is not null");
+
+		if (StringUtils.isNotBlank(deptId)) {
+			sql.append(" and t.ORG_ID = " + Integer.parseInt(deptId));
 		}
-		hql.addOrderBy("id");
-		hql.setQueryPage(p);
-		Map<String, Object> resultMap = iJtUserService.queryByHql(hql);
-		return resultMap;
+		if (StringUtils.isNotBlank(userCode)) {
+			sql.append(" and t.USER_CODE = " + userCode);
+		}
+		if (StringUtils.isNotBlank(userName)) {
+			sql.append(" and t.USER_NAME like '%" + userName + "%'");
+		}
+		sql.append("  order by t.id");
+		Map<String, Object> resultMap = iJtUserService.getBySpringSql(
+				sql.toString(), p);
+		List<Map<String, Object>> list = (List<Map<String, Object>>) resultMap
+				.get("rows");
+		Map<String, Object> newMap = new HashMap<String, Object>();
+		List<JtUser> jtUsers = new ArrayList<>();
+		for (int i = 0; i < list.size(); i++) {
+			Map<String, Object> map = list.get(i);
+			JtUser jtUser = new JtUser();
+			jtUser.setId(map.get("JID") == null ? 0 : Integer.parseInt(map.get(
+					"JID").toString()));
+			jtUser.setUserCode(map.get("USER_CODE").toString());
+			jtUser.setUserName(map.get("USER_NAME") == null ? null : map.get(
+					"USER_NAME").toString());
+			jtUser.setUserOrg(map.get("ORG_ID").toString());
+			jtUser.setUserOrgName(map.get("ORG_NAME") == null ? null : map.get(
+					"ORG_NAME").toString());
+			jtUser.setUserRole(map.get("USER_ROLE") == null ? null : map.get(
+					"USER_ROLE").toString());
+			jtUser.setOpDate(map.get("OP_DATE") == null ? null : map.get(
+					"OP_DATE").toString());
+			jtUser.setUserRoleName(getRoleName(jtUser.getUserRole()));
+			jtUsers.add(jtUser);
+		}
+		newMap.put("total", resultMap.get("total").toString());
+		newMap.put("rows", jtUsers);
+
+		return newMap;
+	}
+
+	/**
+	 * 
+	 * 方法描述：重置用户密码
+	 * 
+	 * @param request
+	 * @param response
+	 * @param id
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月22日 下午1:52:08
+	 */
+	@RequestMapping("/resetJtuser")
+	public void resetJtuser(HttpServletRequest request,
+			HttpServletResponse response, String id) {
+		int jtuserId = Integer.parseInt(id);
+		JtUser jtUser = iJtUserService.getJtUserById(jtuserId);
+		jtUser.setUserPassword(jtUser.getUserCode());
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date nowDate = new Date();
+		jtUser.setOpDate(format.format(nowDate));
+		try {
+			iJtUserService.updateJtUser(jtUser);
+			AjaxUtil.rendJson(response, true, "成功");
+		} catch (Exception e) {
+			AjaxUtil.rendJson(response, false, "系统错误，操作失败");
+		}
+	}
+
+	/**
+	 * 
+	 * 方法描述：将用户转入系统
+	 * 
+	 * @param request
+	 * @param response
+	 * @param userCode
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月22日 下午2:10:53
+	 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping("/addIntoUser")
+	public void addIntoUser(HttpServletRequest request,
+			HttpServletResponse response, String userCode) {
+		String sql = "select * from oa_user_view where USER_CODE = '"
+				+ userCode + "'";
+		Map<String, Object> resultMap = iJtUserService
+				.getBySpringSql(sql, null);
+		List<Map<String, Object>> list = (List<Map<String, Object>>) resultMap
+				.get("rows");
+
+		Map<String, Object> oaUserMap = list.get(0);
+		JtUser jtUser = new JtUser();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date nowDate = new Date();
+		jtUser.setOpDate(format.format(nowDate));
+		jtUser.setUserCode(userCode);
+		jtUser.setUserPassword(userCode);
+		jtUser.setUserOrg(oaUserMap.get("USER_NAME") == null ? null : oaUserMap
+				.get("USER_NAME").toString());
+		try {
+			iJtUserService.save(jtUser);
+			AjaxUtil.rendJson(response, true, "成功");
+		} catch (Exception e) {
+			AjaxUtil.rendJson(response, false, "系统错误，操作失败");
+		}
+	}
+
+	/**
+	 * 
+	 * 方法描述：授权界面
+	 * 
+	 * @param request
+	 * @param response
+	 * @param id
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月22日 下午2:58:11
+	 */
+	@RequestMapping("/authRow")
+	public String authRow(HttpServletRequest request,
+			HttpServletResponse response, String id) {
+		JtUser jtUser = iJtUserService.getJtUserById(Integer.parseInt(id));
+
+		List<JtRole> jtRoles = iJtUserService.getAllRoles();
+		List<JtMenu> jtMenus = iJtUserService.getAllMenus();
+		request.setAttribute("jtUser", jtUser);
+		request.setAttribute("jtRoles", jtRoles);
+		request.setAttribute("jtMenus", jtMenus);
+		return "user/userAuth";
+	}
+
+	/**
+	 * 
+	 * 方法描述：保存用户权限
+	 * 
+	 * @param request
+	 * @param response
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月22日 下午5:00:26
+	 */
+	@RequestMapping("/saveUpdateUserAuth")
+	public void saveUpdateUserAuth(HttpServletRequest request, String userId,
+			HttpServletResponse response) {
+		String[] roleArray = request.getParameterValues("roleId");
+		String[] priArray = request.getParameterValues("priBox");
+		String roleString = "";
+		String priString = "";
+		if (roleArray != null && roleArray.length > 0) {
+			for (String role : roleArray) {
+				roleString += role + ",";
+			}
+		}
+
+		String subPriString = "";
+		if (priArray != null && priArray.length > 0) {
+			for (String pri : priArray) {
+				String[] priStrings = request.getParameterValues(pri);
+				if (priStrings != null && priStrings.length > 0) {
+					for (String str : priStrings) {
+						subPriString += str + ",";
+					}
+				}
+
+				System.out.println("priStrings = " + priStrings);
+				priString += pri + ",";
+
+			}
+
+		}
+
+		System.out.println("priString = " + priString);
+		System.out.println("roleString = " + roleString);
+		System.out.println("subPriString = " + priString + subPriString);
+		int uId = Integer.parseInt(userId);
+		JtUser jtUser = iJtUserService.getJtUserById(uId);
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date nowDate = new Date();
+		jtUser.setOpDate(format.format(nowDate));
+		jtUser.setUserRole(roleString);
+		jtUser.setUserPri(priString + subPriString);
+		try {
+			iJtUserService.updateJtUser(jtUser);
+			AjaxUtil.rendJson(response, true, "成功");
+		} catch (Exception e) {
+			AjaxUtil.rendJson(response, false, "系统错误！操作失败");
+		}
+	}
+
+	/**
+	 * 
+	 * 方法描述：删除用户
+	 * 
+	 * @param request
+	 * @param response
+	 * @param id
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月22日 下午1:41:28
+	 */
+	@RequestMapping("/delJtuser")
+	public void delJtuser(HttpServletRequest request,
+			HttpServletResponse response, String id) {
+		int jtuserId = Integer.parseInt(id);
+		try {
+			iJtUserService.deleteJtUserById(jtuserId);
+			AjaxUtil.rendJson(response, true, "操作成功");
+		} catch (Exception e) {
+			AjaxUtil.rendJson(response, false, "系统错误");
+		}
+	}
+
+	/**
+	 * 方法描述：获取用户角色
+	 * 
+	 * @param userRole
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月22日 上午10:39:30
+	 */
+	private String getRoleName(String userRole) {
+		String roleName = iJtUserService.getRoleNameByRoleCode(userRole);
+		return roleName;
 	}
 
 }

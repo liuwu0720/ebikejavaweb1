@@ -28,6 +28,8 @@ public class JtRole implements java.io.Serializable {
 	private String opIp;
 	private String opDate;
 	private String opRemark;
+	private String roleDesc;// 角色描述
+	private String roleSort;
 
 	// Constructors
 
@@ -116,6 +118,32 @@ public class JtRole implements java.io.Serializable {
 
 	public void setOpRemark(String opRemark) {
 		this.opRemark = opRemark;
+	}
+
+	@Column(name = "ROLE_DESC", length = 200)
+	public String getRoleDesc() {
+		return roleDesc;
+	}
+
+	/**
+	 * @param roleDesc
+	 *            : set the property roleDesc.
+	 */
+	public void setRoleDesc(String roleDesc) {
+		this.roleDesc = roleDesc;
+	}
+
+	@Column(name = "ROLE_SORT", scale = 0)
+	public String getRoleSort() {
+		return roleSort;
+	}
+
+	/**
+	 * @param roleSort
+	 *            : set the property roleSort.
+	 */
+	public void setRoleSort(String roleSort) {
+		this.roleSort = roleSort;
 	}
 
 }
