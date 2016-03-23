@@ -311,10 +311,6 @@ public class UserAction {
 			}
 
 		}
-
-		System.out.println("priString = " + priString);
-		System.out.println("roleString = " + roleString);
-		System.out.println("subPriString = " + priString + subPriString);
 		int uId = Integer.parseInt(userId);
 		JtUser jtUser = iJtUserService.getJtUserById(uId);
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

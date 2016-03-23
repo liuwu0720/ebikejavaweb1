@@ -27,7 +27,7 @@ import com.node.util.ServiceUtil;
 import com.node.util.SystemConstants;
 
 /**
- * 类描述：
+ * 类描述：菜单管理
  * 
  * @version: 1.0
  * @author: liuwu

@@ -53,24 +53,15 @@ text-align: center;
 
 <script type="text/javascript">
 $(document).ready(function(){
-	var role = '${jtUser.userRole}';
-	var roleArray = role.split(",");
-	for(var i in roleArray){
-		if(roleArray[i]!==""){
-			var roleId = roleArray[i]+"+role";
+	var jtMenusString ='${jtMenusString}';
+	var jtMenusArray = jtMenusString.split(',');
+	for(var i in jtMenusArray){
+		if(jtMenusArray[i]!=""){
+			var roleId = jtMenusArray[i];
 			document.getElementById(roleId).checked=true;
 		}
 	}
 	
-	var userPri = '${jtUser.userPri}';
-	var userPriArray = userPri.split(",");
-	for(var i in userPriArray){
-		if(userPriArray[i]!==""){
-			
-			var roleId = userPriArray[i];
-			document.getElementById(roleId).checked=true;
-		}
-	}
 });
 
 function parentClick(par){
@@ -104,7 +95,7 @@ function save(){
 			text:"正在处理，请稍候..."
 		});
 		$('#dgform').form('submit', {
-			url : "<%=basePath%>userAction/saveUpdateUserAuth",
+			url : "<%=basePath%>userRoleAction/saveUpdateUserAuth",
 			onSubmit : function() {
 				var isValid = $("#dgform").form('enableValidation').form(
 						'validate');
@@ -142,28 +133,8 @@ function save(){
 		<form  id="dgform" class="easyui-form" >
 		<table id="main" class="table">
 			<tr>
-				<th>用户账号</th>
-				<td>${jtUser.userCode }</td>
-			</tr>
-			<tr>
-				<th>用户姓名</th>
-				<td>${jtUser.userName }<input type="hidden" name="userId" value="${jtUser.id }"></td>
-			</tr>
-			<tr>
-				<th>用户角色</th>
-				<td>
-					<table id="role">
-						<tr>
-							<c:forEach items="${jtRoles }" var="jt">
-								<td><input type="checkbox" name="roleId" value="${jt.id }" id="${jt.id }+role">
-									${jt.roleName }&nbsp;&nbsp;&nbsp;
-									
-								</td>
-							</c:forEach>
-						</tr>
-						
-					</table>
-				</td>
+				<th>角色名称</th>
+				<td>${jtRole.roleName }<input type="hidden" name="roleId" value="${jtRole.id }"></td>
 			</tr>
 			<tr>
 				<th>选择权限</th>

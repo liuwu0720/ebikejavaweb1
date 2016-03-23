@@ -256,4 +256,56 @@ public class JtUserServiceImp implements IJtUserService {
 		// TODO Auto-generated method stub
 		iJtRoleDao.update(jtRole);
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IJtUserService#getAllMenusByRole(int)
+	 */
+	@Override
+	public List<JtMenu> getAllMenusByRole(int roleId) {
+		List<JtRoleMenu> jtRoleMenus = iJtRoleMenuDao.findByProperty("roleid",
+				roleId);
+		List<JtMenu> jtMenus = new ArrayList<JtMenu>();
+		for (JtRoleMenu jtRoleMenu : jtRoleMenus) {
+			int menuId = jtRoleMenu.getMenuid();
+			JtMenu jtMenu = iJtMenuDao.get(menuId);
+			jtMenus.add(jtMenu);
+		}
+		return jtMenus;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IJtUserService#getJtRoleById(int)
+	 */
+	@Override
+	public JtRole getJtRoleById(int roleId) {
+		// TODO Auto-generated method stub
+		return iJtRoleDao.get(roleId);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IJtUserService#deleteMenusByRoleId(int)
+	 */
+	@Override
+	public void deleteMenusByRoleId(int roId) {
+		// TODO Auto-generated method stub
+		iJtRoleMenuDao.deleteByProperty("roleid", roId);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.node.service.IJtUserService#saveJtRoleMenu(com.node.model.JtRoleMenu)
+	 */
+	@Override
+	public void saveJtRoleMenu(JtRoleMenu jtRoleMenu) {
+		// TODO Auto-generated method stub
+		iJtRoleMenuDao.save(jtRoleMenu);
+	}
 }

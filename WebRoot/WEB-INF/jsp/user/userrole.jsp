@@ -143,6 +143,8 @@ function deleteRow(id){
 	}});
 }
 function updateSaveData(){
+	var flag = checkValue();
+	if(flag){
 	
 	$.messager.progress({
 		text:"正在处理，请稍候..."
@@ -175,9 +177,26 @@ function updateSaveData(){
 		}
 
 	});
-
-
+	
+	}
 }
+
+function checkValue(){
+	var roleType = $("#roleType").combo("getValue");
+	var roleSort = $("#roleSort").val();
+	
+	if(roleType == 1 && roleSort == 0){
+		alert("请填写审批顺序");
+		return false;
+	}else{
+		return true;
+	}
+}
+
+function authRow(id){
+	window.location.href="<%=basePath%>userRoleAction/authRow?id="+id
+}
+
 </script>
 </head>
 <body class="easyui-layout">
@@ -191,7 +210,7 @@ function updateSaveData(){
 <!-- 点编辑时弹出的表单 -->
 	<div id="dgformDiv" class="easyui-dialog"
 		style="width:550px;height:450px;padding:10px 20px 20px 20px;"
-		closed="true" buttons="#dlg-buttons2">
+		closed="true" buttons="#dlg-buttons1">
 		<form id="dgform" class="easyui-form" method="post">
 			<table class="table">
 				<tr style="display: none">
@@ -207,7 +226,7 @@ function updateSaveData(){
 				<tr>
 					<td>是否审批：</td>
 					<td>
-						<select class="easyui-combobox" name="roleType"  
+						<select class="easyui-combobox" name="roleType" id="roleType"  
 						style="height:32px;width: 50px;">
 							<option value="1">是</option>
 							<option value="0">否</option>
@@ -216,7 +235,7 @@ function updateSaveData(){
 				</tr>
 				<tr>
 					<td>审批顺序</td>
-					<td><input class="easyui-numberspinner" name="roleSort" data-options="increment:1" style="width:120px;height:30px;"></input>
+					<td><input class="easyui-numberspinner" id="roleSort" name="roleSort" data-options="increment:1,min:0"  style="width:120px;height:30px;"></input>
 					</td>
 				</tr>
 				
@@ -229,7 +248,7 @@ function updateSaveData(){
 			</table>
 				<input type="hidden" name="nEnable">	
 		</form>
-		<div id="dlg-buttons2">
+		<div id="dlg-buttons1">
 		<a href="javascript:void(0)" class="easyui-linkbutton" id="saveBtn"
 			iconCls="icon-ok" onclick="updateSaveData()" style="width:90px">保存</a>
 		<a href="javascript:void(0)" class="easyui-linkbutton"
@@ -238,6 +257,8 @@ function updateSaveData(){
 			style="width:90px">取消</a>
 	</div>
 	</div>
+	
+	
 	
 </body>
 </html>

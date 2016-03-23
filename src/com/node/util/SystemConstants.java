@@ -40,5 +40,10 @@ public class SystemConstants {
 	 * 根部门ID
 	 */
 	public static final String ROOT_DEPTID = "30015";
+	/**
+	 * 代码类别
+	 */
+	public static final String[] DMLBLIMIT = { "CSYS", "TBYY", "BASQZL",
+			"BGSQZL", "ZXSQZL" };
 
 }

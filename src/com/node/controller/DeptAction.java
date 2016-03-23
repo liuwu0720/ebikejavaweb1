@@ -25,7 +25,7 @@ import com.node.object.JtViewDept;
 import com.node.service.ISystemService;
 
 /**
- * 类描述：
+ * 类描述：用户管理
  * 
  * @version: 1.0
  * @author: liuwu

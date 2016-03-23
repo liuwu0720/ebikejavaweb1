@@ -10,6 +10,7 @@
 		<mapping class="com.node.model.JtRole" />
 		<mapping class="com.node.model.JtRoleMenu" />
 		<mapping class="com.node.model.JtMenu" />
+		<mapping class="com.node.model.DdcSjzd" />
 
 	</session-factory>
 

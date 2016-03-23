@@ -12,6 +12,7 @@ import java.util.Map;
 
 import com.node.model.JtMenu;
 import com.node.model.JtRole;
+import com.node.model.JtRoleMenu;
 import com.node.model.JtUser;
 import com.node.util.HqlHelper;
 import com.node.util.Page;
@@ -193,5 +194,47 @@ public interface IJtUserService {
 	 * @version: 2016年3月22日 下午8:41:39
 	 */
 	void updateJtUserRole(JtRole jtRole);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param roleId
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月23日 上午9:40:46
+	 */
+	List<JtMenu> getAllMenusByRole(int roleId);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param roleId
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月23日 上午9:48:07
+	 */
+	JtRole getJtRoleById(int roleId);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param roId
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月23日 上午10:34:41
+	 */
+	void deleteMenusByRoleId(int roId);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param jtRoleMenu
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月23日 上午10:39:40
+	 */
+	void saveJtRoleMenu(JtRoleMenu jtRoleMenu);
 
 }
