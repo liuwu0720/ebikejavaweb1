@@ -14,6 +14,7 @@ import com.node.model.JtMenu;
 import com.node.model.JtRole;
 import com.node.model.JtRoleMenu;
 import com.node.model.JtUser;
+import com.node.object.JtViewDept;
 import com.node.util.HqlHelper;
 import com.node.util.Page;
 
@@ -236,5 +237,27 @@ public interface IJtUserService {
 	 * @version: 2016年3月23日 上午10:39:40
 	 */
 	void saveJtRoleMenu(JtRoleMenu jtRoleMenu);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param slr
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月24日 下午3:48:26
+	 */
+	JtUser getJtUserByUserCode(String slr);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param userOrg
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月24日 下午3:56:01
+	 */
+	JtViewDept getJtDeptByOrg(String userOrg);
 
 }

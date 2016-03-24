@@ -7,13 +7,18 @@
  */
 package com.node.service.imp;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.node.dao.IDdcHyxhBaseDao;
+import com.node.dao.IDdcHyxhSsdwDao;
+import com.node.dao.IPicPathDao;
 import com.node.model.DdcHyxhBase;
+import com.node.model.DdcHyxhSsdw;
+import com.node.model.PicPath;
 import com.node.service.IInDustryService;
 import com.node.util.HqlHelper;
 
@@ -28,6 +33,12 @@ import com.node.util.HqlHelper;
 public class IndustryServiceImp implements IInDustryService {
 	@Autowired
 	IDdcHyxhBaseDao iDdcHyxhBaseDao;
+
+	@Autowired
+	IDdcHyxhSsdwDao iDdcHyxhSsdwDao;
+
+	@Autowired
+	IPicPathDao iPicPathDao;
 
 	/*
 	 * (non-Javadoc)
@@ -83,6 +94,72 @@ public class IndustryServiceImp implements IInDustryService {
 	public DdcHyxhBase getDdcHyxhBase(long dId) {
 		// TODO Auto-generated method stub
 		return iDdcHyxhBaseDao.get(dId);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IInDustryService#deleteCompanyById(long)
+	 */
+	@Override
+	public void deleteCompanyById(long dId) {
+		// TODO Auto-generated method stub
+		iDdcHyxhSsdwDao.deleteByKey(dId);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IInDustryService#getAllDDcHyxhBase()
+	 */
+	@Override
+	public List<DdcHyxhBase> getAllDDcHyxhBase() {
+		// TODO Auto-generated method stub
+		return iDdcHyxhBaseDao.findAll();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IInDustryService#save(com.node.model.DdcHyxhSsdw)
+	 */
+	@Override
+	public void save(DdcHyxhSsdw ddcHyxhSsdw) {
+		// TODO Auto-generated method stub
+		iDdcHyxhSsdwDao.save(ddcHyxhSsdw);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IInDustryService#update(com.node.model.DdcHyxhSsdw)
+	 */
+	@Override
+	public void update(DdcHyxhSsdw ddcHyxhSsdw) {
+		// TODO Auto-generated method stub
+		iDdcHyxhSsdwDao.updateCleanBefore(ddcHyxhSsdw);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IInDustryService#getDdcHyxhSsdwById(long)
+	 */
+	@Override
+	public DdcHyxhSsdw getDdcHyxhSsdwById(long dId) {
+		// TODO Auto-generated method stub
+		return iDdcHyxhSsdwDao.get(dId);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IInDustryService#getImgPathById(java.lang.Integer)
+	 */
+	@Override
+	public PicPath getImgPathById(Integer picImg) {
+		// TODO Auto-generated method stub
+		return iPicPathDao.get(picImg);
 	}
 
 }

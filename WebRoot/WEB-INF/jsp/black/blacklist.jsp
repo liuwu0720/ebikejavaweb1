@@ -105,7 +105,7 @@ $(document).ready(function(){
 		}, {
 			id : 'btn2',
 			text : '修改',
-			iconCls : 'icon-reload',
+			iconCls : 'icon-edit',
 			handler : function() {
 				updateRow();
 			}

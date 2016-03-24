@@ -11,7 +11,7 @@
 <head>
 <base href="<%=basePath%>">
 
-<title>字典管理</title>
+<title>行业协会所属单位管理</title>
 
 <%@include file="../common/common.jsp"%>
 
@@ -27,8 +27,8 @@ $(document).ready(function(){
 	var randomNu = (new Date().getTime()) ^ Math.random();
 	$("#dg").datagrid({
 
-		url : "<%=basePath%>dictionaryAction/queryAll?time=" + randomNu,
-		title :  "字典管理",
+		url : "<%=basePath%>industryAction/queryAllCompany?time=" + randomNu,
+		title :  "行业协会所属单位管理",
 		striped : true,
 		fitColumns:true,   //数据列太少 未自适应
 		pagination : true,
@@ -44,45 +44,64 @@ $(document).ready(function(){
 			align:'center',
 			width : 120
 		},{
-			field : 'dmlb',
-			title : '代码类别',
+			field : 'dwmc',
+			title : '单位名称',
 			align:'center',
 			width : 120
 		},{
-			field : 'bz',
-			title : '备注',
+			field : 'lxr',
+			title : '联系人',
 			align:'center',
 			width : 220
 		},{
-			field : 'dmz',
-			title : '代码值',
+			field : 'lxdh',
+			title : '联系人电话',
 			align:'center',
 			width : 120
 		},{
-			field : 'dmms1',
-			title : '代码描述',
+			field : 'sqr',
+			title : '申请人',
 			align:'center',
 			width : 120
+		},{
+			field : 'sqrq',
+			title : '申请日期',
+			align:'center',
+			width : 120,
+			formatter:function(value,index){
+				var unixTimestamp = new Date(value);   
+				return unixTimestamp.toLocaleString();
+			}   
+		},{
+			field : 'hyxhzh',
+			title : '所属协会',
+			align:'center',
+			width : 120
+		},{
+			field : 'zt',
+			title : '状态',
+			align:'center',
+			width : 120,
+			formatter:function(value,index){
+				if(value == 0){
+					return "<p style='color:red'>禁用</p>"
+				}else{
+					return "启用";
+				}
+			}
 		},{
 			field : 'null',
 			title:'操作',
 			align:'center',
 			width : 120,
 			formatter:function(value,row,index){
-				var del = "<a  href='javascript:void(0)'  onclick='deleteRow("+row.id+")'>删除</a>&nbsp;&nbsp;&nbsp;";
+				var del = "<a  href='javascript:void(0)'  onclick='deleteRow("+row.id+")'>禁用</a>&nbsp;&nbsp;&nbsp;";
 				return del;	
 			}
 		}
 
 		] ],
 		toolbar : [ {
-			id : 'btn1',
-			text : '新增',
-			iconCls : 'icon-add',
-			handler : function() {
-				addRowData();
-			}
-		}, {
 			id : 'btn2',
 			text : '修改',
 			iconCls : 'icon-edit',
@@ -96,13 +115,19 @@ $(document).ready(function(){
         }
 	});
 	
-	
+	$('#hyxhzh').combobox({    
+	    url:'<%=basePath%>industryAction/getAllIndustry',    
+	    valueField:'hyxhzh',    
+	    textField:'hyxhmc'   
+	});  
 });
+
+
 //删除
 function deleteRow(id){
-	$.messager.confirm('警告', '确认删除这条记录码', function(r){
+	$.messager.confirm('警告', '确认禁用吗？', function(r){
 		if (r){
-			$.post("<%=basePath%>dictionaryAction/del", 
+			$.post("<%=basePath%>industryAction/delCompany", 
 					{ id:id},     
 					   function (data, textStatus){     
 							
@@ -122,49 +147,12 @@ function deleteRow(id){
 	});
 	
 }
-function addRowData(){
-	 $('#dgformDiv').dialog('open').dialog('setTitle', '编辑信息');
-	 $('#dgform').form('clear');
-	 $("#dmlb").combobox({
-		 	valueField:'label',    
-		    textField:'value',
-		    data: [{
-				label: 'CSYS',
-				value: 'CSYS'
-			},{
-				label: 'TBYY',
-				value: 'TBYY'
-			},{
-				label: 'BASQZL',
-				value: 'BASQZL'
-			},{
-				label: 'BGSQZL',
-				value: 'BGSQZL'
-			},{
-				label: 'ZXSQZL',
-				value: 'ZXSQZL'
-			}],
-			onSelect:function(record){
-				var bzs=new Array("车身颜色","退办原因","备案申请资料","变更申请资料","注销申请资料");
-			 switch(record.value){
-					
-					case 'CSYS':$("#bz").val(bzs[0]);break;
-					case 'TBYY':$("#bz").val(bzs[1]);break;
-					case 'BASQZL':$("#bz").val(bzs[2]);break;
-					case 'BGSQZL':$("#bz").val(bzs[3]);break;
-					case 'ZXSQZL':$("#bz").val(bzs[4]);break;
-					default:$("#bz").val("");
-				}
-			}
-		})
-}
-
 
 //查询功能
 function doSearch(){
 	 $('#dg').datagrid('load',{
-		 bz: $("#bz1").val(),
-		 dmms1: $('#dmms1').val()
+		 hyxhzh: $("#hyxhzh").combobox("getValue"),
+		 dwmc:$("#dwmc").val()
 	}); 
 }
 
@@ -175,7 +163,24 @@ function updateRow(){
 	 var row = $('#dg').datagrid('getSelected');
 	   if (row){
 	    	 $('#dgformDiv').dialog('open').dialog('setTitle', '编辑信息');
-	    	 $('#dgform').form('load', row);
+	    	 $.ajax({
+	    		 	type: "GET",
+	    	   	    url: "<%=basePath%>industryAction/queryCompanyById",
+	    	   	   data:{
+	    			  id:row.id
+	    		   }, 
+	    		   dataType: "json",
+	    		   success:function(data){
+	    			 
+	    			   $('#dgform').form('load', data);
+	    			   if(data.vcShowPath==null){
+	    					 $("#img_0").attr("src","<%=basePath%>static/images/iconfont-wu.png");
+	    				}else{
+	    					$("#img_0").attr("src",data.vcShowPath);
+	    				}
+	    		   }
+	    	 })
+	    	 
 	     }else{
 	    	 $.messager.alert('提示','请选择你要修改的行');    
 	     } 
@@ -187,7 +192,7 @@ function updateRow(){
 function updateSaveData(){
 	$.messager.progress();
 	$('#dgform').form('submit', {
-				url : "<%=basePath%>dictionaryAction/saveOrUpdate",
+				url : "<%=basePath%>industryAction/saveOrUpdateCompany",
 				onSubmit : function() {
 					var isValid = $("#dgform").form('enableValidation').form(
 							'validate');
@@ -217,11 +222,7 @@ function updateSaveData(){
 }
 
 
-$("#dmlb").combobox({
-	onSelect:function(record){
-		console.log(record);
-	}
-})
+
 </script>
 </head>
 <body class="easyui-layout">
@@ -230,10 +231,11 @@ $("#dmlb").combobox({
 		<table id="dg" style="width:90%;">
 
 			<div id="tb" style="padding: 5px; background: #E8F1FF;">
-				<span>备注：</span>
-				<input id="bz1" type="text" class="easyui-validatebox"></input>
-				<span>代码描述:</span> <input id="dmms1" name="dmms1"
-					class="easyui-validatebox" type="text" > &nbsp;&nbsp;&nbsp;
+				<span>协会名称名称：</span>
+				<input id="hyxhzh" style="height: 32px;">  
+				
+				<span>单位名称：</span>
+				<input id="dwmc" type="text" class="easyui-validatebox"></input>
 				<a class="easyui-linkbutton" plain="true" onclick="doSearch()"
 					iconCls="icon-search">查询 </a>
 			</div>
@@ -254,28 +256,48 @@ $("#dmlb").combobox({
 					</td>
 				</tr>
 				<tr>
-					<th>代码类别:</th>
-					<td><input id="dmlb" name="dmlb" style="height: 32px;" >  
+					<th>单位名称:</th>
+					<td><input  name="dwmc" class="easyui-validatebox" data-options="required:true" style="height: 32px;" >  
 					</td>
+				<tr>
+					<th>联系人：</th>
+					<td><input name="lxr" type="text" class="easyui-validatebox" data-options="required:true"></td>
+				</tr>
+				<tr>
+					<th>负责人电话</th>
+					<td>
+						<input class="easyui-validatebox" type="text" 
+						data-options="required:true,validType:'phoneNum'" name="lxdh"
+						style="height: 32px;"></input>
+					</td>
+				</tr>
+				<tr>
+					<th>单位地址：</th>
+					<td><input name="zsdz" type="text" class="easyui-validatebox" data-options="required:true"></td>
+				</tr>
+				<tr>
+					<th>组织机构代码：</th>
+					<td><input name="zzjgdmzh" type="text" class="easyui-validatebox" data-options="required:true"></td>
+				</tr>
 				<tr>
 					<th>备注：</th>
-					<td><input name="bz" id="bz"  type="text" class="easyui-validatebox" ></td>
-				</tr>
-				
-				<tr>
-					<th>代码值</th>
-					<td><input id="ss" class="easyui-numberspinner" name="dmz"
-						data-options="increment:1,required:true,validType:'number'"  min="0"
-						style="width:120px;height:30px;"></input></td>
-				</tr>
-			
-				<tr>
-					<th>代码描述</th>
 					<td>
-						<textarea rows="5" cols="30" name="dmms1"></textarea>  
+						<textarea rows="5" cols="22" name="bz"></textarea>
 					</td>
 				</tr>
+				<tr>
+					<th>营业执照</th>
+					<td>
+					<div  class="imgdiv">
+					<p>营业执照</p>
+					<img id="img_0"  src="<%=basePath%>static/images/iconfont-wu.png"/>
+					</div><br /></td>
+				</tr>
 			</table>
+				<input type="hidden" name="dwpe">
+				<input type="hidden" name="shbm">
+				<input type="hidden" name="vcPicPath">
+				<input type="hidden" name="shbm">
 		</form>
 		<div id="dlg-buttons">
 		<a href="javascript:void(0)" class="easyui-linkbutton" id="saveBtn"

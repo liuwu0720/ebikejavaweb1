@@ -23,6 +23,7 @@ import com.node.model.JtMenu;
 import com.node.model.JtRole;
 import com.node.model.JtRoleMenu;
 import com.node.model.JtUser;
+import com.node.object.JtViewDept;
 import com.node.service.IJtUserService;
 import com.node.util.HqlHelper;
 import com.node.util.Page;
@@ -308,4 +309,50 @@ public class JtUserServiceImp implements IJtUserService {
 		// TODO Auto-generated method stub
 		iJtRoleMenuDao.save(jtRoleMenu);
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.node.service.IJtUserService#getJtUserByUserCode(java.lang.String)
+	 */
+	@Override
+	public JtUser getJtUserByUserCode(String slr) {
+		List<JtUser> jtUsers = iJtUserDao.findByProperty("userCode", slr);
+		if (jtUsers != null && jtUsers.size() > 0) {
+			return jtUsers.get(0);
+		} else {
+			return null;
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IJtUserService#getJtDeptByOrg(java.lang.String)
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public JtViewDept getJtDeptByOrg(String userOrg) {
+		String sql = "select * from oa_dept_view where ORG_ID = '" + userOrg
+				+ "'";
+		Map<String, Object> map = iJtUserDao.getSpringSQL(sql, null);
+		List<Map<String, Object>> list = (List<Map<String, Object>>) map
+				.get("rows");
+		if (list != null && list.size() > 0) {
+			Map<String, Object> deptMap = list.get(0);
+			JtViewDept jtViewDept = new JtViewDept();
+			jtViewDept.setId(Integer.parseInt(deptMap.get("ID").toString()));
+			jtViewDept.setFlag(deptMap.get("FLAG").toString());
+			jtViewDept.setJb(deptMap.get("JB").toString());
+			jtViewDept.setOrgId(deptMap.get("ORG_ID").toString());
+			jtViewDept.setOrgName(deptMap.get("ORG_NAME").toString());
+			jtViewDept.setUpOrg(deptMap.get("UP_ORG").toString());
+			return jtViewDept;
+		} else {
+			return null;
+		}
+
+	}
+
 }

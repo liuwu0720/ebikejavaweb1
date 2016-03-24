@@ -45,5 +45,17 @@ public class SystemConstants {
 	 */
 	public static final String[] DMLBLIMIT = { "CSYS", "TBYY", "BASQZL",
 			"BGSQZL", "ZXSQZL" };
+	/**
+	 * 营业执照图片上传路径ID
+	 */
+	public static final Integer PIC_IMG = 1;
+	/**
+	 * 最大文件
+	 */
+	public static final long MAXFILESIZE = 10;
+	/**
+	 * session
+	 */
+	public static final String JTUSER = "jtUser";
 
 }

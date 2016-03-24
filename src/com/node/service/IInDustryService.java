@@ -7,9 +7,12 @@
  */
 package com.node.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.node.model.DdcHyxhBase;
+import com.node.model.DdcHyxhSsdw;
+import com.node.model.PicPath;
 import com.node.util.HqlHelper;
 
 /**
@@ -72,5 +75,67 @@ public interface IInDustryService {
 	 * @version: 2016年3月23日 下午7:09:12
 	 */
 	DdcHyxhBase getDdcHyxhBase(long dId);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param dId
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月24日 上午11:04:21
+	 */
+	void deleteCompanyById(long dId);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月24日 上午11:11:05
+	 */
+	List<DdcHyxhBase> getAllDDcHyxhBase();
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param ddcHyxhSsdw
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月24日 上午11:22:10
+	 */
+	void save(DdcHyxhSsdw ddcHyxhSsdw);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param ddcHyxhSsdw
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月24日 上午11:22:38
+	 */
+	void update(DdcHyxhSsdw ddcHyxhSsdw);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param dId
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月24日 下午12:05:46
+	 */
+	DdcHyxhSsdw getDdcHyxhSsdwById(long dId);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param picImg
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月24日 下午12:23:08
+	 */
+	PicPath getImgPathById(Integer picImg);
 
 }
