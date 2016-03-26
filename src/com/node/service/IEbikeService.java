@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.node.model.DdcDaxxb;
+import com.node.model.DdcFlow;
 import com.node.model.DdcSjzd;
 import com.node.util.Page;
 
@@ -89,5 +90,16 @@ public interface IEbikeService {
 	 * @version: 2016年3月24日 下午6:10:13
 	 */
 	DdcDaxxb getDdcDaxxbById(Long id);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param flowId
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月25日 下午6:45:01
+	 */
+	DdcFlow getFlowById(long flowId);
 
 }

@@ -15,12 +15,14 @@ import org.springframework.stereotype.Service;
 
 import com.node.dao.IDdcHyxhBaseDao;
 import com.node.dao.IDdcHyxhSsdwDao;
+import com.node.dao.IDdcHyxhSsdwclsbDao;
 import com.node.dao.IPicPathDao;
 import com.node.model.DdcHyxhBase;
 import com.node.model.DdcHyxhSsdw;
 import com.node.model.PicPath;
 import com.node.service.IInDustryService;
 import com.node.util.HqlHelper;
+import com.node.util.Page;
 
 /**
  * 类描述：
@@ -39,6 +41,9 @@ public class IndustryServiceImp implements IInDustryService {
 
 	@Autowired
 	IPicPathDao iPicPathDao;
+
+	@Autowired
+	IDdcHyxhSsdwclsbDao iDdcHyxhSsdwclsbDao;
 
 	/*
 	 * (non-Javadoc)
@@ -160,6 +165,44 @@ public class IndustryServiceImp implements IInDustryService {
 	public PicPath getImgPathById(Integer picImg) {
 		// TODO Auto-generated method stub
 		return iPicPathDao.get(picImg);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.node.service.IInDustryService#findDdcHyxhSsdwclsbByHql(com.node.util
+	 * .HqlHelper)
+	 */
+	@Override
+	public Map<String, Object> findDdcHyxhSsdwclsbByHql(HqlHelper hql) {
+		// TODO Auto-generated method stub
+		return iDdcHyxhSsdwclsbDao.findAllByHqlHelp(hql);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IInDustryService#getBySpringSql(java.lang.String,
+	 * com.node.util.Page)
+	 */
+	@Override
+	public Map<String, Object> getBySpringSql(String sql, Page page) {
+		// TODO Auto-generated method stub
+		return iDdcHyxhSsdwclsbDao.getSpringSQL(sql, page);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.node.service.IInDustryService#getDdcHyxhBaseByCode(java.lang.String)
+	 */
+	@Override
+	public DdcHyxhBase getDdcHyxhBaseByCode(String hyxhzh) {
+		List<DdcHyxhBase> ddcHyxhBases = iDdcHyxhBaseDao.findByProperty(
+				"hyxhzh", hyxhzh);
+		return ddcHyxhBases.get(0);
 	}
 
 }

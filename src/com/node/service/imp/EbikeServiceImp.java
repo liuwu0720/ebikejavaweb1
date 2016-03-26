@@ -14,8 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.node.dao.IDdcDaxxbDao;
+import com.node.dao.IDdcFlowDao;
 import com.node.dao.IDdcSjzdDao;
 import com.node.model.DdcDaxxb;
+import com.node.model.DdcFlow;
 import com.node.model.DdcSjzd;
 import com.node.service.IEbikeService;
 import com.node.util.Page;
@@ -34,6 +36,9 @@ public class EbikeServiceImp implements IEbikeService {
 
 	@Autowired
 	IDdcSjzdDao iDdcSjzdDao;
+
+	@Autowired
+	IDdcFlowDao iDdcFlowDao;
 
 	/*
 	 * (non-Javadoc)
@@ -107,6 +112,17 @@ public class EbikeServiceImp implements IEbikeService {
 	public DdcDaxxb getDdcDaxxbById(Long id) {
 		// TODO Auto-generated method stub
 		return iDdcDaxxbDao.get(id);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IEbikeService#getFlowById(long)
+	 */
+	@Override
+	public DdcFlow getFlowById(long flowId) {
+		// TODO Auto-generated method stub
+		return iDdcFlowDao.get(flowId);
 	}
 
 }

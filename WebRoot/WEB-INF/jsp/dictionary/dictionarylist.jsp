@@ -217,11 +217,7 @@ function updateSaveData(){
 }
 
 
-$("#dmlb").combobox({
-	onSelect:function(record){
-		console.log(record);
-	}
-})
+
 </script>
 </head>
 <body class="easyui-layout">

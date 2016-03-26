@@ -14,6 +14,7 @@ import com.node.model.DdcHyxhBase;
 import com.node.model.DdcHyxhSsdw;
 import com.node.model.PicPath;
 import com.node.util.HqlHelper;
+import com.node.util.Page;
 
 /**
  * 类描述：
@@ -137,5 +138,39 @@ public interface IInDustryService {
 	 * @version: 2016年3月24日 下午12:23:08
 	 */
 	PicPath getImgPathById(Integer picImg);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param hql
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月26日 下午12:53:25
+	 */
+	Map<String, Object> findDdcHyxhSsdwclsbByHql(HqlHelper hql);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param sql
+	 * @param page
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月26日 下午1:16:43
+	 */
+	Map<String, Object> getBySpringSql(String sql, Page page);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param hyxhzh
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月26日 下午2:18:28
+	 */
+	DdcHyxhBase getDdcHyxhBaseByCode(String hyxhzh);
 
 }
