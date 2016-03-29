@@ -57,5 +57,9 @@ public class SystemConstants {
 	 * session
 	 */
 	public static final String JTUSER = "jtUser";
+	/**
+	 * 配额申报表名
+	 */
+	public static final String PESBTABLE = "DDC_HYXH_BASB";
 
 }

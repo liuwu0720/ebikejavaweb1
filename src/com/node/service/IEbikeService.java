@@ -10,9 +10,14 @@ package com.node.service;
 import java.util.List;
 import java.util.Map;
 
+import com.node.model.DdcApproveUser;
 import com.node.model.DdcDaxxb;
 import com.node.model.DdcFlow;
+import com.node.model.DdcHyxhBasb;
+import com.node.model.DdcHyxhBase;
+import com.node.model.DdcHyxhSsdwclsb;
 import com.node.model.DdcSjzd;
+import com.node.util.HqlHelper;
 import com.node.util.Page;
 
 /**
@@ -101,5 +106,82 @@ public interface IEbikeService {
 	 * @version: 2016年3月25日 下午6:45:01
 	 */
 	DdcFlow getFlowById(long flowId);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param hql
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月28日 下午3:52:26
+	 */
+	Map<String, Object> queryDdcHyxhBasbByHql(HqlHelper hql);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param dId
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月28日 下午5:09:51
+	 */
+	DdcHyxhBasb getDdcHyxhBasbById(long dId);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param approveTableName
+	 * @param id
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月28日 下午5:16:30
+	 */
+	List<DdcApproveUser> findApproveUsersByProperties(String approveTableName,
+			Long id);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param ddcHyxhBasb
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月28日 下午7:17:21
+	 */
+	void updateDdcHyxhBasb(DdcHyxhBasb ddcHyxhBasb);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param approveUser
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月28日 下午7:19:17
+	 */
+	void saveDdcApproveUser(DdcApproveUser approveUser);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param dId
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月29日 下午6:30:20
+	 */
+	DdcHyxhSsdwclsb getDdcHyxhSsdwclsbById(long dId);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param hyxhzh
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月29日 下午6:48:53
+	 */
+	DdcHyxhBase getHyxhByCode(String hyxhzh);
 
 }

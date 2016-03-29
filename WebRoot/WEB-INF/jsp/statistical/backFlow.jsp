@@ -11,7 +11,7 @@
 <head>
 <base href="<%=basePath%>">
 
-<title>区域统计</title>
+<title>退办查询</title>
 
 <%@include file="../common/common.jsp"%>
 
@@ -22,80 +22,48 @@ $(document).ready(function(){
 		   cache: false //缓存
 		});
 	var h = getHeight('dg');
-	
+	var size = getPageSize(h);
 	var w = getWidth(400);
 	var randomNu = (new Date().getTime()) ^ Math.random();
 	$("#dg").datagrid({
 
 		url : "<%=basePath%>statisticalAction/queryByBackFlow?time=" + randomNu,
-		title :  "区域统计",
+		title :  "退办查询",
 		striped : true,
 		fitColumns:true,   //数据列太少 未自适应
 		pagination : true,
 		rownumbers : true,
-		pageSize:50,
+		pageSize:size,
 		singleSelect : true,//只选中单行
 		height:h,
 		loadMsg:'正在加载,请稍等...',
 		columns : [ [{
-			field : 'cname',
-			title : '协会名称',
+			field : 'lsh',
+			title : '流水号',
 			align:'center',
 			width : 220
 		},{
-			field : 'total',
-			title : '总申报',
-			align:'center',
-			width : 220,
-			formatter:function(value,row,index){
-				if(row.ename !== 'total'){
-					var detail = "<a  href='javascript:void(0)'  onclick='hySbdetail(\""+row.ename+"\")'>"+row.total+"</a>";
-					return detail;
-				}else{
-					return value;
-				}
-			}
-		},{
-			field : 'sb',
-			title : '已申报(总申报-已退办)',
+			field : 'djh',
+			title : '电机号',
 			align:'center',
 			width : 220
 		},{
-			field : 'ba',
-			title : '备案',
+			field : 'slr',
+			title : '受理人',
 			align:'center',
-			width : 220,
-			formatter:function(value,row,index){
-				if(row.ename !== 'total'){
-					var detail = "<a  href='javascript:void(0)'  onclick='hyBadetail(\""+row.ename+"\")'>"+value+"</a>";
-					return detail;
-				}else{
-					return value;
-				}
-			}
+			width : 220
 		},{
-			field : 'tb',
-			title : '已退办',
+			field : 'slbm',
+			title : '受理部门',
 			align:'center',
-			width : 220,
-			formatter:function(value,row,index){
-				if(row.ename !== 'total'){
-					var detail = "<a  href='javascript:void(0)'  onclick='tbBadetail(\""+row.ename+"\")'>"+value+"</a>";
-					return detail;
-				}else{
-					return value;
-				}
-			}
+			width : 220
+		},{
+			field : 'slrq',
+			title : '受理日期',
+			align:'center',
+			width : 220
 		}
 		] ],
-		toolbar : [ {
-			id : 'btn1',
-			text : '打印',
-			iconCls : 'icon-save',
-			handler : function() {
-				exportPage();
-			}
-		}],
 		onLoadSuccess:function(){  
             $('#dg').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题  
         }
@@ -103,33 +71,13 @@ $(document).ready(function(){
 	
 	
 });
-//查询行业协会的已申报详情
-function hySbdetail(obj){
-	var hyxhzh = obj;
-	window.location.href="<%=basePath%>statisticalAction/getHyxhSbDetail?hyxhzh="+hyxhzh;
-}
 
-//行业协会的备案列表详情
-function hyBadetail(obj){
-	var hyxhzh = obj;
-	window.location.href="<%=basePath%>statisticalAction/getHyxhBaDetail?hyxhzh="+hyxhzh;
-}
-//退办
-function tbBadetail(obj){
-	var hyxhzh = obj;
-	window.location.href="<%=basePath%>statisticalAction/getHyxhTbDetail?hyxhzh="+hyxhzh;
-}
-
-
-function exportPage() {
-	$("#dg").css('width', '650px');
-	var bdhtml=window.document.body.innerHTML;
-	var startStr="<!--startprint-->";//设置打印开始区域 
-	var endStr="<!--endprint-->";//设置打印结束区域 
-	var printHtml=bdhtml.substring(bdhtml.indexOf(startStr)+startStr.length,bdhtml.indexOf(endStr));//从标记里获取需要打印的页面 
-	window.document.body.innerHTML=printHtml;//需要打印的页面 
-	window.print(); 
-	window.document.body.innerHTML=bdhtml;//还原界面 
+//查询功能
+function doSearch(){
+	 $('#dg').datagrid('load',{
+		 lsh: $("#lsh").val(),
+		djh: $('#djh').val()
+	}); 
 }
 </script>
 </head>
@@ -138,7 +86,14 @@ function exportPage() {
 	<div>
 	  <!--startprint-->
 		<table id="dg" style="width:70%;">
-
+			<div id="tb" style="padding: 5px; background: #E8F1FF;">
+				<span>流水号：</span>
+				<input id="lsh" type="text" class="easyui-validatebox" name="lsh" ></input>
+				<span>电机号:</span> <input id="djh" name="djh"
+					class="easyui-validatebox" type="text" > &nbsp;&nbsp;&nbsp;
+				<a class="easyui-linkbutton" plain="true" onclick="doSearch()"
+					iconCls="icon-search">查询 </a>
+			</div>
 		</table>
 	<!--endprint-->			
 	</div>

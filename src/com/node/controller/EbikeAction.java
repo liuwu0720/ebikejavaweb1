@@ -324,6 +324,23 @@ public class EbikeAction {
 
 	/**
 	 * 
+	 * 方法描述：
+	 * 
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月28日 上午10:58:32
+	 */
+	@RequestMapping("/getDdcSjzds")
+	@ResponseBody
+	public List<DdcSjzd> getDdcSjzds(HttpServletRequest request) {
+		String dmlb = request.getParameter("dmlb");
+		List<DdcSjzd> ddcSjzds = iEbikeService.getAllSjzdByDmlb(dmlb);
+		return ddcSjzds;
+	}
+
+	/**
+	 * 
 	 * 方法描述：ajax查询所有车身颜色
 	 * 
 	 * @param request

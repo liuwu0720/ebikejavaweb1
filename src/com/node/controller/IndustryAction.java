@@ -65,6 +65,144 @@ public class IndustryAction {
 
 	/**
 	 * 
+	 * 方法描述：行业协会配额管理
+	 * 
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月28日 下午1:47:44
+	 */
+	@RequestMapping("/getIndusryQuota")
+	public String getIndusryQuota() {
+		return "industry/industryQuota";
+	}
+
+	/**
+	 * 
+	 * 方法描述：单位配额管理
+	 * 
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月28日 下午3:05:44
+	 */
+	@RequestMapping("/getCompanyQuota")
+	public String getCompanyQuota() {
+		return "industry/companyQuota";
+	}
+
+	/**
+	 * 
+	 * 方法描述：行业协会配额管理
+	 * 
+	 * @param request
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月28日 下午2:01:38
+	 */
+	@RequestMapping("/queryIndusryQuota")
+	@ResponseBody
+	public Map<String, Object> queryIndusryQuota(HttpServletRequest request) {
+		Page p = ServiceUtil.getcurrPage(request);
+		HqlHelper hql = new HqlHelper(DdcHyxhBase.class);
+		hql.addOrderBy("id", "desc");
+		hql.setQueryPage(p);
+		Map<String, Object> resultMap = iInDustryService.queryByHql(hql);
+		return resultMap;
+	}
+
+	/**
+	 * 
+	 * 方法描述：
+	 * 
+	 * @param hyxhsjzpe
+	 * @param id
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月28日 下午2:56:41
+	 */
+	@RequestMapping("/saveOrUpdateQuota")
+	public void saveOrUpdateQuota(String hyxhsjzpe, String id,
+			HttpServletRequest request, HttpServletResponse response) {
+		long dId = Long.parseLong(id);
+		DdcHyxhBase ddcHyxhBase = iInDustryService.getDdcHyxhBase(dId);
+		int pe = Integer.parseInt(hyxhsjzpe);
+		ddcHyxhBase.setHyxhsjzpe(pe);
+		try {
+			iInDustryService.update(ddcHyxhBase);
+			AjaxUtil.rendJson(response, true, "修改成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			AjaxUtil.rendJson(response, false, "修改失败，系统错误");
+		}
+	}
+
+	/**
+	 * 
+	 * 方法描述：
+	 * 
+	 * @param dwpe
+	 * @param id
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月28日 下午3:19:37
+	 */
+	@RequestMapping("/saveOrUpdateCompanyQuota")
+	public void saveOrUpdateCompanyQuota(String dwpe, String id,
+			HttpServletResponse response) {
+		long dId = Long.parseLong(id);
+		DdcHyxhSsdw ddcHyxhSsdw = iInDustryService.getDdcHyxhSsdwById(dId);
+		ddcHyxhSsdw.setDwpe(Integer.parseInt(dwpe));
+		try {
+			iInDustryService.update(ddcHyxhSsdw);
+			AjaxUtil.rendJson(response, true, "修改成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			AjaxUtil.rendJson(response, false, "修改失败，系统错误");
+		}
+	}
+
+	/**
+	 * 
+	 * 方法描述：根据ID查询行业协会详情
+	 * 
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月28日 下午2:10:44
+	 */
+	@RequestMapping("/queryIndustryById")
+	@ResponseBody
+	public DdcHyxhBase queryIndustryById(String id) {
+		long dId = Long.parseLong(id);
+		DdcHyxhBase ddcHyxhBase = iInDustryService.getDdcHyxhBase(dId);
+		int lastpe = iInDustryService.getDdcHyxhBaseLastPe(ddcHyxhBase);
+		ddcHyxhBase.setLastpe(lastpe);
+		return ddcHyxhBase;
+	}
+
+	/**
+	 * 
+	 * 方法描述：
+	 * 
+	 * @param code
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月29日 上午11:54:05
+	 */
+	@RequestMapping("/queryHxyHyxhBaseByCode")
+	@ResponseBody
+	public DdcHyxhBase queryHxyHyxhBaseByCode(String code) {
+		DdcHyxhBase ddcHyxhBase = iInDustryService.getDdcHyxhBaseByCode(code);
+		int lastpe = iInDustryService.getDdcHyxhBaseLastPe(ddcHyxhBase);
+		ddcHyxhBase.setLastpe(lastpe);
+		return ddcHyxhBase;
+	}
+
+	/**
+	 * 
 	 * 方法描述：查询所有行业协会
 	 * 
 	 * @param request
@@ -313,5 +451,23 @@ public class IndustryAction {
 	public List<DdcHyxhBase> getAllIndustry() {
 		List<DdcHyxhBase> ddcHyxhBases = iInDustryService.getAllDDcHyxhBase();
 		return ddcHyxhBases;
+	}
+
+	/**
+	 * 
+	 * 方法描述：根据行业协会账号查出所有公司
+	 * 
+	 * @param hyxhzh
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月29日 下午4:37:05
+	 */
+	@RequestMapping("/getDwmcByHyxh")
+	@ResponseBody
+	public List<DdcHyxhSsdw> getDwmcByHyxh(String hyxhzh) {
+		List<DdcHyxhSsdw> ddcHyxhSsdws = iInDustryService
+				.getAllDdcHyxhSsdwByHyxh(hyxhzh);
+		return ddcHyxhSsdws;
 	}
 }

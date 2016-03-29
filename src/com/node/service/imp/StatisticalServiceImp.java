@@ -56,7 +56,8 @@ public class StatisticalServiceImp implements IStatisticalService {
 			flowStatis.setDjh(objMap.get("DJH").toString());
 			flowStatis.setSlr(objMap.get("SLR") == null ? null : objMap.get(
 					"SLR").toString());
-			flowStatis.setSlbm(objMap.get("SLBM").toString());
+			flowStatis.setSlbm(objMap.get("SLBM") == null ? null : objMap.get(
+					"SLBM").toString());
 			flowStatis.setSlrq(objMap.get("SLRQ").toString());
 			String sql2 = "select jb from OA_DEPT_VIEW where org_id='"
 					+ flowStatis.getSlbm() + "'";

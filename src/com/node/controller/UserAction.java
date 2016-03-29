@@ -144,7 +144,7 @@ public class UserAction {
 			sql.append(" and t.ORG_ID = " + Integer.parseInt(deptId));
 		}
 		if (StringUtils.isNotBlank(userCode)) {
-			sql.append(" and t.USER_CODE = " + userCode);
+			sql.append(" and t.USER_CODE = '" + userCode + "'");
 		}
 		if (StringUtils.isNotBlank(userName)) {
 			sql.append(" and t.USER_NAME like '%" + userName + "%'");
@@ -237,8 +237,10 @@ public class UserAction {
 		jtUser.setOpDate(format.format(nowDate));
 		jtUser.setUserCode(userCode);
 		jtUser.setUserPassword(userCode);
-		jtUser.setUserOrg(oaUserMap.get("USER_NAME") == null ? null : oaUserMap
-				.get("USER_NAME").toString());
+		jtUser.setUserName(oaUserMap.get("USER_NAME") == null ? null
+				: oaUserMap.get("USER_NAME").toString());
+		jtUser.setUserOrg(oaUserMap.get("ORG_ID") == null ? null : oaUserMap
+				.get("ORG_ID").toString());
 		try {
 			iJtUserService.save(jtUser);
 			AjaxUtil.rendJson(response, true, "成功");

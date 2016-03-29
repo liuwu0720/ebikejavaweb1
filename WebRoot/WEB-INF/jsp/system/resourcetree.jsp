@@ -163,7 +163,7 @@ function updateRowData(){
 	    url:'<%=basePath%>systemAction/getParentMenu',    
 	    valueField:'id',    
 	    textField:'vcMenu',
-	    value:row.iParent   //默认选中的值       
+	    value:row.iParent==0?'':row.iParent   //默认选中的值       
 	}); 
  
 }

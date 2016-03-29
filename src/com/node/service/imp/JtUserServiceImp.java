@@ -355,4 +355,53 @@ public class JtUserServiceImp implements IJtUserService {
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IJtUserService#getAllApproveRoles()
+	 */
+	@Override
+	public List<JtRole> getAllApproveRoles() {
+		// TODO Auto-generated method stub
+		String[] propertyNames = { "roleType", "roleState" };
+		Object[] values = { "1", "1" };
+		return iJtRoleDao.findByPropertys(propertyNames, values);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.node.service.IJtUserService#getApproveRolesByUser(com.node.model.
+	 * JtUser)
+	 */
+	@Override
+	public List<JtRole> getApproveRolesByUser(JtUser jtUser) {
+		List<JtRole> jtRoles = new ArrayList<>();
+		if (StringUtils.isNotBlank(jtUser.getUserRole())) {
+			String[] roleIds = jtUser.getUserRole().split(",");
+			for (int i = 0; i < roleIds.length; i++) {
+				JtRole jtRole = iJtRoleDao.get(Integer.parseInt(roleIds[i]));
+				if (jtRole.getRoleType().equals("1")) {
+					jtRoles.add(jtRole);
+				}
+
+			}
+		}
+
+		return jtRoles;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IJtUserService#getDeptNameByUser(java.lang.String)
+	 */
+	@Override
+	public String getDeptNameByUser(String userOrg) {
+		String sql = "select ORG_NAME from  OA_DEPT_VIEW where ORG_ID = "
+				+ userOrg;
+		Object object = iJtUserDao.getDateBySQL(sql);
+		return object.toString();
+	}
 }

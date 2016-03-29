@@ -173,4 +173,26 @@ public interface IInDustryService {
 	 */
 	DdcHyxhBase getDdcHyxhBaseByCode(String hyxhzh);
 
+	/**
+	 * 方法描述：
+	 * 
+	 * @param ddcHyxhBase
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月28日 下午2:24:06
+	 */
+	int getDdcHyxhBaseLastPe(DdcHyxhBase ddcHyxhBase);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param hyxhzh
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月29日 下午4:38:18
+	 */
+	List<DdcHyxhSsdw> getAllDdcHyxhSsdwByHyxh(String hyxhzh);
+
 }

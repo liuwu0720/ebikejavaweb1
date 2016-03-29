@@ -12,6 +12,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 /**
  * 
@@ -45,6 +46,7 @@ public class DdcHyxhBase implements java.io.Serializable {
 	private String synFlag;
 	private String tranFlag;
 	private Date tranDate;
+	private Integer lastpe;// 剩余配额
 
 	// Constructors
 
@@ -225,6 +227,19 @@ public class DdcHyxhBase implements java.io.Serializable {
 
 	public void setTranDate(Date tranDate) {
 		this.tranDate = tranDate;
+	}
+
+	@Transient
+	public Integer getLastpe() {
+		return lastpe;
+	}
+
+	/**
+	 * @param lastpe
+	 *            : set the property lastpe.
+	 */
+	public void setLastpe(Integer lastpe) {
+		this.lastpe = lastpe;
 	}
 
 }

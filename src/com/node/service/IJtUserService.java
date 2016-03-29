@@ -260,4 +260,36 @@ public interface IJtUserService {
 	 */
 	JtViewDept getJtDeptByOrg(String userOrg);
 
+	/**
+	 * 方法描述：获取所有的审批角色
+	 * 
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月28日 下午7:26:28
+	 */
+	List<JtRole> getAllApproveRoles();
+
+	/**
+	 * 方法描述：获取该用户的审批角色，可能为多重审批角色
+	 * 
+	 * @param jtUser
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月28日 下午7:56:51
+	 */
+	List<JtRole> getApproveRolesByUser(JtUser jtUser);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param userOrg
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月29日 上午10:58:04
+	 */
+	String getDeptNameByUser(String userOrg);
+
 }

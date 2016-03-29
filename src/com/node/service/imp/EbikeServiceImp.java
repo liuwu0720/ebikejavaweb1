@@ -13,13 +13,22 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.node.dao.IDdcApprovalUserDao;
 import com.node.dao.IDdcDaxxbDao;
 import com.node.dao.IDdcFlowDao;
+import com.node.dao.IDdcHyxhBasbDao;
+import com.node.dao.IDdcHyxhBaseDao;
+import com.node.dao.IDdcHyxhSsdwclsbDao;
 import com.node.dao.IDdcSjzdDao;
+import com.node.model.DdcApproveUser;
 import com.node.model.DdcDaxxb;
 import com.node.model.DdcFlow;
+import com.node.model.DdcHyxhBasb;
+import com.node.model.DdcHyxhBase;
+import com.node.model.DdcHyxhSsdwclsb;
 import com.node.model.DdcSjzd;
 import com.node.service.IEbikeService;
+import com.node.util.HqlHelper;
 import com.node.util.Page;
 
 /**
@@ -39,6 +48,18 @@ public class EbikeServiceImp implements IEbikeService {
 
 	@Autowired
 	IDdcFlowDao iDdcFlowDao;
+
+	@Autowired
+	IDdcHyxhBasbDao iDdcHyxhBasbDao;
+
+	@Autowired
+	IDdcHyxhBaseDao iDdcHyxhBaseDao;
+
+	@Autowired
+	IDdcApprovalUserDao iDdcApprovalUserDao;
+
+	@Autowired
+	IDdcHyxhSsdwclsbDao iDdcHyxhSsdwclsbDao;
 
 	/*
 	 * (non-Javadoc)
@@ -125,4 +146,102 @@ public class EbikeServiceImp implements IEbikeService {
 		return iDdcFlowDao.get(flowId);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.node.service.IEbikeService#queryDdcHyxhBasbByHql(com.node.util.HqlHelper
+	 * )
+	 */
+	@Override
+	public Map<String, Object> queryDdcHyxhBasbByHql(HqlHelper hql) {
+		// TODO Auto-generated method stub
+		return iDdcHyxhBasbDao.findAllByHqlHelp(hql);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IEbikeService#getDdcHyxhBasbById(long)
+	 */
+	@Override
+	public DdcHyxhBasb getDdcHyxhBasbById(long dId) {
+		// TODO Auto-generated method stub
+		return iDdcHyxhBasbDao.get(dId);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.node.service.IEbikeService#findApproveUsersByProperties(java.lang
+	 * .String, java.lang.Long)
+	 */
+	@Override
+	public List<DdcApproveUser> findApproveUsersByProperties(
+			String approveTableName, Long id) {
+		String[] propertyNames = { "approveTable", "approveTableid" };
+		Object[] values = { approveTableName, id };
+		List<DdcApproveUser> ddcApproveUsers = iDdcApprovalUserDao
+				.findByPropertysOrderBy(propertyNames, values, "id", "asc");
+		if (ddcApproveUsers != null && ddcApproveUsers.size() > 0) {
+			return ddcApproveUsers;
+		} else {
+			return null;
+		}
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.node.service.IEbikeService#updateDdcHyxhBasb(com.node.model.DdcHyxhBasb
+	 * )
+	 */
+	@Override
+	public void updateDdcHyxhBasb(DdcHyxhBasb ddcHyxhBasb) {
+		// TODO Auto-generated method stub
+		iDdcHyxhBasbDao.updateCleanBefore(ddcHyxhBasb);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IEbikeService#saveDdcApproveUser(com.node.model.
+	 * DdcApproveUser)
+	 */
+	@Override
+	public void saveDdcApproveUser(DdcApproveUser approveUser) {
+		// TODO Auto-generated method stub
+		iDdcApprovalUserDao.save(approveUser);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IEbikeService#getDdcHyxhSsdwclsbById(long)
+	 */
+	@Override
+	public DdcHyxhSsdwclsb getDdcHyxhSsdwclsbById(long dId) {
+		// TODO Auto-generated method stub
+		return iDdcHyxhSsdwclsbDao.get(dId);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IEbikeService#getHyxhByCode(java.lang.String)
+	 */
+	@Override
+	public DdcHyxhBase getHyxhByCode(String hyxhzh) {
+		List<DdcHyxhBase> ddcHyxhBases = iDdcHyxhBaseDao.findByProperty(
+				"hyxhzh", hyxhzh);
+		if (ddcHyxhBases != null && ddcHyxhBases.size() > 0) {
+			return ddcHyxhBases.get(0);
+		} else {
+			return null;
+		}
+
+	}
 }

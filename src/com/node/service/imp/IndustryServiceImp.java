@@ -205,4 +205,32 @@ public class IndustryServiceImp implements IInDustryService {
 		return ddcHyxhBases.get(0);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.node.service.IInDustryService#getDdcHyxhBaseLastPe(com.node.model
+	 * .DdcHyxhBase)
+	 */
+	@Override
+	public int getDdcHyxhBaseLastPe(DdcHyxhBase ddcHyxhBase) {
+		String sql = "select sum(t.dwpe) from  DDC_HYXH_SSDW t where t.hyxhzh='"
+				+ ddcHyxhBase.getHyxhzh() + "'";
+		Object object = iDdcHyxhBaseDao.getDateBySQL(sql);
+		return Integer.parseInt(object.toString());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.node.service.IInDustryService#getAllDdcHyxhSsdwByHyxh(java.lang.String
+	 * )
+	 */
+	@Override
+	public List<DdcHyxhSsdw> getAllDdcHyxhSsdwByHyxh(String hyxhzh) {
+		// TODO Auto-generated method stub
+		return iDdcHyxhSsdwDao.findByProperty("hyxhzh", hyxhzh);
+	}
+
 }

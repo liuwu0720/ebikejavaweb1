@@ -30,6 +30,7 @@ public class DdcHyxhSsdwclsb implements java.io.Serializable {
 	private Long id;
 	private String lsh;
 	private String hyxhzh;
+	private String hyxhzhName;
 	private String ssdwId;// 所属单位ID,对应 DDC_HYXH_SSDW的记录ID
 	private String ssdwName;// 申报单位名称
 	private String cphm;
@@ -55,8 +56,8 @@ public class DdcHyxhSsdwclsb implements java.io.Serializable {
 	private String bz;
 	private String sqr;
 	private Date sqrq;
-	private String slzl;
-	private String slyj;
+	private String slzl;// 受理资料，分割 字典表
+	private String slyj;// 受理意见 0同意 1不同意
 	private String slbz;
 	private String slr;
 	private Date slrq;
@@ -71,6 +72,8 @@ public class DdcHyxhSsdwclsb implements java.io.Serializable {
 	private String vcShowEbikeImg;
 	private String vcShowUser1Img;
 	private String vcShowUser2Img;
+	private Integer slIndex;
+	private boolean isApprove = false;
 
 	// Constructors
 
@@ -562,6 +565,45 @@ public class DdcHyxhSsdwclsb implements java.io.Serializable {
 	 */
 	public void setVcShowUser2Img(String vcShowUser2Img) {
 		this.vcShowUser2Img = vcShowUser2Img;
+	}
+
+	@Transient
+	public boolean isApprove() {
+		return isApprove;
+	}
+
+	/**
+	 * @param isApprove
+	 *            : set the property isApprove.
+	 */
+	public void setApprove(boolean isApprove) {
+		this.isApprove = isApprove;
+	}
+
+	@Column(name = "SL_INDEX")
+	public Integer getSlIndex() {
+		return slIndex;
+	}
+
+	/**
+	 * @param slIndex
+	 *            : set the property slIndex.
+	 */
+	public void setSlIndex(Integer slIndex) {
+		this.slIndex = slIndex;
+	}
+
+	@Transient
+	public String getHyxhzhName() {
+		return hyxhzhName;
+	}
+
+	/**
+	 * @param hyxhzhName
+	 *            : set the property hyxhzhName.
+	 */
+	public void setHyxhzhName(String hyxhzhName) {
+		this.hyxhzhName = hyxhzhName;
 	}
 
 }

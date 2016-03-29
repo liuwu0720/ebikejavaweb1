@@ -545,6 +545,6 @@ public interface GenericDao<T extends Serializable, PK extends Serializable> {
 	public Object getDateBySQL(String sql);
 
 	public List<T> findByPropertysOrderBy(String[] propertyNames,
-			Object[] values, String orderByParam);
+			Object[] values, String orderByParam, String type);
 
 }

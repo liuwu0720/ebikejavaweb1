@@ -182,6 +182,54 @@ public class StatisticalAction {
 
 	/**
 	 * 
+	 * 方法描述：流水查询
+	 * 
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月28日 上午10:20:36
+	 */
+	@RequestMapping("/getByWater")
+	public String getByWater() {
+		return "statistical/waterFlow";
+	}
+
+	/**
+	 * 
+	 * 方法描述：
+	 * 
+	 * @param request
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月28日 上午10:24:19
+	 */
+	@RequestMapping("/queryByWater")
+	@ResponseBody
+	public Map<String, Object> queryByWater(HttpServletRequest request,
+			String ywlx, String djh, String cphm) {
+		Page page = ServiceUtil.getcurrPage(request);
+		String sql = "select f.id,f.cphm,f.djh,f.slrq ,"
+				+ "(select d.dmms1 from ddc_sjzd d where d.dmz=f.ywlx and d.dmlb='YWLX') as ywlx "
+				+ " from ddc_flow f where 1=1 ";
+		if (StringUtils.isNotBlank(ywlx)) {
+			sql += " and f.ywlx = '" + ywlx + "'";
+		}
+		if (StringUtils.isNotBlank(djh)) {
+			sql += " and f.djh = '" + djh + "'";
+		}
+		if (StringUtils.isNotBlank(cphm)) {
+			sql += " and f.cphm like '%" + cphm + "%'";
+		}
+		sql += " order by f.id desc";
+		Map<String, Object> resultMap = iStatisticalService
+				.findBySpringSqlPage(sql, page);
+		return resultMap;
+
+	}
+
+	/**
+	 * 
 	 * 方法描述：所有的退办查询列表
 	 * 
 	 * @return
@@ -195,7 +243,8 @@ public class StatisticalAction {
 			String xsqy, String lsh, String djh) {
 		Page page = ServiceUtil.getcurrPage(request);
 		StringBuffer sb = new StringBuffer();
-		sb.append("select a.id,a.lsh,a.djh,(select user_name from xdda_user_oa where user_code=a.slr) as slr,");
+		sb.append("select a.id,a.lsh,a.djh,(select user_name from jt_user where user_code=a.slr) as slr,");
+		sb.append("  (select t.org_name from oa_dept_view t where t.org_id=a.slbm) as slbm,");
 		sb.append("to_char(a.slrq,'yyyy-mm-dd hh24:mi:ss') as slrq from ddc_flow a where a.slyj='1'");
 		if (StringUtils.isNotBlank(xsqy)) {
 			sb.append(" and a.xsqy='" + xsqy + "'");
@@ -219,12 +268,16 @@ public class StatisticalAction {
 			fs.setId(Long.valueOf(objMap.get("ID").toString()));
 			fs.setLsh(objMap.get("LSH").toString());
 			fs.setDjh(objMap.get("DJH").toString());
-			fs.setSlr(objMap.get("SLR").toString());
-			fs.setSlrq(objMap.get("SLRQ").toString());
+			fs.setSlr(objMap.get("SLR") == null ? null : objMap.get("SLR")
+					.toString());
+			fs.setSlbm(objMap.get("SLBM") == null ? null : objMap.get("SLBM")
+					.toString());
+			fs.setSlrq(objMap.get("SLRQ") == null ? null : objMap.get("SLRQ")
+					.toString());
 			flowStatis.add(fs);
 		}
 		Map<String, Object> newMap = new HashMap<String, Object>();
-		newMap.put("total", flowStatis.size());
+		newMap.put("total", resultMap.get("total"));
 		newMap.put("rows", flowStatis);
 		return newMap;
 	}
