@@ -83,33 +83,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	})
 	
 	
-	function sureState(state){
-		//拒绝
-		if(state == 1){
-		 $('#dgformDiv').dialog('open').dialog('setTitle', '填写审批意见');	
-		 $('#dgform').form('load', {
-			 state:state
-			 });
-		}
-		//同意
-		if(state == 0){
-			$('#dgformDiv2').dialog('open').dialog('setTitle', '填写审批意见');	
-			 $('#dgform2').form('load', {
-				 state:state
-			});
-		}
 	
-	}
 	//保存操作
 
-	function updateSaveData(){
-		var flag = checkVarible();
-		if(flag){
-			$.messager.progress({
+	function checkSure(obj){
+		
+		$.messager.progress({
 				text:"正在处理，请稍候..."
 			});
 		$('#dgform').form('submit', {
-					url : "<%=basePath%>approvalAction/sureApproveRecord",
+					url : "<%=basePath%>approvalAction/sureCheckApprove?id="+obj,
 					onSubmit : function() {
 						var isValid = $("#dgform").form('enableValidation').form(
 								'validate');
@@ -126,8 +109,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								title : '提示',
 								msg : data.message
 							});
-							$('#dgformDiv').dialog('close');
-							window.location.href="<%=basePath%>approvalAction/recordApprove"
+						
+							window.location.href="<%=basePath%>approvalAction/checkApprove"
 						}else{
 							alert(data.message);
 						}
@@ -136,85 +119,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					}
 
 				});
-		}
-	}
-	
-	function checkVarible(){
-		if(!$("input[name='sltbyyzls']:checked").val()){
-			alert("请勾选退办原因!")
-			return false;
-		}else{
-			var vs="";
-			$('[id=sltbyyzls]:checked').each(function(){
-				vs += $(this).val()+',';
-			});
-			vs=vs.substr(0,vs.lastIndexOf(','));
-			$("#tbyy").val(vs);
-			return true;
-		}
 	}
 	
 	
-	function updateSaveData2(){
-		var flag = checkVarible2();
-		if(flag){
-			$.messager.progress({
-				text:"正在处理，请稍候..."
-			});
-		$('#dgform2').form('submit', {
-					url : "<%=basePath%>approvalAction/sureApproveRecord",
-					onSubmit : function() {
-						var isValid = $("#dgform2").form('enableValidation').form(
-								'validate');
-
-						if (!isValid) {
-							$.messager.progress('close'); // 如果表单是无效的则隐藏进度条
-						}
-						return isValid; // 返回false终止表单提交
-					},
-					success : function(data) {
-						var data = eval('(' + data + ')'); // change the JSON
-						if (data.isSuccess) {
-							$.messager.show({ // show error message
-								title : '提示',
-								msg : data.message
-							});
-							$('#dgformDiv2').dialog('close');
-							window.location.href="<%=basePath%>approvalAction/recordApprove"
-						}else{
-							alert(data.message);
-						}
-						$.messager.progress('close'); // 如果提交成功则隐藏进度条
-
-					}
-
-				});
-		}
-	
-		
-	}
-	
-	
-	function checkVarible2(){
-		if(!$("input[name='slzList']:checked").val()){
-			alert("请勾选受理资料!")
-			return false;
-		}else{
-			var vs="";
-			$('[id=slzList]:checked').each(function(){
-				vs += $(this).val()+',';
-			});
-			vs=vs.substr(0,vs.lastIndexOf(','));
-			$("#slzl").val(vs);
-			return true;
-		}
-	}
 	</script>
 	
   </head>
   
   <body>
-    <form action="">
+    <form id="dgform" class="easyui-form" method="post">
     	<table id="main" class="table table-condensed"  border="1" cellpadding="0" cellspacing="0" width="98%">
     		<tr>
     			<th>档案编号</th>
@@ -314,9 +227,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div><br /></td>
 				</tr>
     	</table>
-    	
 		
 			<div class="btndiv">
+				
+			<button type="button" class="btn" onclick="checkSure(${ddcDaxxb.id})">检验合格</button>
 			<button type="button" class="btn" onclick="history.back()">返回</button>
 			</div>
 		

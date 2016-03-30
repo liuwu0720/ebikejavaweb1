@@ -388,4 +388,15 @@ public class EbikeServiceImp implements IEbikeService {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IEbikeService#getDateBySQL(java.lang.String)
+	 */
+	@Override
+	public Object getDateBySQL(String sql) {
+		// TODO Auto-generated method stub
+		return iDdcFlowDao.getDateBySQL(sql);
+	}
+
 }

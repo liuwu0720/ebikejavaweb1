@@ -268,4 +268,15 @@ public interface IEbikeService {
 	 */
 	List<DdcSjzd> getSelectSlzl(String slzl);
 
+	/**
+	 * 方法描述：
+	 * 
+	 * @param sql
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月30日 下午7:38:39
+	 */
+	Object getDateBySQL(String sql);
+
 }

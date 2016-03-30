@@ -921,4 +921,81 @@ public class ApprovalAction {
 		request.setAttribute("slzls", slzls);
 		return "approve/checkApproveDetail";
 	}
+
+	/**
+	 * 
+	 * 方法描述：审验合格
+	 * 
+	 * @param request
+	 * @param response
+	 * @param id
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月30日 下午7:25:47
+	 */
+	@RequestMapping("/sureCheckApprove")
+	public void sureCheckApprove(HttpServletRequest request,
+			HttpServletResponse response, String id) {
+		JtUser jtUser = (JtUser) request.getSession().getAttribute("jtUser");
+		long dId = Long.parseLong(id);
+		DdcDaxxb daxxb = iEbikeService.getDdcDaxxbById(dId);
+		Date oldSyrq = daxxb.getSyrq();
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(oldSyrq);
+		calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) + 2);
+		Date newSyrq = calendar.getTime();// 生成新审验日期
+		daxxb.setSyrq(newSyrq);
+
+		// 业务流水
+		DdcFlow flow = new DdcFlow();
+		// 生成流水号
+		String sql = "select seq_ddl_flow.nextval from dual";
+		Object object = iEbikeService.getDateBySQL(sql);
+		String seq = object.toString();
+		String md = new SimpleDateFormat("yyMMdd").format(new Date());
+		String lsh = "A" + md + seq;// 生成流水表流水号
+		flow.setLsh(lsh);
+		flow.setYwlx("E");
+		flow.setYwyy("A");
+		flow.setHyxhzh(daxxb.getHyxhzh());
+		flow.setZzjgdmzh(daxxb.getZzjgdmzh());
+		flow.setDabh(daxxb.getDabh());
+		flow.setCphm(daxxb.getCphm());
+		flow.setPpxh(daxxb.getPpxh());
+		flow.setCysy(daxxb.getCysy());
+		flow.setDjh(daxxb.getDjh());
+		flow.setJtzz(daxxb.getJtzz());
+		flow.setSlyj(daxxb.getSlyj());
+		flow.setSlzl(daxxb.getSlzl());
+		flow.setSlbz(daxxb.getSlbz());
+		flow.setSlr(jtUser.getUserCode());
+		flow.setSlrq(new Date());
+		flow.setSlbm(jtUser.getUserOrg());
+		flow.setJsrxm1(daxxb.getJsrxm1());
+		flow.setXb1(daxxb.getXb1());
+		flow.setSfzmhm1(daxxb.getSfzmhm1());
+		flow.setLxdh1(daxxb.getLxdh1());
+		flow.setJsrxm2(daxxb.getJsrxm2());
+		flow.setXb2(daxxb.getXb2());
+		flow.setSfzmhm2(daxxb.getSfzmhm2());
+		flow.setLxdh2(daxxb.getLxdh2());
+		flow.setXsqy(daxxb.getXsqy());
+		flow.setBz(daxxb.getBz());
+		flow.setGdyj(daxxb.getGdyj());
+		flow.setGdr(jtUser.getUserCode());
+		flow.setGdbm(jtUser.getUserOrg());
+		flow.setGdrq(new Date());
+		flow.setSynFlag("UW");
+		flow.setTranFlag(null);
+
+		try {
+			iEbikeService.updateDdcDaxxb(daxxb);
+			iEbikeService.saveDdcFlow(flow);
+			AjaxUtil.rendJson(response, true, "成功!");
+		} catch (Exception e) {
+			e.printStackTrace();
+			AjaxUtil.rendJson(response, false, "操作失败！");
+		}
+
+	}
 }
