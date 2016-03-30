@@ -35,6 +35,7 @@ $(document).ready(function(){
 		rownumbers : true,
 		singleSelect : true,//只选中单行
 		height:h,
+		width:w,
 		loadMsg:'正在加载,请稍等...',
 		columns : [ [{
 			field : 'cname',

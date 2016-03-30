@@ -13,7 +13,7 @@
 </head>
 <frameset rows ="112px,*" border="0">
   	<frame noresize="noresize"  scrolling="no" name="header" id="header" src="<%=basePath%>mainAction/getHeader"/>
-    <frameset id="frameset" cols="230px,*" border="0">
+    <frameset id="frameset" cols="250px,*" border="0">
         <frame noresize="noresize" frameborder="0" scrolling="auto"   id="sidebar" name="sidebar" src="<%=basePath%>mainAction/getSidebar">
         <frame noresize="noresize" frameborder="0" scrolling="auto"  id="main" name="main" src="<%=basePath%>mainAction/getWelcome">
     </frameset>

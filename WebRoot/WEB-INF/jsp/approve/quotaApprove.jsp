@@ -39,6 +39,7 @@ $(document).ready(function(){
 		pagination : true,
 		rownumbers : true,
 		pageSize:size,
+		width:w,
 		singleSelect : true,//只选中单行
 		height:h,
 		loadMsg:'正在加载,请稍等...',

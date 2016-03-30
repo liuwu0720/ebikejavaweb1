@@ -46,6 +46,7 @@ $(document).ready(function(){
 		rownumbers : true,
 		singleSelect : true,
 		pageSize:20,
+		width:w,
 		singleSelect : true,//只选中单行
 		height:h,
 		columns : [ [{

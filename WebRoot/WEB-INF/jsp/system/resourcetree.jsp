@@ -36,6 +36,7 @@ $(document).ready(function(){
 		rownumbers : true,
 		singleSelect : true,
 		height:700,
+		width:w,
 		columns : [ [{
 			field : 'vcMenu',
 			title : '菜单名称',

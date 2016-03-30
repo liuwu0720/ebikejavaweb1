@@ -14,22 +14,12 @@ function getQueryString(name) {
  * create by hjx
  */
 function getWidth(minWidth){
-	var searchWidth = "";
-	$(".search").each(function(){
-		if(searchWidth==""){
-			searchWidth = $(this).innerWidth();
-		}else{
-			if($(this).innerWidth()>searchWidth){
-				searchWidth = $(this).innerWidth();
-			}
-		}
-	});
-	var t = searchWidth+2;
-	// var t =document.body.clientWidth*0.9725;
-	    if(minWidth>t){
-	    	t=minWidth;
-	    }
-	    return t;
+	var t = minWidth;
+	if(document.body.offsetWidth > t){
+		t = document.body.offsetWidth-20;
+	}
+	
+	return t;
 }
 //计算列表的高度
 function getHeight(id){

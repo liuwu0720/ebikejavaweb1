@@ -31,17 +31,15 @@ ul li {
 	top: 0;
 	left: 0;
 	height: 100%;
-	width: 100px;
 	z-index: 12;
 	overflow: hidden;
-	width: 200px;
+	width: 100%;
 	padding: 15px 10px 0 20px;
 }
 
 .menu-header {
 	overflow-x: hidden;
 	overflow-y: auto;
-	width: 200px;
 	height: 100%;
 }
 
