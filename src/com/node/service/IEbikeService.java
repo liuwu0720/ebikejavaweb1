@@ -184,4 +184,88 @@ public interface IEbikeService {
 	 */
 	DdcHyxhBase getHyxhByCode(String hyxhzh);
 
+	/**
+	 * 方法描述：
+	 * 
+	 * @param ddcHyxhSsdwclsb
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月30日 上午11:11:36
+	 */
+	void updateDdcHyxhSsdwclsb(DdcHyxhSsdwclsb ddcHyxhSsdwclsb);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param ddcFlow
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月30日 上午11:12:19
+	 */
+	void saveDdcFlow(DdcFlow ddcFlow);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param string
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月30日 上午11:26:19
+	 */
+	List<DdcSjzd> getSjzdByDmlb(String string);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param daxxb
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月30日 下午2:19:37
+	 */
+	void saveDaxxb(DdcDaxxb daxxb);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月30日 下午2:21:10
+	 */
+	String getDabhByProcess();
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param ddcHyxhBase
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月30日 下午2:29:14
+	 */
+	String getCphmByProcess(DdcHyxhBase ddcHyxhBase);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param tbyy
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月30日 下午4:13:40
+	 */
+	List<DdcSjzd> getDbyyList(String tbyy);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param slzl
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月30日 下午6:59:28
+	 */
+	List<DdcSjzd> getSelectSlzl(String slzl);
+
 }

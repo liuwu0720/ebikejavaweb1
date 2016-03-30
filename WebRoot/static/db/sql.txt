@@ -1,0 +1,163 @@
+-- Create table
+create table DDC_HYXH_SSDWCLSB
+(
+  id           NUMBER not null,
+  lsh          VARCHAR2(20) not null,
+  hyxhzh       VARCHAR2(20),
+  ssdw_id      VARCHAR2(200),
+  cphm         VARCHAR2(20),
+  ppxh         VARCHAR2(20),
+  cysy         VARCHAR2(20),
+  djh          VARCHAR2(30),
+  jtzz         VARCHAR2(20),
+  jsrxm1       VARCHAR2(20),
+  xb1          VARCHAR2(20),
+  sfzmhm1      VARCHAR2(20),
+  lxdh1        VARCHAR2(20),
+  jsrxm2       VARCHAR2(20),
+  xb2          VARCHAR2(20),
+  sfzmhm2      VARCHAR2(20),
+  lxdh2        VARCHAR2(20),
+  jsrxm3       VARCHAR2(20),
+  xb3          VARCHAR2(20),
+  sfzmhm3      VARCHAR2(20),
+  lxdh3        VARCHAR2(20),
+  xsqy         VARCHAR2(20),
+  bz           VARCHAR2(200),
+  sqr          VARCHAR2(50),
+  sqrq         DATE,
+  slzl         VARCHAR2(100),
+  slyj         VARCHAR2(10),
+  slbz         VARCHAR2(100),
+  slr          VARCHAR2(20),
+  slrq         DATE,
+  slbm         VARCHAR2(20),
+  syn_flag     VARCHAR2(10),
+  tran_flag    VARCHAR2(10),
+  tran_date    DATE,
+  sqip         VARCHAR2(50),
+  vc_user1img  VARCHAR2(100),
+  vc_user2img  VARCHAR2(100),
+  vc_ebike_img VARCHAR2(100),
+  sl_index     NUMBER default 1,
+  tbyy         VARCHAR2(100)
+)
+tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+-- Add comments to the table 
+comment on table DDC_HYXH_SSDWCLSB
+  is '行业协会信息所属单位车辆申报表';
+-- Add comments to the columns 
+comment on column DDC_HYXH_SSDWCLSB.lsh
+  is '车辆申报流水号';
+comment on column DDC_HYXH_SSDWCLSB.hyxhzh
+  is '行业协会账户';
+comment on column DDC_HYXH_SSDWCLSB.ssdw_id
+  is '所属单位ID,对应 DDC_HYXH_SSDW的记录ID';
+comment on column DDC_HYXH_SSDWCLSB.cphm
+  is '车牌号码，第一次申报是空的，不用显示';
+comment on column DDC_HYXH_SSDWCLSB.ppxh
+  is '品牌型号';
+comment on column DDC_HYXH_SSDWCLSB.cysy
+  is '车身验色';
+comment on column DDC_HYXH_SSDWCLSB.djh
+  is '电机号';
+comment on column DDC_HYXH_SSDWCLSB.jtzz
+  is '脚踏装置（有、无）';
+comment on column DDC_HYXH_SSDWCLSB.jsrxm1
+  is '驾驶人姓名1';
+comment on column DDC_HYXH_SSDWCLSB.xb1
+  is '性别1';
+comment on column DDC_HYXH_SSDWCLSB.sfzmhm1
+  is '身份证号码1';
+comment on column DDC_HYXH_SSDWCLSB.lxdh1
+  is '联系电话1';
+comment on column DDC_HYXH_SSDWCLSB.jsrxm2
+  is '驾驶人姓名2';
+comment on column DDC_HYXH_SSDWCLSB.xb2
+  is '性别2';
+comment on column DDC_HYXH_SSDWCLSB.sfzmhm2
+  is '身份证号码2';
+comment on column DDC_HYXH_SSDWCLSB.lxdh2
+  is '联系电话2';
+comment on column DDC_HYXH_SSDWCLSB.jsrxm3
+  is '驾驶人姓名3';
+comment on column DDC_HYXH_SSDWCLSB.xb3
+  is '性别3';
+comment on column DDC_HYXH_SSDWCLSB.sfzmhm3
+  is '身份证号码3';
+comment on column DDC_HYXH_SSDWCLSB.lxdh3
+  is '联系电话3';
+comment on column DDC_HYXH_SSDWCLSB.xsqy
+  is '行驶区域(福田区、罗湖区.....)';
+comment on column DDC_HYXH_SSDWCLSB.bz
+  is '备注';
+comment on column DDC_HYXH_SSDWCLSB.sqr
+  is '申请人';
+comment on column DDC_HYXH_SSDWCLSB.sqrq
+  is '申请日期';
+comment on column DDC_HYXH_SSDWCLSB.slzl
+  is '受理资料，分割 字典表';
+comment on column DDC_HYXH_SSDWCLSB.slyj
+  is '受理意见 0同意 1不同意';
+comment on column DDC_HYXH_SSDWCLSB.slbz
+  is '受理备注';
+comment on column DDC_HYXH_SSDWCLSB.slr
+  is '受理人';
+comment on column DDC_HYXH_SSDWCLSB.slrq
+  is '受理日期';
+comment on column DDC_HYXH_SSDWCLSB.slbm
+  is '受理部门';
+comment on column DDC_HYXH_SSDWCLSB.syn_flag
+  is '同步标志,填写规则详看其他文档';
+comment on column DDC_HYXH_SSDWCLSB.tran_flag
+  is '传送标志(该字段必须有索引)';
+comment on column DDC_HYXH_SSDWCLSB.tran_date
+  is '传送时间';
+comment on column DDC_HYXH_SSDWCLSB.sqip
+  is '申请IP';
+comment on column DDC_HYXH_SSDWCLSB.vc_user1img
+  is '驾驶人照片1';
+comment on column DDC_HYXH_SSDWCLSB.vc_user2img
+  is '驾驶人照片2';
+comment on column DDC_HYXH_SSDWCLSB.vc_ebike_img
+  is '车辆照片';
+comment on column DDC_HYXH_SSDWCLSB.sl_index
+  is '当前审批角色顺序 1-受理民警 2-领导 数字大等级高';
+comment on column DDC_HYXH_SSDWCLSB.tbyy
+  is '退办原因';
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table DDC_HYXH_SSDWCLSB
+  add primary key (ID)
+  using index 
+  tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+alter table DDC_HYXH_SSDWCLSB
+  add unique (LSH)
+  using index 
+  tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );

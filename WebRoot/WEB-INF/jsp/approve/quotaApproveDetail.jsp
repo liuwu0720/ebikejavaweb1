@@ -210,7 +210,7 @@ function updateSaveData(){
 		</form>
 		<div id="dlg-buttons2">
 		<a href="javascript:void(0)" class="easyui-linkbutton" id="saveBtn"
-			iconCls="icon-ok" onclick="updateSaveData()" style="width:90px">保存</a>
+			iconCls="icon-ok" onclick="updateSaveData()" style="width:90px">确定</a>
 		<a href="javascript:void(0)" class="easyui-linkbutton"
 			iconCls="icon-cancel"
 			onclick="javascript:$('#dgformDiv').dialog('close')"

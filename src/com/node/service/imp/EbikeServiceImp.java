@@ -7,9 +7,11 @@
  */
 package com.node.service.imp;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -244,4 +246,146 @@ public class EbikeServiceImp implements IEbikeService {
 		}
 
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IEbikeService#updateDdcHyxhSsdwclsb(com.node.model.
+	 * DdcHyxhSsdwclsb)
+	 */
+	@Override
+	public void updateDdcHyxhSsdwclsb(DdcHyxhSsdwclsb ddcHyxhSsdwclsb) {
+		// TODO Auto-generated method stub
+		iDdcHyxhSsdwclsbDao.save(ddcHyxhSsdwclsb);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IEbikeService#saveDdcFlow(com.node.model.DdcFlow)
+	 */
+	@Override
+	public void saveDdcFlow(DdcFlow ddcFlow) {
+		// TODO Auto-generated method stub
+		iDdcFlowDao.save(ddcFlow);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IEbikeService#getSjzdByDmlb(java.lang.String)
+	 */
+	@Override
+	public List<DdcSjzd> getSjzdByDmlb(String string) {
+		// TODO Auto-generated method stub
+		return iDdcSjzdDao.findByProperty("dmlb", string);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IEbikeService#saveDaxxb(com.node.model.DdcDaxxb)
+	 */
+	@Override
+	public void saveDaxxb(DdcDaxxb daxxb) {
+		// TODO Auto-generated method stub
+		iDdcDaxxbDao.save(daxxb);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IEbikeService#getDabhByProcess()
+	 */
+	@Override
+	public String getDabhByProcess() {
+		String sql = "select max(t.dabh) from DDC_DAXXB t";
+		Object object = iDdcDaxxbDao.getDateBySQL(sql);
+		String dabh = "";
+		if (object == null) {
+			dabh = "440300000000";
+		} else {
+			dabh = object.toString();
+			long daNo = Long.parseLong(dabh) + 1;
+			dabh = daNo + "";
+		}
+		return dabh;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.node.service.IEbikeService#getCphmByProcess(com.node.model.DdcHyxhBase
+	 * )
+	 */
+	@Override
+	public String getCphmByProcess(DdcHyxhBase ddcHyxhBase) {
+		String sql = "select  max(t.cphm)   from DDC_FLOW t  where t.cphm like '%"
+				+ ddcHyxhBase.getHyxhlb() + "%' and t.ywlx='A' ";
+		Object object = iDdcDaxxbDao.getDateBySQL(sql);
+		String cphm = "";
+		if (object == null) {
+			cphm = ddcHyxhBase.getHyxhlb() + "00000";
+		} else {
+			cphm = object.toString().substring(1);
+			int daNo = Integer.parseInt(cphm) + 1;
+			cphm = ddcHyxhBase.getHyxhlb() + daNo + "";
+		}
+		return cphm;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IEbikeService#getDbyyList(java.lang.String)
+	 */
+	@Override
+	public List<DdcSjzd> getDbyyList(String tbyy) {
+		if (StringUtils.isNotBlank(tbyy)) {
+			String[] tbyyStrings = tbyy.split(",");
+			List<DdcSjzd> allDdcSjzds = new ArrayList<>();
+			for (String dmz : tbyyStrings) {
+				List<DdcSjzd> ddcSjzds = iDdcSjzdDao.findByPropertys(
+						new String[] { "dmz", "dmlb" }, new Object[] { dmz,
+								"TBYY" });
+				if (ddcSjzds != null && ddcSjzds.size() > 0) {
+					allDdcSjzds.addAll(ddcSjzds);
+				}
+
+			}
+
+			return allDdcSjzds;
+		} else {
+			return null;
+		}
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IEbikeService#getSelectSlzl(java.lang.String)
+	 */
+	@Override
+	public List<DdcSjzd> getSelectSlzl(String slzl) {
+		if (StringUtils.isNotBlank(slzl)) {
+			String[] tbyyStrings = slzl.split(",");
+			List<DdcSjzd> allDdcSjzds = new ArrayList<>();
+			for (String dmz : tbyyStrings) {
+				List<DdcSjzd> ddcSjzds = iDdcSjzdDao.findByPropertys(
+						new String[] { "dmz", "dmlb" }, new Object[] { dmz,
+								"BASQZL" });
+				if (ddcSjzds != null && ddcSjzds.size() > 0) {
+					allDdcSjzds.addAll(ddcSjzds);
+				}
+
+			}
+
+			return allDdcSjzds;
+		} else {
+			return null;
+		}
+	}
+
 }

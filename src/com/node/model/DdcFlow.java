@@ -73,7 +73,7 @@ public class DdcFlow implements java.io.Serializable {
 	private String synFlag;
 	private String tranFlag;
 	private Date tranDate;
-	private String yclb;
+	private String yclb;// 验车类别
 	private String vcEbikeImg;// 车身图片
 	private String vcUser1Img;// 驾驶人1图片
 	private String vcUser2Img;// 驾驶人2图片

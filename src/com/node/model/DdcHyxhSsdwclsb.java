@@ -73,6 +73,7 @@ public class DdcHyxhSsdwclsb implements java.io.Serializable {
 	private String vcShowUser1Img;
 	private String vcShowUser2Img;
 	private Integer slIndex;
+	private String tbyy;// 退办原因
 	private boolean isApprove = false;
 
 	// Constructors
@@ -604,6 +605,19 @@ public class DdcHyxhSsdwclsb implements java.io.Serializable {
 	 */
 	public void setHyxhzhName(String hyxhzhName) {
 		this.hyxhzhName = hyxhzhName;
+	}
+
+	@Column(name = "TBYY", length = 100)
+	public String getTbyy() {
+		return tbyy;
+	}
+
+	/**
+	 * @param tbyy
+	 *            : set the property tbyy.
+	 */
+	public void setTbyy(String tbyy) {
+		this.tbyy = tbyy;
 	}
 
 }

@@ -82,6 +82,15 @@ $(document).ready(function(){
 				return datevalue.toLocaleString();
 			}
 		},{
+			field : 'slrq',
+			title : '审批日期',
+			align:'center',
+			width : 120,
+			formatter:function(value,index){
+				var datevalue = new Date(value);
+				return datevalue.toLocaleString();
+			}
+		},{
 			field : 'slyj',
 			title : '审批状态',
 			align:'center',
@@ -102,7 +111,7 @@ $(document).ready(function(){
 			width : 120,
 			formatter:function(value,row,index){
 				var query = "<a  href='javascript:void(0)'  onclick='queryRow("+row.id+")'>查看</a>";
-				var approve = "<a  href='javascript:void(0)'  onclick='approveRow("+row.id+")'>审批</a>";
+				var approve = "<a  href='javascript:void(0)'  onclick='approveRow("+row.id+")'><p style='color:red'>审批</p></a>";
 				if(row.approve){
 					return approve;	
 				}else{
@@ -124,6 +133,7 @@ $(document).ready(function(){
 	    valueField:'dmz',    
 	    textField:'dmms1'   
 	}); 
+	$('#hyxsssdwmc').combobox()
 	
 	$('#hyxhzh').combobox({    
 	    url:'<%=basePath%>industryAction/getAllIndustry',    
@@ -146,40 +156,27 @@ $(document).ready(function(){
 function doSearch(){
 	 $('#dg').datagrid('load',{
 		 lsh: $("#lsh").val(),
-		 hyxhmc: $('#hyxhmc').val(),
+		 hyxhzh:$("#hyxhzh").combobox("getValue"),
 		 bjjg:$("#bjjg").combobox("getValue"),
 		 dwmcId:$("#hyxsssdwmc").combobox("getValue"),
 		 xsqy:$("#xsqy").combobox("getValue")
 	}); 
 }
 
-//查看行业协会详情
-function queryHyxhDetail(obj){
-
-	$.ajax({
-		type: "GET",
-   	    url: "<%=basePath%>industryAction/queryHxyHyxhBaseByCode",
-   	   data:{
-   		code:obj
-	   }, 
-	   dataType: "json",
-	   success:function(data){
- 			  if(data){
- 				 $('#dgformDiv').dialog('open').dialog('setTitle', '填写审批意见(可以为空)');
- 				 $('#dgform').form('load', data);
- 			  }
- 		  }
-	})
-	
-}
 
 
 //查看
 function queryRow(id){
+	$.messager.progress({
+		text:"正在处理，请稍候..."
+	});
 	window.location.href="<%=basePath%>approvalAction/queryRecordApprovalInfoById?id="+id+"&&type=1"
 }
 //审批
 function approveRow(id){
+	$.messager.progress({
+		text:"正在处理，请稍候..."
+	});
 	window.location.href="<%=basePath%>approvalAction/queryRecordApprovalInfoById?id="+id+"&&type=2"
 }
 
@@ -200,8 +197,9 @@ function approveRow(id){
 				<span>审批状态：</span>
 				<select  class="easyui-combobox" id=bjjg style="width:100px;height: 32px;">   
    				 	<option value="">审批中</option>   
-  				   <option value="0">已同意</option>    
+  				    <option value="0">已同意</option>    
   					<option value="1">已拒绝</option> 
+  					<option value="-1">所有</option> 
 				</select>
 				<span>行驶区域：</span>
 				<input id="xsqy" style="height: 32px;">

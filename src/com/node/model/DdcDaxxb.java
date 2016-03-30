@@ -39,6 +39,7 @@ public class DdcDaxxb implements java.io.Serializable {
 	private String ywyy;// 业务原因
 	private String ywyyName;
 	private String hyxhzh;//
+	private String hyxhzhmc;
 	private String zzjgdmzh;// 组织机构代码证号
 	private String zzjgdmzhName;
 	private String cphm;// 车牌号码，办结后，以流水转入本表的车牌号码数据填充本表
@@ -730,6 +731,19 @@ public class DdcDaxxb implements java.io.Serializable {
 	 */
 	public void setSlbmName(String slbmName) {
 		this.slbmName = slbmName;
+	}
+
+	@Transient
+	public String getHyxhzhmc() {
+		return hyxhzhmc;
+	}
+
+	/**
+	 * @param hyxhzhmc
+	 *            : set the property hyxhzhmc.
+	 */
+	public void setHyxhzhmc(String hyxhzhmc) {
+		this.hyxhzhmc = hyxhzhmc;
 	}
 
 }

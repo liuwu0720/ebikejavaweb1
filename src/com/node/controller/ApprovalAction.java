@@ -11,6 +11,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -26,13 +27,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.node.model.DdcApproveUser;
+import com.node.model.DdcDaxxb;
+import com.node.model.DdcFlow;
 import com.node.model.DdcHyxhBasb;
 import com.node.model.DdcHyxhBase;
 import com.node.model.DdcHyxhSsdw;
 import com.node.model.DdcHyxhSsdwclsb;
+import com.node.model.DdcSjzd;
 import com.node.model.JtRole;
 import com.node.model.JtUser;
 import com.node.model.PicPath;
+import com.node.object.JtViewDept;
 import com.node.service.IEbikeService;
 import com.node.service.IInDustryService;
 import com.node.service.IJtUserService;
@@ -91,6 +96,74 @@ public class ApprovalAction {
 
 	/**
 	 * 
+	 * 方法描述：检验审批
+	 * 
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月30日 下午5:27:13
+	 */
+	@RequestMapping("/checkApprove")
+	public String checkApprove() {
+		return "approve/checkApprove";
+	}
+
+	/**
+	 * 
+	 * 方法描述：查询电动车检验列表
+	 * 
+	 * @param djh
+	 * @param dabh
+	 * @param cphm
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月30日 下午5:34:36
+	 */
+	@RequestMapping("/queryCheckApprove")
+	@ResponseBody
+	public Map<String, Object> queryCheckApprove(String djh, String dabh,
+			String hyxhzh, String xsqy, String dwmcId,
+			HttpServletRequest request, String cphm) {
+		String sql = "select A.ID,A.DABH,A.CPHM,A.DJH,A.JSRXM1,A.GDYJ,A.SFZMHM1,A.SYRQ, "
+				+ "(select distinct b.HYXHMC from DDC_HYXH_BASE b where b.HYXHZH = A.HYXHZH ) as HYXHMC,"
+				+ " (SELECT S.DWMC FROM DDC_HYXH_SSDW S WHERE S.ID=A.ZZJGDMZH ) AS DWMC,"
+				+ "(select d.DMMS1 from ddc_sjzd d where d.dmz=a.xsqy and d.dmlb='SSQY') as xsqy, "
+				+ "(SELECT D.DMMS1 FROM DDC_SJZD D WHERE D.DMZ=A.ZT AND D.DMLB='CLZT')AS ZT from DDC_DAXXB A WHERE 1=1 ";
+		// 电机号
+		if (StringUtils.isNotBlank(djh)) {
+			sql += " and a.djh like '%" + djh + "%'";
+		}
+		// 档案编号
+		if (StringUtils.isNotBlank(dabh)) {
+			sql += " and a.dabh like '%" + dabh + "%'";
+		}
+		// 车牌号
+		if (StringUtils.isNotBlank(cphm)) {
+			sql += " and a.sfzhm1 like '%" + cphm + "%'";
+		}
+		// 单位
+		if (StringUtils.isNotBlank(dwmcId)) {
+			sql += " and a.ZZJGDMZH = " + dwmcId;
+		}
+		// 协会
+		if (StringUtils.isNotBlank(hyxhzh)) {
+			sql += " and a.HYXHZH = '" + hyxhzh + "'";
+		}
+		// 行驶区域
+		if (StringUtils.isNotBlank(xsqy)) {
+			sql += " and a.XSQY = '" + xsqy + "'";
+		}
+
+		sql += " and a.ZT !='E'  order by A.ID DESC";
+		Page p = ServiceUtil.getcurrPage(request);
+		Map<String, Object> resultMap = iEbikeService.queryBySpringSql(sql, p);
+
+		return resultMap;
+	}
+
+	/**
+	 * 
 	 * 方法描述：备案审批
 	 * 
 	 * @param request
@@ -107,23 +180,23 @@ public class ApprovalAction {
 	@RequestMapping("/queryRecordApprove")
 	@ResponseBody
 	public Map<String, Object> queryRecordApprove(HttpServletRequest request,
-			String lsh, String hyxhmc, String dwmcId, String bjjg, String xsqy) {
+			String lsh, String hyxhzh, String dwmcId, String bjjg, String xsqy) {
 		Page p = ServiceUtil.getcurrPage(request);
 		JtUser jtUser = (JtUser) request.getSession().getAttribute("jtUser");
 		// 获取该用户的审批角色，可能为多重审批角色
 		List<JtRole> approveJtRoles = iJtUserService
 				.getApproveRolesByUser(jtUser);
 		String sql = "select sb.id, sb.lsh,(select distinct b.HYXHMC from ddc_hyxh_base b where b.hyxhzh = sb.hyxhzh) as hyxhmc,"
-				+ "(select distinct d.DWMC from ddc_hyxh_ssdw d where d.id = sb.ssdw_id) as dwmc ,sb.djh,sb.jsrxm1,sb.sqrq,"
+				+ "(select distinct d.DWMC from ddc_hyxh_ssdw d where d.id = sb.ssdw_id) as dwmc ,sb.djh,sb.jsrxm1,sb.sqrq,sb.SLRQ,"
 				+ "(select zd.dmms1 from ddc_sjzd zd where zd.dmz=sb.xsqy and zd.dmlb='SSQY') as xsqy,sb.SLYJ ,sb.SL_INDEX from ddc_hyxh_ssdwclsb sb where 1=1";
 		if (StringUtils.isNotBlank(lsh)) {
 			sql += " and sb.lsh like '%" + lsh + "%'";
 		}
-		if (StringUtils.isNotBlank(hyxhmc)) {
-			sql += " and sb.hyxhmc like '%" + hyxhmc + "%'";
+		if (StringUtils.isNotBlank(hyxhzh)) {
+			sql += " and sb.hyxhzh ='" + hyxhzh + "'";
 		}
 		if (StringUtils.isNotBlank(dwmcId)) {
-			sql += " and sb.SSDW_ID like '%" + dwmcId + "%'";
+			sql += " and sb.SSDW_ID =" + dwmcId + "";
 		}
 		if (StringUtils.isNotBlank(xsqy)) {
 			sql += " and sb.xsqy ='" + xsqy + "'";
@@ -131,7 +204,10 @@ public class ApprovalAction {
 		if (StringUtils.isBlank(bjjg)) {
 			sql += " and sb.SLYJ is null ";
 		} else if (StringUtils.isNotBlank(bjjg)) {
-			sql += " and sb.SLYJ = " + bjjg;
+			if (!bjjg.equals("-1")) {
+				sql += " and sb.SLYJ = " + bjjg;
+			}
+
 		}
 		sql += " order by sb.id desc ";
 
@@ -160,6 +236,11 @@ public class ApprovalAction {
 					.get("SLYJ").toString());
 			ddcHyxhSsdwclsb
 					.setSqrq(stringToDate(objMap.get("SQRQ").toString()));
+			if (objMap.get("SLRQ") != null) {
+				ddcHyxhSsdwclsb.setSlrq(stringToDate(objMap.get("SLRQ")
+						.toString()));
+			}
+
 			ddcHyxhSsdwclsb.setSlIndex(objMap.get("SL_INDEX") == null ? null
 					: Integer.parseInt(objMap.get("SL_INDEX").toString()));
 			ddcHyxhSsdwclsb.setApprove(isApprove(approveJtRoles,
@@ -293,7 +374,7 @@ public class ApprovalAction {
 
 	/**
 	 * 
-	 * 方法描述：
+	 * 方法描述：查看配额申报详情
 	 * 
 	 * @param request
 	 * @param id
@@ -364,7 +445,20 @@ public class ApprovalAction {
 		ddcHyxhSsdwclsb.setVcShowEbikeImg(showEbikeImg);
 		ddcHyxhSsdwclsb.setVcShowUser1Img(showUser1Img);
 		ddcHyxhSsdwclsb.setVcShowUser2Img(showUser2Img);
+		String approveTableName = SystemConstants.RECORDSBTABLE;
+		List<DdcApproveUser> approveUsers = iEbikeService
+				.findApproveUsersByProperties(approveTableName,
+						ddcHyxhSsdwclsb.getId());
+		List<DdcSjzd> selectlTbyy = iEbikeService.getDbyyList(ddcHyxhSsdwclsb
+				.getTbyy());// 选中的退办原因
+		List<DdcSjzd> dbyyDdcSjzds = iEbikeService.getSjzdByDmlb("TBYY");// 数据字典中所有的退办原因
+		List<DdcSjzd> slzList = iEbikeService.getSjzdByDmlb("BASQZL");// 数据字典中所有的受理资料
+		request.setAttribute("selectlTbyy", selectlTbyy);
+		request.setAttribute("approveUsers", approveUsers);
 		request.setAttribute("ddcHyxhSsdwclsb", ddcHyxhSsdwclsb);
+		request.setAttribute("type", type);// 1查看 2审批
+		request.setAttribute("dbyyDdcSjzds", dbyyDdcSjzds);
+		request.setAttribute("slzList", slzList);
 		return "approve/recordApproveDetail";
 	}
 
@@ -503,5 +597,328 @@ public class ApprovalAction {
 
 		}
 
+	}
+
+	/**
+	 * 
+	 * 方法描述：备案审批
+	 * 
+	 * @param request
+	 * @param id
+	 * @param state
+	 * @param note
+	 * @param response
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月30日 上午9:39:51
+	 */
+	@RequestMapping("/sureApproveRecord")
+	public void sureApproveRecord(HttpServletRequest request, String id,
+			String slzl, String tbyy, String state, String note,
+			HttpServletResponse response) {
+		long dId = Long.parseLong(id);
+		DdcHyxhSsdwclsb ddcHyxhSsdwclsb = iEbikeService
+				.getDdcHyxhSsdwclsbById(dId);
+		JtUser jtUser = (JtUser) request.getSession().getAttribute("jtUser");
+		String roleName = iJtUserService.getRoleNameByRoleCode(jtUser
+				.getUserRole());
+		String deptName = iJtUserService.getDeptNameByUser(jtUser.getUserOrg());
+		jtUser.setUserRoleName(roleName);
+		jtUser.setUserOrgName(deptName);
+		DdcHyxhBase ddcHyxhBase = iInDustryService
+				.getDdcHyxhBaseByCode(ddcHyxhSsdwclsb.getHyxhzh());// 行业协会账号
+		if (state.equals("1")) {
+			// 如果拒绝，则审批流程结束 DdcHyxhSsdwclsb DdcFlow
+			ddcHyxhSsdwclsb.setSlr(jtUser.getUserName());
+			ddcHyxhSsdwclsb.setSlyj(SystemConstants.NOTAGREE);
+			ddcHyxhSsdwclsb.setSlbz(note);
+			ddcHyxhSsdwclsb.setSlrq(new Date());
+			ddcHyxhSsdwclsb.setSlbm(deptName);
+			if (StringUtils.isNotBlank(tbyy)) {
+				ddcHyxhSsdwclsb.setTbyy(tbyy);
+			}
+			// 业务流水
+			DdcFlow ddcFlow = new DdcFlow();
+			ddcFlow.setLsh(ddcHyxhSsdwclsb.getLsh());
+			ddcFlow.setYwlx("A");
+			ddcFlow.setYwyy("A");
+			ddcFlow.setHyxhzh(ddcHyxhBase.getHyxhzh());
+			ddcFlow.setZzjgdmzh(ddcHyxhSsdwclsb.getSsdwId());
+			ddcFlow.setPpxh(ddcHyxhSsdwclsb.getPpxh());
+			ddcFlow.setCysy(ddcHyxhSsdwclsb.getCysy());
+			ddcFlow.setDjh(ddcHyxhSsdwclsb.getDjh());
+			ddcFlow.setJtzz(ddcHyxhSsdwclsb.getJtzz());
+			ddcFlow.setJsrxm1(ddcHyxhSsdwclsb.getJsrxm1());
+			ddcFlow.setXb1(ddcHyxhSsdwclsb.getXb1());
+			ddcFlow.setSfzmhm1(ddcHyxhSsdwclsb.getSfzmhm1());
+			ddcFlow.setLxdh1(ddcHyxhSsdwclsb.getLxdh1());
+			ddcFlow.setJsrxm2(ddcHyxhSsdwclsb.getJsrxm2());
+			ddcFlow.setXb2(ddcHyxhSsdwclsb.getXb2());
+			ddcFlow.setSfzmhm2(ddcHyxhSsdwclsb.getSfzmhm2());
+			ddcFlow.setLxdh2(ddcHyxhSsdwclsb.getLxdh2());
+			ddcFlow.setXsqy(ddcHyxhSsdwclsb.getXsqy());
+			ddcFlow.setBz(ddcHyxhSsdwclsb.getBz());
+			ddcFlow.setSlyj(SystemConstants.NOTAGREE);
+			ddcFlow.setSlbz(note);
+			ddcFlow.setSlr(jtUser.getUserCode());
+			ddcFlow.setSlrq(new Date());
+			ddcFlow.setSlbm(jtUser.getUserOrg());
+			ddcFlow.setTbyy(tbyy);
+			ddcFlow.setGdbz(note);
+			ddcFlow.setGdr(jtUser.getUserCode());
+			ddcFlow.setGdrq(new Date());
+			ddcFlow.setYclb("0");
+			ddcFlow.setSynFlag("UW");
+			ddcFlow.setTranFlag(null);
+
+			// 审批 人
+			DdcApproveUser approveUser = new DdcApproveUser();
+			approveUser.setUserName(jtUser.getUserName());// 姓名
+			approveUser.setUserOrgname(jtUser.getUserOrgName());// 部门
+			approveUser.setUserRoleName(jtUser.getUserRoleName());// 角色
+			approveUser.setApproveIndex(ddcHyxhSsdwclsb.getSlIndex());
+			approveUser.setApproveNote(note);
+			approveUser.setApproveState(Integer.parseInt(state));
+			approveUser.setApproveTable(SystemConstants.RECORDSBTABLE);
+			approveUser.setApproveTableid(ddcHyxhSsdwclsb.getId());
+			approveUser.setApproveTime(new Date());
+			try {
+				iEbikeService.updateDdcHyxhSsdwclsb(ddcHyxhSsdwclsb);
+				iEbikeService.saveDdcApproveUser(approveUser);
+				iEbikeService.saveDdcFlow(ddcFlow);
+				AjaxUtil.rendJson(response, true, "审批成功!");
+			} catch (Exception e) {
+				e.printStackTrace();
+				AjaxUtil.rendJson(response, false, "审批失败!系统错误");
+			}
+		} else if (state.equals("0")) {
+			Calendar calendar = Calendar.getInstance();
+			calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) + 2);
+			Date syrq = calendar.getTime();// 审验日期，当前时间+2年
+
+			// 同意:如果当前审批人是最后审批人，则整个流程结束,DdcHyxhBase实际配额数量改变
+			List<JtRole> jtRoles = iJtUserService.getAllApproveRoles();
+			if (ddcHyxhSsdwclsb.getSlIndex() == jtRoles.size()) {
+				ddcHyxhSsdwclsb.setSlr(jtUser.getUserName());
+				ddcHyxhSsdwclsb.setSlyj(SystemConstants.AGREE);
+				ddcHyxhSsdwclsb.setSlbz(note);
+				ddcHyxhSsdwclsb.setSlrq(new Date());
+				ddcHyxhSsdwclsb.setSlbm(deptName);
+				ddcHyxhSsdwclsb.setCphm(createCphm(ddcHyxhBase));
+
+				// 业务流水
+				DdcFlow ddcFlow = new DdcFlow();
+				ddcFlow.setLsh(ddcHyxhSsdwclsb.getLsh());
+				ddcFlow.setYwlx("A");
+				ddcFlow.setYwyy("A");
+				ddcFlow.setHyxhzh(ddcHyxhBase.getHyxhzh());
+				ddcFlow.setZzjgdmzh(ddcHyxhSsdwclsb.getSsdwId());
+				ddcFlow.setPpxh(ddcHyxhSsdwclsb.getPpxh());
+				ddcFlow.setCysy(ddcHyxhSsdwclsb.getCysy());
+				ddcFlow.setDjh(ddcHyxhSsdwclsb.getDjh());
+				ddcFlow.setJtzz(ddcHyxhSsdwclsb.getJtzz());
+				ddcFlow.setJsrxm1(ddcHyxhSsdwclsb.getJsrxm1());
+				ddcFlow.setXb1(ddcHyxhSsdwclsb.getXb1());
+				ddcFlow.setSfzmhm1(ddcHyxhSsdwclsb.getSfzmhm1());
+				ddcFlow.setLxdh1(ddcHyxhSsdwclsb.getLxdh1());
+				ddcFlow.setJsrxm2(ddcHyxhSsdwclsb.getJsrxm2());
+				ddcFlow.setXb2(ddcHyxhSsdwclsb.getXb2());
+				ddcFlow.setSfzmhm2(ddcHyxhSsdwclsb.getSfzmhm2());
+				ddcFlow.setLxdh2(ddcHyxhSsdwclsb.getLxdh2());
+				ddcFlow.setXsqy(ddcHyxhSsdwclsb.getXsqy());
+				ddcFlow.setBz(ddcHyxhSsdwclsb.getBz());
+				ddcFlow.setSlyj(SystemConstants.AGREE);
+				ddcFlow.setSlbz(note);
+				ddcFlow.setSlr(jtUser.getUserCode());
+				ddcFlow.setSlzl(slzl);
+				ddcFlow.setSlrq(new Date());
+				ddcFlow.setSlbm(jtUser.getUserOrg());
+				ddcFlow.setTbyy(tbyy);
+				ddcFlow.setGdbz(note);
+				ddcFlow.setGdr(jtUser.getUserCode());
+				ddcFlow.setGdrq(new Date());
+				ddcFlow.setYclb("0");
+				ddcFlow.setSynFlag("UW");
+				ddcFlow.setTranFlag(null);
+				// 审批人及审批状态
+				DdcApproveUser approveUser = new DdcApproveUser();
+				approveUser.setUserName(jtUser.getUserName());// 姓名
+				approveUser.setUserOrgname(jtUser.getUserOrgName());// 部门
+				approveUser.setUserRoleName(jtUser.getUserRoleName());// 角色
+				approveUser.setApproveIndex(ddcHyxhSsdwclsb.getSlIndex());
+				approveUser.setApproveNote(note);
+				approveUser.setApproveState(Integer.parseInt(state));
+				approveUser.setApproveTable(SystemConstants.RECORDSBTABLE);
+				approveUser.setApproveTableid(ddcHyxhSsdwclsb.getId());
+				approveUser.setApproveTime(new Date());
+
+				// 档案信息表
+				DdcDaxxb daxxb = new DdcDaxxb();
+				daxxb.setDabh(createDabh());
+				daxxb.setYwlx(ddcFlow.getYwlx());
+				daxxb.setYwyy(ddcFlow.getYwyy());
+				daxxb.setHyxhzh(ddcHyxhSsdwclsb.getHyxhzh());
+				daxxb.setZzjgdmzh(ddcHyxhSsdwclsb.getSsdwId());
+				daxxb.setCphm(ddcHyxhSsdwclsb.getCphm());
+				daxxb.setPpxh(ddcHyxhSsdwclsb.getPpxh());
+				daxxb.setCysy(ddcHyxhSsdwclsb.getCysy());
+				daxxb.setDjh(ddcHyxhSsdwclsb.getDjh());
+				daxxb.setJtzz(ddcHyxhSsdwclsb.getJtzz());
+				daxxb.setJsrxm1(ddcHyxhSsdwclsb.getJsrxm1());
+				daxxb.setXb1(ddcHyxhSsdwclsb.getXb1());
+				daxxb.setSfzmhm1(ddcHyxhSsdwclsb.getSfzmhm1());
+				daxxb.setLxdh1(ddcHyxhSsdwclsb.getLxdh1());
+				daxxb.setJsrxm2(ddcHyxhSsdwclsb.getJsrxm2());
+				daxxb.setXb2(ddcHyxhSsdwclsb.getXb2());
+				daxxb.setSfzmhm2(ddcHyxhSsdwclsb.getSfzmhm2());
+				daxxb.setLxdh2(ddcHyxhSsdwclsb.getLxdh2());
+				daxxb.setXsqy(ddcHyxhSsdwclsb.getXsqy());
+				daxxb.setBz(ddcHyxhSsdwclsb.getBz());
+				daxxb.setZt("A");
+				daxxb.setSyrq(syrq);
+				daxxb.setSlzl(ddcFlow.getSlzl());
+				daxxb.setSlyj(ddcFlow.getSlyj());
+				daxxb.setSlbz(ddcFlow.getSlbz().trim());
+				daxxb.setSlr(jtUser.getUserCode());
+				daxxb.setSlrq(new Date());
+				daxxb.setSlbm(jtUser.getUserOrg());
+				daxxb.setGdyj(ddcFlow.getGdyj());
+				daxxb.setGdr(jtUser.getUserCode());
+				daxxb.setGdrq(new Date());
+				daxxb.setGdbm(jtUser.getUserOrg());
+				daxxb.setSynFlag("UW");
+				daxxb.setTranFlag(null);
+
+				try {
+					iEbikeService.updateDdcHyxhSsdwclsb(ddcHyxhSsdwclsb);
+					iEbikeService.saveDdcApproveUser(approveUser);
+					iEbikeService.saveDdcFlow(ddcFlow);
+					iEbikeService.saveDaxxb(daxxb);
+					AjaxUtil.rendJson(response, true, "保存成功!");
+				} catch (Exception e) {
+					e.printStackTrace();
+					AjaxUtil.rendJson(response, false, "保存失败!系统错误");
+				}
+			} else {
+				// 审批人指向下一个角色
+				int nextRoleIndex = ddcHyxhSsdwclsb.getSlIndex() + 1;
+				ddcHyxhSsdwclsb.setSlIndex(nextRoleIndex);
+				DdcApproveUser approveUser = new DdcApproveUser();
+				approveUser.setUserName(jtUser.getUserName());// 姓名
+				approveUser.setUserOrgname(jtUser.getUserOrgName());// 部门
+				approveUser.setUserRoleName(jtUser.getUserRoleName());// 角色
+				approveUser.setApproveIndex(ddcHyxhSsdwclsb.getSlIndex());
+				approveUser.setApproveNote(note);
+				approveUser.setApproveState(Integer.parseInt(state));
+				approveUser.setApproveTable(SystemConstants.RECORDSBTABLE);
+				approveUser.setApproveTableid(ddcHyxhSsdwclsb.getId());
+				approveUser.setApproveTime(new Date());
+				try {
+					iEbikeService.updateDdcHyxhSsdwclsb(ddcHyxhSsdwclsb);
+					iEbikeService.saveDdcApproveUser(approveUser);
+					AjaxUtil.rendJson(response, true, "审批成功!");
+				} catch (Exception e) {
+					e.printStackTrace();
+					AjaxUtil.rendJson(response, false, "审批失败!系统错误");
+				}
+			}
+		}
+
+	}
+
+	/**
+	 * 方法描述：调用存储过程生成档案编号
+	 * 
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月30日 下午2:14:54
+	 */
+	private String createDabh() {
+		String dabhString = iEbikeService.getDabhByProcess();
+		return dabhString;
+	}
+
+	/**
+	 * 方法描述：调用存储过程生成车牌号码
+	 * 
+	 * @param ddcHyxhBase
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月30日 下午2:10:43
+	 */
+	private String createCphm(DdcHyxhBase ddcHyxhBase) {
+		String cphm = iEbikeService.getCphmByProcess(ddcHyxhBase);
+		return cphm;
+	}
+
+	/**
+	 * 
+	 * 方法描述：查询电动车档案详情 ddc_daxxb
+	 * 
+	 * @param id
+	 * @param request
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月30日 下午6:21:32
+	 */
+	@RequestMapping("/queryDaxxbDetail")
+	public String queryDaxxbDetail(String id, HttpServletRequest request) {
+
+		long longId = Long.parseLong(id);
+		DdcDaxxb ddcDaxxb = iEbikeService.getDdcDaxxbById(longId);
+		String cysyName = iEbikeService.findByProPerties("CSYS",
+				ddcDaxxb.getCysy());
+
+		ddcDaxxb.setCysyName(cysyName);// 车身颜色
+		String xsqyName = iEbikeService.findByProPerties("SSQY",
+				ddcDaxxb.getXsqy());
+		ddcDaxxb.setXsqyName(xsqyName);// 所属区域
+
+		String ztName = iEbikeService
+				.findByProPerties("CLZT", ddcDaxxb.getZt());
+		ddcDaxxb.setZtName(ztName);
+		// 申报单位
+		if (StringUtils.isNotBlank(ddcDaxxb.getZzjgdmzh())) {
+			DdcHyxhSsdw ddcHyxhSsdw = iInDustryService.getDdcHyxhSsdwById(Long
+					.parseLong(ddcDaxxb.getZzjgdmzh()));
+			if (ddcHyxhSsdw != null) {
+				ddcDaxxb.setZzjgdmzhName(ddcHyxhSsdw.getDwmc());
+			} else {
+				ddcDaxxb.setZzjgdmzhName(null);
+			}
+		}
+		// 业务类型
+		String ywlxName = iEbikeService.findByProPerties("YWLX",
+				ddcDaxxb.getYwlx());
+		ddcDaxxb.setYwlxName(ywlxName);
+		// 业务原因
+		String ywyyName = iEbikeService.findByProPerties("YWYY_A",
+				ddcDaxxb.getYwyy());
+		ddcDaxxb.setYwyyName(ywyyName);
+
+		DdcHyxhBase ddcHyxhBase = iInDustryService
+				.getDdcHyxhBaseByCode(ddcDaxxb.getHyxhzh());// 行业协会账号
+		ddcDaxxb.setHyxhzhmc(ddcHyxhBase.getHyxhmc());
+		// 用户
+		JtUser jtUser = iJtUserService.getJtUserByUserCode(ddcDaxxb.getSlr());
+		ddcDaxxb.setSlrName(jtUser.getUserName());
+		// 部门
+		JtViewDept jtViewDept = iJtUserService.getJtDeptByOrg(ddcDaxxb
+				.getSlbm());
+		ddcDaxxb.setSlbmName(jtViewDept.getOrgName());
+
+		List<DdcSjzd> slzls = iEbikeService.getSelectSlzl(ddcDaxxb.getSlzl());// 选中的退办原因
+		String showEbikeImg = parseUrl(ddcDaxxb.getVcEbikeImg());
+		String showUser1Img = parseUrl(ddcDaxxb.getVcUser1Img());
+		String showUser2Img = parseUrl(ddcDaxxb.getVcUser2Img());
+		ddcDaxxb.setVcShowEbikeImg(showEbikeImg);
+		ddcDaxxb.setVcShowUser1Img(showUser1Img);
+		ddcDaxxb.setVcShowUser2Img(showUser2Img);
+		request.setAttribute("ddcDaxxb", ddcDaxxb);
+		request.setAttribute("slzls", slzls);
+		return "approve/checkApproveDetail";
 	}
 }
