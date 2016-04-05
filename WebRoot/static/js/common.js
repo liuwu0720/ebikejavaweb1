@@ -15,17 +15,19 @@ function getQueryString(name) {
  */
 function getWidth(minWidth){
 	var t = minWidth;
+	
 	if(document.body.offsetWidth > t){
 		t = document.body.offsetWidth-20;
 	}
-	
 	return t;
 }
 //计算列表的高度
 function getHeight(id){
 	var tt = $('#'+id).offset().top;
-	var temp = windowHeight();
-	var t =temp-tt-50;
+	
+	var temp = document.body.offsetHeight;
+	//alert(temp);
+	var t =temp-tt;
 	if(t>0){
 		return t;
 	}else{
@@ -41,29 +43,16 @@ function windowHeight() {
 //由列表的高度，计算列表展示的行数
 function getPageSize(height){
 	var size = parseInt(height / (400/12));//21
-	
 	if(eval(size)<5){
 		size = 5;
 	}else if(5<size && size<10){
-		size = 5;
-	}else if(10<size && size<15){
 		size = 10;
-	}else if(15<size && size<20){
-		size = 15;
-	}else if(20<size && size<25){
+	}else if(10<size && size<20){
 		size = 20;
-	}else if(25<size && size<30){
-		size = 25;
-	}else if(30<size && size<35){
+	}else if(20<size && size<30){
 		size = 30;
-	}else if(35<size && size<40){
-		size = 35;
-	}else if(40<size && size<45){
+	}else if(30<size && size<40){
 		size = 40;
-	}else if(45<size && size<50){
-		size = 45;
-	}else if(size>50){
-		size = 50;
 	}
 	return size;
 }

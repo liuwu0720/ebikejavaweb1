@@ -126,10 +126,10 @@ public class ApprovalAction {
 			String hyxhzh, String xsqy, String dwmcId,
 			HttpServletRequest request, String cphm) {
 		String sql = "select A.ID,A.DABH,A.CPHM,A.DJH,A.JSRXM1,A.GDYJ,A.SFZMHM1,A.SYRQ, "
-				+ "(select distinct b.HYXHMC from DDC_HYXH_BASE b where b.HYXHZH = A.HYXHZH ) as HYXHMC,"
-				+ " (SELECT S.DWMC FROM DDC_HYXH_SSDW S WHERE S.ID=A.ZZJGDMZH ) AS DWMC,"
-				+ "(select d.DMMS1 from ddc_sjzd d where d.dmz=a.xsqy and d.dmlb='SSQY') as xsqy, "
-				+ "(SELECT D.DMMS1 FROM DDC_SJZD D WHERE D.DMZ=A.ZT AND D.DMLB='CLZT')AS ZT from DDC_DAXXB A WHERE 1=1 ";
+				+ "(select distinct b.HYXHMC from DDC_HYXH_BASE b where b.HYXHZH = A.HYXHZH  and rownum=1) as HYXHMC,a.HYXHZH,"
+				+ " (SELECT distinct S.DWMC FROM DDC_HYXH_SSDW S WHERE S.ID=A.ZZJGDMZH  and rownum=1) AS DWMC,a.ZZJGDMZH,"
+				+ "(select distinct d.DMMS1 from ddc_sjzd d where d.dmz=a.xsqy and d.dmlb='SSQY' and rownum=1) as xsqy, "
+				+ "(SELECT distinct D.DMMS1 FROM DDC_SJZD D WHERE D.DMZ=A.ZT AND D.DMLB='CLZT'  and rownum=1)AS ZT from DDC_DAXXB A WHERE 1=1 ";
 		// 电机号
 		if (StringUtils.isNotBlank(djh)) {
 			sql += " and a.djh like '%" + djh + "%'";
@@ -186,9 +186,9 @@ public class ApprovalAction {
 		// 获取该用户的审批角色，可能为多重审批角色
 		List<JtRole> approveJtRoles = iJtUserService
 				.getApproveRolesByUser(jtUser);
-		String sql = "select sb.id, sb.lsh,(select distinct b.HYXHMC from ddc_hyxh_base b where b.hyxhzh = sb.hyxhzh) as hyxhmc,"
-				+ "(select distinct d.DWMC from ddc_hyxh_ssdw d where d.id = sb.ssdw_id) as dwmc ,sb.djh,sb.jsrxm1,sb.sqrq,sb.SLRQ,"
-				+ "(select zd.dmms1 from ddc_sjzd zd where zd.dmz=sb.xsqy and zd.dmlb='SSQY') as xsqy,sb.SLYJ ,sb.SL_INDEX from ddc_hyxh_ssdwclsb sb where 1=1";
+		String sql = "select sb.id, sb.lsh,(select distinct b.HYXHMC from ddc_hyxh_base b where b.hyxhzh = sb.hyxhzh) as hyxhmc,sb.hyxhzh,"
+				+ "(select distinct d.DWMC from ddc_hyxh_ssdw d where d.id = sb.ssdw_id) as dwmc ,sb.ssdw_id,sb.djh,sb.jsrxm1,sb.sqrq,sb.SLRQ,"
+				+ "(select distinct zd.dmms1 from ddc_sjzd zd where zd.dmz=sb.xsqy and zd.dmlb='SSQY') as xsqy,sb.SLYJ ,sb.SL_INDEX from ddc_hyxh_ssdwclsb sb where 1=1";
 		if (StringUtils.isNotBlank(lsh)) {
 			sql += " and sb.lsh like '%" + lsh + "%'";
 		}
@@ -222,12 +222,16 @@ public class ApprovalAction {
 			ddcHyxhSsdwclsb.setId(Long.parseLong(objMap.get("ID").toString()));
 			ddcHyxhSsdwclsb.setLsh(objMap.get("LSH") == null ? null : objMap
 					.get("LSH").toString());
-			ddcHyxhSsdwclsb.setHyxhzh(objMap.get("HYXHMC") == null ? null
+			ddcHyxhSsdwclsb.setHyxhzh(objMap.get("HYXHZH") == null ? null
+					: objMap.get("HYXHZH").toString());
+			ddcHyxhSsdwclsb.setHyxhzhName(objMap.get("HYXHMC") == null ? null
 					: objMap.get("HYXHMC").toString());
 			ddcHyxhSsdwclsb.setJsrxm1(objMap.get("JSRXM1") == null ? null
 					: objMap.get("JSRXM1").toString());
 			ddcHyxhSsdwclsb.setXsqyName(objMap.get("XSQY") == null ? null
 					: objMap.get("XSQY").toString());
+			ddcHyxhSsdwclsb.setSsdwId(objMap.get("SSDW_ID") == null ? null
+					: objMap.get("SSDW_ID").toString());
 			ddcHyxhSsdwclsb.setSsdwName(objMap.get("DWMC") == null ? null
 					: objMap.get("DWMC").toString());
 			ddcHyxhSsdwclsb.setDjh(objMap.get("DJH") == null ? null : objMap
@@ -388,6 +392,7 @@ public class ApprovalAction {
 			String type) {
 		long dId = Long.parseLong(id);
 		DdcHyxhBasb ddcHyxhBasb = iEbikeService.getDdcHyxhBasbById(dId);
+
 		String approveTableName = SystemConstants.PESBTABLE;
 		List<DdcApproveUser> approveUsers = iEbikeService
 				.findApproveUsersByProperties(approveTableName,
@@ -449,8 +454,8 @@ public class ApprovalAction {
 		List<DdcApproveUser> approveUsers = iEbikeService
 				.findApproveUsersByProperties(approveTableName,
 						ddcHyxhSsdwclsb.getId());
-		List<DdcSjzd> selectlTbyy = iEbikeService.getDbyyList(ddcHyxhSsdwclsb
-				.getTbyy());// 选中的退办原因
+		List<DdcSjzd> selectlTbyy = iEbikeService.getDbyyList(
+				ddcHyxhSsdwclsb.getTbyy(), "TBYY");// 选中的退办原因
 		List<DdcSjzd> dbyyDdcSjzds = iEbikeService.getSjzdByDmlb("TBYY");// 数据字典中所有的退办原因
 		List<DdcSjzd> slzList = iEbikeService.getSjzdByDmlb("BASQZL");// 数据字典中所有的受理资料
 		request.setAttribute("selectlTbyy", selectlTbyy);
@@ -530,6 +535,9 @@ public class ApprovalAction {
 			approveUser.setApproveTable(SystemConstants.PESBTABLE);
 			approveUser.setApproveTableid(ddcHyxhBasb.getId());
 			approveUser.setApproveTime(new Date());
+			approveUser.setLsh(ddcHyxhBasb.getLsh());
+			// 保存流水
+
 			try {
 				iEbikeService.updateDdcHyxhBasb(ddcHyxhBasb);
 				iEbikeService.saveDdcApproveUser(approveUser);
@@ -682,6 +690,7 @@ public class ApprovalAction {
 			approveUser.setApproveTable(SystemConstants.RECORDSBTABLE);
 			approveUser.setApproveTableid(ddcHyxhSsdwclsb.getId());
 			approveUser.setApproveTime(new Date());
+			approveUser.setLsh(ddcFlow.getLsh());
 			try {
 				iEbikeService.updateDdcHyxhSsdwclsb(ddcHyxhSsdwclsb);
 				iEbikeService.saveDdcApproveUser(approveUser);

@@ -14,7 +14,12 @@
 <title>行业协会所属单位配额管理</title>
 
 <%@include file="../common/common.jsp"%>
+<style type="text/css">
+#table  input{
+	border: 0;
+}
 
+</style>
 
 <script type="text/javascript">
 $(document).ready(function(){
@@ -50,6 +55,11 @@ $(document).ready(function(){
 			align:'center',
 			width : 220
 		},{
+			field : 'dwpe',
+			title : '单位配额',
+			align:'center',
+			width : 120
+		},{
 			field : 'lxr',
 			title : '联系人',
 			align:'center',
@@ -74,10 +84,14 @@ $(document).ready(function(){
 				return unixTimestamp.toLocaleString();
 			}   
 		},{
-			field : 'hyxhzh',
+			field : 'hyxhzhName',
 			title : '所属协会',
 			align:'center',
-			width : 120
+			width : 120,
+			formatter:function(value,row,index){
+				var query = "<a  href='javascript:void(0)'  onclick='queryHyxhDetail(\""+row.hyxhzh+"\")'>"+value+"</a>";
+				return query;	
+			}
 		},{
 			field : 'zt',
 			title : '状态',
@@ -96,8 +110,11 @@ $(document).ready(function(){
 			align:'center',
 			width : 120,
 			formatter:function(value,row,index){
-				var reset = "<a  href='javascript:void(0)'  onclick='upateRowQty("+row.id+")'>修改配额</a>&nbsp;&nbsp;&nbsp;";
-				return reset;	
+				if(row.zt != 0){
+					var reset = "<a  href='javascript:void(0)'  onclick='upateRowQty("+row.id+")'>修改配额</a>&nbsp;&nbsp;&nbsp;";
+					return reset;
+				}
+					
 			}
 		}
 
@@ -176,6 +193,26 @@ function doSearch(){
 		 dwmc:$("#dwmc").val()
 	}); 
 }
+
+//查看行业协会详情
+function queryHyxhDetail(obj){
+
+	$.ajax({
+		type: "GET",
+   	    url: "<%=basePath%>industryAction/queryHxyHyxhBaseByCode",
+   	   data:{
+   		code:obj
+	   }, 
+	   dataType: "json",
+	   success:function(data){
+ 			  if(data){
+ 				 $('#dgformDiv2').dialog('open').dialog('setTitle', '详情信息');
+ 				 $('#dgform2').form('load', data);
+ 			  }
+ 		  }
+	})
+	
+}
 </script>
 </head>
 <body class="easyui-layout">
@@ -203,7 +240,7 @@ function doSearch(){
 				<tr>
 					<td>申请配额:</td>
 					<td><input id="hyxhsjzpe" class="easyui-numberspinner" name="dwpe"
-						data-options="increment:1,required:true,validType:'number'"  min="0"
+						data-options="increment:1,required:true,validType:'number'"  min="0" max="1000000"
 						style="width:120px;height:30px;"></input></td>
 				</tr>
 				
@@ -220,6 +257,46 @@ function doSearch(){
 		</div>
 	</div>
 	
+	
+    <!-- 行业协会详情 -->
+	<div id="dgformDiv2" class="easyui-dialog"
+		style="width:650px;height:450px;padding:10px 20px 20px 20px;" closed="true">
+		<form id="dgform2" class="easyui-form">
+			<table class="table" id="table">
+				<tr>
+					<th>协会名称</th>
+					<td><input  name=hyxhmc type="text" class="easyui-validatebox" style="height: 32px;width:100%;" readonly="readonly"></td>
+				</tr>
+				<tr>
+					<th>协会类别</th>
+					<td><input  name=hyxhlb type="text" class="easyui-validatebox" style="height: 32px;width:100%;" readonly="readonly"></td>
+				</tr>
+				<tr>
+					<th>协会地址</th>
+					<td><input  name="hyxhdz" type="text" class="easyui-validatebox" style="height: 32px;width:100%;" readonly="readonly"></td>
+				</tr>
+				<tr>
+					<th>协会负责人</th>
+					<td><input  name="hyxhfzr" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+				</tr>
+				<tr>
+					
+					<th>联系电话</th>
+					<td><input  name="hyxhfzrdh" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+				</tr>
+				<tr>
+					<th>总配额</th>
+					<td><input  name="hyxhsjzpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+				</tr>
+				<tr>
+					
+					<th>剩余配额</th>
+					<td><input  name="lastpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+				</tr>
+			</table>
+				
+		</form>
+	</div>
 	
 </body>
 </html>

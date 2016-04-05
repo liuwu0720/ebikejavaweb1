@@ -146,7 +146,7 @@ function updateSaveData(){
 				</tr>
 				<tr>
 					<th>办结人</th>
-					<td>${ddcHyxhBasb.bzjr }  &nbsp; ${ddcHyxhBasb.bjbmName }</td>
+					<td>${ddcHyxhBasb.bzjr }  &nbsp; ${ddcHyxhBasb.bjbm }</td>
 				</tr>
 				<tr>
 					<th>办结意见</th>

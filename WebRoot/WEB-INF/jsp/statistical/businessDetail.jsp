@@ -12,7 +12,11 @@
 <base href="<%=basePath%>">
 
 <title>业务量统计</title>
-
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="expires" content="0">    
+	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+	<meta http-equiv="description" content="This is my page">
 <%@include file="../common/common.jsp"%>
 
 
@@ -23,6 +27,22 @@ $(document).ready(function(){
 		});
 	var area = '${area}';
 	var type = '${type}';
+	var typeName = "";
+	if(type == 'A'){
+		typeName="备案";
+	}
+	if(type == 'B'){
+		typeName="变更";
+	}
+	if(type == 'C'){
+		typeName="转移";
+	}
+	if(type == 'D'){
+		typeName="注销";
+	}
+	if(type == 'E'){
+		typeName="检验";
+	}
 	var h = getHeight('dg');
 	var size = getPageSize(h);
 	var w = getWidth(400);
@@ -30,7 +50,7 @@ $(document).ready(function(){
 	$("#dg").datagrid({
 
 		url : "<%=basePath%>statisticalAction/queryByBusinessDetail?area=" +area+"&type="+type,
-		title :  "业务量统计",
+		title :  typeName+"业务详情",
 		striped : true,
 		fitColumns:true,   //数据列太少 未自适应
 		pagination : true,
@@ -96,54 +116,42 @@ $(document).ready(function(){
             $('#dg').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题  
         }
 	});
+	$('#xsqy').combobox({    
+	    url:'<%=basePath%>ebikeAction/getArea',    
+	    valueField:'dmz',    
+	    textField:'dmms1'   
+	}); 
+	$('#hyxsssdwmc').combobox()
 	
+	$('#hyxhzh').combobox({    
+	    url:'<%=basePath%>industryAction/getAllIndustry',    
+	    valueField:'hyxhzh',    
+	    textField:'hyxhmc',
+	    onSelect:function(param){
+	    	$('#hyxsssdwmc').combobox({
+	    		 	url:'<%=basePath%>industryAction/getDwmcByHyxh?hyxhzh='+param.hyxhzh,    
+	    		    valueField:'id',    
+	    		    textField:'dwmc'
+	    	})
+		}
+	});
 	
 });
 function getDetail(id){
-	$.ajax({
-	 	type: "GET",
-   	    url: "<%=basePath%>statisticalAction/getFlowDetailById",
-   	   data:{
-		  id:id
-	   }, 
-	   dataType: "json",
-	   success:function(data){
-		   if(data){
-				 $('#dgformDiv2').dialog('open').dialog('setTitle', '详情信息');
-				$('#dgform2').form('clear');
-				if(data.slyj == '0'){
-					data.slyj = '同意';
-				}else{
-					data.slyj = '不同意';
-				}
-				if(data.gdyj == '0'){
-					data.gdyj = '办洁';
-				}else{
-					data.gdyj = '退办';
-				}
-				
-				 $('#dgform2').form('load', data);
-				
-			 	if(data.vcShowEbikeImg == null){
-					 $("#img_0").attr("src","<%=basePath%>static/images/iconfont-wu.png");
-				}else{
-					$("#img_0").attr("src",data.vcShowEbikeImg);
-				}
-				if(data.vcShowUser2Img == null){
-					 $("#img2_2").attr("src","<%=basePath%>static/images/iconfont-wu.png");
-				}else{
-					$("#img2_2").attr("src",data.vcShowUser2Img);
-				}
-				if(data.vcShowUser1Img == null){
-					 $("#img1_1").attr("src","<%=basePath%>static/images/iconfont-wu.png");
-				}else{
-					$("#img1_1").attr("src",data.vcShowUser1Img);
-				} 
-		   } 
-	   }
- })
+	window.location.href="<%=basePath%>statisticalAction/getFlowDetailById?id="+id;
 }
 
+//查询功能
+function doSearch(){
+	 $('#dg').datagrid('load',{
+		dabh: $("#dabh").val(),
+		djh: $('#djh').val(),
+		cphm:$("#cphm").val(),
+		 dwmcId:$("#hyxsssdwmc").combobox("getValue"),
+		 xsqy:$("#xsqy").combobox("getValue"),
+		 hyxhzh:$("#hyxhzh").combobox("getValue"),
+	}); 
+}
 </script>
 </head>
 <body class="easyui-layout">
@@ -151,8 +159,20 @@ function getDetail(id){
 	<div>
 		<table id="dg" style="width:90%;">
 
-			<div id="tb" style="padding: 5px; background: #E8F1FF;">
-			
+			<div id="tb" style="padding-top: 5px; background: #E8F1FF;width: 100%;">
+				<span>协会名称：</span>
+				<input id="hyxhzh" style="height: 32px;">  
+				<span>公司名称：</span>
+				<input id="hyxsssdwmc" style="height: 32px;">
+				<span>行驶区域：</span>
+				<input id="xsqy" style="height: 32px;width: 80px;">
+				<span>档案编号：</span>
+				<input id="dabh" type="text" class="easyui-validatebox" name="dabh" ></input>
+				<span>电机号:</span> <input id="djh" name="djh"
+					class="easyui-validatebox" type="text" > &nbsp;&nbsp;&nbsp;
+				
+				<a class="easyui-linkbutton" plain="true" onclick="doSearch()"
+					iconCls="icon-search">查询 </a>
 			</div>
 		</table>
 	</div>

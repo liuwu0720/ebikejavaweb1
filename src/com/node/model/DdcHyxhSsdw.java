@@ -31,6 +31,7 @@ public class DdcHyxhSsdw implements java.io.Serializable {
 	private static final long serialVersionUID = 1024295025412125137L;
 	private Long id;
 	private String hyxhzh;
+	private String hyxhzhName;
 	private String dwmc;// 单位名称
 	private String zzjgdmzh;// 组织机构代码证号
 	private String zsdz;// 住所地址（深圳市福田区）
@@ -274,6 +275,19 @@ public class DdcHyxhSsdw implements java.io.Serializable {
 	 */
 	public void setVcShowPath(String vcShowPath) {
 		this.vcShowPath = vcShowPath;
+	}
+
+	@Transient
+	public String getHyxhzhName() {
+		return hyxhzhName;
+	}
+
+	/**
+	 * @param hyxhzhName
+	 *            : set the property hyxhzhName.
+	 */
+	public void setHyxhzhName(String hyxhzhName) {
+		this.hyxhzhName = hyxhzhName;
 	}
 
 }

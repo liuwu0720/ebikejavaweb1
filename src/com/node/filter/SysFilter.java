@@ -48,7 +48,7 @@ public class SysFilter implements Filter {
 		if (allow(path, uri, exclude)) {
 			chain.doFilter(request, response);
 			return;
-		} else if (session.getAttribute(SystemConstants.JTUSER) != null) {
+		} else if (session.getAttribute(SystemConstants.SESSION_USER) != null) {
 			chain.doFilter(request, response);
 			return;
 		}

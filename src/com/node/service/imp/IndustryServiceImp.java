@@ -214,7 +214,7 @@ public class IndustryServiceImp implements IInDustryService {
 	 */
 	@Override
 	public int getDdcHyxhBaseLastPe(DdcHyxhBase ddcHyxhBase) {
-		String sql = "select sum(t.dwpe) from  DDC_HYXH_SSDW t where t.hyxhzh='"
+		String sql = "select nvl(sum(t.dwpe),0) from  DDC_HYXH_SSDW t where t.hyxhzh='"
 				+ ddcHyxhBase.getHyxhzh() + "'";
 		Object object = iDdcHyxhBaseDao.getDateBySQL(sql);
 		return Integer.parseInt(object.toString());

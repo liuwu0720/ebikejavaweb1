@@ -140,7 +140,7 @@ function queryHyxhDetail(obj){
 	   dataType: "json",
 	   success:function(data){
  			  if(data){
- 				 $('#dgformDiv').dialog('open').dialog('setTitle', '填写审批意见(可以为空)');
+ 				 $('#dgformDiv').dialog('open').dialog('setTitle', '详情信息');
  				 $('#dgform').form('load', data);
  			  }
  		  }

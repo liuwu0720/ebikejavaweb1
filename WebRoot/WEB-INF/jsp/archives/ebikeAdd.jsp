@@ -46,10 +46,23 @@ $(document).ready(function(){
 			align:'center',
 			width : 120
 		},{
+			field : 'HYXHMC',
+			title : '行业协会名称',
+			align:'center',
+			width : 120,
+			formatter:function(value,row,index){
+				var query = "<a  href='javascript:void(0)'  onclick='queryHyxhDetail(\""+row.hyxhzh+"\")'>"+value+"</a>";
+				return query;	
+			}
+		},{
 			field : 'DWMC',
 			title : '单位名称',
 			align:'center',
-			width : 120
+			width : 120,
+			formatter:function(value,row,index){
+				var query = "<a  href='javascript:void(0)'  onclick='queryHyxhDwDetail(\""+row.ssdwId+"\")'>"+value+"</a>";
+				return query;	
+			}
 		},{
 			field : 'DABH',
 			title : '档案编号',
@@ -159,7 +172,43 @@ function queryRow(id){
 
 }
 
+//查看行业协会详情
+function queryHyxhDetail(obj){
 
+	$.ajax({
+		type: "GET",
+   	    url: "<%=basePath%>industryAction/queryHxyHyxhBaseByCode",
+   	   data:{
+   		code:obj
+	   }, 
+	   dataType: "json",
+	   success:function(data){
+ 			  if(data){
+ 				 $('#dgformDiv').dialog('open').dialog('setTitle', '详情信息');
+ 				 $('#dgform').form('load', data);
+ 			  }
+ 		  }
+	})
+	
+}
+//查看单位详情
+function queryHyxhDwDetail(obj){
+	$.ajax({
+		type: "GET",
+   	    url: "<%=basePath%>industryAction/queryCompanyById",
+   	   data:{
+   		id:obj
+	   }, 
+	   dataType: "json",
+	   success:function(data){
+ 			  if(data){
+ 				 $('#dgformDiv2').dialog('open').dialog('setTitle', '详情信息');
+ 				 $('#dgform2').form('load', data);
+ 				 $("#img2").attr("src",data.vcShowPath);
+ 			  }
+ 		  }
+	})
+}
 </script>
 </head>
 <body class="easyui-layout">
@@ -167,16 +216,16 @@ function queryRow(id){
 	<div>
 		<table id="dg" style="width:90%;">
 
-			<div id="tb" style="padding: 5px; background: #E8F1FF;">
+			<div id="tb" class="searchdiv">
 				<span>行驶区域</span>
 				<input id="xsqy" style="height: 32px;">  
 				<span>档案编号：</span>
 				<input id="dabh" type="text" class="easyui-validatebox" name="dabh" ></input>
 				<span>电机号:</span> <input id="djh" name="djh"
 					class="easyui-validatebox" type="text" > &nbsp;&nbsp;&nbsp;
-				<span>姓名:</span> <input id="jsrxm1" name="jsrxm1"
+				<span>姓名1:</span> <input id="jsrxm1" name="jsrxm1"
 					class="easyui-validatebox" type="text" > &nbsp;&nbsp;&nbsp;
-				<span>身份证号:</span> <input id="sfzhm" name="sfzhm"
+				<span>身份证号1:</span> <input id="sfzhm" name="sfzhm"
 					class="easyui-validatebox" type="text" > &nbsp;&nbsp;&nbsp;
 				<a class="easyui-linkbutton" plain="true" onclick="doSearch()"
 					iconCls="icon-search">查询 </a>
@@ -184,6 +233,84 @@ function queryRow(id){
 		</table>
 	</div>
 	
-
+  <!-- 行业协会详情 -->
+	<div id="dgformDiv" class="easyui-dialog"
+		style="width:650px;height:450px;padding:10px 20px 20px 20px;" closed="true">
+		<form id="dgform" class="easyui-form">
+			<table class="table" id="table">
+				<tr>
+					<th>协会名称</th>
+					<td><input  name=hyxhmc type="text" class="easyui-validatebox" style="height: 32px;width:100%;" readonly="readonly"></td>
+				</tr>
+				<tr>
+					<th>协会类别</th>
+					<td><input  name=hyxhlb type="text" class="easyui-validatebox" style="height: 32px;width:100%;" readonly="readonly"></td>
+				</tr>
+				<tr>
+					<th>协会地址</th>
+					<td><input  name="hyxhdz" type="text" class="easyui-validatebox" style="height: 32px;width:100%;" readonly="readonly"></td>
+				</tr>
+				<tr>
+					<th>协会负责人</th>
+					<td><input  name="hyxhfzr" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+				</tr>
+				<tr>
+					
+					<th>联系电话</th>
+					<td><input  name="hyxhfzrdh" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+				</tr>
+				<tr>
+					<th>总配额</th>
+					<td><input  name="hyxhsjzpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+				</tr>
+				<tr>
+					
+					<th>剩余配额</th>
+					<td><input  name="lastpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+				</tr>
+			</table>
+				
+		</form>
+	</div>
+	
+	 <!-- 单位信息详情 -->
+	<div id="dgformDiv2" class="easyui-dialog"
+		style="width:650px;height:450px;padding:10px 20px 20px 20px;" closed="true">
+		<form id="dgform2" class="easyui-form">
+			<table class="table" id="table2">
+				<tr>
+					<th>单位名称</th>
+					<td><input  name=dwmc type="text" class="easyui-validatebox" style="height: 32px;width:100%;" readonly="readonly"></td>
+				</tr>
+				<tr>
+					<th>组织机构代码证号</th>
+					<td><input  name=zzjgdmzh type="text" class="easyui-validatebox" style="height: 32px;width:100%;" readonly="readonly"></td>
+				</tr>
+				<tr>
+					<th>地址</th>
+					<td><input  name="zsdz" type="text" class="easyui-validatebox" style="height: 32px;width:100%;" readonly="readonly"></td>
+				</tr>
+				<tr>
+					<th>联系人</th>
+					<td><input  name="lxr" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+				</tr>
+				<tr>
+					
+					<th>联系电话</th>
+					<td><input  name="lxdh" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+				</tr>
+				<tr>
+					<th>配额</th>
+					<td><input  name="dwpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+				</tr>
+				<tr>
+					
+					<th>营业执照图片</th>
+					<td><img id="img2"  class="easyui-validatebox" style="width:300px"   /><br/></td>
+				</tr>
+			</table>
+				
+		</form>
+	</div>
 </body>
 </html>

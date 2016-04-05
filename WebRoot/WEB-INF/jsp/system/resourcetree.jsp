@@ -24,6 +24,9 @@ $(document).ready(function(){
 	$.ajaxSetup ({
 		   cache: false //
 		});
+	var h = getHeight('dg');
+	var size = getPageSize(h);
+	var w = getWidth(400);
 	var randomNu = (new Date().getTime()) ^ Math.random();
 	$("#dg").datagrid({
 
@@ -35,7 +38,7 @@ $(document).ready(function(){
 		pagination : true,
 		rownumbers : true,
 		singleSelect : true,
-		height:700,
+		height:h,
 		width:w,
 		columns : [ [{
 			field : 'vcMenu',

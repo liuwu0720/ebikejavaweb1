@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -59,39 +60,42 @@ public class StatisticalServiceImp implements IStatisticalService {
 			flowStatis.setSlbm(objMap.get("SLBM") == null ? null : objMap.get(
 					"SLBM").toString());
 			flowStatis.setSlrq(objMap.get("SLRQ").toString());
-			String sql2 = "select jb from OA_DEPT_VIEW where org_id='"
-					+ flowStatis.getSlbm() + "'";
-			String jb = iJtUserDao.getDateBySQL(sql2).toString();
-			// 根据级别查询出中队名称、大队名称
-			if (jb.equals("2")) {
-				flowStatis.setZdmc("无");// 中队名称
-
-				String sql3 = "select org_name from OA_DEPT_VIEW where org_id='"
+			String sql2 = "";
+			if (StringUtils.isNotBlank(flowStatis.getSlbm())) {
+				sql2 = "select jb from OA_DEPT_VIEW where org_id='"
 						+ flowStatis.getSlbm() + "'";
-				String ddmc = iJtUserDao.getDateBySQL(sql3).toString();// 大队名称
-				flowStatis.setDdmc(ddmc);
 
-			} else if (jb.equals("3")) {
-				String sql4 = "select org_name from OA_DEPT_VIEW where org_id='"
-						+ flowStatis.getSlbm() + "'";
-				String zdmc = iJtUserDao.getDateBySQL(sql4).toString();
-				flowStatis.setZdmc(zdmc);
-				String sql5 = "select org_name from OA_DEPT_VIEW where org_id='"
-						+ getDept(flowStatis.getSlbm()) + "'";
-				String ddmc = iJtUserDao.getDateBySQL(sql5).toString();
-				flowStatis.setDdmc(ddmc);
+				String jb = iJtUserDao.getDateBySQL(sql2).toString();
+				// 根据级别查询出中队名称、大队名称
+				if (jb.equals("2")) {
+					flowStatis.setZdmc("无");// 中队名称
 
-			} else if (jb.equals("4")) {
-				String sql6 = "select org_name from OA_DEPT_VIEW where org_id=(select up_org from xdda_dept_view where org_id='"
-						+ flowStatis.getSlbm() + "')";
-				String zdmc = iJtUserDao.getDateBySQL(sql6).toString();
-				flowStatis.setZdmc(zdmc);
-				String sql7 = "select org_name from OA_DEPT_VIEW where org_id='"
-						+ getDept(flowStatis.getSlbm()) + "'";
-				String ddmc = iJtUserDao.getDateBySQL(sql7).toString();
-				flowStatis.setDdmc(ddmc);
+					String sql3 = "select org_name from OA_DEPT_VIEW where org_id='"
+							+ flowStatis.getSlbm() + "'";
+					String ddmc = iJtUserDao.getDateBySQL(sql3).toString();// 大队名称
+					flowStatis.setDdmc(ddmc);
+
+				} else if (jb.equals("3")) {
+					String sql4 = "select org_name from OA_DEPT_VIEW where org_id='"
+							+ flowStatis.getSlbm() + "'";
+					String zdmc = iJtUserDao.getDateBySQL(sql4).toString();
+					flowStatis.setZdmc(zdmc);
+					String sql5 = "select org_name from OA_DEPT_VIEW where org_id='"
+							+ getDept(flowStatis.getSlbm()) + "'";
+					String ddmc = iJtUserDao.getDateBySQL(sql5).toString();
+					flowStatis.setDdmc(ddmc);
+
+				} else if (jb.equals("4")) {
+					String sql6 = "select org_name from OA_DEPT_VIEW where org_id=(select up_org from xdda_dept_view where org_id='"
+							+ flowStatis.getSlbm() + "')";
+					String zdmc = iJtUserDao.getDateBySQL(sql6).toString();
+					flowStatis.setZdmc(zdmc);
+					String sql7 = "select org_name from OA_DEPT_VIEW where org_id='"
+							+ getDept(flowStatis.getSlbm()) + "'";
+					String ddmc = iJtUserDao.getDateBySQL(sql7).toString();
+					flowStatis.setDdmc(ddmc);
+				}
 			}
-
 			flowStatisList.add(flowStatis);
 		}
 

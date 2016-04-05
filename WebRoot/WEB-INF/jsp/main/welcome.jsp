@@ -9,22 +9,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" type="text/css" href="<%=basePath%>static/css/frame.css">
+	<link rel="stylesheet" type="text/css"
+		href="<%=basePath%>static/css/iconfont.css">
+		<link rel="stylesheet" type="text/css"
+			href="<%=basePath%>static/css/ebike.css">
 </head>
 <body>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
-  <body style="background-color: #E3EEFF;">
-	<table width="100%" height="80%" border="0" cellpadding="0" cellspacing="0">
-		<tr>
-			<td align="center">
-				<div id="main_welcome"></div>
-				<div id="main_name">欢迎使用深圳市特殊行业电动自行车管理系统！</div>
-			</td>
-		</tr>
-	</table>
-  </body>
-</html>
-
+	<div class="main_welcome">
+		<div class="main_welcome_icon">
+			<i class="iconfont">&#xe622;</i>
+			<p>欢迎使用深圳市特殊行业电动自行车管理系统！</p>
+		</div>
+	</div>
 </body>
 </html>

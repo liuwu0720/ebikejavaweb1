@@ -68,6 +68,20 @@ public class MainAction {
 
 	/**
 	 * 
+	 * 方法描述：
+	 * 
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月31日 下午2:20:56
+	 */
+	@RequestMapping("/getFooter")
+	public String getFooter() {
+		return "main/footer";
+	}
+
+	/**
+	 * 
 	 * 方法描述：主页的欢迎页面
 	 * 
 	 * @return

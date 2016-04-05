@@ -61,7 +61,12 @@ $(document).ready(function(){
 			width : 120
 		},{
 			field : 'hyxhsjzpe',
-			title : '配额',
+			title : '总配额',
+			align:'center',
+			width : 120
+		},{
+			field : 'lastpe',
+			title : '已有配额',
 			align:'center',
 			width : 120
 		},{
@@ -205,7 +210,7 @@ function checkvalues(){
 				<tr>
 					<td>申请配额:</td>
 					<td><input id="hyxhsjzpe" class="easyui-numberspinner" name="hyxhsjzpe"
-						data-options="increment:1,required:true,validType:'number'"  min="0"
+						data-options="increment:1,required:true,validType:'number'"  min="0"  max="1000000"
 						style="width:120px;height:30px;"></input></td>
 				</tr>
 				<tr>

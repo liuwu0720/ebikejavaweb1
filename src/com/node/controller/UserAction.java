@@ -7,6 +7,8 @@
  */
 package com.node.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,6 +32,7 @@ import com.node.service.IJtUserService;
 import com.node.util.AjaxUtil;
 import com.node.util.Page;
 import com.node.util.ServiceUtil;
+import com.node.util.SystemConstants;
 
 /**
  * 类描述：用户首页登录、用户增删改查的一些操作
@@ -81,7 +84,8 @@ public class UserAction {
 			AjaxUtil.rendJson(response, false, "用户名或密码错误！");
 			return;
 		} else {
-			request.getSession().setAttribute("jtUser", jtUser);
+			request.getSession().setAttribute(SystemConstants.SESSION_USER,
+					jtUser);
 			AjaxUtil.rendJson(response, true, "验证通过");
 		}
 
@@ -365,4 +369,80 @@ public class UserAction {
 		return roleName;
 	}
 
+	/**
+	 * 
+	 * 方法描述：退出
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws IOException
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月31日 上午11:29:26
+	 */
+	@RequestMapping("/loginout")
+	public String loginout(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		request.getSession().removeAttribute(SystemConstants.SESSION_USER);
+		PrintWriter out = response.getWriter();
+		out.println("<script>window.parent.location.replace('"
+				+ request.getContextPath() + "/index.jsp')</script>");
+		out.flush();
+		out.close();
+		return null;
+	}
+
+	/**
+	 * 
+	 * 方法描述：修改密码界面
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月31日 上午11:33:43
+	 */
+	@RequestMapping("/modifyPassword")
+	public String modifyPassword(HttpServletRequest request,
+			HttpServletResponse response) {
+		JtUser jtUser = (JtUser) request.getSession().getAttribute(
+				SystemConstants.SESSION_USER);
+		String roleName = iJtUserService.getRoleNameByRoleCode(jtUser
+				.getUserRole());
+		String deptName = iJtUserService.getDeptNameByUser(jtUser.getUserOrg());
+		jtUser.setUserRoleName(roleName);
+		jtUser.setUserOrgName(deptName);
+		request.setAttribute("jtUser", jtUser);
+		return "user/modifyUser";
+	}
+
+	/**
+	 * 
+	 * 方法描述：
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月31日 下午12:13:09
+	 * @throws IOException
+	 */
+	@RequestMapping("/saveModifyUser")
+	public void saveModifyUser(HttpServletRequest request, String id,
+			String userPassword, HttpServletResponse response)
+			throws IOException {
+		try {
+			JtUser jtUser = iJtUserService.getJtUserById(Integer.parseInt(id));
+			jtUser.setUserPassword(userPassword);
+			iJtUserService.updateJtUser(jtUser);
+			AjaxUtil.rendJson(response, true, "成功");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			AjaxUtil.rendJson(response, false, "失败！");
+		}
+	}
 }

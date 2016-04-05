@@ -11,7 +11,9 @@
 <head>
 <base href="<%=basePath%>">
 
-<title>电动车检验</title>
+<title>区域车辆统计详情</title>
+
+<%@include file="../common/common.jsp"%>
 <style type="text/css">
 #table  input{
 	border: 0;
@@ -20,8 +22,6 @@
 	border: 0;
 }
 </style>
-<%@include file="../common/common.jsp"%>
-
 
 <script type="text/javascript">
 $(document).ready(function(){
@@ -31,11 +31,11 @@ $(document).ready(function(){
 	var h = getHeight('dg');
 	var size = getPageSize(h);
 	var w = getWidth(400);
-	var randomNu = (new Date().getTime()) ^ Math.random();
+	var xsqy = '${areacode}';
 	$("#dg").datagrid({
 
-		url : "<%=basePath%>approvalAction/queryCheckApprove?time=" + randomNu,
-		title :  "电动车检验",
+		url : "<%=basePath%>approvalAction/queryRecordApprove?xsqy=" + xsqy,
+		title :  "区域车辆统计详情",
 		iconCls : 'icon-search',
 		striped : true,
 		fitColumns:true,   //数据列太少 未自适应
@@ -46,75 +46,75 @@ $(document).ready(function(){
 		height:h,
 		width:w,
 		loadMsg:'正在加载,请稍等...',
-		columns :  [ [{
-			field : 'DABH',
-			title : '档案编号',
+		columns : [ [{
+			field : 'lsh',
+			title : '流水号',
 			align:'center',
 			width : 120
 		},{
-			field : 'DWMC',
+			field : 'hyxhzhName',
+			title : '行业协会',
+			align:'center',
+			width : 220,
+			formatter:function(value,row,index){
+				var query = "<a  href='javascript:void(0)'  onclick='queryHyxhDetail(\""+row.hyxhzh+"\")'>"+value+"</a>";
+				return query;	
+			}
+		},{
+			field : 'ssdwName',
 			title : '单位名称',
 			align:'center',
 			width : 120,
 			formatter:function(value,row,index){
-				var query = "<a  href='javascript:void(0)'  onclick='queryHyxhDwDetail(\""+row.ZZJGDMZH+"\")'>"+value+"</a>";
+				var query = "<a  href='javascript:void(0)'  onclick='queryHyxhDwDetail(\""+row.ssdwId+"\")'>"+value+"</a>";
 				return query;	
 			}
 		},{
-			field : 'HYXHMC',
-			title : '行业协会名称',
-			align:'center',
-			width : 120,
-			formatter:function(value,row,index){
-				var query = "<a  href='javascript:void(0)'  onclick='queryHyxhDetail(\""+row.HYXHZH+"\")'>"+value+"</a>";
-				return query;	
-			}
-		},{
-			field : 'CPHM',
-			title : '车牌号',
-			align:'center',
-			width : 120
-		},{
-			field : 'DJH',
+			field : 'djh',
 			title : '电机号',
 			align:'center',
 			width : 120
 		},{
-			field : 'JSRXM1',
+			field : 'jsrxm1',
 			title : '驾驶人',
 			align:'center',
 			width : 120
 		},{
-			field : 'SFZMHM1',
-			title : '身份证号码',
-			align:'center',
-			width : 120
-		},{
-			field : 'XSQY',
+			field : 'xsqyName',
 			title : '行驶区域',
 			align:'center',
 			width : 120
 		},{
-			field : 'ZT',
-			title : '车辆状态',
+			field : 'sqrq',
+			title : '申请时间',
 			align:'center',
 			width : 120,
 			formatter:function(value,index){
-				if(value == '注销'){
-					
-					return "<p style='color:red'>注销</p>";
-				}else{
-					return value;
-				}
+				var datevalue = new Date(value);
+				return datevalue.toLocaleString();
 			}
 		},{
-			field : 'SYRQ',
-			title : '审验日期',
+			field : 'slrq',
+			title : '审批日期',
 			align:'center',
 			width : 120,
 			formatter:function(value,index){
-				var dateval = new Date(value);
-				return dateval.toLocaleString();
+				var datevalue = new Date(value);
+				return datevalue.toLocaleString();
+			}
+		},{
+			field : 'slyj',
+			title : '审批状态',
+			align:'center',
+			width : 120,
+			formatter:function(value,row,index){
+				if(value == 0){
+					return "已同意";
+				}else if(value == 1){
+					return "<p style='color:red'>已拒绝</p>";
+				}else{
+					return "审批中";
+				}
 			}
 		},{
 			field : 'null',
@@ -122,11 +122,11 @@ $(document).ready(function(){
 			align:'center',
 			width : 120,
 			formatter:function(value,row,index){
-				var query = "<a  href='javascript:void(0)'  onclick='queryRow("+row.ID+")'>查看</a>";
-				return query;	
-				
+				var query = "<a  href='javascript:void(0)'  onclick='queryRow("+row.id+")'>查看</a>";
+				return query;
 			}
 		}
+
 		] ],
 
 		onLoadSuccess:function(){  
@@ -153,29 +153,31 @@ $(document).ready(function(){
 	    	})
 		}
 	});
-	
 });
+
+
+
 
 //查询功能
 function doSearch(){
 	 $('#dg').datagrid('load',{
-		dabh: $("#dabh").val(),
-		djh: $('#djh').val(),
-		cphm:$("#cphm").val(),
-		 dwmcId:$("#hyxsssdwmc").combobox("getValue"),
-		 xsqy:$("#xsqy").combobox("getValue"),
+		 lsh: $("#lsh").val(),
 		 hyxhzh:$("#hyxhzh").combobox("getValue"),
+		 bjjg:$("#bjjg").combobox("getValue"),
+		 dwmcId:$("#hyxsssdwmc").combobox("getValue")
 	}); 
 }
 
-//查看档案信息详情
-function queryRow(obj){
+
+
+//查看
+function queryRow(id){
 	$.messager.progress({
 		text:"正在处理，请稍候..."
 	});
-	window.location.href="<%=basePath%>approvalAction/queryDaxxbDetail?id="+obj;
-	
+	window.location.href="<%=basePath%>approvalAction/queryRecordApprovalInfoById?id="+id+"&&type=1";
 }
+
 //查看行业协会详情
 function queryHyxhDetail(obj){
 
@@ -221,25 +223,26 @@ function queryHyxhDwDetail(obj){
 		<table id="dg" style="width:90%;">
 
 			<div id="tb" style="padding: 5px; background: #E8F1FF;">
+				<span>流水号</span>
+				<input id="lsh" type="text" class="easyui-validatebox"  style="height: 32px;">  
 				<span>协会名称：</span>
 				<input id="hyxhzh" style="height: 32px;">  
 				<span>公司名称：</span>
 				<input id="hyxsssdwmc" style="height: 32px;">
-				<span>行驶区域：</span>
-				<input id="xsqy" style="height: 32px;width: 80px;">
-				<span>档案编号：</span>
-				<input id="dabh" type="text" class="easyui-validatebox" name="dabh" ></input>
-				<span>电机号:</span> <input id="djh" name="djh"
-					class="easyui-validatebox" type="text" > &nbsp;&nbsp;&nbsp;
-				
+				<span>审批状态：</span>
+				<select  class="easyui-combobox" id=bjjg style="width:100px;height: 32px;">   
+   				 	<option value="">审批中</option>   
+  				    <option value="0">已同意</option>    
+  					<option value="1">已拒绝</option> 
+  					<option value="-1">所有</option> 
+				</select>
 				<a class="easyui-linkbutton" plain="true" onclick="doSearch()"
 					iconCls="icon-search">查询 </a>
 			</div>
 		</table>
 	</div>
 	
-	
-	 <!-- 行业协会详情 -->
+    <!-- 行业协会详情 -->
 	<div id="dgformDiv" class="easyui-dialog"
 		style="width:650px;height:450px;padding:10px 20px 20px 20px;" closed="true">
 		<form id="dgform" class="easyui-form">
@@ -287,6 +290,10 @@ function queryHyxhDwDetail(obj){
 				<tr>
 					<th>单位名称</th>
 					<td><input  name=dwmc type="text" class="easyui-validatebox" style="height: 32px;width:100%;" readonly="readonly"></td>
+				</tr>
+				<tr>
+					<th>所属协会</th>
+					<td><input  name=hyxhzhName type="text" class="easyui-validatebox" style="height: 32px;width:100%;" readonly="readonly"></td>
 				</tr>
 				<tr>
 					<th>组织机构代码证号</th>

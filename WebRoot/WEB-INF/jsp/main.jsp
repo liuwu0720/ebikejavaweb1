@@ -11,12 +11,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>市交警特殊行业电动自行车二维码管理系统</title>
 </head>
-<frameset rows ="112px,*" border="0">
+<frameset rows ="110px,*,30px" border="0">
   	<frame noresize="noresize"  scrolling="no" name="header" id="header" src="<%=basePath%>mainAction/getHeader"/>
     <frameset id="frameset" cols="250px,*" border="0">
         <frame noresize="noresize" frameborder="0" scrolling="auto"   id="sidebar" name="sidebar" src="<%=basePath%>mainAction/getSidebar">
         <frame noresize="noresize" frameborder="0" scrolling="auto"  id="main" name="main" src="<%=basePath%>mainAction/getWelcome">
     </frameset>
+    <frame noresize="noresize"  scrolling="no" name="header" id="footer" src="<%=basePath%>mainAction/getFooter"/>
 </frameset><noframes></noframes>
 
 

@@ -27,6 +27,7 @@ import com.node.object.JtViewDept;
 import com.node.service.IJtUserService;
 import com.node.util.HqlHelper;
 import com.node.util.Page;
+import com.node.util.SystemConstants;
 
 /**
  * 类描述：
@@ -77,7 +78,10 @@ public class JtUserServiceImp implements IJtUserService {
 		List<JtMenu> jtMenus = new ArrayList<JtMenu>();
 		for (JtRoleMenu jtRoleMenu : jtRoleMenusList) {
 			JtMenu jtMenu = iJtMenuDao.get(jtRoleMenu.getMenuid());
-			jtMenus.add(jtMenu);
+			if (jtMenu.getnEnable().equals(SystemConstants.ENABLE)) {
+				jtMenus.add(jtMenu);
+			}
+
 		}
 		if (jtMenus != null && jtMenus.size() > 0) {
 			return jtMenus;
@@ -398,9 +402,9 @@ public class JtUserServiceImp implements IJtUserService {
 	 * @see com.node.service.IJtUserService#getDeptNameByUser(java.lang.String)
 	 */
 	@Override
-	public String getDeptNameByUser(String userOrg) {
+	public String getDeptNameByUser(String orgId) {
 		String sql = "select ORG_NAME from  OA_DEPT_VIEW where ORG_ID = "
-				+ userOrg;
+				+ orgId;
 		Object object = iJtUserDao.getDateBySQL(sql);
 		return object.toString();
 	}

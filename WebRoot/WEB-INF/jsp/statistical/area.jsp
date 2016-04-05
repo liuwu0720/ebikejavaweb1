@@ -42,22 +42,34 @@ $(document).ready(function(){
 			field : 'cname',
 			title : '行驶区域',
 			align:'center',
-			width : 220
+			width : 120
 		},{
 			field : 'sb',
 			title : '已申报',
 			align:'center',
-			width : 220
+			width : 120,
+			formatter:function(value,row,index){
+				var detail = "<a  href='javascript:void(0)'  onclick='sbdetail(\""+row.ename+"\")'>"+value+"</a>";
+				return detail;
+			}
 		},{
 			field : 'ba',
-			title : '备案',
+			title : '已备案',
 			align:'center',
-			width : 220
+			width : 120,
+			formatter:function(value,row,index){
+				var detail = "<a  href='javascript:void(0)'  onclick='badetail(\""+row.ename+"\")'>"+value+"</a>";
+				return detail;
+			}
 		},{
 			field : 'tb',
 			title : '已退办',
 			align:'center',
-			width : 220
+			width : 120,
+			formatter:function(value,row,index){
+				var detail = "<a  href='javascript:void(0)'  onclick='tbdetail(\""+row.ename+"\")'>"+value+"</a>";
+				return detail;
+			}
 		}
 		] ],
 		toolbar : [ {
@@ -85,6 +97,23 @@ function exportPage() {
 	window.print(); 
 	window.document.body.innerHTML=bdhtml;//还原界面 
 }
+
+//已申报
+function sbdetail(obj){
+	var areacode = obj;
+	window.location.href="<%=basePath%>statisticalAction/getAreaSbList?areacode="+areacode;
+}
+//已备案
+function badetail(obj){
+	var areacode = obj;
+	window.location.href="<%=basePath%>statisticalAction/getAreaBaList?areacode="+areacode;
+}
+//已退办
+function tbdetail(obj){
+	var areacode = obj;
+	window.location.href="<%=basePath%>statisticalAction/getAreaTbList?areacode="+areacode;
+}
+
 </script>
 </head>
 <body class="easyui-layout">
@@ -94,8 +123,9 @@ function exportPage() {
 		<table id="dg" style="width:90%;">
 
 		</table>
+		<!--endprint-->	
 	</div>
-	<!--endprint-->		
+		
 	
 </body>
 </html>

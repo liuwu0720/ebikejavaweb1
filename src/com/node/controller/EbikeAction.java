@@ -105,7 +105,7 @@ public class EbikeAction {
 
 	/**
 	 * 
-	 * 方法描述：
+	 * 方法描述：档案查询
 	 * 
 	 * @param request
 	 * @param djh
@@ -122,20 +122,27 @@ public class EbikeAction {
 	@RequestMapping("/queryAll")
 	@ResponseBody
 	public Map<String, Object> queryAll(HttpServletRequest request, String djh,
-			String flag, String cphm, String jsrxm1, String dabh,
-			String sfzhm1, String xsqy, HttpServletResponse response) {
+			String zt, String dwmcId, String hyxhzh, String flag, String cphm,
+			String jsrxm1, String dabh, String sfzhm1, String xsqy,
+			HttpServletResponse response) {
 
 		Page p = ServiceUtil.getcurrPage(request);
 
-		String sql = "select A.ID,A.DABH,A.CPHM,A.DJH,A.JSRXM1,A.GDYJ,A.SFZMHM1, (SELECT S.DWMC FROM DDC_HYXH_SSDW S WHERE S.ID=A.ZZJGDMZH ) AS DWMC,"
-				+ "(select d.DMMS1 from ddc_sjzd d where d.dmz=a.xsqy and d.dmlb='SSQY') as xsqy, "
-				+ "(SELECT D.DMMS1 FROM DDC_SJZD D WHERE D.DMZ=A.ZT AND D.DMLB='CLZT')AS ZT from DDC_DAXXB A where 1=1";
+		String sql = "select A.ID,A.DABH,A.CPHM,A.DJH,A.JSRXM1,A.GDYJ,A.SFZMHM1,  A.hyxhzh,A.ZZJGDMZH, "
+				+ " (select b.hyxhmc from ddc_hyxh_base b where b.hyxhzh=a.hyxhzh and rownum=1) as hyxhmc,"
+				+ "(SELECT S.DWMC FROM DDC_HYXH_SSDW S WHERE S.ID=A.ZZJGDMZH and rownum=1 ) AS DWMC,"
+				+ "(select d.DMMS1 from ddc_sjzd d where d.dmz=a.xsqy and d.dmlb='SSQY'  and rownum=1) as xsqy, "
+				+ "(SELECT D.DMMS1 FROM DDC_SJZD D WHERE D.DMZ=A.ZT AND D.DMLB='CLZT'  and rownum=1)AS ZT from DDC_DAXXB A where 1=1 and a.HYXHZH != 'cs'";
 
 		if (StringUtils.isNotBlank(flag)) {
 			// 档案更正
 			if (flag.equals("update")) {
-				sql += " and a.zt!='E'";
+				sql += " and a.zt!='E'";// E-注销
 			}
+		}
+		// 状态
+		if (StringUtils.isNotBlank(zt)) {
+			sql += " and a.zt = '" + zt + "'";
 		}
 
 		// 电机号
@@ -161,6 +168,14 @@ public class EbikeAction {
 		// 行驶区域
 		if (StringUtils.isNotBlank(xsqy)) {
 			sql += " and a.XSQY = '" + xsqy + "'";
+		}
+		// 协会名称
+		if (StringUtils.isNotBlank(hyxhzh)) {
+			sql += " and a.HYXHZH = '" + hyxhzh + "'";
+		}
+		// 单位名称
+		if (StringUtils.isNotBlank(dwmcId)) {
+			sql += " and a.ZZJGDMZH = " + dwmcId;
 		}
 
 		sql += "  order by A.ID DESC";

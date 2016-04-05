@@ -109,12 +109,20 @@ public class IndustryAction {
 		hql.addOrderBy("id", "desc");
 		hql.setQueryPage(p);
 		Map<String, Object> resultMap = iInDustryService.queryByHql(hql);
+		List<Map<String, Object>> mapList = (List<Map<String, Object>>) resultMap
+				.get("rows");
+
+		for (int i = 0; i < mapList.size(); i++) {
+			DdcHyxhBase ddcHyxhBase = (DdcHyxhBase) mapList.get(i);
+			int lastpe = iInDustryService.getDdcHyxhBaseLastPe(ddcHyxhBase);// 已用配额
+			ddcHyxhBase.setLastpe(lastpe);
+		}
 		return resultMap;
 	}
 
 	/**
 	 * 
-	 * 方法描述：
+	 * 方法描述：修改行业协会配额
 	 * 
 	 * @param hyxhsjzpe
 	 * @param id
@@ -140,7 +148,7 @@ public class IndustryAction {
 
 	/**
 	 * 
-	 * 方法描述：
+	 * 方法描述：修改行业协会所属单位的配额
 	 * 
 	 * @param dwpe
 	 * @param id
@@ -152,14 +160,27 @@ public class IndustryAction {
 	public void saveOrUpdateCompanyQuota(String dwpe, String id,
 			HttpServletResponse response) {
 		long dId = Long.parseLong(id);
+		int ssdwDwpe = Integer.parseInt(dwpe);
 		DdcHyxhSsdw ddcHyxhSsdw = iInDustryService.getDdcHyxhSsdwById(dId);
-		ddcHyxhSsdw.setDwpe(Integer.parseInt(dwpe));
-		try {
-			iInDustryService.update(ddcHyxhSsdw);
-			AjaxUtil.rendJson(response, true, "修改成功");
-		} catch (Exception e) {
-			e.printStackTrace();
-			AjaxUtil.rendJson(response, false, "修改失败，系统错误");
+		// 所属的行业协会
+		DdcHyxhBase ddcHyxhBase = iInDustryService
+				.getDdcHyxhBaseByCode(ddcHyxhSsdw.getHyxhzh());
+		int minusNum = ssdwDwpe - ddcHyxhSsdw.getDwpe();
+
+		if (ssdwDwpe == ddcHyxhSsdw.getDwpe()) {
+			AjaxUtil.rendJson(response, true, "修改成功！");
+			return;
+		} else {
+			if (ddcHyxhBase.getHyxhsjzpe() < minusNum) {
+				AjaxUtil.rendJson(response, false, "配额不足，修改失败");
+				return;
+			} else {
+				ddcHyxhSsdw.setDwpe(ssdwDwpe);
+				iInDustryService.update(ddcHyxhSsdw);
+				ddcHyxhBase.setHyxhsjzpe(ddcHyxhBase.getHyxhsjzpe() - minusNum);
+				iInDustryService.update(ddcHyxhBase);
+				AjaxUtil.rendJson(response, true, "修改成功！");
+			}
 		}
 	}
 
@@ -248,6 +269,15 @@ public class IndustryAction {
 		hql.addOrderBy("id", "desc");
 		hql.setQueryPage(p);
 		Map<String, Object> resultMap = iInDustryService.queryByHql(hql);
+
+		List<Map<String, Object>> mapList = (List<Map<String, Object>>) resultMap
+				.get("rows");
+		for (int i = 0; i < mapList.size(); i++) {
+			DdcHyxhSsdw ddcHyxhSsdw = (DdcHyxhSsdw) mapList.get(i);
+			DdcHyxhBase ddcHyxhBase = iInDustryService
+					.getDdcHyxhBaseByCode(ddcHyxhSsdw.getHyxhzh());
+			ddcHyxhSsdw.setHyxhzhName(ddcHyxhBase.getHyxhmc());
+		}
 		return resultMap;
 	}
 
@@ -315,6 +345,9 @@ public class IndustryAction {
 	public DdcHyxhSsdw queryCompanyById(HttpServletRequest request, String id) {
 		long dId = Long.parseLong(id);
 		DdcHyxhSsdw ddcHyxhSsdw = iInDustryService.getDdcHyxhSsdwById(dId);
+		DdcHyxhBase ddcHyxhBase = iInDustryService
+				.getDdcHyxhBaseByCode(ddcHyxhSsdw.getHyxhzh());
+		ddcHyxhSsdw.setHyxhzhName(ddcHyxhBase.getHyxhmc());
 		String showImg = parseUrl(ddcHyxhSsdw.getVcPicPath());
 		ddcHyxhSsdw.setVcShowPath(showImg);
 		return ddcHyxhSsdw;

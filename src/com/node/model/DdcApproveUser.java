@@ -38,6 +38,7 @@ public class DdcApproveUser implements java.io.Serializable {
 	private String approveTable;
 	private Long approveTableid;
 	private Date approveTime;
+	private String lsh;
 
 	// Constructors
 
@@ -157,6 +158,19 @@ public class DdcApproveUser implements java.io.Serializable {
 	 */
 	public void setApproveState(Integer approveState) {
 		this.approveState = approveState;
+	}
+
+	@Column(name = "LSH", length = 100)
+	public String getLsh() {
+		return lsh;
+	}
+
+	/**
+	 * @param lsh
+	 *            : set the property lsh.
+	 */
+	public void setLsh(String lsh) {
+		this.lsh = lsh;
 	}
 
 }

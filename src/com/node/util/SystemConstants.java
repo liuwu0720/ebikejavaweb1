@@ -56,7 +56,7 @@ public class SystemConstants {
 	/**
 	 * session
 	 */
-	public static final String JTUSER = "jtUser";
+	public static final String SESSION_USER = "jtUser";
 	/**
 	 * 配额申报表名
 	 */
@@ -74,9 +74,4 @@ public class SystemConstants {
 	 */
 	public static final String AGREE = "0";
 
-	public static void main(String[] args) {
-		String string = "440300000000";
-		long last = Long.parseLong(string) + 1;
-		System.out.println("last = " + last);
-	}
 }

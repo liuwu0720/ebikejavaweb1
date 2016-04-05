@@ -34,6 +34,7 @@ public class DdcFlow implements java.io.Serializable {
 	private String ywyy;
 	private String ywyyName;
 	private String hyxhzh;
+	private String hyxhName;
 	private String dabh;
 	private String zzjgdmzh;
 	private String zzjgdmzhName;
@@ -686,6 +687,19 @@ public class DdcFlow implements java.io.Serializable {
 	 */
 	public void setSlzlList(List<String> slzlList) {
 		this.slzlList = slzlList;
+	}
+
+	@Transient
+	public String getHyxhName() {
+		return hyxhName;
+	}
+
+	/**
+	 * @param hyxhName
+	 *            : set the property hyxhName.
+	 */
+	public void setHyxhName(String hyxhName) {
+		this.hyxhName = hyxhName;
 	}
 
 }

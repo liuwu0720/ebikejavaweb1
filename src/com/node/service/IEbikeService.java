@@ -255,7 +255,7 @@ public interface IEbikeService {
 	 * @author: liuwu
 	 * @version: 2016年3月30日 下午4:13:40
 	 */
-	List<DdcSjzd> getDbyyList(String tbyy);
+	List<DdcSjzd> getDbyyList(String tbyy, String type);
 
 	/**
 	 * 方法描述：
@@ -278,5 +278,16 @@ public interface IEbikeService {
 	 * @version: 2016年3月30日 下午7:38:39
 	 */
 	Object getDateBySQL(String sql);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param lsh
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年4月5日 下午1:34:39
+	 */
+	List<DdcApproveUser> findApproveUsersByLsh(String lsh);
 
 }

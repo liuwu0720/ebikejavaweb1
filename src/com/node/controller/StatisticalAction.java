@@ -22,14 +22,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.node.model.DdcApproveUser;
 import com.node.model.DdcFlow;
 import com.node.model.DdcHyxhBase;
 import com.node.model.DdcHyxhSsdw;
+import com.node.model.DdcSjzd;
+import com.node.model.JtUser;
 import com.node.model.PicPath;
-import com.node.object.FlowStatis;
+import com.node.object.JtViewDept;
 import com.node.object.Statics;
 import com.node.service.IEbikeService;
 import com.node.service.IInDustryService;
+import com.node.service.IJtUserService;
 import com.node.service.IStatisticalService;
 import com.node.util.Page;
 import com.node.util.ServiceUtil;
@@ -54,6 +58,9 @@ public class StatisticalAction {
 
 	@Autowired
 	IInDustryService iInDustryService;
+
+	@Autowired
+	IJtUserService iJtUserService;
 
 	/**
 	 * 
@@ -240,12 +247,13 @@ public class StatisticalAction {
 	@RequestMapping("/queryByBackFlow")
 	@ResponseBody
 	public Map<String, Object> queryByBackFlow(HttpServletRequest request,
-			String xsqy, String lsh, String djh) {
+			String dtstart, String dtend, String xsqy, String lsh, String djh) {
 		Page page = ServiceUtil.getcurrPage(request);
 		StringBuffer sb = new StringBuffer();
-		sb.append("select a.id,a.lsh,a.djh,(select user_name from jt_user where user_code=a.slr) as slr,");
-		sb.append("  (select t.org_name from oa_dept_view t where t.org_id=a.slbm) as slbm,");
-		sb.append("to_char(a.slrq,'yyyy-mm-dd hh24:mi:ss') as slrq from ddc_flow a where a.slyj='1'");
+		sb.append("select a.id,a.lsh,a.djh,(select user_name from jt_user where user_code=a.slr and rownum=1 ) as slr,");
+		sb.append("(select distinct d.DMMS1 from ddc_sjzd d where d.dmz=a.xsqy and d.dmlb='SSQY' and rownum=1) as xsqy,");
+		sb.append("  (select t.org_name from oa_dept_view t where t.org_id=a.slbm and rownum=1 ) as slbm,");
+		sb.append("to_char(a.slrq,'yyyy-mm-dd hh24:mi:ss') as slrq from ddc_flow a where a.slyj='1' and a.hyxhzh != 'cs'");
 		if (StringUtils.isNotBlank(xsqy)) {
 			sb.append(" and a.xsqy='" + xsqy + "'");
 		}
@@ -255,31 +263,18 @@ public class StatisticalAction {
 		if (StringUtils.isNotBlank(djh)) {
 			sb.append(" and a.djh='" + djh + "'");
 		}
+		if (StringUtils.isNotBlank(dtstart)) {
+			sb.append(" and a.slrq >=to_date('" + dtstart + "','yyyy-MM-dd')");
+		}
+		if (StringUtils.isNotBlank(dtend)) {
+			sb.append(" and a.slrq <=to_date('" + dtend + "','yyyy-MM-dd')");
+		}
 
 		sb.append(" order by a.id desc");
 		Map<String, Object> resultMap = iStatisticalService
 				.findBySpringSqlPage(sb.toString(), page);
-		List<Map<String, Object>> list = (List<Map<String, Object>>) resultMap
-				.get("rows");
-		List<FlowStatis> flowStatis = new ArrayList<>();
-		for (int i = 0; i < list.size(); i++) {
-			Map<String, Object> objMap = list.get(i);
-			FlowStatis fs = new FlowStatis();
-			fs.setId(Long.valueOf(objMap.get("ID").toString()));
-			fs.setLsh(objMap.get("LSH").toString());
-			fs.setDjh(objMap.get("DJH").toString());
-			fs.setSlr(objMap.get("SLR") == null ? null : objMap.get("SLR")
-					.toString());
-			fs.setSlbm(objMap.get("SLBM") == null ? null : objMap.get("SLBM")
-					.toString());
-			fs.setSlrq(objMap.get("SLRQ") == null ? null : objMap.get("SLRQ")
-					.toString());
-			flowStatis.add(fs);
-		}
-		Map<String, Object> newMap = new HashMap<String, Object>();
-		newMap.put("total", resultMap.get("total"));
-		newMap.put("rows", flowStatis);
-		return newMap;
+
+		return resultMap;
 	}
 
 	/**
@@ -329,6 +324,40 @@ public class StatisticalAction {
 	public String getTeamTbDetail(HttpServletRequest request, String team) {
 		request.setAttribute("team", team);
 		return "statistical/teamTbDetail";
+	}
+
+	/**
+	 * 
+	 * 方法描述：区域申报列表
+	 * 
+	 * @param request
+	 * @param areacode
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年4月5日 下午4:17:39
+	 */
+	@RequestMapping("/getAreaSbList")
+	public String getAreaSbList(HttpServletRequest request, String areacode) {
+		request.setAttribute("areacode", areacode);
+		return "statistical/areaSbList";
+	}
+
+	/**
+	 * 
+	 * 方法描述：区域已备案列表
+	 * 
+	 * @param request
+	 * @param areacode
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年4月5日 下午4:30:00
+	 */
+	@RequestMapping("/getAreaBaList")
+	public String getAreaBaList(HttpServletRequest request, String areacode) {
+		request.setAttribute("areacode", areacode);
+		return "statistical/areaBaList";
 	}
 
 	/**
@@ -539,19 +568,20 @@ public class StatisticalAction {
 	 * @author: liuwu
 	 * @version: 2016年3月26日 上午9:12:47
 	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping("/queryByArea")
 	@ResponseBody
 	public Map<String, Object> queryByArea(HttpServletRequest request) {
 		Page p = ServiceUtil.getcurrPage(request);
 		StringBuffer sb = new StringBuffer();
-		sb.append("select a.dmms1, decode(a.sb, '', '0', a.sb) sb, decode(b.total, '', '0', b.total) ba, a.tb");
-		sb.append(" from (select n.dmz, n.dmms1, decode((m.total - n.total), '', '0', (m.total - n.total)) sb,n.total tb");
+		sb.append("select a.dmz,a.dmms1, decode(a.sb, '', '0', a.sb) sb, decode(b.total, '', '0', b.total) ba, a.tb");
+		sb.append(" from (select n.dmz, n.dmms1, decode((m.total), '', '0', (m.total)) sb,n.total tb");
 		sb.append(" from (select t.xsqy, count(*) total from ddc_hyxh_ssdwclsb t where t.hyxhzh!='cs' group by t.xsqy) m");
 		sb.append(" right join (select h.dmz, h.dmms1, decode(g.total, '', '0', g.total) total from ddc_sjzd h");
-		sb.append(" left join (select f.xsqy, count(*) total from ddc_flow f where f.slyj = '1' group by f.xsqy) g");
+		sb.append(" left join (select f.xsqy, count(*) total from ddc_flow f where f.slyj = '1'  and f.ywlx = 'A'  and f.hyxhzh!='cs' group by f.xsqy) g");
 		sb.append(" on h.dmz = g.xsqy where h.dmlb = 'SSQY') n on m.xsqy = n.dmz) a");
 		sb.append(" full join (select s.dmz, s.dmms1, x.total from ddc_sjzd s");
-		sb.append(" left join (select d.xsqy, count(*) total from ddc_daxxb d group by d.xsqy) x");
+		sb.append(" left join (select d.xsqy, count(*) total from ddc_daxxb d where d.hyxhzh != 'cs' group by d.xsqy) x");
 		sb.append(" on s.dmz = x.xsqy where s.dmlb = 'SSQY') b on a.dmz = b.dmz order by a.dmms1 asc");
 		Map<String, Object> sqlMap = iStatisticalService.findBySpringSqlPage(
 				sb.toString(), p);
@@ -573,6 +603,8 @@ public class StatisticalAction {
 					.toString());
 			statics.setTb(objMap.get("TB") == null ? null : objMap.get("TB")
 					.toString());
+			statics.setEname(objMap.get("DMZ") == null ? null : objMap.get(
+					"DMZ").toString());
 			sList.add(statics);
 			if (objMap.get("SB") != null) {
 				sbs += Long.valueOf(objMap.get("SB").toString());
@@ -622,7 +654,7 @@ public class StatisticalAction {
 		sb.append("sum(case when s.ywlx='C' then s.total else 0 end) as zy,");
 		sb.append("sum(case when s.ywlx='D' then s.total else 0 end) as zx,");
 		sb.append("sum(case when s.ywlx='E' then s.total else 0 end) as jy");
-		sb.append(" from (select t.xsqy,t.ywlx,count(*) total from ddc_flow t where t.cphm is not null");
+		sb.append(" from (select t.xsqy,t.ywlx,count(*) total from ddc_flow t where t.cphm is not null  and t.hyxhzh != 'cs'");
 		sb.append(" group by t.xsqy,t.ywlx) s group by s.xsqy");
 		Page p = ServiceUtil.getcurrPage(request);
 		Map<String, Object> reMap = iStatisticalService.findBySpringSqlPage(
@@ -715,12 +747,32 @@ public class StatisticalAction {
 	@RequestMapping("/queryByBusinessDetail")
 	@ResponseBody
 	public Map<String, Object> queryByBusinessDetail(String area, String type,
-			HttpServletRequest request) {
+			String dabh, String djh, String cphm, String dwmcId, String xsqy,
+			String hyxhzh, HttpServletRequest request) {
 		Page p = ServiceUtil.getcurrPage(request);
 		String sql1 = "select t.id,";
-		sql1 += "t.cphm,t.djh,(select user_name from jt_user where user_code=t.slr) as slr,t.dabh,";
-		sql1 += "t.slbm,to_char(t.slrq,'yyyy-mm-dd hh24:mi:ss') as slrq from ddc_flow t where t.cphm is not null";
+		sql1 += "t.cphm,t.djh,(select user_name from jt_user where user_code=t.slr and rownum = 1) as slr,t.dabh,";
+		sql1 += "t.slbm,to_char(t.slrq,'yyyy-mm-dd hh24:mi:ss') as slrq from ddc_flow t where t.cphm is not null and t.hyxhzh != 'cs'";
 		sql1 += " and t.ywlx='" + type + "' and t.xsqy='" + area + "'";
+		if (StringUtils.isNotBlank(dabh)) {
+			sql1 += " and t.DABH like '%" + dabh + "%'";
+		}
+		if (StringUtils.isNotBlank(djh)) {
+			sql1 += " and  t.djh = '%" + djh + "%'";
+		}
+		if (StringUtils.isNotBlank(cphm)) {
+			sql1 += " and  t.CPHM like '%" + cphm + "%'";
+		}
+		if (StringUtils.isNotBlank(hyxhzh)) {
+			sql1 += " and t.HYXHZH = '" + hyxhzh + "'";
+		}
+		if (StringUtils.isNotBlank(dwmcId)) {
+			sql1 += " and  t.ZZJGDMZH = " + dwmcId;
+		}
+		if (StringUtils.isNotBlank(xsqy)) {
+			sql1 += " and t.xsqy = " + xsqy;
+		}
+
 		sql1 += " order by t.slrq desc";
 		Map<String, Object> detailMap = iStatisticalService.findBySpringSql(
 				sql1, p);
@@ -739,8 +791,7 @@ public class StatisticalAction {
 	 * @version: 2016年3月25日 下午6:42:59
 	 */
 	@RequestMapping("/getFlowDetailById")
-	@ResponseBody
-	public DdcFlow getFlowDetailById(String id) {
+	public String getFlowDetailById(String id, HttpServletRequest request) {
 		long flowId = Long.parseLong(id);
 		DdcFlow ddcFlow = iEbikeService.getFlowById(flowId);
 		String cysyName = iEbikeService.findByProPerties("CSYS",
@@ -760,6 +811,15 @@ public class StatisticalAction {
 				ddcFlow.setZzjgdmzhName(null);
 			}
 		}
+		// 协会名称
+		if (StringUtils.isNotBlank(ddcFlow.getHyxhzh())) {
+			DdcHyxhBase ddcHyxhBase = iInDustryService
+					.getDdcHyxhBaseByCode(ddcFlow.getHyxhzh());
+			if (ddcHyxhBase != null) {
+				ddcFlow.setHyxhName(ddcHyxhBase.getHyxhmc());
+			}
+		}
+
 		// 业务类型
 		String ywlxName = iEbikeService.findByProPerties("YWLX",
 				ddcFlow.getYwlx());
@@ -768,23 +828,60 @@ public class StatisticalAction {
 		String ywyyName = iEbikeService.findByProPerties("YWYY_A",
 				ddcFlow.getYwyy());
 		ddcFlow.setYwyyName(ywyyName);
-		// 受理资料
-		String[] slzls = ddcFlow.getSlzl().split(",");
-		List<String> slzllist = new ArrayList<>();
-		for (String s : slzls) {
-			String dmz = s;
-			String dmlb = "BASQZL";
-			String ss = iEbikeService.findByProPerties(dmlb, dmz);
-			slzllist.add(ss);
+		// 受理 人
+		if (StringUtils.isNotBlank(ddcFlow.getSlr())) {
+			JtUser jtUser = iJtUserService
+					.getJtUserByUserCode(ddcFlow.getSlr());
+			if (jtUser != null) {
+				ddcFlow.setSlr(jtUser.getUserName());
+			}
+
 		}
-		ddcFlow.setSlzlList(slzllist);
+
+		// 受理部门
+		if (StringUtils.isNotBlank(ddcFlow.getSlbm())) {
+			JtViewDept jtViewDept = iJtUserService.getJtDeptByOrg(ddcFlow
+					.getSlbm());
+			if (jtViewDept != null) {
+				ddcFlow.setSlbm(jtViewDept.getOrgName());
+			}
+
+		}
+
+		// 受理资料
+		List<DdcSjzd> selectSlzls = new ArrayList<>();// 选中的受理资料
+		if (ddcFlow.getYwlx().equals("A")) {
+			selectSlzls = iEbikeService
+					.getDbyyList(ddcFlow.getSlzl(), "BASQZL");// 备案
+		}
+		if (ddcFlow.getYwlx().equals("B")) {
+			selectSlzls = iEbikeService
+					.getDbyyList(ddcFlow.getSlzl(), "BGSQZL");// 变更
+		}
+		if (ddcFlow.getYwlx().equals("C")) {
+			selectSlzls = iEbikeService
+					.getDbyyList(ddcFlow.getSlzl(), "ZYSQZL");// 转移
+		}
+		if (ddcFlow.getYwlx().equals("D")) {
+			selectSlzls = iEbikeService
+					.getDbyyList(ddcFlow.getSlzl(), "ZXSQZL");// 注销
+		}
+		List<DdcApproveUser> ddcApproveUsers = iEbikeService
+				.findApproveUsersByLsh(ddcFlow.getLsh()); // 审批人
+
+		List<DdcSjzd> selectTbyySjzds = iEbikeService.getDbyyList(
+				ddcFlow.getTbyy(), "TBYY");
 		String showEbikeImg = parseUrl(ddcFlow.getVcEbikeImg());
 		String showUser1Img = parseUrl(ddcFlow.getVcUser1Img());
 		String showUser2Img = parseUrl(ddcFlow.getVcUser2Img());
 		ddcFlow.setVcShowEbikeImg(showEbikeImg);
 		ddcFlow.setVcShowUser1Img(showUser1Img);
 		ddcFlow.setVcShowUser2Img(showUser2Img);
-		return ddcFlow;
+		request.setAttribute("ddcFlow", ddcFlow);
+		request.setAttribute("selectSlzls", selectSlzls);
+		request.setAttribute("ddcApproveUsers", ddcApproveUsers);
+		request.setAttribute("selectTbyySjzds", selectTbyySjzds);
+		return "statistical/businessDetailInfo";
 	}
 
 	/**

@@ -16,11 +16,8 @@ ul li {
 	list-style-type: none;
 }
 
-#dgformDiv2 input {
-	border-left: 0px;
-	border-top: 0px;
-	border-right: 0px;
-	border-bottom: 1px;
+.input_border0 input{
+	border: 0;
 }
 
 /* 左侧导航栏 */
@@ -92,7 +89,12 @@ ul li {
 	font-size: 16px;
 	color: #C84AFC;
 }
-
+.menu-li ul{
+	display: none;
+}
+.open ul{
+	display: block!important;
+}
 .menu-title {
 	padding: 10px;
 	height: 60px;
@@ -124,14 +126,20 @@ ul li {
 	/* filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../static/images/header.png'); IE6
 	background-image: none; IE6 */
 }
+.headerdiv{
+	width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: #53166D;
+}
 
-.header>p {
-	color: #95E62D;;
+.headerdiv i{
+	color:#7777DE;
 }
 
 .header-icon {
 	font-size: 54px;
-	color: #257D30;
+	
 	position: relative;
 	left: -77px;
 	top: 10px;
@@ -184,6 +192,30 @@ ul li {
 	color: blue;
 }
 
+
+/**************************** 欢迎页面 ***********************/
+.main_welcome{
+	background-color: #E8F1FF;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+.main_welcome_icon{
+	width: 100%;
+    height: 200px;
+    margin: 0 auto;
+    padding-top: 10%;
+    text-align: center;
+    font-size: 25px;
+    color: #5720AF;
+}
+.main_welcome i{
+	font-size: 90px;
+	color: #5720AF;
+}
+
+
+
 input {
 	height: 30px;
 	vertical-align: middle;
@@ -194,8 +226,9 @@ table {
 	border-collapse: collapse;
 }
 
-td,th {
+td {
 	padding: 0;
+	vertical-align: middle;
 }
 
 table {
@@ -230,12 +263,12 @@ th {
 	{
 	padding: 8px;
 	line-height: 1.42857143;
-	vertical-align: top;
+	vertical-align: middle;
 	border: 1px solid #ddd;
 }
 
 .table>thead>tr>th {
-	vertical-align: bottom;
+	vertical-align: middle;
 	border-bottom: 2px solid #ddd;
 }
 
@@ -343,4 +376,81 @@ table td[class*="col-"],table th[class*="col-"] {
 .table-responsive {
 	min-height: .01%;
 	overflow-x: auto;
+}
+
+.tablediv {
+	background-color: #E4E4FB;
+	vertical-align: middle;
+}
+
+.tablediv input {
+	vertical-align: middle;
+}
+.table-btndiv{
+	text-align: center;
+}
+.table-btndiv button{
+	width: 100px;
+	height: 32px;
+	background-color: #A9A9F7;
+	text-align: center;
+}
+.btn {
+	width: 100px;
+	height: 32px;
+	background-color: #A9A9F7;
+	text-align: center;
+}
+
+.btndiv {
+	text-align: center;
+}
+
+.tbdiv {
+	margin: 0 40px;
+}
+
+.tbdiv p {
+	font-weight: bolder;
+}
+
+#main {
+	border-collapse: collapse;
+}
+
+#main,#main tr,#main th,#main td {
+	border: 1px solid #C4E1FF;
+}
+
+#main tr {
+	height: 30px;
+	background-color: #EEF2FB;
+	line-height: 30px;
+}
+
+#main th {
+	text-align: right;
+	font-weight: bold;
+	width: 10%;
+}
+
+#main td {
+	width: 15%;
+	text-align: left;
+	padding-left: 5px;
+}
+
+.maindiv {
+	background-color: #E4E4FB;
+	vertical-align: middle;
+}
+
+.maindiv input {
+	vertical-align: middle;
+}
+.searchdiv{
+	padding: 5px 0 5px 10px;
+    background: #E8F1FF;
+    /* margin: 5px; */
+    text-align: left;
 }

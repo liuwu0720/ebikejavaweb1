@@ -58,7 +58,15 @@ $(document).ready(function(){
 			field : 'xb',
 			title : '性别',
 			align:'center',
-			width : 120
+			width : 120,
+			formatter:function(value){
+				if(value == 0){
+					return "男";
+				}else{
+					return "女";
+				}
+			}
+			
 		},{
 			field : 'lxdh',
 			title : '联系电话',

@@ -22,21 +22,14 @@
 <script type="text/javascript"
 	src="<%=basePath%>static/js/jquery-1.7.2.min.js"></script>
 
-
 <script type="text/javascript">
 	$(document).ready(function() {
 		//页面中的DOM已经装载完成时，执行的代码
 		$(".menu-li > a").click(function() {
 			//找到主菜单项对应的子菜单项
-			var ulNode = $(this).next("ul");
-
-			if (ulNode.css("display") == "none") {
-
-				ulNode.slideDown("slow");
-
-			} else {
-				ulNode.slideUp("slow");
-			}
+			
+			$(this).parent().addClass("open");
+			$(this).parent().siblings().removeClass("open");
 
 		});
 
@@ -47,14 +40,13 @@
 </head>
 <body>
 	<div class="menu">
-	<p style="color: red">${message }</p>
 		<div class="menu-header">
 			<div class="menu-icon">菜单管理</div>
 			<ul class="menu-ul">
 				<c:forEach items="${nodeJtMenus }" var="node">
 					<li class="menu-li">
-					<span style="color:blue;"><a href="javascript:void(0)">
-					<i class="iconfont">${node.vcIcon }</i>${node.vcMenu } </a></span>
+					<a href="javascript:void(0)">
+					<i class="iconfont">${node.vcIcon }</i>${node.vcMenu } </a>
 						<ul>
 						<c:forEach items="${node.subJtMenus }" var="sub">
 							<li><a href="${sub.vcUrl }" target="main"><i class="iconfont">${sub.vcIcon }</i>${sub.vcMenu }</a></li>

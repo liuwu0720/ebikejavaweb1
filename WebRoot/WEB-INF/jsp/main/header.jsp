@@ -17,19 +17,26 @@
 	href="<%=basePath%>static/css/iconfont.css">
 <link rel="stylesheet" type="text/css"
 	href="<%=basePath%>static/css/ebike.css">
+<script type="text/javascript">
+function sessionOut(){
+	window.location.href="<%=basePath%>userAction/loginout"
+}
+
+</script>	
+	
 </head>
-<body style="background-color: #E8F1FF;">
+<body>
 	<!--  <i class="iconfont header-icon">&#xe600;</i> -->
-	<div>
+	<div class="headerdiv">
 		<div class="header">
 			<i class="iconfont header-icon">&#xe600;</i>
 			
 		</div>
 		<div class="header-tool">
 			<ul>
-				<li><a href="javascript:void(0)" title="设置"> <i
+				<li><a href="<%=basePath%>userAction/modifyPassword" title="设置" target="main"> <i
 						class="iconfont header-icon-setting">&#xe601;</i><br> <span>设置</span></li>
-				<li></a> <a href="javascript:void(0)" title="退出"> <i
+				<li></a> <a href="javascript:void(0)" target="_top" title="退出" onclick="sessionOut()"> <i
 						class="iconfont header-icon-setting">&#xe604;</i><br> <span>退出
 					</span>
 				</a></li>

@@ -341,14 +341,14 @@ public class EbikeServiceImp implements IEbikeService {
 	 * @see com.node.service.IEbikeService#getDbyyList(java.lang.String)
 	 */
 	@Override
-	public List<DdcSjzd> getDbyyList(String tbyy) {
+	public List<DdcSjzd> getDbyyList(String tbyy, String type) {
 		if (StringUtils.isNotBlank(tbyy)) {
 			String[] tbyyStrings = tbyy.split(",");
 			List<DdcSjzd> allDdcSjzds = new ArrayList<>();
 			for (String dmz : tbyyStrings) {
 				List<DdcSjzd> ddcSjzds = iDdcSjzdDao.findByPropertys(
 						new String[] { "dmz", "dmlb" }, new Object[] { dmz,
-								"TBYY" });
+								type });
 				if (ddcSjzds != null && ddcSjzds.size() > 0) {
 					allDdcSjzds.addAll(ddcSjzds);
 				}
@@ -399,4 +399,20 @@ public class EbikeServiceImp implements IEbikeService {
 		return iDdcFlowDao.getDateBySQL(sql);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.node.service.IEbikeService#findApproveUsersByLsh(java.lang.String)
+	 */
+	@Override
+	public List<DdcApproveUser> findApproveUsersByLsh(String lsh) {
+		List<DdcApproveUser> ddcApproveUsers = iDdcApprovalUserDao
+				.findByPropertyOrderBy("lsh", lsh, "id");
+		if (ddcApproveUsers != null && ddcApproveUsers.size() > 0) {
+			return ddcApproveUsers;
+		} else {
+			return null;
+		}
+	}
 }
