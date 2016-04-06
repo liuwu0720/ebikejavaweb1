@@ -128,15 +128,15 @@ function badetail(obj){
 }
 function bgdetail(obj){
 	var areacode = obj;
-	window.location.href="<%=basePath%>statisticalAction/getBesinessDetail?areacode="+areacode+"&&type=B";
+	window.location.href="<%=basePath%>statisticalAction/getBgBesinessDetail?areacode="+areacode+"&&type=B";
 }
 function zydetail(obj){
 	var areacode = obj;
-	window.location.href="<%=basePath%>statisticalAction/getBesinessDetail?areacode="+areacode+"&&type=C";
+	window.location.href="<%=basePath%>statisticalAction/getBgBesinessDetail?areacode="+areacode+"&&type=C";
 }
 function zxdetail(obj){
 	var areacode = obj;
-	window.location.href="<%=basePath%>statisticalAction/getBesinessDetail?areacode="+areacode+"&&type=D";
+	window.location.href="<%=basePath%>statisticalAction/getBgBesinessDetail?areacode="+areacode+"&&type=D";
 }
 function jydetail(obj){
 	var areacode = obj;

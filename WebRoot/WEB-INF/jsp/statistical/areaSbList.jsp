@@ -35,7 +35,7 @@ $(document).ready(function(){
 	$("#dg").datagrid({
 
 		url : "<%=basePath%>approvalAction/queryRecordApprove?xsqy=" + xsqy,
-		title :  "区域车辆统计详情",
+		title :  "已申报列表",
 		iconCls : 'icon-search',
 		striped : true,
 		fitColumns:true,   //数据列太少 未自适应

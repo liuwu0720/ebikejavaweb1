@@ -12,56 +12,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <title>备案详情</title>
     
 	<%@include file="../common/common.jsp"%>
-		<style type="text/css">
-	*{
-		margin:0;
-		padding:0;
-		font-size:12px;
-	}
-	#main{
-		border-collapse:collapse;
-	}
-	#main,#main tr,#main th,#main td{
-		border:1px solid #C4E1FF;
-	}
-	#main tr{
-		height:30px;
-		background-color:#EEF2FB;
-		line-height:30px;
-	}
-	#main th{
-		text-align:right;
-		font-weight:bold;
-		width:10%;
-	}
-	#main td{
-		width:15%;
-		text-align:left;
-		padding-left:5px;
-	}
-	.maindiv{
-		background-color: #E4E4FB;
-		vertical-align:middle;
-	}
-	.maindiv input{
-		vertical-align:middle;
-	}
-	.btn{
-	width: 100px;
-	height: 32px;
-	background-color: #A9A9F7;
-	text-align: center;
-	}
-	.btndiv{
-		text-align: center;
-	}
-	.tbdiv{
-		margin: 0 40px;
-	}
-	.tbdiv p{
-		font-weight: bolder;
-	}
-	</style>
 	<script type="text/javascript">
 	
 	$(document).ready(function(){

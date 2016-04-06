@@ -11,8 +11,15 @@
 <head>
 <base href="<%=basePath%>">
 
-<title>备案列表详情</title>
-
+<title>电动车档案查询</title>
+<style type="text/css">
+#table  input{
+	border: 0;
+}
+ #table2 input{
+	border: 0;
+}
+</style>
 <%@include file="../common/common.jsp"%>
 
 
@@ -27,8 +34,9 @@ $(document).ready(function(){
 	var hyxhzh = '${hyxhzh}';
 	$("#dg").datagrid({
 
-		url : "<%=basePath%>statisticalAction/queryHyxhBaDetail?hyxhzh=" + hyxhzh,
-		title :  "备案列表详情",
+		url : "<%=basePath%>ebikeAction/queryAll?hyxhzh="+ hyxhzh,
+		title :  "电动车档案查询管理",
+		iconCls : 'icon-search',
 		striped : true,
 		fitColumns:true,   //数据列太少 未自适应
 		pagination : true,
@@ -39,23 +47,37 @@ $(document).ready(function(){
 		width:w,
 		loadMsg:'正在加载,请稍等...',
 		columns : [ [{
+			field : 'ID',
+			title : 'ID',
+			checkbox : true,
+			align:'center',
+			width : 120
+		},{
+			field : 'HYXHMC',
+			title : '行业协会名称',
+			align:'center',
+			width : 220,
+			formatter:function(value,row,index){
+				var query = "<a  href='javascript:void(0)'  onclick='queryHyxhDetail(\""+row.HYXHZH+"\")'>"+value+"</a>";
+				return query;	
+			}
+		},{
+			field : 'DWMC',
+			title : '单位名称',
+			align:'center',
+			width : 220,
+			formatter:function(value,row,index){
+				var query = "<a  href='javascript:void(0)'  onclick='queryHyxhDwDetail(\""+row.ZZJGDMZH+"\")'>"+value+"</a>";
+				return query;	
+			}
+		},{
 			field : 'DABH',
 			title : '档案编号',
 			align:'center',
 			width : 120
 		},{
-			field : 'DWMC',
-			title : '单位名称',
-			align:'center',
-			width : 220
-		},{
-			field : 'PPXH',
-			title : '品牌型号',
-			align:'center',
-			width : 80
-		},{
 			field : 'CPHM',
-			title : '车牌号码',
+			title : '车牌号',
 			align:'center',
 			width : 120
 		},{
@@ -65,66 +87,256 @@ $(document).ready(function(){
 			width : 120
 		},{
 			field : 'JSRXM1',
-			title : '驾驶人',
+			title : '驾驶人1',
 			align:'center',
 			width : 120
 		},{
 			field : 'SFZMHM1',
-			title : '身份证号码',
+			title : '身份证号码1',
 			align:'center',
-			width : 220
+			width : 120
 		},{
-			field : 'SYRQ',
-			title : '受理日期',
+			field : 'XSQY',
+			title : '行驶区域',
+			align:'center',
+			width : 120
+		},{
+			field : 'GDYJ',
+			title : '归档意见',
 			align:'center',
 			width : 120,
 			formatter:function(value,index){
-				var unixTimestamp = new Date(value);   
-				return unixTimestamp.toLocaleString();
+				if(value == 0){
+					return '办结';
+				}else{
+					return '退办'
+				}
+			}
+		},{
+			field : 'ZT',
+			title : '车辆状态',
+			align:'center',
+			width : 120,
+			formatter:function(value,index){
+				if(value == '注销'){
+					
+					return "<p style='color:red'>注销</p>";
+				}else{
+					return value;
+				}
+			}
+		},{
+			field : 'null',
+			title:'操作',
+			align:'center',
+			width : 120,
+			formatter:function(value,row,index){
+				var query = "<a  href='javascript:void(0)'  onclick='queryRow("+row.ID+")'>查看</a>";
+				return query;	
+				
 			}
 		}
+
 		] ],
-		toolbar : [ {
-			id : 'btn1',
-			text : '返回',
-			iconCls : 'icon-back',
-			handler : function() {
-				history.go(-1);
-			}
-		}],
-	
+
 		onLoadSuccess:function(){  
             $('#dg').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题  
         }
 	});
 	
-	
+	$('#xsqy').combobox({    
+	    url:'<%=basePath%>ebikeAction/getArea',    
+	    valueField:'dmz',    
+	    textField:'dmms1'   
+	}); 
+
+	 $('#hyxsssdwmc').combobox({
+	    		 	url:'<%=basePath%>industryAction/getDwmcByHyxh?hyxhzh='+hyxhzh,    
+	    		    valueField:'id',    
+	    		    textField:'dwmc'
+	 })
+
+	$('#zt').combobox({
+		valueField: 'label',
+		textField: 'value',
+		data: [{
+			label: 'A',
+			value: '正常'
+		},{
+			label: 'E',
+			value: '注销'
+		}]
+	})
 });
-function exportPage() {
-	$("#dg").css('width', '650px');
-	var bdhtml=window.document.body.innerHTML;
-	var startStr="<!--startprint-->";//设置打印开始区域 
-	var endStr="<!--endprint-->";//设置打印结束区域 
-	var printHtml=bdhtml.substring(bdhtml.indexOf(startStr)+startStr.length,bdhtml.indexOf(endStr));//从标记里获取需要打印的页面 
-	window.document.body.innerHTML=printHtml;//需要打印的页面 
-	window.print(); 
-	window.document.body.innerHTML=bdhtml;//还原界面 
+
+
+//查询功能
+function doSearch(){
+	
+	 $('#dg').datagrid('load',{
+		dabh: $("#dabh").val(),
+		djh: $('#djh').val(),
+		cphm:$("#cphm").val(),
+		jsrxm1:$("#jsrxm1").val(),
+		sfzhm:$("#sfzhm").val(),
+		 dwmcId:$("#hyxsssdwmc").combobox("getValue"),
+		 zt:$("#zt").combobox("getValue")
+	}); 
+}
+
+
+//查看
+function queryRow(id){
+	window.location.href="<%=basePath%>ebikeAction/queryInfoById?id="+id
+
+}
+
+
+//查看行业协会详情
+function queryHyxhDetail(obj){
+
+	$.ajax({
+		type: "GET",
+ 	    url: "<%=basePath%>industryAction/queryHxyHyxhBaseByCode",
+ 	   data:{
+ 		code:obj
+	   }, 
+	   dataType: "json",
+	   success:function(data){
+			  if(data){
+				 $('#dgformDiv').dialog('open').dialog('setTitle', '详情信息');
+				 $('#dgform').form('load', data);
+			  }
+		  }
+	})
+	
+}
+//查看单位详情
+function queryHyxhDwDetail(obj){
+	$.ajax({
+		type: "GET",
+ 	    url: "<%=basePath%>industryAction/queryCompanyById",
+ 	   data:{
+ 		id:obj
+	   }, 
+	   dataType: "json",
+	   success:function(data){
+			  if(data){
+				 $('#dgformDiv2').dialog('open').dialog('setTitle', '详情信息');
+				 $('#dgform2').form('load', data);
+				 $("#img2").attr("src",data.vcShowPath);
+			  }
+		  }
+	})
 }
 </script>
 </head>
 <body class="easyui-layout">
 
 	<div>
-	  <!--startprint-->
 		<table id="dg" style="width:90%;">
-			<div id="tb" style="padding: 5px; background: #E8F1FF;">
-				<span>协会名称名称：${hyxhBase.hyxhmc }</span>
+
+			<div id="tb"  class="searchdiv">
+				<span>状态</span>
+				<input id="zt" style="height: 32px;">	
+				<span>档案编号</span>
+				<input id="dabh" type="text" class="easyui-validatebox" name="dabh" ></input>
+				<span>电机号&nbsp;&nbsp;</span> <input id="djh" name="djh"
+					class="easyui-validatebox" type="text" ><br/>
+
+				<span>姓名</span> <input id="jsrxm1" name="jsrxm1"
+					class="easyui-validatebox" type="text" >
+				<span>公司名称</span>
+				<input id="hyxsssdwmc" style="height: 32px;">	
+				
+				<a class="easyui-linkbutton" plain="true" onclick="doSearch()"
+					iconCls="icon-search">查询 </a>
 			</div>
 		</table>
-		<!--endprint-->		
-		
 	</div>
 	
+ <!-- 行业协会详情 -->
+	<div id="dgformDiv" class="easyui-dialog"
+		style="width:650px;height:450px;padding:10px 20px 20px 20px;" closed="true">
+		<form id="dgform" class="easyui-form">
+			<table class="table" id="table">
+				<tr>
+					<th>协会名称</th>
+					<td><input  name=hyxhmc type="text" class="easyui-validatebox" style="height: 32px;width:100%;" readonly="readonly"></td>
+				</tr>
+				<tr>
+					<th>协会类别</th>
+					<td><input  name=hyxhlb type="text" class="easyui-validatebox" style="height: 32px;width:100%;" readonly="readonly"></td>
+				</tr>
+				<tr>
+					<th>协会地址</th>
+					<td><input  name="hyxhdz" type="text" class="easyui-validatebox" style="height: 32px;width:100%;" readonly="readonly"></td>
+				</tr>
+				<tr>
+					<th>协会负责人</th>
+					<td><input  name="hyxhfzr" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+				</tr>
+				<tr>
+					
+					<th>联系电话</th>
+					<td><input  name="hyxhfzrdh" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+				</tr>
+				<tr>
+					<th>总配额</th>
+					<td><input  name="hyxhsjzpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+				</tr>
+				<tr>
+					
+					<th>剩余配额</th>
+					<td><input  name="lastpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+				</tr>
+			</table>
+				
+		</form>
+	</div>
 	
+	 <!-- 单位信息详情 -->
+	<div id="dgformDiv2" class="easyui-dialog"
+		style="width:650px;height:450px;padding:10px 20px 20px 20px;" closed="true">
+		<form id="dgform2" class="easyui-form">
+			<table class="table" id="table2">
+				<tr>
+					<th>单位名称</th>
+					<td><input  name=dwmc type="text" class="easyui-validatebox" style="height: 32px;width:100%;" readonly="readonly"></td>
+				</tr>
+				<tr>
+					<th>所属协会</th>
+					<td><input  name=hyxhzhName type="text" class="easyui-validatebox" style="height: 32px;width:100%;" readonly="readonly"></td>
+				</tr>
+				<tr>
+					<th>组织机构代码证号</th>
+					<td><input  name=zzjgdmzh type="text" class="easyui-validatebox" style="height: 32px;width:100%;" readonly="readonly"></td>
+				</tr>
+				<tr>
+					<th>地址</th>
+					<td><input  name="zsdz" type="text" class="easyui-validatebox" style="height: 32px;width:100%;" readonly="readonly"></td>
+				</tr>
+				<tr>
+					<th>联系人</th>
+					<td><input  name="lxr" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+				</tr>
+				<tr>
+					
+					<th>联系电话</th>
+					<td><input  name="lxdh" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+				</tr>
+				<tr>
+					<th>配额</th>
+					<td><input  name="dwpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+				</tr>
+				<tr>
+					
+					<th>营业执照图片</th>
+					<td><img id="img2"  class="easyui-validatebox" style="width:300px"   /><br/></td>
+				</tr>
+			</table>
+				
+		</form>
+	</div>
 </body>
 </html>

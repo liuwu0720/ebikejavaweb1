@@ -275,7 +275,8 @@ function updateSaveData(){
 function doSearch(){
 	$('#dg').datagrid('load',{
 		userName: $('#userName').val(),
-		userCode: $('#usercode').val()
+		userCode: $('#usercode').val(),
+		deptName:$('#deptName').val()
 	});
 }
 </script>
@@ -292,12 +293,10 @@ function doSearch(){
 	  <div   data-options="region:'center',title:'用户管理'" class="center">
 		<table id="dg" style="width:90%;">
 			<div id="tb" style="padding: 5px; background: #E8F1FF;">
-				<span>用户姓名:</span> <input id="userName"
-					style="line-height:26px;border:1px solid #ccc"> <span>
-					账号/警号:</span> <input id="usercode"
-					style="line-height:26px;border:1px solid #ccc"> <a
-					class="easyui-linkbutton" plain="true" onclick="doSearch()"
-					iconCls="icon-search">查询</a>
+				<span>用户姓名:</span> <input id="userName" class="easyui-validatebox" type="text" > 
+				<span>账号/警号:</span> <input id="usercode" class="easyui-validatebox" type="text" >
+				<span>部门名称:</span> <input id="deptName" class="easyui-validatebox" type="text" >
+				<a class="easyui-linkbutton" plain="true" onclick="doSearch()" iconCls="icon-search">查询</a>
 			</div>
 		</table>
 	</div>

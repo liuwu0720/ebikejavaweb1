@@ -137,23 +137,31 @@ public class UserAction {
 	@RequestMapping("/queryAllUsers")
 	@ResponseBody
 	public Map<String, Object> queryAllUsers(HttpServletRequest request,
-			String userCode, String userName, String deptId) {
+			String deptName, String userCode, String userName, String deptId) {
 		Page p = ServiceUtil.getcurrPage(request);
 		StringBuffer sql = new StringBuffer(
 				"select t.id, t.USER_CODE, t.USER_NAME, t.ORG_ID,d.org_name, t.FLAG, j.id as jid,j.user_role,j.OP_DATE,j.USER_STATE  "
 						+ " from oa_user_view t  left join jt_user j   on t.USER_CODE = j.user_code LEFT JOIN "
 						+ " OA_DEPT_VIEW D ON t.ORG_ID=d.ORG_ID where t.USER_CODE is not null");
 
-		if (StringUtils.isNotBlank(deptId)) {
-			sql.append(" and t.ORG_ID = " + Integer.parseInt(deptId));
-		}
 		if (StringUtils.isNotBlank(userCode)) {
 			sql.append(" and t.USER_CODE = '" + userCode + "'");
 		}
 		if (StringUtils.isNotBlank(userName)) {
 			sql.append(" and t.USER_NAME like '%" + userName + "%'");
 		}
-		sql.append("  order by t.id");
+		if (StringUtils.isNotBlank(deptName)) {
+			sql.append(" and d.org_name like '%" + deptName + "%'");
+		}
+
+		if (StringUtils.isNotBlank(deptId)) {
+			sql.append(" start with d.up_org='" + deptId
+					+ "' connect by prior d.org_id=d.up_org ");
+		} else {
+			sql.append(" start with d.up_org='0' connect by prior d.org_id=d.up_org ");
+		}
+
+		sql.append(" order by t.ORG_ID ");
 		Map<String, Object> resultMap = iJtUserService.getBySpringSql(
 				sql.toString(), p);
 		List<Map<String, Object>> list = (List<Map<String, Object>>) resultMap

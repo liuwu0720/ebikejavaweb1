@@ -24,10 +24,10 @@ $(document).ready(function(){
 	var h = getHeight('dg');
 	var size = getPageSize(h);
 	var w = getWidth(400);
-	var randomNu = (new Date().getTime()) ^ Math.random();
+	var xsqy = '${areacode}';
 	$("#dg").datagrid({
 
-		url : "<%=basePath%>statisticalAction/queryByBackFlow?time=" + randomNu,
+		url : "<%=basePath%>statisticalAction/queryByBackFlow?xsqy=" + xsqy,
 		title :  "退办查询",
 		striped : true,
 		fitColumns:true,   //数据列太少 未自适应
@@ -96,7 +96,6 @@ function doSearch(){
 	 $('#dg').datagrid('load',{
 		 lsh: $("#lsh").val(),
 		 djh: $('#djh').val(),
-		 xsqy:$("#xsqy").combobox("getValue"),
 		 dtstart:$('#dtstart').datebox('getValue'),// 获取日期输入框的值)
 		 dtend:$('#dtend').datebox('getValue')
 	}); 
@@ -116,13 +115,11 @@ function queryRow(id){
 	<div>
 	
 		<table id="dg" style="width:70%;">
-			<div id="tb"  class="searchdiv">
+			<div id="tb" class="searchdiv">
 				<span>流水号</span>
-				<input id="lsh" type="text" class="easyui-validatebox"></input>
-				<span>电机号</span> <input id="djh" 
+				<input id="lsh" type="text" class="easyui-validatebox" name="lsh" ></input>
+				<span>电机号</span> <input id="djh" name="djh"
 					class="easyui-validatebox" type="text" >
-				<span>所属区域</span>
-				<input id="xsqy" style="height: 32px;"><br>
 				<span>受理时间</span>
 				<input id="dtstart" type="text" class="easyui-datebox" style="height: 30px;"></input> 至：  
 				<input id="dtend" type="text" class="easyui-datebox" style="height: 30px;"></input>		

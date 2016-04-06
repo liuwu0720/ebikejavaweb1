@@ -52,8 +52,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     			<td>${ddcFlow.zzjgdmzhName }</td>
     			<th>品牌型号</th>
     			<td>${ddcFlow.ppxh }</td>
-    			<th></th>
-    			<td></td>
     		</tr>
     		<tr>
     			<th>电机号</th>
@@ -134,16 +132,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     			</td>
     		</tr>
     		</c:if>
-    		<c:if test="${ddcFlow.slyj==0 }">
+    	
     		<tr>
-    			<th>受理资料</th>
+    			<th>${ddcFlow.ywlxName }受理资料</th>
     			<td colspan="7">
     				<c:forEach items="${selectSlzls }" var="tb">
     					<p>${tb.dmms1 }</p>
     				</c:forEach>
     			</td>
     		</tr>
-    		</c:if>
+    		
     		<tr>
     			<th>办结意见</th>
     			<td colspan="7">

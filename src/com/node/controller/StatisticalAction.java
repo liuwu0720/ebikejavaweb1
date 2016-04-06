@@ -247,10 +247,11 @@ public class StatisticalAction {
 	@RequestMapping("/queryByBackFlow")
 	@ResponseBody
 	public Map<String, Object> queryByBackFlow(HttpServletRequest request,
-			String dtstart, String dtend, String xsqy, String lsh, String djh) {
+			String hyxhzh, String dtstart, String dtend, String xsqy,
+			String lsh, String djh) {
 		Page page = ServiceUtil.getcurrPage(request);
 		StringBuffer sb = new StringBuffer();
-		sb.append("select a.id,a.lsh,a.djh,(select user_name from jt_user where user_code=a.slr and rownum=1 ) as slr,");
+		sb.append("select a.id,a.lsh,a.djh,(select user_name from oa_user_view where user_code=a.slr and rownum=1 ) as slr,");
 		sb.append("(select distinct d.DMMS1 from ddc_sjzd d where d.dmz=a.xsqy and d.dmlb='SSQY' and rownum=1) as xsqy,");
 		sb.append("  (select t.org_name from oa_dept_view t where t.org_id=a.slbm and rownum=1 ) as slbm,");
 		sb.append("to_char(a.slrq,'yyyy-mm-dd hh24:mi:ss') as slrq from ddc_flow a where a.slyj='1' and a.hyxhzh != 'cs'");
@@ -268,6 +269,9 @@ public class StatisticalAction {
 		}
 		if (StringUtils.isNotBlank(dtend)) {
 			sb.append(" and a.slrq <=to_date('" + dtend + "','yyyy-MM-dd')");
+		}
+		if (StringUtils.isNotBlank(hyxhzh)) {
+			sb.append(" and a.HYXHZH = '" + hyxhzh + "'");
 		}
 
 		sb.append(" order by a.id desc");
@@ -362,7 +366,22 @@ public class StatisticalAction {
 
 	/**
 	 * 
-	 * 方法描述 大队退办列表
+	 * 方法描述：区域退办查询
+	 * 
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年4月5日 下午9:57:23
+	 */
+	@RequestMapping("/getAreaTbList")
+	public String getAreaTbList(HttpServletRequest request, String areacode) {
+		request.setAttribute("areacode", areacode);
+		return "statistical/areaTbList";
+	}
+
+	/**
+	 * 
+	 * 方法描述 大队退办列表----退办
 	 * 
 	 * @param request
 	 * @param team
@@ -374,11 +393,38 @@ public class StatisticalAction {
 	@RequestMapping("/queryTeamTbDetail")
 	@ResponseBody
 	public Map<String, Object> queryTeamTbDetail(HttpServletRequest request,
-			String team) {
+			String xsqy, String lsh, String djh, String dtend, String dtstart,
+			String dwmcId, String hyxhzh, String team) {
 		Page page = ServiceUtil.getcurrPage(request);
-		String sql = " select f.* from ddc_flow f where f.slyj='1' and f.slbm in (select org_id  from OA_DEPT_VIEW  "
+		String sql = " select f.id,(select distinct d.DMMS1 from ddc_sjzd d where d.dmz=f.xsqy and d.dmlb='SSQY' and rownum=1) as xsqy,"
+				+ "f.ppxh,f.JSRXM1,f.SFZMHM1 , "
+				+ "f.lsh,f.djh,f.slrq,f.hyxhzh,(select d.HYXHMC from ddc_hyxh_base d where d.HYXHZH = f.HYXHZH and rownum = 1) as hyxhmc,"
+				+ "f.ZZJGDMZH, (select s.DWMC from  DDC_HYXH_SSDW s where s.ID = f.ZZJGDMZH and rownum = 1) as dwmc  "
+				+ " from ddc_flow f where f.slyj='1' and f.slbm in (select org_id  from OA_DEPT_VIEW  "
 				+ " start with org_id in  (select t.org_id from OA_DEPT_VIEW t where t.up_org="
 				+ team + ")   connect by prior org_id = up_org)";
+		if (StringUtils.isNotBlank(xsqy)) {
+			sql += " and f.xsqy='" + xsqy + "'";
+		}
+		if (StringUtils.isNotBlank(lsh)) {
+			sql += " and f.lsh like'%" + lsh + "%'";
+		}
+		if (StringUtils.isNotBlank(djh)) {
+			sql += " and f.djh like '%" + djh + "%'";
+		}
+		if (StringUtils.isNotBlank(dtstart)) {
+			sql += " and f.slrq >=to_date('" + dtstart + "','yyyy-MM-dd')";
+		}
+		if (StringUtils.isNotBlank(dtend)) {
+			sql += " and f.slrq <=to_date('" + dtend + "','yyyy-MM-dd')";
+		}
+		if (StringUtils.isNotBlank(hyxhzh)) {
+			sql += " and f.HYXHZH = '" + hyxhzh + "'";
+		}
+		if (StringUtils.isNotBlank(dwmcId)) {
+			sql += " and f.ZZJGDMZH = " + dwmcId;
+		}
+
 		sql += "  order by f.id desc";
 		Map<String, Object> resultMap = iInDustryService.getBySpringSql(sql,
 				page);
@@ -388,7 +434,7 @@ public class StatisticalAction {
 
 	/**
 	 * 
-	 * 方法描述：查询大队列表详情
+	 * 方法描述：查询大队列表---备案
 	 * 
 	 * @param request
 	 * @param team
@@ -400,10 +446,31 @@ public class StatisticalAction {
 	@RequestMapping("/queryTeamBaDetail")
 	@ResponseBody
 	public Map<String, Object> queryTeamBaDetail(HttpServletRequest request,
-			String team) {
+			String xsqy, String dabh, String djh, String cphm, String dwmcId,
+			String hyxhzh, String team) {
 		Page page = ServiceUtil.getcurrPage(request);
-		String sql = "select d.* from ddc_daxxb d where d.slbm in (select org_id  from OA_DEPT_VIEW  start with org_id  = '"
-				+ team + "'  connect by prior org_id = up_org)";
+		String sql = "select d.id,d.dabh,d.cphm,d.hyxhzh,(select b.HYXHMC from ddc_hyxh_base b where b.hyxhzh=d.hyxhzh and rownum=1 ) as hyxhzhName,d.ppxh, d.djh,"
+				+ "  d.zzjgdmzh,(select s.DWMC from ddc_hyxh_ssdw s where s.id = d.zzjgdmzh and rownum = 1) as dwmc,"
+				+ "d.jsrxm1,d.sfzmhm1,d.SLRQ  from ddc_daxxb d where d.slbm in (select org_id  from OA_DEPT_VIEW  start with org_id  = '"
+				+ team + "'  connect by prior org_id = up_org) ";
+		if (StringUtils.isNotBlank(dabh)) {
+			sql += " and d.dabh like '%" + dabh + "%'";
+		}
+		if (StringUtils.isNotBlank(djh)) {
+			sql += " and  d.djh like '%" + djh + "%'";
+		}
+		if (StringUtils.isNotBlank(cphm)) {
+			sql += " and d.cphm like '%" + cphm + "%'";
+		}
+		if (StringUtils.isNotBlank(dwmcId)) {
+			sql += " and  d.ZZJGDMZH like '%" + dwmcId + "%'";
+		}
+		if (StringUtils.isNotBlank(hyxhzh)) {
+			sql += " and d.HYXHZH like '%" + hyxhzh + "%'";
+		}
+		if (StringUtils.isNotBlank(xsqy)) {
+			sql += " and d.XSQY = '" + xsqy + "' ";
+		}
 
 		sql += "  order by d.id desc";
 		Map<String, Object> resultMap = iInDustryService.getBySpringSql(sql,
@@ -505,19 +572,16 @@ public class StatisticalAction {
 	@ResponseBody
 	public Map<String, Object> queryByHyxh(HttpServletRequest request) {
 		Page p = ServiceUtil.getcurrPage(request);
-		StringBuffer sb = new StringBuffer();
-		sb.append("select distinct a.hyxhzh,a.hyxhmc, decode(a.total,'','0',a.total) total,"
-				+ " decode(a.sb, '', '0', a.sb) sb, decode(b.total, '', '0', b.total) ba,a.tb");
-		sb.append(" from (select n.hyxhzh, n.hyxhmc,  decode((m.total), '', '0', (m.total)) total,decode((m.total - n.total), '', '0', (m.total - n.total)) sb,n.total tb");
-		sb.append(" from (select s.hyxhzh, count(*) total from ddc_hyxh_ssdwclsb s group by s.hyxhzh) m");
-		sb.append(" right join (select h.hyxhzh, h.hyxhmc, decode(c.total, '', '0', c.total) total from ddc_hyxh_base h");
-		sb.append(" left join (select f.hyxhzh, count(*) total from ddc_flow f where f.slyj = '1' group by f.hyxhzh) c");
-		sb.append(" on h.hyxhzh = c.hyxhzh where h.hyxhzh!='cs') n on m.hyxhzh = n.hyxhzh) a");
-		sb.append(" full join (select d.hyxhzh, d.hyxhmc, x.total from ddc_hyxh_base d");
-		sb.append(" left join (select t.hyxhzh, count(*) total from ddc_daxxb t group by t.hyxhzh) x");
-		sb.append(" on d.hyxhzh = x.hyxhzh where d.hyxhzh!='cs') b on a.hyxhzh = b.hyxhzh order by a.hyxhmc desc");
+		String sql = "select distinct a.hyxhzh, a.hyxhmc,decode(a.sb, '', '0', a.sb) sb,decode(b.total, '', '0', b.total) ba,"
+				+ " a.tb from (select n.hyxhzh, n.hyxhmc,decode(m.total, '', '0', m.total) sb,n.total tb "
+				+ "from (select s.hyxhzh, count(*) total from ddc_hyxh_ssdwclsb s  where s.hyxhzh !='cs'"
+				+ "  group by s.hyxhzh) m  right join (select h.hyxhzh, h.hyxhmc, decode(c.total, '', '0', c.total) total"
+				+ " from ddc_hyxh_base h left join (select f.hyxhzh, count(*) total from ddc_flow f where f.slyj = '1' group by f.hyxhzh) c"
+				+ "  on h.hyxhzh = c.hyxhzh where h.hyxhzh != 'cs') n on m.hyxhzh = n.hyxhzh) a full join (select d.hyxhzh, d.hyxhmc, x.total"
+				+ " from ddc_hyxh_base d  left join (select t.hyxhzh, count(*) total  from ddc_daxxb t  group by t.hyxhzh) x"
+				+ " on d.hyxhzh = x.hyxhzh  where d.hyxhzh != 'cs') b  on a.hyxhzh = b.hyxhzh order by a.hyxhmc desc";
 		Map<String, Object> sqlMap = iStatisticalService.findBySpringSqlPage(
-				sb.toString(), p);
+				sql, p);
 		List<Map<String, Object>> sqlList = (List<Map<String, Object>>) sqlMap
 				.get("rows");
 		List<Statics> slist = new ArrayList<>();
@@ -529,14 +593,12 @@ public class StatisticalAction {
 		for (int i = 0; i < sqlList.size(); i++) {
 			Map<String, Object> objMap = sqlList.get(i);
 			Statics stat = new Statics();
-			stat.setTotal(objMap.get("TOTAL").toString());
 			stat.setEname(objMap.get("HYXHZH").toString());
 			stat.setCname(objMap.get("HYXHMC").toString());
 			stat.setSb(objMap.get("SB").toString());
 			stat.setBa(objMap.get("BA").toString());
 			stat.setTb(objMap.get("TB").toString());
 
-			totalSbs += Long.valueOf(objMap.get("TOTAL").toString());
 			sbs += Long.valueOf(objMap.get("SB").toString());
 			bas += Long.valueOf(objMap.get("BA").toString());
 			tbs += Long.valueOf(objMap.get("TB").toString());
@@ -701,7 +763,7 @@ public class StatisticalAction {
 
 	/**
 	 * 
-	 * 方法描述：页面跳转
+	 * 方法描述：业务量统计---备案 检验
 	 * 
 	 * @return
 	 * @version: 1.0
@@ -714,6 +776,25 @@ public class StatisticalAction {
 		request.setAttribute("area", areacode);
 		request.setAttribute("type", type);
 		return "statistical/businessDetail";
+	}
+
+	/**
+	 * 
+	 * 方法描述：业务量统计--变更
+	 * 
+	 * @param request
+	 * @param areacode
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年4月6日 上午10:28:43
+	 */
+	@RequestMapping("/getBgBesinessDetail")
+	public String getBgBesinessDetail(HttpServletRequest request, String type,
+			String areacode) {
+		request.setAttribute("area", areacode);
+		request.setAttribute("type", type);
+		return "statistical/businessBgDetail";
 	}
 
 	/**
@@ -734,7 +815,7 @@ public class StatisticalAction {
 
 	/**
 	 * 
-	 * 方法描述：业务量详情
+	 * 方法描述：业务量详情---备案 检验
 	 * 
 	 * @param area
 	 * @param type
@@ -777,6 +858,50 @@ public class StatisticalAction {
 		Map<String, Object> detailMap = iStatisticalService.findBySpringSql(
 				sql1, p);
 
+		return detailMap;
+	}
+
+	/**
+	 * 
+	 * 方法描述：业务量详情 ---- 变更
+	 * 
+	 * @param area
+	 * @param djh
+	 * @param hyxhzh
+	 * @param dwId
+	 * @param request
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年4月6日 上午10:51:21
+	 */
+	@RequestMapping("/queryByBgBusinessDetail")
+	@ResponseBody
+	public Map<String, Object> queryByBgBusinessDetail(String area, String djh,
+			String cphm, String type, String hyxhzh, String dwId,
+			HttpServletRequest request) {
+		Page p = ServiceUtil.getcurrPage(request);
+		String sql1 = "select t.id,t.cphm,t.djh,t.dabh,t.JSRXM1,t.SFZMHM1,(select s.dmms1 from ddc_sjzd s where s.dmz = t.XSQY "
+				+ "and s.dmlb = 'SSQY' and rownum = 1) as xsqyName,";
+		sql1 += "to_char(t.slrq,'yyyy-mm-dd hh24:mi:ss') as slrq from ddc_flow t where t.cphm is not null and t.hyxhzh != 'cs'";
+		sql1 += " and t.ywlx='" + type + "' and t.xsqy='" + area + "'";
+		if (StringUtils.isNotBlank(djh)) {
+			sql1 += " and t.djh like '%" + djh + "%'";
+		}
+		if (StringUtils.isNotBlank(hyxhzh)) {
+			sql1 += " and t.HYXHZH = '" + hyxhzh + "'";
+		}
+		if (StringUtils.isNotBlank(dwId)) {
+			sql1 += " and t.ZZJGDMZH = '" + dwId + "'";
+		}
+
+		if (StringUtils.isNotBlank(cphm)) {
+			sql1 += " and t.cphm like '" + cphm + "'";
+		}
+
+		sql1 += " order by t.slrq desc";
+		Map<String, Object> detailMap = iStatisticalService
+				.findBySpringSqlPage(sql1, p);
 		return detailMap;
 	}
 

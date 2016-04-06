@@ -11,7 +11,7 @@
 <head>
 <base href="<%=basePath%>">
 
-<title>业务量统计</title>
+<title>变更业务量统计</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -26,31 +26,14 @@ $(document).ready(function(){
 		   cache: false //缓存
 		});
 	var area = '${area}';
-	var type = '${type}';
-	var typeName = "";
-	if(type == 'A'){
-		typeName="备案";
-	}
-	if(type == 'B'){
-		typeName="变更";
-	}
-	if(type == 'C'){
-		typeName="转移";
-	}
-	if(type == 'D'){
-		typeName="注销";
-	}
-	if(type == 'E'){
-		typeName="检验";
-	}
 	var h = getHeight('dg');
 	var size = getPageSize(h);
 	var w = getWidth(400);
-	
+	var type = '${type}';
 	$("#dg").datagrid({
 
-		url : "<%=basePath%>statisticalAction/queryByBusinessDetail?area=" +area+"&type="+type,
-		title :  typeName+"业务详情",
+		url : "<%=basePath%>statisticalAction/queryByBgBusinessDetail?area=" +area+"&&type="+type,
+		title :  "变更业务详情",
 		striped : true,
 		fitColumns:true,   //数据列太少 未自适应
 		pagination : true,
@@ -61,43 +44,43 @@ $(document).ready(function(){
 		width:w,
 		loadMsg:'正在加载,请稍等...',
 		columns : [ [{
-			field : 'id',
+			field : 'ID',
 			title : 'id',
 			checkbox : true,
 			align:'center',
 			width : 120
 		},{
-			field : 'ddmc',
-			title : '大队名称',
-			align:'center',
-			width : 120
-		},{
-			field : 'zdmc',
-			title : '中队名称',
-			align:'center',
-			width : 220
-		},{
-			field : 'slr',
-			title : '民警',
-			align:'center',
-			width : 120
-		},{
-			field : 'dabh',
-			title : '档案编号',
-			align:'center',
-			width : 120
-		},{
-			field : 'cphm',
+			field : 'CPHM',
 			title : '车牌号码',
 			align:'center',
 			width : 120
 		},{
-			field : 'djh',
+			field : 'DJH',
 			title : '电机号',
 			align:'center',
 			width : 120
 		},{
-			field : 'slrq',
+			field : 'DABH',
+			title : '档案编号',
+			align:'center',
+			width : 120
+		},{
+			field : 'JSRXM1',
+			title : '驾驶人1',
+			align:'center',
+			width : 120
+		},{
+			field : 'SFZMHM1',
+			title : '身份证号码1',
+			align:'center',
+			width : 120
+		},{
+			field : 'XSQYNAME',
+			title : '所属区域',
+			align:'center',
+			width : 120
+		},{
+			field : 'SLRQ',
 			title : '受理日期',
 			align:'center',
 			width : 120
@@ -107,7 +90,7 @@ $(document).ready(function(){
 			align:'center',
 			width : 120,
 			formatter:function(value,row,index){
-				var detail = "<a  href='javascript:void(0)'  onclick='getDetail("+row.id+")'>详情信息</a>&nbsp;&nbsp;&nbsp;";
+				var detail = "<a  href='javascript:void(0)'  onclick='getDetail("+row.ID+")'>详情信息</a>&nbsp;&nbsp;&nbsp;";
 				return detail;	
 			}
 		}
@@ -116,11 +99,7 @@ $(document).ready(function(){
             $('#dg').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题  
         }
 	});
-	$('#xsqy').combobox({    
-	    url:'<%=basePath%>ebikeAction/getArea',    
-	    valueField:'dmz',    
-	    textField:'dmms1'   
-	}); 
+	
 	$('#hyxsssdwmc').combobox()
 	
 	$('#hyxhzh').combobox({    
@@ -144,10 +123,10 @@ function getDetail(id){
 //查询功能
 function doSearch(){
 	 $('#dg').datagrid('load',{
+		dabh: $("#dabh").val(),
 		djh: $('#djh').val(),
 		cphm:$("#cphm").val(),
 		 dwmcId:$("#hyxsssdwmc").combobox("getValue"),
-		 xsqy:$("#xsqy").combobox("getValue"),
 		 hyxhzh:$("#hyxhzh").combobox("getValue"),
 	}); 
 }
@@ -158,15 +137,13 @@ function doSearch(){
 	<div>
 		<table id="dg" style="width:90%;">
 
-			<div id="tb" style="padding-top: 5px; background: #E8F1FF;width: 100%;">
+			<div id="tb" class="searchdiv">
 				<span>协会名称：</span>
 				<input id="hyxhzh" style="height: 32px;">  
 				<span>公司名称：</span>
 				<input id="hyxsssdwmc" style="height: 32px;">
-				<span>行驶区域：</span>
-				<input id="xsqy" style="height: 32px;width: 80px;">
-				<span>车牌号：</span>
-				<input id="cphm" type="text" class="easyui-validatebox"  ></input>
+				<span>档案编号：</span>
+				<input id="dabh" type="text" class="easyui-validatebox" name="dabh" ></input>
 				<span>电机号:</span> <input id="djh" name="djh"
 					class="easyui-validatebox" type="text" > &nbsp;&nbsp;&nbsp;
 				
@@ -175,7 +152,7 @@ function doSearch(){
 			</div>
 		</table>
 	</div>
+		
 	
-	</div>
 </body>
 </html>

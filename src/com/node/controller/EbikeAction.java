@@ -256,7 +256,7 @@ public class EbikeAction {
 		String xsqyName = iEbikeService.findByProPerties("SSQY",
 				ddcDaxxb.getXsqy());
 		ddcDaxxb.setXsqyName(xsqyName);// 所属区域
-
+		// 状态
 		String ztName = iEbikeService
 				.findByProPerties("CLZT", ddcDaxxb.getZt());
 		ddcDaxxb.setZtName(ztName);
@@ -278,6 +278,7 @@ public class EbikeAction {
 		String ywyyName = iEbikeService.findByProPerties("YWYY_A",
 				ddcDaxxb.getYwyy());
 		ddcDaxxb.setYwyyName(ywyyName);
+
 		// 受理人
 		JtUser jtUser = iJtUserService.getJtUserByUserCode(ddcDaxxb.getSlr());
 		ddcDaxxb.setSlrName(jtUser.getUserName());

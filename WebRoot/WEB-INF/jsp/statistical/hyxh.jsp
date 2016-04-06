@@ -44,26 +44,21 @@ $(document).ready(function(){
 			align:'center',
 			width : 220
 		},{
-			field : 'total',
-			title : '总申报',
+			field : 'sb',
+			title : '已申报',
 			align:'center',
 			width : 220,
 			formatter:function(value,row,index){
 				if(row.ename !== 'total'){
-					var detail = "<a  href='javascript:void(0)'  onclick='hySbdetail(\""+row.ename+"\")'>"+row.total+"</a>";
+					var detail = "<a  href='javascript:void(0)'  onclick='hySbdetail(\""+row.ename+"\")'>"+value+"</a>";
 					return detail;
 				}else{
 					return value;
 				}
 			}
 		},{
-			field : 'sb',
-			title : '已申报(总申报-已退办)',
-			align:'center',
-			width : 220
-		},{
 			field : 'ba',
-			title : '备案',
+			title : '已备案',
 			align:'center',
 			width : 220,
 			formatter:function(value,row,index){

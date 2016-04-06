@@ -44,7 +44,7 @@ $(document).ready(function(){
 			width : 220
 		},{
 			field : 'ba',
-			title : '备案',
+			title : '已备案',
 			align:'center',
 			width : 220,
 			formatter:function(value,row,index){
@@ -90,7 +90,7 @@ function teamBadetail(obj){
 	var team = obj;
 	window.location.href="<%=basePath%>statisticalAction/getTeamBadetail?team="+team;
 }
-
+//退办查询
 function teamTbdetail(obj){
 	var team = obj;
 	window.location.href="<%=basePath%>statisticalAction/getTeamTbDetail?team="+team;

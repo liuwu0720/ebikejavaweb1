@@ -55,7 +55,7 @@ $(document).ready(function(){
 			field : 'DWMC',
 			title : '单位名称',
 			align:'center',
-			width : 120,
+			width : 220,
 			formatter:function(value,row,index){
 				var query = "<a  href='javascript:void(0)'  onclick='queryHyxhDwDetail(\""+row.ZZJGDMZH+"\")'>"+value+"</a>";
 				return query;	
@@ -64,7 +64,7 @@ $(document).ready(function(){
 			field : 'HYXHMC',
 			title : '行业协会名称',
 			align:'center',
-			width : 120,
+			width : 220,
 			formatter:function(value,row,index){
 				var query = "<a  href='javascript:void(0)'  onclick='queryHyxhDetail(\""+row.HYXHZH+"\")'>"+value+"</a>";
 				return query;	
@@ -83,7 +83,7 @@ $(document).ready(function(){
 			field : 'JSRXM1',
 			title : '驾驶人',
 			align:'center',
-			width : 120
+			width : 80
 		},{
 			field : 'SFZMHM1',
 			title : '身份证号码',
@@ -93,12 +93,12 @@ $(document).ready(function(){
 			field : 'XSQY',
 			title : '行驶区域',
 			align:'center',
-			width : 120
+			width : 80
 		},{
 			field : 'ZT',
 			title : '车辆状态',
 			align:'center',
-			width : 120,
+			width : 80,
 			formatter:function(value,index){
 				if(value == '注销'){
 					
