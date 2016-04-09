@@ -28,7 +28,7 @@ $(document).ready(function(){
 	$("#dg").datagrid({
 
 		url : "<%=basePath%>statisticalAction/queryByHyxh?time=" + randomNu,
-		title :  "区域统计",
+		title :  "协会统计",
 		striped : true,
 		fitColumns:true,   //数据列太少 未自适应
 		pagination : true,

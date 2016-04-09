@@ -208,7 +208,7 @@ function checkvalues(){
 		<form id="dgform" class="easyui-form" method="post"  >
 			<table class="table">
 				<tr>
-					<td>申请配额:</td>
+					<td>总配额:</td>
 					<td><input id="hyxhsjzpe" class="easyui-numberspinner" name="hyxhsjzpe"
 						data-options="increment:1,required:true,validType:'number'"  min="0"  max="1000000"
 						style="width:120px;height:30px;"></input></td>

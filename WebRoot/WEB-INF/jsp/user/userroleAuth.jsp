@@ -16,17 +16,17 @@
 <%@include file="../common/common.jsp"%>
 
 <style type="text/css">
-#main {
+#main2 {
 	border-collapse: collapse;
 }
 
-#main tr {
+#main2 tr {
 	height: 30px;
 	background-color: #EEF2FB;
 	line-height: 30px;
 }
 
-#main th {
+#main2 th {
 	text-align: right;
 	font-weight: normal;
 	width: 10%;
@@ -131,7 +131,7 @@ function save(){
 <body>
 	<div class="maindiv">
 		<form  id="dgform" class="easyui-form" >
-		<table id="main" class="table">
+		<table id="main2" class="table">
 			<tr>
 				<th>角色名称</th>
 				<td>${jtRole.roleName }<input type="hidden" name="roleId" value="${jtRole.id }"></td>

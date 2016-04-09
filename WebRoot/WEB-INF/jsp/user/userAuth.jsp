@@ -16,17 +16,17 @@
 <%@include file="../common/common.jsp"%>
 
 <style type="text/css">
-#main {
+#main1 {
 	border-collapse: collapse;
 }
 
-#main tr {
+#main1 tr {
 	height: 30px;
 	background-color: #EEF2FB;
 	line-height: 30px;
 }
 
-#main th {
+#main1 th {
 	text-align: right;
 	font-weight: normal;
 	width: 10%;
@@ -140,7 +140,7 @@ function save(){
 <body>
 	<div class="maindiv">
 		<form  id="dgform" class="easyui-form" >
-		<table id="main" class="table">
+		<table id="main1" class="table">
 			<tr>
 				<th>用户账号</th>
 				<td>${jtUser.userCode }</td>
