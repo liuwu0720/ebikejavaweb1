@@ -139,7 +139,7 @@ function tabCloseEven() {
 }
 
 .top-bg {
-	background-color: #d8e4fe;
+	background-color: #698cba;
 	height: 80px;
 }
 </style>

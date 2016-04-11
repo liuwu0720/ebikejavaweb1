@@ -35,7 +35,7 @@ $(document).ready(function(){
 	$("#dg").datagrid({
 
 		url : "<%=basePath%>ebikeAction/queryAll?xsqy="+ xsqy,
-		title :  "电动车档案查询管理",
+		title :  "电动车档案查询管理11",
 		iconCls : 'icon-search',
 		striped : true,
 		fitColumns:true,   //数据列太少 未自适应
@@ -131,7 +131,8 @@ $(document).ready(function(){
 			align:'center',
 			width : 120,
 			formatter:function(value,row,index){
-				var query = "<a  href='javascript:void(0)'  onclick='queryRow("+row.ID+")'>查看</a>";
+				var query = "<a  href='javascript:void(0)'  onclick='queryRow("+row.ID+")'>查看11</a>" +
+				"<a  href='javascript:void(0)'  onclick='queryRow("+row.ID+")'>打印</a>";
 				return query;	
 				
 			}

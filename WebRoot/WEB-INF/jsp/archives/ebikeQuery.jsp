@@ -54,7 +54,7 @@ $(document).ready(function(){
 			width : 120
 		},{
 			field : 'HYXHMC',
-			title : '行业协会名称',
+			title : '行业协会名称33',
 			align:'center',
 			width : 220,
 			formatter:function(value,row,index){
@@ -131,7 +131,7 @@ $(document).ready(function(){
 			align:'center',
 			width : 120,
 			formatter:function(value,row,index){
-				var query = "<a  href='javascript:void(0)'  onclick='queryRow("+row.ID+")'>查看</a>";
+				var query = "<a  href='javascript:void(0)'  onclick='queryRow("+row.ID+")'>查看</a>|<a  href='javascript:void(0)'  onclick='exportExcel("+row.ID+")'>导出</a>";
 				return query;	
 				
 			}
@@ -199,9 +199,27 @@ function queryRow(id){
 
 }
 
+function exportExcel() {
+	alert("导出excel");
+	$.ajax({
+		type: "GET",
+		  url: "<%=basePath%>ebikeAction/exportExcel",
+ 	   data:{
+ 		id:0
+	   }, 
+	   dataType: "json",
+	   success:function(data){
+		   alert(JSON.stringify(data));
+			  if(data){
+			  }
+		  }
+	})
+}
+
 
 //查看行业协会详情
 function queryHyxhDetail(obj){
+	alert('hahah');
 
 	$.ajax({
 		type: "GET",
@@ -221,6 +239,7 @@ function queryHyxhDetail(obj){
 }
 //查看单位详情
 function queryHyxhDwDetail(obj){
+	alert(66)
 	$.ajax({
 		type: "GET",
  	    url: "<%=basePath%>industryAction/queryCompanyById",

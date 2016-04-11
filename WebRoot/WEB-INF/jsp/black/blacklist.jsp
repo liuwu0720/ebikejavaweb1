@@ -213,7 +213,6 @@ function updateSaveData(){
 			});
 }
 
-
 </script>
 </head>
 <body class="easyui-layout">
