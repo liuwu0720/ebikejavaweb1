@@ -9,6 +9,7 @@ package com.node.controller;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.Console;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -39,11 +40,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-
-
-
-
-
 import com.node.model.DdcDaxxb;
 import com.node.model.DdcHyxhSsdw;
 import com.node.model.DdcSjzd;
@@ -55,7 +51,6 @@ import com.node.service.IInDustryService;
 import com.node.service.IJtUserService;
 import com.node.util.AjaxUtil;
 import com.node.util.ExcelUtil;
-import com.node.util.ExcelUtil.ExportSetInfo;
 import com.node.util.Page;
 import com.node.util.ServiceUtil;
 import com.node.util.SystemConstants;
@@ -196,85 +191,51 @@ public class EbikeAction {
 		if (StringUtils.isNotBlank(dwmcId)) {
 			sql += " and a.ZZJGDMZH = " + dwmcId;
 		}
-
 		sql += "  order by A.ID DESC";
-
 		Map<String, Object> resultMap = iEbikeService.queryBySpringSql(sql, p);
 		return resultMap;
-
 	}
-	
-	private static List<DdcDaxxb> getDdcDaxxb() throws Exception  
-    {  
-        List<DdcDaxxb> list = new ArrayList<DdcDaxxb>();  
-       /* SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");  */
-  
-        DdcDaxxb user1 = new DdcDaxxb();  
-      
-      /*  list.add(user1);  
-        list.add(user2);  
-        list.add(user3);  */
-  
-        return list;  
-    }  
-	
-	
 	
 	/*导出excel*/
 	@RequestMapping("/exportExcel")
 	public String exportExcel(HttpServletRequest request,
 			HttpServletResponse response) throws Exception{
+		//定义第一行字段名的数组
+		String[] headRowArr = new String[10];
+		headRowArr[0] = "行业协会名称";
+		headRowArr[1] = "单位名称";
+		headRowArr[2] = "档案编号";
+		headRowArr[3] = "车牌号";
+		headRowArr[4] = "电机号";
+		headRowArr[5] = "驾驶人";
+		headRowArr[6] = "身份证号码";
+		headRowArr[7] = "行驶区域";
+		headRowArr[8] = "归档意见";
+		headRowArr[9] = "车辆状态";
 		
-		   // 第一步，创建一个webbook，对应一个Excel文件  
-        HSSFWorkbook wb = new HSSFWorkbook();  
-        // 第二步，在webbook中添加一个sheet,对应Excel文件中的sheet  
-        HSSFSheet sheet = wb.createSheet("学生表一");  
-        // 第三步，在sheet中添加表头第0行,注意老版本poi对Excel的行数列数有限制short  
-        HSSFRow row = sheet.createRow((int) 0);  
-        // 第四步，创建单元格，并设置值表头 设置表头居中  
-        HSSFCellStyle style = wb.createCellStyle();  
-        style.setAlignment(HSSFCellStyle.ALIGN_CENTER); // 创建一个居中格式  
-  
-        HSSFCell cell = row.createCell((int) 0);  
-        cell.setCellValue("学号");  
-        cell.setCellStyle(style);  
-        cell = row.createCell((int) 1);  
-        cell.setCellValue("姓名");  
-        cell.setCellStyle(style);  
-        cell = row.createCell((int) 2);  
-        cell.setCellValue("年龄");  
-        cell.setCellStyle(style);  
-        cell = row.createCell((int) 3);  
-        cell.setCellValue("生日");  
-        cell.setCellStyle(style);  
-  
-        System.out.println("I am here");
-        // 第五步，写入实体数据 实际应用中这些数据从数据库得到，  
-        List list = getDdcDaxxb();  
-  
-        for (int i = 0; i < list.size(); i++)  
-        {  
-            row = sheet.createRow((int) i + 1);  
-            DdcDaxxb ddcDaxxb = (DdcDaxxb) list.get(i);  
-            // 第四步，创建单元格，并设置值   
-            row.createCell((int)0).setCellValue((double) ddcDaxxb.getId());  
-            row.createCell((int) 1).setCellValue(ddcDaxxb.getCysyName());  
-            row.createCell((int) 2).setCellValue((String) ddcDaxxb.getZt());  
-            cell = row.createCell((int) 3);  
-            cell.setCellValue(new String(ddcDaxxb  
-                    .getDabh()));  
-        }  
+		
+		//获取需要显示出来的数据
+        String sql = "select A.ID,A.DABH,A.CPHM,A.DJH,A.JSRXM1,A.GDYJ,A.SFZMHM1,  A.hyxhzh,A.ZZJGDMZH, "
+				+ " (select b.hyxhmc from ddc_hyxh_base b where b.hyxhzh=a.hyxhzh and rownum=1) as hyxhmc,"
+				+ "(SELECT S.DWMC FROM DDC_HYXH_SSDW S WHERE S.ID=A.ZZJGDMZH and rownum=1 ) AS DWMC,"
+				+ "(select d.DMMS1 from ddc_sjzd d where d.dmz=a.xsqy and d.dmlb='SSQY'  and rownum=1) as xsqy, "
+				+ "(SELECT D.DMMS1 FROM DDC_SJZD D WHERE D.DMZ=A.ZT AND D.DMLB='CLZT'  and rownum=1)AS ZT from DDC_DAXXB A where 1=1 and a.HYXHZH != 'cs'";
+
+        Page p = ServiceUtil.getcurrPage(request);
+        Map<String, Object> resultMap = iEbikeService.queryBySpringSql(sql, p);
+        @SuppressWarnings("unchecked")
+		ArrayList<Object> list =  (ArrayList<Object>) resultMap.get("rows");
         
         
+        // 创建一个webbook，对应一个Excel文件  
+		HSSFWorkbook wb = ExcelUtil.getWorkBook(headRowArr,list);
         response.setContentType("application/vnd.ms-excel;");
 		String fileName = new SimpleDateFormat("yyMMddHHmmss")
-				.format(new Date()) + ".xls";
+				.format(new Date()) + ".xlsx";
 		fileName = new String(fileName.getBytes(), "iso8859-1");
-		response.setHeader("content-disposition", "attachment; filename="
-				+ fileName);// 设定输出文件头
-		
+		response.setHeader("content-disposition", "attachment; filename=" + fileName);  // 设定输出文件头
 		ByteArrayOutputStream baos = new ByteArrayOutputStream(); 
-		
+		wb.write(baos);
 		ServletOutputStream out = response.getOutputStream();
 		byte[] b = new byte[1024];
 		int length;
@@ -287,81 +248,7 @@ public class EbikeAction {
 		} finally {
 			out.close();
 		}
-		
-		return "123";
-	
-		
-		
-     /*   // 第六步，将文件存到指定位置  
-        try  
-        {  
-        	System.out.println("========================");
-        	System.out.println(fileName);
-        	System.out.println("-----------------------");
-            FileOutputStream fout = new FileOutputStream(fileName);  
-            wb.write(fout);  
-            
-            
-            fout.close();  
-        }  
-        catch (Exception e)  
-        {  
-            e.printStackTrace();  
-        } */
-        
-//		try {
-//			// 字段名称_中文名称
-//			String[] exportCk = new String[] {"userName_真实姓名","mail_邮箱","mobilePhone_手机号码","balance_账户余额","createDate_创建日期"};
-//			String[] hNameArr = new String[exportCk.length];
-//			String[] fNameArr = new String[exportCk.length];
-//			for (int i = 0; i < exportCk.length; i++) {
-//				hNameArr[i] = exportCk[i].split("_")[1];
-//				fNameArr[i] = exportCk[i].split("_")[0];
-//			}
-//			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//			List<String[]> headNames = new ArrayList<String[]>();
-//			headNames.add(hNameArr);
-//			List<String[]> fieldNames = new ArrayList<String[]>();
-//			fieldNames.add(fNameArr);
-//
-//		/*	List<Member> memberList = memberService.queryAll();*/
-//			List<Object> memberList = new ArrayList<Object>();
-//
-//			LinkedHashMap<String, List> map = new LinkedHashMap<String, List>();
-//			map.put("筛选导出", memberList);
-//
-//			ExportSetInfo setInfo = new ExportSetInfo();
-//			setInfo.setObjsMap(map);
-//			setInfo.setFieldNames(fieldNames);
-//			setInfo.setTitles(new String[] { "会员信息导出" });
-//			setInfo.setHeadNames(headNames);
-//			setInfo.setOut(baos);
-//
-//			/*response.setContentType("application/vnd.ms-excel;");*/
-//			String fileName = new SimpleDateFormat("yyMMddHHmmss")
-//					.format(new Date()) + ".xls";
-//			fileName = new String(fileName.getBytes(), "iso8859-1");
-//			response.setHeader("content-disposition", "attachment; filename="
-//					+ fileName);// 设定输出文件头
-//
-//			// 将需要导出的数据输出到baos
-//			ExcelUtil.export2Excel(setInfo);
-//			ServletOutputStream out = response.getOutputStream();
-//			byte[] b = new byte[1024];
-//			int length;
-//			InputStream is = new ByteArrayInputStream(baos.toByteArray());
-//			while ((length = is.read(b)) > 0) {
-//				out.write(b, 0, length);
-//			}
-//			try {
-//				out.flush();
-//			} finally {
-//				out.close();
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-		
+		return null;
 	}
 
 	/**
@@ -373,7 +260,7 @@ public class EbikeAction {
 	 * @param response
 	 * @return
 	 * @version: 1.0
-	 * @author: liuwu
+	 * @author: Daniel Zou
 	 * @version: 2016年3月24日 下午4:54:58
 	 */
 	@RequestMapping("/queryDdcDaxxbById")

@@ -12,9 +12,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <title>档案详情</title>
 
 <%@include file="../common/common.jsp"%>
+
+<script type="text/javascript" src="<%=basePath%>static/js/qrcode.min.js"></script>
 <script type="text/javascript">
 
+
 $(document).ready(function(){
+	/*生成二维码*/
+	
+	var qrcode = new QRCode(document.getElementById("qrcode"), {
+        width : 96,//设置宽高
+        height : 96
+    });
+    qrcode.makeCode("http://www.baidu.com");
+    document.getElementById("send").onclick =function(){
+        qrcode.makeCode(document.getElementById("getval").value);
+    }
+    
+	
 	if('${ddcHyxhSsdwclsb.vcShowEbikeImg}'==''){
 		 $("#img_0").attr("src","<%=basePath%>static/images/iconfont-wu.png");
 	}else{
@@ -49,13 +64,16 @@ function exportPage() {
   <body>
     <div  class="maindiv">
     <!--startprint-->
+    <div id="qrcode">
+</div>
+
+<input type="text" id="getval"/> <button id="send">点击更换验证码</button>
     	<table id="table1" class="table table-condensed"  border="1" cellpadding="0" cellspacing="0" width="98%">
 				<tr>
 					<th>申报单位</th>
 					<td>${ddcDaxxb.zzjgdmzhName }</td>					
 					<th>档案编号：</th>
 					<td>${ddcDaxxb.dabh }</td>
-					
 				</tr>
 				<tr>
 					<th>业务类型</th>

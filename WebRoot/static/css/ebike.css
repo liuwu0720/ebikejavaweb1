@@ -24,12 +24,11 @@ ul li {
 
 /* 左侧导航栏background: #b7d2ff */
 .menu {
-	
 	background: -webkit-linear-gradient(#eaf2ff, #efefef); /* Safari 5.1 - 6.0 */
     background: -o-linear-gradient(#eaf2ff, #efefef); /* Opera 11.1 - 12.0 */
     background: -moz-linear-gradient(#eaf2ff, #efefef); /* Firefox 3.6 - 15 */
     background: linear-gradient(#eaf2ff, #efefef); /* 标准的语法（必须放在最后） */
-	
+	background: #eaf2ff;
 	color: #C84AFC;
 	position: fixed;
 	top: 0;
@@ -136,6 +135,7 @@ ul li {
     height: 100%;
     position: absolute;
    
+    background：#24748f;
     background: -webkit-linear-gradient(#24748f, #c4e1ff); /* Safari 5.1 - 6.0 */
     background: -o-linear-gradient(#24748f, #c4e1ff); /* Opera 11.1 - 12.0 */
     background: -moz-linear-gradient(#24748f, #c4e1ff); /* Firefox 3.6 - 15 */
@@ -220,7 +220,7 @@ ul li {
 }
 .main_welcome i{
 	font-size: 90px;
-	color: #5720AF;
+	color: #24748f;
 }
 
 

@@ -54,7 +54,7 @@ $(document).ready(function(){
 			width : 120
 		},{
 			field : 'HYXHMC',
-			title : '行业协会名称33',
+			title : '行业协会名称',
 			align:'center',
 			width : 220,
 			formatter:function(value,row,index){
@@ -131,7 +131,7 @@ $(document).ready(function(){
 			align:'center',
 			width : 120,
 			formatter:function(value,row,index){
-				var query = "<a  href='javascript:void(0)'  onclick='queryRow("+row.ID+")'>查看</a>|<a  href='javascript:void(0)'  onclick='exportExcel("+row.ID+")'>导出</a>";
+				var query = "<a  href='javascript:void(0)'  onclick='queryRow("+row.ID+")'>查看</a>|<a href='<%=basePath%>ebikeAction/exportExcel'>导出</a>";
 				return query;	
 				
 			}
@@ -199,7 +199,7 @@ function queryRow(id){
 
 }
 
-function exportExcel() {
+<%-- function exportExcel() {
 	alert("导出excel");
 	$.ajax({
 		type: "GET",
@@ -214,7 +214,7 @@ function exportExcel() {
 			  }
 		  }
 	})
-}
+} --%>
 
 
 //查看行业协会详情
