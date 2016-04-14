@@ -213,7 +213,7 @@ function queryQRCode(id){
 
 function excelExport(){
 	var row=$('#dg').datagrid('getData').rows;
-	alert(typeof row);
+	var titleArr = ["行业协会名称","单位名称","档案编号","车牌号","电机号","驾驶人","身份证号码","行驶区域","归档意见","车辆状态"]; 
 	var content = $('.datagrid-view2').html();
 	var tempForm = document.createElement("form");    
     tempForm.id="tempForm1";    
@@ -222,9 +222,14 @@ function excelExport(){
     var hideInput = document.createElement("input");    
     hideInput.type="hidden";    
     hideInput.name= "content"  
-    
     hideInput.value=  JSON.stringify(row);
-    tempForm.appendChild(hideInput);     
+    var hideInput1 = document.createElement("input");    
+    hideInput1.type="hidden";    
+    hideInput1.name= "titleArr" 
+    hideInput1.value=  titleArr;
+    
+    tempForm.appendChild(hideInput);
+    tempForm.appendChild(hideInput1);    
     document.body.appendChild(tempForm);    
     tempForm.submit(); 
 }

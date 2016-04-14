@@ -200,26 +200,18 @@ public class EbikeAction {
 	
 	/*导出excel*/
 	@RequestMapping("/exportExcel")
-	public String exportExcel(String content,HttpServletRequest request,
+	public String exportExcel(String content,String[] titleArr,HttpServletRequest request,
 			HttpServletResponse response) throws Exception{
+		System.out.println("==============================&&&&&&&&");
+		System.out.println(titleArr);
 		//定义第一行字段名的数组
-		String[] headRowArr = new String[10];
-		headRowArr[0] = "行业协会名称";
-		headRowArr[1] = "单位名称";
-		headRowArr[2] = "档案编号";
-		headRowArr[3] = "车牌号";
-		headRowArr[4] = "电机号";
-		headRowArr[5] = "驾驶人";
-		headRowArr[6] = "身份证号码";
-		headRowArr[7] = "行驶区域";
-		headRowArr[8] = "归档意见";
-		headRowArr[9] = "车辆状态";
+		String[] headRowArr = titleArr;
         JSONArray jsonArray = JSONArray.fromObject(content);
         
         // 创建一个webbook，对应一个Excel文件  
 		HSSFWorkbook wb = ExcelUtil.getWorkBook(headRowArr,jsonArray);
         response.setContentType("application/vnd.ms-excel;");
-		String fileName = "export.xlsx";
+		String fileName = "export.xls";
 		fileName = new String(fileName.getBytes(), "iso8859-1");
 		response.setHeader("content-disposition", "attachment; filename=" + fileName);  // 设定输出文件头
 		ByteArrayOutputStream baos = new ByteArrayOutputStream(); 

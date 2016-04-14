@@ -24,12 +24,16 @@ $(document).ready(function(){
     });
     qrcode.makeCode(${ddcDaxxb.dabh});
     
+    if('${ddcDaxxb.jsrxm2}'){
+	    var qrcode2 = new QRCode(document.getElementById("qrcode2"), {
+	        width : 150,//设置宽高
+	        height : 150
+	    });
+	    
+	    qrcode2.makeCode(${ddcDaxxb.dabh});
+    }
     
-    var qrcode2 = new QRCode(document.getElementById("qrcode2"), {
-        width : 150,//设置宽高
-        height : 150
-    });
-    qrcode2.makeCode(${ddcDaxxb.dabh});
+  
 	if('${ddcHyxhSsdwclsb.vcShowEbikeImg}'==''){
 		 $("#img_0").attr("src","<%=basePath%>static/images/iconfont-wu.png");
 	}else{

@@ -1,12 +1,8 @@
 package com.node.util;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -28,7 +24,7 @@ public class ExcelUtil {
 	  * @version: 2016年4月11日 下午4:03:17
 	  */
 	public static HSSFWorkbook getWorkBook(String[] headRowArr, JSONArray jsonArray) {
-		HSSFWorkbook wb = new HSSFWorkbook();    // 第二步，在webbook中添加一个sheet,对应Excel文件中的sheet  
+		HSSFWorkbook wb = new HSSFWorkbook();                  // 第二步，在webbook中添加一个sheet,对应Excel文件中的sheet  
         HSSFSheet sheet = wb.createSheet("电动车档案信息表");         // 第三步，在sheet中添加表头第0行 
         HSSFRow row = sheet.createRow((int) 0);             // 第四步，创建单元格，并设置值表头 设置表头居中  
         HSSFCellStyle style = wb.createCellStyle();  
@@ -48,14 +44,13 @@ public class ExcelUtil {
 			Iterator<Object> it = currentRow.keys();  
             int j = 0;
             while(it.hasNext()){  
-            	row.createCell((int) j ).setCellValue(currentRow.get(it.next()).toString());
+            	row.createCell((int) j).setCellValue(currentRow.get(it.next()).toString());
             	j++;
             }  
         } 
         adjustColumnSize(sheet,6);
 		return wb;
 	}
-	
 	
 	/*自动调整列宽*/
 	private static void adjustColumnSize(HSSFSheet sheet,
