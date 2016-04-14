@@ -1,4 +1,3 @@
-
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%><%@ page
@@ -21,18 +20,14 @@
 	href="<%=basePath%>static/css/iconfont.css">
 <script type="text/javascript"
 	src="<%=basePath%>static/js/jquery-1.7.2.min.js"></script>
-
 <script type="text/javascript">
 	$(document).ready(function() {
 		//页面中的DOM已经装载完成时，执行的代码
 		$(".menu-li > a").click(function() {
 			//找到主菜单项对应的子菜单项
-			
 			$(this).parent().addClass("open");
 			$(this).parent().siblings().removeClass("open");
-
 		});
-
 	});
 </script>
 <style>
@@ -55,11 +50,7 @@
 					</li>
 				</c:forEach>
 			</ul>
-
 		</div>
-
 	</div>
-
-
 </body>
 </html>

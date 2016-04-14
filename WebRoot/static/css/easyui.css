@@ -78,6 +78,8 @@
 .panel-noscroll {
   overflow: hidden;
 }
+
+ 
 .panel-fit,
 .panel-fit body {
   height: 100%;

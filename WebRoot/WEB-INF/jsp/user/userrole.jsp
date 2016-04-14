@@ -258,8 +258,7 @@ function authRow(id){
 			style="width:90px">取消</a>
 	</div>
 	</div>
-	
-	
-	
 </body>
 </html>
+
+

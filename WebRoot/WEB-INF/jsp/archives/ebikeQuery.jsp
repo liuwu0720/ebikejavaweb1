@@ -46,6 +46,14 @@ $(document).ready(function(){
 		height:h,
 		width:w,
 		loadMsg:'正在加载,请稍等...',
+		toolbar : [ {
+			id : 'btn1',
+			text : '导出',
+			iconCls : 'icon-print',
+			handler : function() {
+				excelExport();
+			}
+		}],
 		columns : [ [{
 			field : 'ID',
 			title : 'ID',
@@ -131,7 +139,7 @@ $(document).ready(function(){
 			align:'center',
 			width : 120,
 			formatter:function(value,row,index){
-				var query = "<a  href='javascript:void(0)'  onclick='queryRow("+row.ID+")'>查看</a>|<a href='<%=basePath%>ebikeAction/exportExcel'>导出</a>";
+				var query = "<a  href='javascript:void(0)'  onclick='queryRow("+row.ID+")'>查看</a>|<a  href='javascript:void(0)'  onclick='queryQRCode("+row.ID+")'>打印</a>";
 				return query;	
 				
 			}
@@ -196,8 +204,70 @@ function doSearch(){
 //查看
 function queryRow(id){
 	window.location.href="<%=basePath%>ebikeAction/queryInfoById?id="+id
-
 }
+
+//查看基本信息以及二维码
+function queryQRCode(id){
+	window.location.href="<%=basePath%>ebikeAction/queryQRCodeById?id="+id
+}
+
+function excelExport(){
+	var row=$('#dg').datagrid('getData').rows;
+	alert(typeof row);
+	var content = $('.datagrid-view2').html();
+	var tempForm = document.createElement("form");    
+    tempForm.id="tempForm1";    
+    tempForm.method="post";    
+    tempForm.action="<%=basePath%>ebikeAction/exportExcel";    
+    var hideInput = document.createElement("input");    
+    hideInput.type="hidden";    
+    hideInput.name= "content"  
+    
+    hideInput.value=  JSON.stringify(row);
+    tempForm.appendChild(hideInput);     
+    document.body.appendChild(tempForm);    
+    
+    
+ 
+    
+
+    tempForm.submit(); 
+    /* tempForm.target=name;  */   
+    
+    
+	<%-- window.location = "<%=basePath%>ebikeAction/exportExcel"; --%>
+	/* alert($(content).attr("field"))
+	f($("input[name=item][value='val']").attr('checked')==true) */
+/* 	alert("123");
+	window.open('data:application/vnd.ms-excel,' + encodeURIComponent(content)); */
+}
+
+
+<%-- function excelExport(){
+	var row=$('#dg').datagrid('getData');
+	console.log("------------------1111------");
+	/* row = JSON.stringify(row.rows); */
+	row = row.rows;
+	console.log(row);
+	window.location = "<%=basePath%>ebikeAction/exportExcel";
+	
+	 $.ajax({
+		type: "POST",
+		  url: "<%=basePath%>ebikeAction/exportExcel",
+ 	   data:{
+ 		id:0
+	   }, 
+	   dataType: "json",
+	   success:function(data){
+		   alert(JSON.stringify(data));
+			  if(data){
+			  }
+		  }
+	})  
+	window.open('data:application/vnd.ms-excel,' + encodeURIComponent(row)); 
+} --%>
+
+
 
 <%-- function exportExcel() {
 	alert("导出excel");
@@ -219,8 +289,6 @@ function queryRow(id){
 
 //查看行业协会详情
 function queryHyxhDetail(obj){
-	alert('hahah');
-
 	$.ajax({
 		type: "GET",
  	    url: "<%=basePath%>industryAction/queryHxyHyxhBaseByCode",
@@ -239,7 +307,6 @@ function queryHyxhDetail(obj){
 }
 //查看单位详情
 function queryHyxhDwDetail(obj){
-	alert(66)
 	$.ajax({
 		type: "GET",
  	    url: "<%=basePath%>industryAction/queryCompanyById",
@@ -259,11 +326,8 @@ function queryHyxhDwDetail(obj){
 </script>
 </head>
 <body class="easyui-layout">
-
 	<div>
-		<table id="dg" style="width:90%;">
-
-			<div id="tb"  class="searchdiv">
+	<div id="tb"  class="searchdiv">
 					<span>区&nbsp;&nbsp;域</span>
 				<input id="xsqy" style="height: 32px;">  
 				<span>档案编号</span>
@@ -282,6 +346,9 @@ function queryHyxhDwDetail(obj){
 				<a class="easyui-linkbutton" plain="true" onclick="doSearch()"
 					iconCls="icon-search">查询 </a>
 			</div>
+		<table id="dg" style="width:90%;">
+
+			
 		</table>
 	</div>
 	
@@ -361,8 +428,9 @@ function queryHyxhDwDetail(obj){
 					<td><img id="img2"  class="easyui-validatebox" style="width:300px"   /><br/></td>
 				</tr>
 			</table>
-				
 		</form>
 	</div>
+
+	
 </body>
 </html>

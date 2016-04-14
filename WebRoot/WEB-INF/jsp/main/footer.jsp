@@ -22,7 +22,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
   </head>
   
-  <body style="background-color: #95b8e7; background: linear-gradient(#95b8e7, #2984a4 ); " >
+  <body class="foot" >
       <br>
   </body>
+  
+  <style>
+  	.foot{
+  		margin-top:26px;
+  	  background-image: url(../ebike/static/images/footbackground.png);
+  	 
+  	}
+  
+  </style>
 </html>

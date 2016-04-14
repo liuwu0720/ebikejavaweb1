@@ -27,6 +27,8 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONArray;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -198,7 +200,7 @@ public class EbikeAction {
 	
 	/*导出excel*/
 	@RequestMapping("/exportExcel")
-	public String exportExcel(HttpServletRequest request,
+	public String exportExcel(String content,HttpServletRequest request,
 			HttpServletResponse response) throws Exception{
 		//定义第一行字段名的数组
 		String[] headRowArr = new String[10];
@@ -212,26 +214,12 @@ public class EbikeAction {
 		headRowArr[7] = "行驶区域";
 		headRowArr[8] = "归档意见";
 		headRowArr[9] = "车辆状态";
-		
-		
-		//获取需要显示出来的数据
-        String sql = "select A.ID,A.DABH,A.CPHM,A.DJH,A.JSRXM1,A.GDYJ,A.SFZMHM1,  A.hyxhzh,A.ZZJGDMZH, "
-				+ " (select b.hyxhmc from ddc_hyxh_base b where b.hyxhzh=a.hyxhzh and rownum=1) as hyxhmc,"
-				+ "(SELECT S.DWMC FROM DDC_HYXH_SSDW S WHERE S.ID=A.ZZJGDMZH and rownum=1 ) AS DWMC,"
-				+ "(select d.DMMS1 from ddc_sjzd d where d.dmz=a.xsqy and d.dmlb='SSQY'  and rownum=1) as xsqy, "
-				+ "(SELECT D.DMMS1 FROM DDC_SJZD D WHERE D.DMZ=A.ZT AND D.DMLB='CLZT'  and rownum=1)AS ZT from DDC_DAXXB A where 1=1 and a.HYXHZH != 'cs'";
-
-        Page p = ServiceUtil.getcurrPage(request);
-        Map<String, Object> resultMap = iEbikeService.queryBySpringSql(sql, p);
-        @SuppressWarnings("unchecked")
-		ArrayList<Object> list =  (ArrayList<Object>) resultMap.get("rows");
-        
+        JSONArray jsonArray = JSONArray.fromObject(content);
         
         // 创建一个webbook，对应一个Excel文件  
-		HSSFWorkbook wb = ExcelUtil.getWorkBook(headRowArr,list);
+		HSSFWorkbook wb = ExcelUtil.getWorkBook(headRowArr,jsonArray);
         response.setContentType("application/vnd.ms-excel;");
-		String fileName = new SimpleDateFormat("yyMMddHHmmss")
-				.format(new Date()) + ".xlsx";
+		String fileName = "export.xlsx";
 		fileName = new String(fileName.getBytes(), "iso8859-1");
 		response.setHeader("content-disposition", "attachment; filename=" + fileName);  // 设定输出文件头
 		ByteArrayOutputStream baos = new ByteArrayOutputStream(); 
@@ -252,9 +240,7 @@ public class EbikeAction {
 	}
 
 	/**
-	 * 
 	 * 方法描述：
-	 * 
 	 * @param id
 	 * @param request
 	 * @param response
@@ -360,6 +346,68 @@ public class EbikeAction {
 		ddcDaxxb.setVcShowUser2Img(showUser2Img);
 		request.setAttribute("ddcDaxxb", ddcDaxxb);
 		return "archives/ebikedetail";
+	}
+	
+	/**
+	 * 
+	 * 方法描述：查看二维码详情页面
+	 * 
+	 * @param id
+	 * @param request
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年3月18日 上午9:53:42
+	 */
+	@RequestMapping("/queryQRCodeById")
+	public String queryQRCodeById(String id, HttpServletRequest request) {
+		long sbId = Long.parseLong(id);
+		DdcDaxxb ddcDaxxb = iEbikeService.getById(sbId);
+		String cysyName = iEbikeService.findByProPerties("CSYS",
+				ddcDaxxb.getCysy());
+
+		ddcDaxxb.setCysyName(cysyName);// 车身颜色
+		String xsqyName = iEbikeService.findByProPerties("SSQY",
+				ddcDaxxb.getXsqy());
+		ddcDaxxb.setXsqyName(xsqyName);// 所属区域
+		// 状态
+		String ztName = iEbikeService
+				.findByProPerties("CLZT", ddcDaxxb.getZt());
+		ddcDaxxb.setZtName(ztName);
+		// 申报单位
+		if (StringUtils.isNotBlank(ddcDaxxb.getZzjgdmzh())) {
+			DdcHyxhSsdw ddcHyxhSsdw = iInDustryService.getDdcHyxhSsdwById(Long
+					.parseLong(ddcDaxxb.getZzjgdmzh()));
+			if (ddcHyxhSsdw != null) {
+				ddcDaxxb.setZzjgdmzhName(ddcHyxhSsdw.getDwmc());
+			} else {
+				ddcDaxxb.setZzjgdmzhName(null);
+			}
+		}
+		// 业务类型
+		String ywlxName = iEbikeService.findByProPerties("YWLX",
+				ddcDaxxb.getYwlx());
+		ddcDaxxb.setYwlxName(ywlxName);
+		// 业务原因
+		String ywyyName = iEbikeService.findByProPerties("YWYY_A",
+				ddcDaxxb.getYwyy());
+		ddcDaxxb.setYwyyName(ywyyName);
+
+		// 受理人
+		JtUser jtUser = iJtUserService.getJtUserByUserCode(ddcDaxxb.getSlr());
+		ddcDaxxb.setSlrName(jtUser.getUserName());
+		// 受理部门
+		JtViewDept jtViewDept = iJtUserService.getJtDeptByOrg(jtUser
+				.getUserOrg());
+		ddcDaxxb.setSlbm(jtViewDept.getOrgName());
+		String showEbikeImg = parseUrl(ddcDaxxb.getVcEbikeImg());
+		String showUser1Img = parseUrl(ddcDaxxb.getVcUser1Img());
+		String showUser2Img = parseUrl(ddcDaxxb.getVcUser2Img());
+		ddcDaxxb.setVcShowEbikeImg(showEbikeImg);
+		ddcDaxxb.setVcShowUser1Img(showUser1Img);
+		ddcDaxxb.setVcShowUser2Img(showUser2Img);
+		request.setAttribute("ddcDaxxb", ddcDaxxb);
+		return "archives/ebikeQRCodeDetail";
 	}
 
 	/**

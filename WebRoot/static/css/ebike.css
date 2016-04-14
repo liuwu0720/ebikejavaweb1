@@ -20,15 +20,21 @@ ul li {
 	border: 0;
 }
 
+.panel-fit body{
+   background-color: #E8F1FF;
+ }
+
 
 
 /* 左侧导航栏background: #b7d2ff */
 .menu {
-	background: -webkit-linear-gradient(#eaf2ff, #efefef); /* Safari 5.1 - 6.0 */
-    background: -o-linear-gradient(#eaf2ff, #efefef); /* Opera 11.1 - 12.0 */
-    background: -moz-linear-gradient(#eaf2ff, #efefef); /* Firefox 3.6 - 15 */
-    background: linear-gradient(#eaf2ff, #efefef); /* 标准的语法（必须放在最后） */
-	background: #eaf2ff;
+	/* background: #eaf2ff;
+	background: -webkit-linear-gradient(#eaf2ff, #efefef); Safari 5.1 - 6.0
+    background: -o-linear-gradient(#eaf2ff, #efefef); Opera 11.1 - 12.0
+    background: -moz-linear-gradient(#eaf2ff, #efefef); Firefox 3.6 - 15
+    background: linear-gradient(#eaf2ff, #efefef); 标准的语法（必须放在最后） */
+    background: url(../../static/images/leftmenu.png) no-repeat ;
+    background-color: #efefef;
 	color: #C84AFC;
 	position: fixed;
 	top: 0;
@@ -126,20 +132,28 @@ ul li {
 	background-image: url(../../static/images/header.png) !important;
 	/* FF IE7 */
 	background-repeat: no-repeat;
+	background-position: 50% 0%;
 
 	/* filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../static/images/header.png'); IE6
 	background-image: none; IE6    background-color: #24748f; #c4e1ff*/
 }
+
 .headerdiv{
+	background-image: url(../../static/images/headbackground.png);
 	width: 100%;
     height: 100%;
-    position: absolute;
-   
-    background：#24748f;
-    background: -webkit-linear-gradient(#24748f, #c4e1ff); /* Safari 5.1 - 6.0 */
-    background: -o-linear-gradient(#24748f, #c4e1ff); /* Opera 11.1 - 12.0 */
-    background: -moz-linear-gradient(#24748f, #c4e1ff); /* Firefox 3.6 - 15 */
-    background: linear-gradient(#24748f, #c4e1ff); /* 标准的语法（必须放在最后） */
+    position: absolute; 
+    padding-top: 13px;
+    /* background：#24748f;
+    background: -webkit-linear-gradient(#24748f, #c4e1ff);  
+    background: -o-linear-gradient(#24748f, #c4e1ff);  
+    background: -moz-linear-gradient(#24748f, #c4e1ff);  
+    background: linear-gradient(#24748f, #c4e1ff);    */
+    
+}
+
+.setting-header {
+	margin-top: -15px;
 }
 
 .headerdiv i{
@@ -411,6 +425,24 @@ table td[class*="col-"],table th[class*="col-"] {
 	text-align: center;
 }
 
+.btn_primary {
+	width: 100px;
+	height: 32px;
+	color: white;
+	background: #428bca;;
+    border-color: #357ebd;
+	text-align: center;
+	cursor: pointer;
+}
+
+.btn_default {
+	width: 100px;
+	height: 32px;
+	background-color: #a4cbe8;
+	text-align: center;
+	cursor: pointer;
+}
+
 .btndiv {
 	text-align: center;
 }
@@ -462,4 +494,57 @@ table td[class*="col-"],table th[class*="col-"] {
     background: #E8F1FF;
     /* margin: 5px; */
     text-align: left;
+}
+
+.photo {
+	width: 150px;
+	height: 180px;
+	background: #bbb;
+}
+
+.photo img{
+	width: 150px;
+	height: 180px;
+}
+
+.qrcode {
+	width: 150px;
+	height: 180px;
+	margin-top: 15px;
+}
+
+#ebikeQRCode .contentRight li {
+	padding: 6px;
+	color: #24748f;
+	font-size: 14px;
+}
+
+ #ebikeQRCode .warm {
+ 	color: #24748f;
+ 	margin: 7px;
+ }
+ 
+ #ebikeQRCode .content {
+ 	height: 400;
+ }
+ 
+ #ebikeQRCode .content .contentLeft{
+ 	float:left; margin-left: 5%;height:400px
+ }
+ 
+ #ebikeQRCode .content .contentRight {
+ float:left;margin-left: 20px;
+ }
+
+#ebikeQRCode .contentRight li label{  
+	color: black;
+	font-size: 14px;
+}
+
+tr th {
+	text-align: center;
+}
+
+ .btndiv_print {
+	position: fixed; bottom: 10px;right:43%
 }
