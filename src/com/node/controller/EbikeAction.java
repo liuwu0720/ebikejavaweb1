@@ -198,15 +198,9 @@ public class EbikeAction {
 	@RequestMapping("/exportExcel")
 	public String exportExcel(String content,String[] titleArr,String[] keysArr,HttpServletRequest request,
 			HttpServletResponse response) throws Exception{
-		System.out.println("==============================&&&&&&&&");
-		System.out.println(titleArr);
-		
-		
-		
 		//定义第一行字段名的数组
 		String[] headRowArr = titleArr;
         JSONArray jsonArray = JSONArray.fromObject(content);
-        
         // 创建一个webbook，对应一个Excel文件  
 		HSSFWorkbook wb = ExcelUtil.getWorkBook(headRowArr,jsonArray,keysArr);
         response.setContentType("application/vnd.ms-excel;");
