@@ -220,7 +220,6 @@ function excelExport(){
 			rows[i]['GDYJ'] = "退办";
 		}
 	}
-	
 	var content = JSON.stringify(rows);
 	commonExcelExport(titleArr,keysArr,content);
 	

@@ -118,13 +118,10 @@ $(document).ready(function(){
 function excelExport (){
 	var titleArr = ["行业协会名称","行业协会负责人","负责人电话","总配额","已有配额","车牌号码首字母","创建人","创建日期"]; 
 	var keysArr =["hyxhmc","hyxhfzr","hyxhfzrdh","hyxhsjzpe","lastpe","hyxhlb","cjr","cjrq"];
-	var content = JSON.stringify($('#dg').datagrid('getData').rows);
-	
 	var rows = $('#dg').datagrid('getData').rows;
 	for(var i in rows) {
 		rows[i]['cjrq'] = getLocalTime(rows[i]['cjrq']);
 	}
-	
 	var content = JSON.stringify(rows);
 	commonExcelExport(titleArr,keysArr,content);
 }
