@@ -210,7 +210,7 @@ public class EbikeAction {
 		
         JSONArray jsonArray = JSONArray.fromObject(content);
         // 创建一个webbook，对应一个Excel文件  
-		HSSFWorkbook wb = ExcelUtil.getWorkBook(titleArr,jsonArray,keysArr);
+		HSSFWorkbook wb = ExcelUtil.getWorkBook(titleArr,keysArr,jsonArray);
         response.setContentType("application/vnd.ms-excel;");
 		String fileName = "export.xls";
 		fileName = new String(fileName.getBytes(), "iso8859-1");

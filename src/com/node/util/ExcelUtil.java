@@ -27,7 +27,7 @@ public class ExcelUtil {
 	  * @version: 2016年4月11日 下午4:03:17
 	 * @param keysArr 
 	  */
-	public static HSSFWorkbook getWorkBook(String[] headRowArr, JSONArray jsonArray, String[] keysArr) {
+	public static HSSFWorkbook getWorkBook(String[] headRowArr,String[] keysArr,JSONArray jsonArray) {
 		HSSFWorkbook wb = new HSSFWorkbook();                  // 第二步，在webbook中添加一个sheet,对应Excel文件中的sheet  
         HSSFSheet sheet = wb.createSheet("电动车档案信息表");         // 第三步，在sheet中添加表头第0行 
         HSSFRow row = sheet.createRow((int) 0);             // 第四步，创建单元格，并设置值表头 设置表头居中  
