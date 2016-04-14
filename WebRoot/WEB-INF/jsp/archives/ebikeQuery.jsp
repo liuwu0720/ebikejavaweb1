@@ -214,8 +214,17 @@ function queryQRCode(id){
 }
 
 function excelExport(){
+	
+	
+	var    arr=$('#dg').datagrid('getChanges');
+	
+	console.log("-----------===========-----------");
+	console.log(arr);
 	var row=$('#dg').datagrid('getData').rows;
+	
 	var titleArr = ["行业协会名称","单位名称","档案编号","车牌号","电机号","驾驶人","身份证号码","行驶区域","归档意见","车辆状态"]; 
+	var keysArr =["HYXHMC","DWMC","DABH","CPHM","DJH","JSRXM1","SFZMHM1","XSQY","GDYJ","ZT"];
+/* 	var titleKeysArr = ; */ 
 	var tempForm = document.createElement("form");    
     tempForm.id="tempForm1";    
     tempForm.method="post";    
@@ -229,8 +238,14 @@ function excelExport(){
     hideInput1.name= "titleArr" 
     hideInput1.value=  titleArr;
     
+    var hideInput2 = document.createElement("input");    
+    hideInput2.type="hidden";    
+    hideInput2.name= "keysArr" 
+    hideInput2.value=  keysArr;
+    
     tempForm.appendChild(hideInput);
-    tempForm.appendChild(hideInput1);    
+    tempForm.appendChild(hideInput1);   
+    tempForm.appendChild(hideInput2);   
     document.body.appendChild(tempForm);    
     tempForm.submit(); 
 }

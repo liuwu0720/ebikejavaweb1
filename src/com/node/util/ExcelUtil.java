@@ -1,8 +1,11 @@
 package com.node.util;
 
+import java.io.Console;
 import java.util.Iterator;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -22,8 +25,9 @@ public class ExcelUtil {
 	  * @version: 1.0
 	  * @author: danielzou
 	  * @version: 2016年4月11日 下午4:03:17
+	 * @param keysArr 
 	  */
-	public static HSSFWorkbook getWorkBook(String[] headRowArr, JSONArray jsonArray) {
+	public static HSSFWorkbook getWorkBook(String[] headRowArr, JSONArray jsonArray, String[] keysArr) {
 		HSSFWorkbook wb = new HSSFWorkbook();                  // 第二步，在webbook中添加一个sheet,对应Excel文件中的sheet  
         HSSFSheet sheet = wb.createSheet("电动车档案信息表");         // 第三步，在sheet中添加表头第0行 
         HSSFRow row = sheet.createRow((int) 0);             // 第四步，创建单元格，并设置值表头 设置表头居中  
@@ -40,13 +44,10 @@ public class ExcelUtil {
         {  
         	JSONObject currentRow = (JSONObject) jsonArray.get(i);
             row = sheet.createRow((int) i + 1);                  // 第四步，创建单元格，并设置值
-            @SuppressWarnings("unchecked")
-			Iterator<Object> it = currentRow.keys();  
-            int j = 0;
-            while(it.hasNext()){  
-            	row.createCell((int) j).setCellValue(currentRow.get(it.next()).toString());
-            	j++;
-            }  
+            for(int j=0;i<keysArr.length;i++){
+    			System.out.println(keysArr[i]);
+    			row.createCell((int) j).setCellValue((String) currentRow.get(keysArr[j]));
+    		}
         } 
         adjustColumnSize(sheet,6);
 		return wb;
