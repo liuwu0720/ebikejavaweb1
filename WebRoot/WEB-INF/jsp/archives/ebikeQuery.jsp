@@ -218,7 +218,7 @@ function excelExport(){
 	var tempForm = document.createElement("form");    
     tempForm.id="tempForm1";    
     tempForm.method="post";    
-    tempForm.action="<%=basePath%>ebikeAction/exportExcel";    
+    tempForm.action="<%=basePath%>ebikeAction/exportExcel";
     var hideInput = document.createElement("input");    
     hideInput.type="hidden";    
     hideInput.name= "content"  
@@ -226,66 +226,8 @@ function excelExport(){
     hideInput.value=  JSON.stringify(row);
     tempForm.appendChild(hideInput);     
     document.body.appendChild(tempForm);    
-    
-    
- 
-    
-
     tempForm.submit(); 
-    /* tempForm.target=name;  */   
-    
-    
-	<%-- window.location = "<%=basePath%>ebikeAction/exportExcel"; --%>
-	/* alert($(content).attr("field"))
-	f($("input[name=item][value='val']").attr('checked')==true) */
-/* 	alert("123");
-	window.open('data:application/vnd.ms-excel,' + encodeURIComponent(content)); */
 }
-
-
-<%-- function excelExport(){
-	var row=$('#dg').datagrid('getData');
-	console.log("------------------1111------");
-	/* row = JSON.stringify(row.rows); */
-	row = row.rows;
-	console.log(row);
-	window.location = "<%=basePath%>ebikeAction/exportExcel";
-	
-	 $.ajax({
-		type: "POST",
-		  url: "<%=basePath%>ebikeAction/exportExcel",
- 	   data:{
- 		id:0
-	   }, 
-	   dataType: "json",
-	   success:function(data){
-		   alert(JSON.stringify(data));
-			  if(data){
-			  }
-		  }
-	})  
-	window.open('data:application/vnd.ms-excel,' + encodeURIComponent(row)); 
-} --%>
-
-
-
-<%-- function exportExcel() {
-	alert("导出excel");
-	$.ajax({
-		type: "GET",
-		  url: "<%=basePath%>ebikeAction/exportExcel",
- 	   data:{
- 		id:0
-	   }, 
-	   dataType: "json",
-	   success:function(data){
-		   alert(JSON.stringify(data));
-			  if(data){
-			  }
-		  }
-	})
-} --%>
-
 
 //查看行业协会详情
 function queryHyxhDetail(obj){
@@ -303,7 +245,7 @@ function queryHyxhDetail(obj){
 			  }
 		  }
 	})
-	
+
 }
 //查看单位详情
 function queryHyxhDwDetail(obj){
@@ -323,6 +265,7 @@ function queryHyxhDwDetail(obj){
 		  }
 	})
 }
+
 </script>
 </head>
 <body class="easyui-layout">
@@ -347,8 +290,6 @@ function queryHyxhDwDetail(obj){
 					iconCls="icon-search">查询 </a>
 			</div>
 		<table id="dg" style="width:90%;">
-
-			
 		</table>
 	</div>
 	
@@ -374,7 +315,6 @@ function queryHyxhDwDetail(obj){
 					<td><input  name="hyxhfzr" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
 				</tr>
 				<tr>
-					
 					<th>联系电话</th>
 					<td><input  name="hyxhfzrdh" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
 				</tr>
@@ -383,7 +323,6 @@ function queryHyxhDwDetail(obj){
 					<td><input  name="hyxhsjzpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
 				</tr>
 				<tr>
-					
 					<th>剩余配额</th>
 					<td><input  name="lastpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
 				</tr>
