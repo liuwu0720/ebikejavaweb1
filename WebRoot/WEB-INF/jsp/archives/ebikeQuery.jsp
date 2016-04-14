@@ -21,9 +21,9 @@
 }
 </style>
 <%@include file="../common/common.jsp"%>
+<script type="text/javascript" src="<%=basePath%>static/js/export2Excel.js"></script>
 
 
-<script type="text/javascript" src="<%=basePath%>static/js/json2.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
 	$.ajaxSetup ({
@@ -215,33 +215,19 @@ function queryQRCode(id){
 function excelExport(){
 	var titleArr = ["行业协会名称","单位名称","档案编号","车牌号","电机号","驾驶人","身份证号码","行驶区域","归档意见","车辆状态"]; 
 	var keysArr =["HYXHMC","DWMC","DABH","CPHM","DJH","JSRXM1","SFZMHM1","XSQY","GDYJ","ZT"];
-	var content = JSON.stringify($('#dg').datagrid('getData').rows);
+	var rows = $('#dg').datagrid('getData').rows;
+	for(var i in rows) {
+		if(rows[i]['GDYJ'] == 0){
+			rows[i]['GDYJ'] = "办结";
+		}else{
+			rows[i]['GDYJ'] = "退办";
+		}
+	}
 	
-	var tempForm = document.createElement("form");    
-    tempForm.id="tempForm1";    
-    tempForm.method="post";    
-    tempForm.action="<%=basePath%>ebikeAction/exportExcel";
-    
-    var hideInput = document.createElement("input");    
-    hideInput.type="hidden";    
-    hideInput.name= "content"  
-    hideInput.value=  content;
-    
-    var hideInput1 = document.createElement("input");    
-    hideInput1.type="hidden";    
-    hideInput1.name= "titleArr" 
-    hideInput1.value=  titleArr;
-    
-    var hideInput2 = document.createElement("input");    
-    hideInput2.type="hidden";    
-    hideInput2.name= "keysArr" 
-    hideInput2.value=  keysArr;
-    
-    tempForm.appendChild(hideInput);
-    tempForm.appendChild(hideInput1);   
-    tempForm.appendChild(hideInput2);   
-    document.body.appendChild(tempForm);    
-    tempForm.submit(); 
+	var content = JSON.stringify(rows);
+	commonExcelExport(titleArr,keysArr,content);
+	
+	
 }
 
 //查看行业协会详情
