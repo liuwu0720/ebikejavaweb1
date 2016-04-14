@@ -194,15 +194,23 @@ public class EbikeAction {
 		return resultMap;
 	}
 	
-	/*导出excel*/
+	/**
+	 * 
+	 * 方法描述：导出excel
+	 * @param titleArr  //标头中文列名
+	 * @param keysArr    // 列名的英文(对应表中的字段)
+	 * @param content     //需要导出的数据内容
+	 * @version: 1.0	
+	 * @author: Daniel Zou
+	 * @version: 2016年4月14日 下午2:00:31
+	 */
 	@RequestMapping("/exportExcel")
 	public String exportExcel(String content,String[] titleArr,String[] keysArr,HttpServletRequest request,
 			HttpServletResponse response) throws Exception{
-		//定义第一行字段名的数组
-		String[] headRowArr = titleArr;
+		
         JSONArray jsonArray = JSONArray.fromObject(content);
         // 创建一个webbook，对应一个Excel文件  
-		HSSFWorkbook wb = ExcelUtil.getWorkBook(headRowArr,jsonArray,keysArr);
+		HSSFWorkbook wb = ExcelUtil.getWorkBook(titleArr,jsonArray,keysArr);
         response.setContentType("application/vnd.ms-excel;");
 		String fileName = "export.xls";
 		fileName = new String(fileName.getBytes(), "iso8859-1");
