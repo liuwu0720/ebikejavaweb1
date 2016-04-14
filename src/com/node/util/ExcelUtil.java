@@ -46,7 +46,8 @@ public class ExcelUtil {
             row = sheet.createRow((int) i + 1);                  // 第四步，创建单元格，并设置值
             for(int j=0;j<keysArr.length;j++){
     			System.out.println(keysArr[j]);
-    			row.createCell((int) j).setCellValue((String) currentRow.get(keysArr[j]));
+    			if(null != currentRow.get(keysArr[j]))
+    			row.createCell((int) j).setCellValue(currentRow.get(keysArr[j]).toString());
     		}
         } 
         adjustColumnSize(sheet,6);

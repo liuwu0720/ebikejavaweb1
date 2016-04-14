@@ -23,8 +23,7 @@
 <%@include file="../common/common.jsp"%>
 
 
-<script type="text/javascript"
-	src="<%=basePath%>static/js/json2.js"></script>
+<script type="text/javascript" src="<%=basePath%>static/js/json2.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
 	$.ajaxSetup ({

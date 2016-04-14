@@ -16,6 +16,8 @@
 <%@include file="../common/common.jsp"%>
 
 
+<script type="text/javascript" src="<%=basePath%>static/js/json2.js"></script>
+
 <script type="text/javascript">
 $(document).ready(function(){
 	$.ajaxSetup ({
@@ -38,6 +40,15 @@ $(document).ready(function(){
 		height:h,
 		width:w,
 		loadMsg:'正在加载,请稍等...',
+		toolbar : [ {
+			id : 'btn1',
+			text : '导出',
+			iconCls : 'icon-print',
+			handler : function() {
+				excelExport();
+			}
+		}],
+		
 		columns : [ [{
 			field : 'id',
 			title : 'id',
@@ -105,8 +116,6 @@ $(document).ready(function(){
             $('#dg').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题  
         }
 	});
-	
-	
 });
 //修改配额
 function upateRowQty(id){
@@ -126,7 +135,42 @@ function upateRowQty(id){
 	})
 }
 
+//导出Excel
+function excelExport(){
 
+	var titleArr = ["行业协会名称","行业协会负责人","负责人电话","总配额","已有配额","车牌号码首字母","创建人","创建日期"]; 
+	var keysArr =["hyxhmc","hyxhfzr","hyxhfzrdh","hyxhsjzpe","lastpe","hyxhlb","cjr","cjrq"];
+	var content = JSON.stringify($('#dg').datagrid('getData').rows);
+	
+	console.log("===============");
+	console.log(content);
+	
+	var tempForm = document.createElement("form");    
+    tempForm.id="tempForm1";    
+    tempForm.method="post";    
+    tempForm.action="<%=basePath%>ebikeAction/exportExcel";
+    
+    var hideInput = document.createElement("input");    
+    hideInput.type="hidden";    
+    hideInput.name= "content"  
+    hideInput.value=  content;
+    
+    var hideInput1 = document.createElement("input");    
+    hideInput1.type="hidden";    
+    hideInput1.name= "titleArr" 
+    hideInput1.value=  titleArr;
+    
+    var hideInput2 = document.createElement("input");    
+    hideInput2.type="hidden";    
+    hideInput2.name= "keysArr" 
+    hideInput2.value=  keysArr;
+    
+    tempForm.appendChild(hideInput);
+    tempForm.appendChild(hideInput1);   
+    tempForm.appendChild(hideInput2);   
+    document.body.appendChild(tempForm);    
+    tempForm.submit(); 
+}
 
 //查询功能
 function doSearch(){
