@@ -197,9 +197,9 @@ public class EbikeAction {
 	/**
 	 * 
 	 * 方法描述：导出excel
-	 * @param titleArr  //标头中文列名
-	 * @param keysArr    // 列名的英文(对应表中的字段)
-	 * @param content     //需要导出的数据内容
+	 * @param titleArr  标头中文列名
+	 * @param keysArr   列名的英文(对应表中的字段)
+	 * @param content    需要导出的数据内容
 	 * @version: 1.0	
 	 * @author: Daniel Zou
 	 * @version: 2016年4月14日 下午2:00:31
@@ -207,7 +207,6 @@ public class EbikeAction {
 	@RequestMapping("/exportExcel")
 	public String exportExcel(String content,String[] titleArr,String[] keysArr,HttpServletRequest request,
 			HttpServletResponse response) throws Exception{
-		
         JSONArray jsonArray = JSONArray.fromObject(content);
         // 创建一个webbook，对应一个Excel文件  
 		HSSFWorkbook wb = ExcelUtil.getWorkBook(titleArr,keysArr,jsonArray);

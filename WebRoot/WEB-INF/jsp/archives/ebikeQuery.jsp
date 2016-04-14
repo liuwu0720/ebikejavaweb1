@@ -214,25 +214,17 @@ function queryQRCode(id){
 }
 
 function excelExport(){
-	
-	
-	var    arr=$('#dg').datagrid('getChanges');
-	
-	console.log("-----------===========-----------");
-	console.log(arr);
-	var row=$('#dg').datagrid('getData').rows;
-	
 	var titleArr = ["行业协会名称","单位名称","档案编号","车牌号","电机号","驾驶人","身份证号码","行驶区域","归档意见","车辆状态"]; 
 	var keysArr =["HYXHMC","DWMC","DABH","CPHM","DJH","JSRXM1","SFZMHM1","XSQY","GDYJ","ZT"];
-/* 	var titleKeysArr = ; */ 
 	var tempForm = document.createElement("form");    
     tempForm.id="tempForm1";    
     tempForm.method="post";    
     tempForm.action="<%=basePath%>ebikeAction/exportExcel";
+    
     var hideInput = document.createElement("input");    
     hideInput.type="hidden";    
     hideInput.name= "content"  
-    hideInput.value=  JSON.stringify(row);
+    hideInput.value=  JSON.stringify($('#dg').datagrid('getData').rows);
     var hideInput1 = document.createElement("input");    
     hideInput1.type="hidden";    
     hideInput1.name= "titleArr" 
