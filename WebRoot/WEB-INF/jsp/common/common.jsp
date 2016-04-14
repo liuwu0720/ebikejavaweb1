@@ -12,6 +12,8 @@
 	src="<%=basePath%>static/js/validator.js"></script>
 <script type="text/javascript"
 	src="<%=basePath%>static/js/common.js"></script>
+	
+<script type="text/javascript" src="<%=basePath%>static/js/export2Excel.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="<%=basePath%>static/css/easyui.css">
 <link rel="stylesheet" type="text/css"

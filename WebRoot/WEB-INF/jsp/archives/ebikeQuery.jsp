@@ -21,9 +21,6 @@
 }
 </style>
 <%@include file="../common/common.jsp"%>
-<script type="text/javascript" src="<%=basePath%>static/js/export2Excel.js"></script>
-
-
 <script type="text/javascript">
 $(document).ready(function(){
 	$.ajaxSetup ({

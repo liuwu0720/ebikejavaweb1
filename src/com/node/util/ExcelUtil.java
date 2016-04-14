@@ -47,13 +47,10 @@ public class ExcelUtil {
             for(int j=0;j<keysArr.length;j++){
     			if(null != currentRow.get(keysArr[j])){
     				row.createCell((int) j).setCellValue(currentRow.get(keysArr[j]).toString());
-    			}else{
-    				row.createCell((int) j).setCellValue(" ");
     			}
-    			
     		}
         } 
-        adjustColumnSize(sheet,6);
+        adjustColumnSize(sheet,keysArr.length);
 		return wb;
 	}
 	
