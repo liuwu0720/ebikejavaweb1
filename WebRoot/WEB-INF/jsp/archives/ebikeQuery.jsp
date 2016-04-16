@@ -345,7 +345,5 @@ function queryHyxhDwDetail(obj){
 			</table>
 		</form>
 	</div>
-
-	
 </body>
 </html>
