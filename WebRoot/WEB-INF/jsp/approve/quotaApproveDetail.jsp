@@ -12,41 +12,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <title>档案详情</title>
 
 <%@include file="../common/common.jsp"%>
-<style type="text/css">
-#main {
-	border-collapse: collapse;
-}
-
-#main tr {
-	height: 30px;
-	background-color: #EEF2FB;
-	line-height: 30px;
-}
-
-#table1 th {
-	text-align: left;
-	font-weight: bold;
-	width: 10%;
-}
-
-.maindiv {
-	background-color: #E4E4FB;
-	vertical-align: middle;
-}
-
-.maindiv input {
-	vertical-align: middle;
-}
-.btn{
-	width: 100px;
-	height: 32px;
-	background-color: #A9A9F7;
-	text-align: center;
-}
-.btndiv{
-text-align: center;
-}
-</style>
 <script type="text/javascript">
 function sureState(state){
 	//$('#dgform').form('clear');
@@ -95,7 +60,7 @@ function updateSaveData(){
   <body>
     <div  class="maindiv">
     
-    	<table id="table1" class="table table-condensed">
+    	<table id="main" class="table table-condensed">
 				<tr style="display: none">
 					<td>id</td>
 					<td><input class="easyui-validatebox" type="text" name="id"></input>
@@ -117,7 +82,7 @@ function updateSaveData(){
 				</tr>
 				<tr>
 					<th>申请备注</th>
-					<td colspan="3">
+					<td>
 					${ddcHyxhBasb.bz }
 					</td>	
 					
@@ -136,8 +101,6 @@ function updateSaveData(){
 					<span>审批中</span>
 					</c:if>
 					</td>
-					<td></td>
-					<td></td>
 				</tr>
 				<tr>
 					<th>办结日期</th>
@@ -150,7 +113,7 @@ function updateSaveData(){
 				</tr>
 				<tr>
 					<th>办结意见</th>
-					<td colspan="3">
+					<td>
 					${ddcHyxhBasb.bjbz }
 					
 					</td>	

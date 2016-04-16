@@ -39,12 +39,6 @@ $(document).ready(function(){
 		width:w,
 		loadMsg:'正在加载,请稍等...',
 		columns : [ [{
-			field : 'id',
-			title : 'id',
-			checkbox : true,
-			align:'center',
-			width : 120
-		},{
 			field : 'hyxhmc',
 			title : '行业协会名称',
 			align:'center',
@@ -60,15 +54,20 @@ $(document).ready(function(){
 			align:'center',
 			width : 120
 		},{
-			field : 'hyxhsjzpe',
-			title : '配额',
+			field : 'totalPe',
+			title : '总配额',
 			align:'center',
-			width : 120
+			width : 50
+		},{
+			field : 'hyxhsjzpe',
+			title : '剩余配额',
+			align:'center',
+			width : 50
 		},{
 			field : 'hyxhlb',
 			title : '车牌号码首字母',
 			align:'center',
-			width : 120
+			width : 50
 		},{
 			field : 'cjr',
 			title : '创建人',
@@ -173,6 +172,7 @@ function addRowData(){
 	 $('#dgformDiv').dialog('open').dialog('setTitle', '编辑信息');
 	 $('#dgform').form('clear');
 	  $('#hyxhmc_tr,#hyxhlb_tr').show();
+	  $("#hyxhsjzpe_tr").hide();
 	 $("#hyxhlb").combobox({
 		 	valueField:'label',    
 		    textField:'value',
@@ -273,6 +273,7 @@ function updateRow(){
 	 var row = $('#dg').datagrid('getSelected');
 	   if (row){
 		     $('#hyxhmc_tr,#hyxhlb_tr').hide();
+		     $("#hyxhsjzpe_tr").show();
 	    	 $('#dgformDiv').dialog('open').dialog('setTitle', '编辑信息');
 	    	 $('#dgform').form('load', row);
 	     }else{
@@ -321,15 +322,14 @@ function updateSaveData(){
 </head>
 <body class="easyui-layout">
 
-	<div>
-		<table id="dg" style="width:90%;">
-
-			<div id="tb" style="padding: 5px; background: #E8F1FF;">
+	<div class="searchdiv">
+		<div>
 				<span>协会名称：</span>
 				<input id="hyxhmc" type="text" class="easyui-validatebox"></input>
 				<a class="easyui-linkbutton" plain="true" onclick="doSearch()"
 					iconCls="icon-search">查询 </a>
 			</div>
+		<table id="dg">
 		</table>
 	</div>
 	
@@ -340,7 +340,7 @@ function updateSaveData(){
 		closed="true"  buttons="#dlg-buttons">
 		<form id="dgform" class="easyui-form" enctype="multipart/form-data"
 			method="post">
-			<table id="table1" class="table table-condensed">
+			<table id="table1" class="dialogtable borderinput">
 				<tr style="display: none">
 					<td>id</td>
 					<td><input class="easyui-validatebox" type="text" name="id"></input>
@@ -360,10 +360,18 @@ function updateSaveData(){
 					<td><input id="hyxhlb" name="hyxhlb" style="height: 32px;" ></td>
 				</tr>
 				<tr>
-					<th>配额</th>
+					<th>总配额</th>
+					<td>
+					<input   class="easyui-numberspinner" name="totalPe"
+						data-options="increment:1,required:true,validType:'number'"  min="0"
+						style="width:120px;height:30px;"></input>
+					</td>
+				</tr>
+				<tr id="hyxhsjzpe_tr">
+					<th>剩余配额</th>
 					<td>
 					<input   class="easyui-numberspinner" name="hyxhsjzpe"
-						data-options="increment:1,required:true,validType:'number'"  min="0"
+						data-options="increment:1,validType:'number'"  min="0"
 						style="width:120px;height:30px;"></input>
 					</td>
 				</tr>

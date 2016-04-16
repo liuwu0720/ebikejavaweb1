@@ -34,8 +34,8 @@ $(document).ready(function(){
 	var xsqy = '${areacode}';
 	$("#dg").datagrid({
 
-		url : "<%=basePath%>ebikeAction/queryAll?xsqy="+ xsqy,
-		title :  "电动车档案查询管理11",
+		url : "<%=basePath%>statisticalAction/queryBaList?xsqy="+ xsqy,
+		title :  "电动车档案查询管理",
 		iconCls : 'icon-search',
 		striped : true,
 		fitColumns:true,   //数据列太少 未自适应
@@ -47,12 +47,6 @@ $(document).ready(function(){
 		width:w,
 		loadMsg:'正在加载,请稍等...',
 		columns : [ [{
-			field : 'ID',
-			title : 'ID',
-			checkbox : true,
-			align:'center',
-			width : 120
-		},{
 			field : 'HYXHMC',
 			title : '行业协会名称',
 			align:'center',
@@ -67,7 +61,7 @@ $(document).ready(function(){
 			align:'center',
 			width : 220,
 			formatter:function(value,row,index){
-				var query = "<a  href='javascript:void(0)'  onclick='queryHyxhDwDetail(\""+row.ZZJGDMZH+"\")'>"+value+"</a>";
+				var query = "<a  href='javascript:void(0)'  onclick='queryHyxhDwDetail(\""+row.SSDWID+"\")'>"+value+"</a>";
 				return query;	
 			}
 		},{
@@ -101,8 +95,8 @@ $(document).ready(function(){
 			align:'center',
 			width : 120
 		},{
-			field : 'GDYJ',
-			title : '归档意见',
+			field : 'SLYJ',
+			title : '受理意见',
 			align:'center',
 			width : 120,
 			formatter:function(value,index){
@@ -131,8 +125,7 @@ $(document).ready(function(){
 			align:'center',
 			width : 120,
 			formatter:function(value,row,index){
-				var query = "<a  href='javascript:void(0)'  onclick='queryRow("+row.ID+")'>查看11</a>" +
-				"<a  href='javascript:void(0)'  onclick='queryRow("+row.ID+")'>打印</a>";
+				var query = "<a  href='javascript:void(0)'  onclick='queryRow("+row.ID+")'>查看</a>" 
 				return query;	
 				
 			}
@@ -164,17 +157,6 @@ $(document).ready(function(){
 	    	})
 		}
 	});
-	$('#zt').combobox({
-		valueField: 'label',
-		textField: 'value',
-		data: [{
-			label: 'A',
-			value: '正常'
-		},{
-			label: 'E',
-			value: '注销'
-		}]
-	})
 });
 
 
@@ -188,8 +170,7 @@ function doSearch(){
 		jsrxm1:$("#jsrxm1").val(),
 		sfzhm:$("#sfzhm").val(),
 		 hyxhzh:$("#hyxhzh").combobox("getValue"),
-		 dwmcId:$("#hyxsssdwmc").combobox("getValue"),
-		 zt:$("#zt").combobox("getValue")
+		 dwmcId:$("#hyxsssdwmc").combobox("getValue")
 	}); 
 }
 
@@ -242,12 +223,9 @@ function queryHyxhDwDetail(obj){
 </head>
 <body class="easyui-layout">
 
-	<div>
-		<table id="dg" style="width:90%;">
+	<div  class="searchdiv">
+		<div id="tb" >
 
-			<div id="tb"  class="searchdiv">
-					<span>状态</span>
-				<input id="zt" style="height: 32px;">	
 				<span>档案编号</span>
 				<input id="dabh" type="text" class="easyui-validatebox" name="dabh" ></input>
 				<span>电机号&nbsp;&nbsp;</span> <input id="djh" name="djh"
@@ -263,14 +241,16 @@ function queryHyxhDwDetail(obj){
 				<a class="easyui-linkbutton" plain="true" onclick="doSearch()"
 					iconCls="icon-search">查询 </a>
 			</div>
+		<table id="dg" style="width:90%;">
+
 		</table>
 	</div>
 	
  <!-- 行业协会详情 -->
 	<div id="dgformDiv" class="easyui-dialog"
-		style="width:650px;height:450px;padding:10px 20px 20px 20px;" closed="true">
+		style="width:500px;height:400px;padding:10px 20px 20px 20px;" closed="true">
 		<form id="dgform" class="easyui-form">
-			<table class="table" id="table">
+			<table class="dialogtable">
 				<tr>
 					<th>协会名称</th>
 					<td><input  name=hyxhmc type="text" class="easyui-validatebox" style="height: 32px;width:100%;" readonly="readonly"></td>
@@ -294,12 +274,12 @@ function queryHyxhDwDetail(obj){
 				</tr>
 				<tr>
 					<th>总配额</th>
-					<td><input  name="hyxhsjzpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+					<td><input  name="totalPe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
 				</tr>
 				<tr>
 					
 					<th>剩余配额</th>
-					<td><input  name="lastpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+					<td><input  name="hyxhsjzpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
 				</tr>
 			</table>
 				
@@ -308,9 +288,9 @@ function queryHyxhDwDetail(obj){
 	
 	 <!-- 单位信息详情 -->
 	<div id="dgformDiv2" class="easyui-dialog"
-		style="width:650px;height:450px;padding:10px 20px 20px 20px;" closed="true">
+		style="width:500px;height:400px;padding:10px 20px 20px 20px;" closed="true">
 		<form id="dgform2" class="easyui-form">
-			<table class="table" id="table2">
+			<table class="dialogtable">
 				<tr>
 					<th>单位名称</th>
 					<td><input  name=dwmc type="text" class="easyui-validatebox" style="height: 32px;width:100%;" readonly="readonly"></td>
@@ -337,7 +317,11 @@ function queryHyxhDwDetail(obj){
 					<td><input  name="lxdh" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
 				</tr>
 				<tr>
-					<th>配额</th>
+					<th>总配额</th>
+					<td><input  name="totalPe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+				</tr>
+				<tr>
+					<th>剩余配额</th>
 					<td><input  name="dwpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
 				</tr>
 				<tr>

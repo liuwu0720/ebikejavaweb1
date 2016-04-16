@@ -39,12 +39,6 @@ $(document).ready(function(){
 		width:w,
 		loadMsg:'正在加载,请稍等...',
 		columns : [ [{
-			field : 'id',
-			title : 'id',
-			checkbox : true,
-			align:'center',
-			width : 120
-		},{
 			field : 'dwmc',
 			title : '单位名称',
 			align:'center',
@@ -228,10 +222,8 @@ function updateSaveData(){
 </head>
 <body class="easyui-layout">
 
-	<div>
-		<table id="dg" style="width:90%;">
-
-			<div id="tb" style="padding: 5px; background: #E8F1FF;">
+	<div class="searchdiv">
+		<div>
 				<span>协会名称名称：</span>
 				<input id="hyxhzh" style="height: 32px;">  
 				
@@ -240,17 +232,18 @@ function updateSaveData(){
 				<a class="easyui-linkbutton" plain="true" onclick="doSearch()"
 					iconCls="icon-search">查询 </a>
 			</div>
+		<table id="dg" style="width:90%;">
 		</table>
 	</div>
 	
 	
 		<!-- 点查看时弹出的表单 -->
 	<div id="dgformDiv" class="easyui-dialog"
-		style="width:550px;height:450px;padding:10px 20px 20px 20px;"
+		style="width:500px;height:400px;padding:10px 20px 20px 20px;"
 		closed="true"  buttons="#dlg-buttons">
 		<form id="dgform" class="easyui-form" enctype="multipart/form-data"
 			method="post">
-			<table id="table1" class="table table-condensed">
+			<table class="dialogtable borderinput">
 				<tr style="display: none">
 					<td>id</td>
 					<td><input class="easyui-validatebox" type="text" name="id"></input>
@@ -296,9 +289,11 @@ function updateSaveData(){
 				</tr>
 			</table>
 				<input type="hidden" name="dwpe">
+				<input type="hidden" name="totalPe">
 				<input type="hidden" name="shbm">
 				<input type="hidden" name="vcPicPath">
 				<input type="hidden" name="shbm">
+				<input type="hidden" name="hyxhzh">
 		</form>
 		<div id="dlg-buttons">
 		<a href="javascript:void(0)" class="easyui-linkbutton" id="saveBtn"

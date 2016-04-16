@@ -29,7 +29,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <style>
   	.foot{
   		margin-top:26px;
-  	  background-image: url(../ebike/static/images/footbackground.png);
+  	  background-image: url(./static/images/footbackground.png);
   	 
   	}
   

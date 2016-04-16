@@ -48,6 +48,7 @@ $(document).ready(function(){
 		pageSize:20,
 		singleSelect : true,//只选中单行
 		height:h,
+		width:w*0.85,
 		columns : [ [{
 			field : 'userCode',
 			title : '用户账号',
@@ -89,7 +90,7 @@ $(document).ready(function(){
 			field : 'id',
 			title:'操作',
 			align:'center',
-			width : 120,
+			width : 220,
 			formatter:function(value,row,index){
 				var del =  "<a  href='javascript:void(0)'  onclick='deleteRow("+row.id+")'>删除</a>&nbsp;&nbsp;&nbsp;";
 				var auth = "<a  href='javascript:void(0)'  onclick='authRow("+row.id+")'>授权</a>&nbsp;&nbsp;&nbsp;";
@@ -110,7 +111,11 @@ $(document).ready(function(){
             $('#dg').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题  
         }
 	});
-	
+	$('#userRole').combobox({    
+	    url:'<%=basePath%>userAction/getRoles',    
+	    valueField:'id',    
+	    textField:'roleName'   
+	}); 
 	
 
 	$.ajax({
@@ -276,13 +281,14 @@ function doSearch(){
 	$('#dg').datagrid('load',{
 		userName: $('#userName').val(),
 		userCode: $('#usercode').val(),
-		deptName:$('#deptName').val()
+		deptName:$('#deptName').val(),
+		userRole:$("#userRole").combobox("getValue")
 	});
 }
 </script>
 </head>
 <body class="easyui-layout">
-<div data-options="region:'west',title:'部门总览',split:true" style="width:20%;" >
+<div data-options="region:'west',title:'部门总览',split:true" style="width:25%;" >
 		<div class="zTreeDemoBackground left">
 				
 				<ul id="deptTree" class="ztree"></ul>
@@ -291,13 +297,14 @@ function doSearch(){
 	</div>   
 
 	  <div   data-options="region:'center',title:'用户管理'" class="center">
-		<table id="dg" style="width:90%;">
-			<div id="tb" style="padding: 5px; background: #E8F1FF;">
+	  <div id="tb" class="searchdiv">
 				<span>用户姓名:</span> <input id="userName" class="easyui-validatebox" type="text" > 
-				<span>账号/警号:</span> <input id="usercode" class="easyui-validatebox" type="text" >
+				<span>账号/警号:</span> <input id="usercode" class="easyui-validatebox" type="text" ><br>
 				<span>部门名称:</span> <input id="deptName" class="easyui-validatebox" type="text" >
+				<span>用户角色:</span> <input id="userRole" style="height: 32px;">
 				<a class="easyui-linkbutton" plain="true" onclick="doSearch()" iconCls="icon-search">查询</a>
 			</div>
+		<table id="dg" style="width:100%;">
 		</table>
 	</div>
 

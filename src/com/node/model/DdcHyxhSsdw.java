@@ -47,9 +47,13 @@ public class DdcHyxhSsdw implements java.io.Serializable {
 	private String synFlag;// 同步标志 刚开始为空 Y1-外网同步，不可修改等待晚上同步到内网 ;Y2-晚上已同步至内网
 	private String tranFlag;
 	private Date tranDate;
-	private Integer dwpe;// 单位配额
+	private Integer dwpe;// 单位剩余配额
+	private Integer totalPe;// 总配额
 	private String vcPicPath;// 图片名称
 	private String vcShowPath;// 图片显示路径 不与数据库关联
+	private String userCode;
+	private String passWord;
+	private Integer shFlag;// 审核标志 0-未审核等待提交资料 1-已审核
 
 	// Constructors
 
@@ -275,6 +279,58 @@ public class DdcHyxhSsdw implements java.io.Serializable {
 	 */
 	public void setVcShowPath(String vcShowPath) {
 		this.vcShowPath = vcShowPath;
+	}
+
+	@Column(name = "USERCODE", length = 10)
+	public String getUserCode() {
+		return userCode;
+	}
+
+	/**
+	 * @param userCode
+	 *            : set the property userCode.
+	 */
+	public void setUserCode(String userCode) {
+		this.userCode = userCode;
+	}
+
+	@Column(name = "PASSWORD", length = 10)
+	public String getPassWord() {
+		return passWord;
+	}
+
+	/**
+	 * @param passWord
+	 *            : set the property passWord.
+	 */
+	public void setPassWord(String passWord) {
+		this.passWord = passWord;
+	}
+
+	@Column(name = "SHFLAG", precision = 0)
+	public Integer getShFlag() {
+		return shFlag;
+	}
+
+	/**
+	 * @param shFlag
+	 *            : set the property shFlag.
+	 */
+	public void setShFlag(Integer shFlag) {
+		this.shFlag = shFlag;
+	}
+
+	@Column(name = "TOTALPE", precision = 0)
+	public Integer getTotalPe() {
+		return totalPe;
+	}
+
+	/**
+	 * @param totalPe
+	 *            : set the property totalPe.
+	 */
+	public void setTotalPe(Integer totalPe) {
+		this.totalPe = totalPe;
 	}
 
 	@Transient

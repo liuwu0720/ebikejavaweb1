@@ -39,12 +39,6 @@ $(document).ready(function(){
 		width:w,
 		loadMsg:'正在加载,请稍等...',
 		columns : [ [{
-			field : 'id',
-			title : 'id',
-			checkbox : true,
-			align:'center',
-			width : 120
-		},{
 			field : 'dmlb',
 			title : '代码类别',
 			align:'center',
@@ -223,10 +217,8 @@ function updateSaveData(){
 </head>
 <body class="easyui-layout">
 
-	<div>
-		<table id="dg" style="width:90%;">
-
-			<div id="tb" style="padding: 5px; background: #E8F1FF;">
+	<div class="searchdiv">
+		<div >
 				<span>备注：</span>
 				<input id="bz1" type="text" class="easyui-validatebox"></input>
 				<span>代码描述:</span> <input id="dmms1" name="dmms1"
@@ -234,6 +226,7 @@ function updateSaveData(){
 				<a class="easyui-linkbutton" plain="true" onclick="doSearch()"
 					iconCls="icon-search">查询 </a>
 			</div>
+		<table id="dg" style="width:90%;">
 		</table>
 	</div>
 	

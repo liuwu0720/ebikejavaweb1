@@ -39,6 +39,11 @@ $(document).ready(function(){
 		width:w,
 		loadMsg:'正在加载,请稍等...',
 		columns : [ [{
+			field : 'LSH',
+			title : '流水号',
+			align:'center',
+			width : 220
+		},{
 			field : 'CPHM',
 			title : '车牌号码',
 			align:'center',
@@ -52,7 +57,13 @@ $(document).ready(function(){
 			field : 'SLRQ',
 			title : '受理日期',
 			align:'center',
-			width : 220
+			width : 220,
+			formatter:function(value,index){
+				var unixTimestamp = new Date(value);   
+				return unixTimestamp.toLocaleString();
+			}
+			
+			
 		},{
 			field : 'YWLX',
 			title : '业务类型',
@@ -86,7 +97,8 @@ function doSearch(){
 	 $('#dg').datagrid('load',{
 		 ywlx:$("#ywlx").combobox("getValue"),
 		 cphm: $("#cphm").val(),
-		djh: $('#djh').val()
+		djh: $('#djh').val(),
+		lsh:$("#lsh").val()
 	}); 
 }
 //查看业务流水 详情
@@ -101,19 +113,20 @@ function flowDetail(id){
 </head>
 <body class="easyui-layout">
 
-	<div>
-	  
-		<table id="dg" style="width:70%;">
-			<div id="tb" style="padding: 5px; background: #E8F1FF;">
+	<div class="searchdiv">
+	  	<div id="tb" >
 				<span>业务类型：</span>
 				<input id="ywlx"  style="height: 32px;">
 				<span>车牌号：</span>
 				<input id="cphm" type="text" class="easyui-validatebox"  ></input>
 				<span>电机号:</span> <input id="djh" 
-					class="easyui-validatebox" type="text" > &nbsp;&nbsp;&nbsp;
+					class="easyui-validatebox" type="text" >
+				<span>流水号:</span> <input id="lsh" 
+					class="easyui-validatebox" type="text" >	
 				<a class="easyui-linkbutton" plain="true" onclick="doSearch()"
 					iconCls="icon-search">查询 </a>
 			</div>
+		<table id="dg" style="width:70%;">
 		</table>
 	
 	</div>

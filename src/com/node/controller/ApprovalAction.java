@@ -127,7 +127,7 @@ public class ApprovalAction {
 			HttpServletRequest request, String cphm) {
 		String sql = "select A.ID,A.DABH,A.CPHM,A.DJH,A.JSRXM1,A.GDYJ,A.SFZMHM1,A.SYRQ, "
 				+ "(select distinct b.HYXHMC from DDC_HYXH_BASE b where b.HYXHZH = A.HYXHZH  and rownum=1) as HYXHMC,a.HYXHZH,"
-				+ " (SELECT distinct S.DWMC FROM DDC_HYXH_SSDW S WHERE S.ID=A.ZZJGDMZH  and rownum=1) AS DWMC,a.ZZJGDMZH,"
+				+ " (SELECT distinct S.DWMC FROM DDC_HYXH_SSDW S WHERE S.ID=A.SSDWID  and rownum=1) AS DWMC,a.SSDWID,"
 				+ "(select distinct d.DMMS1 from ddc_sjzd d where d.dmz=a.xsqy and d.dmlb='SSQY' and rownum=1) as xsqy, "
 				+ "(SELECT distinct D.DMMS1 FROM DDC_SJZD D WHERE D.DMZ=A.ZT AND D.DMLB='CLZT'  and rownum=1)AS ZT from DDC_DAXXB A WHERE 1=1 ";
 		// 电机号
@@ -144,7 +144,7 @@ public class ApprovalAction {
 		}
 		// 单位
 		if (StringUtils.isNotBlank(dwmcId)) {
-			sql += " and a.ZZJGDMZH = " + dwmcId;
+			sql += " and a.SSDWID = " + dwmcId;
 		}
 		// 协会
 		if (StringUtils.isNotBlank(hyxhzh)) {
@@ -187,7 +187,7 @@ public class ApprovalAction {
 		List<JtRole> approveJtRoles = iJtUserService
 				.getApproveRolesByUser(jtUser);
 		String sql = "select sb.id, sb.lsh,(select distinct b.HYXHMC from ddc_hyxh_base b where b.hyxhzh = sb.hyxhzh) as hyxhmc,sb.hyxhzh,"
-				+ "(select distinct d.DWMC from ddc_hyxh_ssdw d where d.id = sb.ssdw_id) as dwmc ,sb.ssdw_id,sb.djh,sb.jsrxm1,sb.sqrq,sb.SLRQ,"
+				+ "(select distinct d.DWMC from ddc_hyxh_ssdw d where d.id = sb.SSDWID) as dwmc ,sb.SSDWID,sb.djh,sb.jsrxm1,sb.sqrq,sb.SLRQ,"
 				+ "(select distinct zd.dmms1 from ddc_sjzd zd where zd.dmz=sb.xsqy and zd.dmlb='SSQY') as xsqy,sb.SLYJ ,sb.SL_INDEX from ddc_hyxh_ssdwclsb sb where 1=1";
 		if (StringUtils.isNotBlank(lsh)) {
 			sql += " and sb.lsh like '%" + lsh + "%'";
@@ -196,16 +196,16 @@ public class ApprovalAction {
 			sql += " and sb.hyxhzh ='" + hyxhzh + "'";
 		}
 		if (StringUtils.isNotBlank(dwmcId)) {
-			sql += " and sb.SSDW_ID =" + dwmcId + "";
+			sql += " and sb.SSDWID =" + dwmcId + "";
 		}
 		if (StringUtils.isNotBlank(xsqy)) {
 			sql += " and sb.xsqy ='" + xsqy + "'";
 		}
-		if (StringUtils.isBlank(bjjg)) {
-			sql += " and sb.SLYJ is null ";
-		} else if (StringUtils.isNotBlank(bjjg)) {
-			if (!bjjg.equals("-1")) {
-				sql += " and sb.SLYJ = " + bjjg;
+		if (StringUtils.isNotBlank(bjjg)) {
+			if (bjjg.equals("0") || bjjg.equals("1")) {
+				sql += " and sb.slyj =" + Integer.parseInt(bjjg);
+			} else {
+				sql += " and sb.SLYJ is null ";
 			}
 
 		}
@@ -230,8 +230,8 @@ public class ApprovalAction {
 					: objMap.get("JSRXM1").toString());
 			ddcHyxhSsdwclsb.setXsqyName(objMap.get("XSQY") == null ? null
 					: objMap.get("XSQY").toString());
-			ddcHyxhSsdwclsb.setSsdwId(objMap.get("SSDW_ID") == null ? null
-					: objMap.get("SSDW_ID").toString());
+			ddcHyxhSsdwclsb.setSsdwId(objMap.get("SSDWID") == null ? null
+					: objMap.get("SSDWID").toString());
 			ddcHyxhSsdwclsb.setSsdwName(objMap.get("DWMC") == null ? null
 					: objMap.get("DWMC").toString());
 			ddcHyxhSsdwclsb.setDjh(objMap.get("DJH") == null ? null : objMap
@@ -447,18 +447,36 @@ public class ApprovalAction {
 		String showEbikeImg = parseUrl(ddcHyxhSsdwclsb.getVcEbikeImg());
 		String showUser1Img = parseUrl(ddcHyxhSsdwclsb.getVcUser1Img());
 		String showUser2Img = parseUrl(ddcHyxhSsdwclsb.getVcUser2Img());
+		String vcUser1CardImg1Show = parseUrl(ddcHyxhSsdwclsb
+				.getVcUser1CardImg1());
+		String vcUser1CardImg2Show = parseUrl(ddcHyxhSsdwclsb
+				.getVcUser1CardImg2());
+		String vcUser2CardImg1Show = parseUrl(ddcHyxhSsdwclsb
+				.getVcUser2CardImg1());
+		String vcUser2CardImg2Show = parseUrl(ddcHyxhSsdwclsb
+				.getVcUser1CardImg2());
+		String vcEbikeInvoiceImgShow = parseUrl(ddcHyxhSsdwclsb
+				.getVcEbikeInvoiceImg());
 		ddcHyxhSsdwclsb.setVcShowEbikeImg(showEbikeImg);
 		ddcHyxhSsdwclsb.setVcShowUser1Img(showUser1Img);
 		ddcHyxhSsdwclsb.setVcShowUser2Img(showUser2Img);
+		ddcHyxhSsdwclsb.setVcUser1CardImg1Show(vcUser1CardImg1Show);
+		ddcHyxhSsdwclsb.setVcUser1CardImg2Show(vcUser1CardImg2Show);
+		ddcHyxhSsdwclsb.setVcUser2CardImg1Show(vcUser2CardImg1Show);
+		ddcHyxhSsdwclsb.setVcUser2CardImg2Show(vcUser2CardImg2Show);
+		ddcHyxhSsdwclsb.setVcEbikeInvoiceImgShow(vcEbikeInvoiceImgShow);
 		String approveTableName = SystemConstants.RECORDSBTABLE;
 		List<DdcApproveUser> approveUsers = iEbikeService
 				.findApproveUsersByProperties(approveTableName,
 						ddcHyxhSsdwclsb.getId());
 		List<DdcSjzd> selectlTbyy = iEbikeService.getDbyyList(
 				ddcHyxhSsdwclsb.getTbyy(), "TBYY");// 选中的退办原因
+		List<DdcSjzd> selectSlzls = iEbikeService.getDbyyList(
+				ddcHyxhSsdwclsb.getSlzl(), "BASQZL");
 		List<DdcSjzd> dbyyDdcSjzds = iEbikeService.getSjzdByDmlb("TBYY");// 数据字典中所有的退办原因
 		List<DdcSjzd> slzList = iEbikeService.getSjzdByDmlb("BASQZL");// 数据字典中所有的受理资料
 		request.setAttribute("selectlTbyy", selectlTbyy);
+		request.setAttribute("selectSlzls", selectSlzls);
 		request.setAttribute("approveUsers", approveUsers);
 		request.setAttribute("ddcHyxhSsdwclsb", ddcHyxhSsdwclsb);
 		request.setAttribute("type", type);// 1查看 2审批
@@ -525,6 +543,8 @@ public class ApprovalAction {
 			ddcHyxhBasb.setBjbz(note);
 			ddcHyxhBasb.setBjjg(state);
 			ddcHyxhBasb.setBzjr(jtUser.getUserName());// 办结人
+			ddcHyxhBasb.setSynFlag(SystemConstants.SYSFLAG_UPDATE);
+			ddcHyxhBasb.setTranDate(new Date());
 			DdcApproveUser approveUser = new DdcApproveUser();
 			approveUser.setUserName(jtUser.getUserName());// 姓名
 			approveUser.setUserOrgname(jtUser.getUserOrgName());// 部门
@@ -536,6 +556,8 @@ public class ApprovalAction {
 			approveUser.setApproveTableid(ddcHyxhBasb.getId());
 			approveUser.setApproveTime(new Date());
 			approveUser.setLsh(ddcHyxhBasb.getLsh());
+			approveUser.setSysFlag(SystemConstants.SYSFLAG_ADD);
+			approveUser.setTranDate(new Date());
 			// 保存流水
 
 			try {
@@ -555,6 +577,8 @@ public class ApprovalAction {
 				ddcHyxhBasb.setBjbz(note);
 				ddcHyxhBasb.setBjjg(state);
 				ddcHyxhBasb.setBzjr(jtUser.getUserName());// 办结人
+				ddcHyxhBasb.setSynFlag(SystemConstants.SYSFLAG_UPDATE);
+				ddcHyxhBasb.setTranDate(new Date());
 				DdcApproveUser approveUser = new DdcApproveUser();
 				approveUser.setUserName(jtUser.getUserName());// 姓名
 				approveUser.setUserOrgname(jtUser.getUserOrgName());// 部门
@@ -565,11 +589,17 @@ public class ApprovalAction {
 				approveUser.setApproveTable(SystemConstants.PESBTABLE);
 				approveUser.setApproveTableid(ddcHyxhBasb.getId());
 				approveUser.setApproveTime(new Date());
-
+				approveUser.setSysFlag(SystemConstants.SYSFLAG_ADD);
+				approveUser.setTranDate(new Date());
 				DdcHyxhBase ddcHyxhBase = iInDustryService
 						.getDdcHyxhBaseByCode(ddcHyxhBasb.getHyxhzh());
-				ddcHyxhBase.setHyxhsjzpe(ddcHyxhBase.getHyxhsjzpe()
+				int hasUseNum = ddcHyxhBase.getTotalPe()
+						- ddcHyxhBase.getHyxhsjzpe();// 已经用掉的配额
+				ddcHyxhBase.setTotalPe(ddcHyxhBase.getTotalPe()
 						+ ddcHyxhBasb.getHyxhsqpe());
+				ddcHyxhBase.setHyxhsjzpe(ddcHyxhBase.getTotalPe() - hasUseNum);// 剩余配额=总配额-已用的配额
+				ddcHyxhBase.setSynFlag(SystemConstants.SYSFLAG_UPDATE);
+				ddcHyxhBase.setTranDate(new Date());
 				try {
 					iEbikeService.updateDdcHyxhBasb(ddcHyxhBasb);
 					iEbikeService.saveDdcApproveUser(approveUser);
@@ -593,6 +623,8 @@ public class ApprovalAction {
 				approveUser.setApproveTable(SystemConstants.PESBTABLE);
 				approveUser.setApproveTableid(ddcHyxhBasb.getId());
 				approveUser.setApproveTime(new Date());
+				approveUser.setSysFlag(SystemConstants.SYSFLAG_ADD);
+				approveUser.setTranDate(new Date());
 				try {
 					iEbikeService.updateDdcHyxhBasb(ddcHyxhBasb);
 					iEbikeService.saveDdcApproveUser(approveUser);
@@ -642,6 +674,8 @@ public class ApprovalAction {
 			ddcHyxhSsdwclsb.setSlbz(note);
 			ddcHyxhSsdwclsb.setSlrq(new Date());
 			ddcHyxhSsdwclsb.setSlbm(deptName);
+			ddcHyxhSsdwclsb.setSynFlag(SystemConstants.SYSFLAG_UPDATE);
+			ddcHyxhSsdwclsb.setTranDate(new Date());
 			if (StringUtils.isNotBlank(tbyy)) {
 				ddcHyxhSsdwclsb.setTbyy(tbyy);
 			}
@@ -651,7 +685,7 @@ public class ApprovalAction {
 			ddcFlow.setYwlx("A");
 			ddcFlow.setYwyy("A");
 			ddcFlow.setHyxhzh(ddcHyxhBase.getHyxhzh());
-			ddcFlow.setZzjgdmzh(ddcHyxhSsdwclsb.getSsdwId());
+			ddcFlow.setSsdwId(ddcHyxhSsdwclsb.getSsdwId());
 			ddcFlow.setPpxh(ddcHyxhSsdwclsb.getPpxh());
 			ddcFlow.setCysy(ddcHyxhSsdwclsb.getCysy());
 			ddcFlow.setDjh(ddcHyxhSsdwclsb.getDjh());
@@ -676,8 +710,8 @@ public class ApprovalAction {
 			ddcFlow.setGdr(jtUser.getUserCode());
 			ddcFlow.setGdrq(new Date());
 			ddcFlow.setYclb("0");
-			ddcFlow.setSynFlag("UW");
-			ddcFlow.setTranFlag(null);
+			ddcFlow.setSynFlag(SystemConstants.SYSFLAG_ADD);
+			ddcFlow.setTranDate(new Date());
 
 			// 审批 人
 			DdcApproveUser approveUser = new DdcApproveUser();
@@ -691,6 +725,8 @@ public class ApprovalAction {
 			approveUser.setApproveTableid(ddcHyxhSsdwclsb.getId());
 			approveUser.setApproveTime(new Date());
 			approveUser.setLsh(ddcFlow.getLsh());
+			approveUser.setSysFlag(SystemConstants.SYSFLAG_ADD);
+			approveUser.setTranDate(new Date());
 			try {
 				iEbikeService.updateDdcHyxhSsdwclsb(ddcHyxhSsdwclsb);
 				iEbikeService.saveDdcApproveUser(approveUser);
@@ -711,9 +747,12 @@ public class ApprovalAction {
 				ddcHyxhSsdwclsb.setSlr(jtUser.getUserName());
 				ddcHyxhSsdwclsb.setSlyj(SystemConstants.AGREE);
 				ddcHyxhSsdwclsb.setSlbz(note);
+				ddcHyxhSsdwclsb.setSlzl(slzl);
 				ddcHyxhSsdwclsb.setSlrq(new Date());
 				ddcHyxhSsdwclsb.setSlbm(deptName);
 				ddcHyxhSsdwclsb.setCphm(createCphm(ddcHyxhBase));
+				ddcHyxhSsdwclsb.setSynFlag(SystemConstants.SYSFLAG_UPDATE);
+				ddcHyxhSsdwclsb.setTranDate(new Date());
 
 				// 业务流水
 				DdcFlow ddcFlow = new DdcFlow();
@@ -721,7 +760,7 @@ public class ApprovalAction {
 				ddcFlow.setYwlx("A");
 				ddcFlow.setYwyy("A");
 				ddcFlow.setHyxhzh(ddcHyxhBase.getHyxhzh());
-				ddcFlow.setZzjgdmzh(ddcHyxhSsdwclsb.getSsdwId());
+				ddcFlow.setSsdwId(ddcHyxhSsdwclsb.getSsdwId());
 				ddcFlow.setPpxh(ddcHyxhSsdwclsb.getPpxh());
 				ddcFlow.setCysy(ddcHyxhSsdwclsb.getCysy());
 				ddcFlow.setDjh(ddcHyxhSsdwclsb.getDjh());
@@ -747,8 +786,8 @@ public class ApprovalAction {
 				ddcFlow.setGdr(jtUser.getUserCode());
 				ddcFlow.setGdrq(new Date());
 				ddcFlow.setYclb("0");
-				ddcFlow.setSynFlag("UW");
-				ddcFlow.setTranFlag(null);
+				ddcFlow.setSynFlag(SystemConstants.SYSFLAG_ADD);
+				ddcFlow.setTranDate(new Date());
 				// 审批人及审批状态
 				DdcApproveUser approveUser = new DdcApproveUser();
 				approveUser.setUserName(jtUser.getUserName());// 姓名
@@ -760,6 +799,8 @@ public class ApprovalAction {
 				approveUser.setApproveTable(SystemConstants.RECORDSBTABLE);
 				approveUser.setApproveTableid(ddcHyxhSsdwclsb.getId());
 				approveUser.setApproveTime(new Date());
+				approveUser.setSysFlag(SystemConstants.SYSFLAG_ADD);
+				approveUser.setTranDate(new Date());
 
 				// 档案信息表
 				DdcDaxxb daxxb = new DdcDaxxb();
@@ -767,7 +808,7 @@ public class ApprovalAction {
 				daxxb.setYwlx(ddcFlow.getYwlx());
 				daxxb.setYwyy(ddcFlow.getYwyy());
 				daxxb.setHyxhzh(ddcHyxhSsdwclsb.getHyxhzh());
-				daxxb.setZzjgdmzh(ddcHyxhSsdwclsb.getSsdwId());
+				daxxb.setSsdwId(ddcHyxhSsdwclsb.getSsdwId());
 				daxxb.setCphm(ddcHyxhSsdwclsb.getCphm());
 				daxxb.setPpxh(ddcHyxhSsdwclsb.getPpxh());
 				daxxb.setCysy(ddcHyxhSsdwclsb.getCysy());
@@ -795,8 +836,8 @@ public class ApprovalAction {
 				daxxb.setGdr(jtUser.getUserCode());
 				daxxb.setGdrq(new Date());
 				daxxb.setGdbm(jtUser.getUserOrg());
-				daxxb.setSynFlag("UW");
-				daxxb.setTranFlag(null);
+				daxxb.setSynFlag(SystemConstants.SYSFLAG_ADD);
+				daxxb.setTranDate(new Date());
 
 				try {
 					iEbikeService.updateDdcHyxhSsdwclsb(ddcHyxhSsdwclsb);
@@ -812,6 +853,8 @@ public class ApprovalAction {
 				// 审批人指向下一个角色
 				int nextRoleIndex = ddcHyxhSsdwclsb.getSlIndex() + 1;
 				ddcHyxhSsdwclsb.setSlIndex(nextRoleIndex);
+				ddcHyxhSsdwclsb.setSynFlag(SystemConstants.SYSFLAG_UPDATE);
+				ddcHyxhSsdwclsb.setTranDate(new Date());
 				DdcApproveUser approveUser = new DdcApproveUser();
 				approveUser.setUserName(jtUser.getUserName());// 姓名
 				approveUser.setUserOrgname(jtUser.getUserOrgName());// 部门
@@ -822,6 +865,8 @@ public class ApprovalAction {
 				approveUser.setApproveTable(SystemConstants.RECORDSBTABLE);
 				approveUser.setApproveTableid(ddcHyxhSsdwclsb.getId());
 				approveUser.setApproveTime(new Date());
+				approveUser.setSysFlag(SystemConstants.SYSFLAG_ADD);
+				approveUser.setTranDate(new Date());
 				try {
 					iEbikeService.updateDdcHyxhSsdwclsb(ddcHyxhSsdwclsb);
 					iEbikeService.saveDdcApproveUser(approveUser);
@@ -890,27 +935,23 @@ public class ApprovalAction {
 				.findByProPerties("CLZT", ddcDaxxb.getZt());
 		ddcDaxxb.setZtName(ztName);
 		// 申报单位
-		if (StringUtils.isNotBlank(ddcDaxxb.getZzjgdmzh())) {
+		if (StringUtils.isNotBlank(ddcDaxxb.getSsdwId())) {
 			DdcHyxhSsdw ddcHyxhSsdw = iInDustryService.getDdcHyxhSsdwById(Long
-					.parseLong(ddcDaxxb.getZzjgdmzh()));
+					.parseLong(ddcDaxxb.getSsdwId()));
 			if (ddcHyxhSsdw != null) {
-				ddcDaxxb.setZzjgdmzhName(ddcHyxhSsdw.getDwmc());
+				ddcDaxxb.setSsdwName(ddcHyxhSsdw.getDwmc());
 			} else {
-				ddcDaxxb.setZzjgdmzhName(null);
+				ddcDaxxb.setSsdwName(null);
 			}
 		}
 		// 业务类型
 		String ywlxName = iEbikeService.findByProPerties("YWLX",
 				ddcDaxxb.getYwlx());
 		ddcDaxxb.setYwlxName(ywlxName);
-		// 业务原因
-		String ywyyName = iEbikeService.findByProPerties("YWYY_A",
-				ddcDaxxb.getYwyy());
-		ddcDaxxb.setYwyyName(ywyyName);
 
 		DdcHyxhBase ddcHyxhBase = iInDustryService
 				.getDdcHyxhBaseByCode(ddcDaxxb.getHyxhzh());// 行业协会账号
-		ddcDaxxb.setHyxhzhmc(ddcHyxhBase.getHyxhmc());
+		ddcDaxxb.setHyxhzhName(ddcHyxhBase.getHyxhmc());
 		// 用户
 		JtUser jtUser = iJtUserService.getJtUserByUserCode(ddcDaxxb.getSlr());
 		ddcDaxxb.setSlrName(jtUser.getUserName());
@@ -923,9 +964,19 @@ public class ApprovalAction {
 		String showEbikeImg = parseUrl(ddcDaxxb.getVcEbikeImg());
 		String showUser1Img = parseUrl(ddcDaxxb.getVcUser1Img());
 		String showUser2Img = parseUrl(ddcDaxxb.getVcUser2Img());
+		String vcUser1CardImg1Show = parseUrl(ddcDaxxb.getVcUser1CardImg1());
+		String vcUser1CardImg2Show = parseUrl(ddcDaxxb.getVcUser1CardImg2());
+		String vcUser2CardImg1Show = parseUrl(ddcDaxxb.getVcUser2CardImg1());
+		String vcUser2CardImg2Show = parseUrl(ddcDaxxb.getVcUser2CardImg2());
+		String vcEbikeInvoiceImgShow = parseUrl(ddcDaxxb.getVcEbikeInvoiceImg());
 		ddcDaxxb.setVcShowEbikeImg(showEbikeImg);
 		ddcDaxxb.setVcShowUser1Img(showUser1Img);
 		ddcDaxxb.setVcShowUser2Img(showUser2Img);
+		ddcDaxxb.setVcUser1CardImg1Show(vcUser1CardImg1Show);
+		ddcDaxxb.setVcUser1CardImg2Show(vcUser1CardImg2Show);
+		ddcDaxxb.setVcUser2CardImg1Show(vcUser2CardImg1Show);
+		ddcDaxxb.setVcUser2CardImg2Show(vcUser2CardImg2Show);
+		ddcDaxxb.setVcEbikeInvoiceImgShow(vcEbikeInvoiceImgShow);
 		request.setAttribute("ddcDaxxb", ddcDaxxb);
 		request.setAttribute("slzls", slzls);
 		return "approve/checkApproveDetail";
@@ -954,6 +1005,8 @@ public class ApprovalAction {
 		calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) + 2);
 		Date newSyrq = calendar.getTime();// 生成新审验日期
 		daxxb.setSyrq(newSyrq);
+		daxxb.setSynFlag(SystemConstants.SYSFLAG_UPDATE);
+		daxxb.setTranDate(new Date());
 
 		// 业务流水
 		DdcFlow flow = new DdcFlow();
@@ -967,7 +1020,7 @@ public class ApprovalAction {
 		flow.setYwlx("E");
 		flow.setYwyy("A");
 		flow.setHyxhzh(daxxb.getHyxhzh());
-		flow.setZzjgdmzh(daxxb.getZzjgdmzh());
+		flow.setSsdwId(daxxb.getSsdwId());
 		flow.setDabh(daxxb.getDabh());
 		flow.setCphm(daxxb.getCphm());
 		flow.setPpxh(daxxb.getPpxh());
@@ -994,9 +1047,8 @@ public class ApprovalAction {
 		flow.setGdr(jtUser.getUserCode());
 		flow.setGdbm(jtUser.getUserOrg());
 		flow.setGdrq(new Date());
-		flow.setSynFlag("UW");
-		flow.setTranFlag(null);
-
+		flow.setSynFlag(SystemConstants.SYSFLAG_ADD);
+		flow.setTranDate(new Date());
 		try {
 			iEbikeService.updateDdcDaxxb(daxxb);
 			iEbikeService.saveDdcFlow(flow);

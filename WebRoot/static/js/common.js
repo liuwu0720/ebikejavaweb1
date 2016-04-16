@@ -19,13 +19,32 @@ function getWidth(minWidth){
 	if(document.body.offsetWidth > t){
 		t = document.body.offsetWidth-20;
 	}
+	
 	return t;
 }
 //计算列表的高度
+//计算列表的高度
+/*function getHeight(id){
+	var tt = $('#'+id).offset().top;
+	var temp = windowHeight();
+	var t =temp-tt-50;
+	alert(t);
+	if(t>0){
+		return t;
+	}else{
+		return 350;//如果t为小于0，给一个默认值
+	}
+	
+}
+
+function windowHeight() {
+    var de = document.documentElement;
+    return self.innerHeight||(de && de.clientHeight)||document.body.clientHeight;
+}*/
 function getHeight(id){
 	var tt = $('#'+id).offset().top;
 	
-	var temp = document.body.offsetHeight;
+	var temp = document.body.offsetHeight-200;
 	//alert(temp);
 	var t =temp-tt;
 	if(t>0){
@@ -50,9 +69,9 @@ function getPageSize(height){
 	}else if(10<size && size<20){
 		size = 20;
 	}else if(20<size && size<30){
-		size = 30;
+		size = 25;
 	}else if(30<size && size<40){
-		size = 40;
+		size = 30;
 	}
 	return size;
 }

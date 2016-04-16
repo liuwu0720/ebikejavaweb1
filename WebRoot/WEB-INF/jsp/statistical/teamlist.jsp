@@ -72,10 +72,10 @@ $(document).ready(function(){
 		] ],
 		toolbar : [ {
 			id : 'btn1',
-			text : '打印',
-			iconCls : 'icon-save',
+			text : '导出',
+			iconCls : 'icon-print',
 			handler : function() {
-				exportPage();
+				excelExport();
 			}
 		}],
 		onLoadSuccess:function(){  
@@ -96,15 +96,17 @@ function teamTbdetail(obj){
 	window.location.href="<%=basePath%>statisticalAction/getTeamTbDetail?team="+team;
 }
 
-function exportPage() {
-	$("#dg").css('width', '650px');
-	var bdhtml=window.document.body.innerHTML;
-	var startStr="<!--startprint-->";//设置打印开始区域 
-	var endStr="<!--endprint-->";//设置打印结束区域 
-	var printHtml=bdhtml.substring(bdhtml.indexOf(startStr)+startStr.length,bdhtml.indexOf(endStr));//从标记里获取需要打印的页面 
-	window.document.body.innerHTML=printHtml;//需要打印的页面 
-	window.print(); 
-	window.document.body.innerHTML=bdhtml;//还原界面 
+function excelExport(){
+	var titleArr = ["大队名称","已备案","已退办"]; 
+	var keysArr =["cname","ba","tb"];
+	var rows = $('#dg').datagrid('getData').rows;
+	
+	var actionUrl = '<%=basePath%>ebikeAction/exportExcel';
+	var fileName="大队车辆统计";
+	var content = JSON.stringify(rows);
+	commonExcelExport(titleArr,keysArr,content,actionUrl,fileName);
+	
+	
 }
 </script>
 </head>

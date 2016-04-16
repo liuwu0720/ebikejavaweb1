@@ -214,9 +214,9 @@ public class StatisticalAction {
 	@RequestMapping("/queryByWater")
 	@ResponseBody
 	public Map<String, Object> queryByWater(HttpServletRequest request,
-			String ywlx, String djh, String cphm) {
+			String lsh, String ywlx, String djh, String cphm) {
 		Page page = ServiceUtil.getcurrPage(request);
-		String sql = "select f.id,f.cphm,f.djh,f.slrq ,"
+		String sql = "select f.id,f.cphm,f.djh,f.slrq ,f.LSH,"
 				+ "(select d.dmms1 from ddc_sjzd d where d.dmz=f.ywlx and d.dmlb='YWLX') as ywlx "
 				+ " from ddc_flow f where 1=1 ";
 		if (StringUtils.isNotBlank(ywlx)) {
@@ -228,6 +228,10 @@ public class StatisticalAction {
 		if (StringUtils.isNotBlank(cphm)) {
 			sql += " and f.cphm like '%" + cphm + "%'";
 		}
+		if (StringUtils.isNotBlank(lsh)) {
+			sql += " and f.lsh like '" + lsh + "'";
+		}
+
 		sql += " order by f.id desc";
 		Map<String, Object> resultMap = iStatisticalService
 				.findBySpringSqlPage(sql, page);
@@ -254,7 +258,7 @@ public class StatisticalAction {
 		sb.append("select a.id,a.lsh,a.djh,(select user_name from oa_user_view where user_code=a.slr and rownum=1 ) as slr,");
 		sb.append("(select distinct d.DMMS1 from ddc_sjzd d where d.dmz=a.xsqy and d.dmlb='SSQY' and rownum=1) as xsqy,");
 		sb.append("  (select t.org_name from oa_dept_view t where t.org_id=a.slbm and rownum=1 ) as slbm,");
-		sb.append("to_char(a.slrq,'yyyy-mm-dd hh24:mi:ss') as slrq from ddc_flow a where a.slyj='1' and a.hyxhzh != 'cs'");
+		sb.append("to_char(a.slrq,'yyyy-mm-dd hh24:mi:ss') as slrq from ddc_flow a where a.slyj='1' and a.YWLX='A' and a.hyxhzh != 'cs'");
 		if (StringUtils.isNotBlank(xsqy)) {
 			sb.append(" and a.xsqy='" + xsqy + "'");
 		}
@@ -399,10 +403,11 @@ public class StatisticalAction {
 		String sql = " select f.id,(select distinct d.DMMS1 from ddc_sjzd d where d.dmz=f.xsqy and d.dmlb='SSQY' and rownum=1) as xsqy,"
 				+ "f.ppxh,f.JSRXM1,f.SFZMHM1 , "
 				+ "f.lsh,f.djh,f.slrq,f.hyxhzh,(select d.HYXHMC from ddc_hyxh_base d where d.HYXHZH = f.HYXHZH and rownum = 1) as hyxhmc,"
-				+ "f.ZZJGDMZH, (select s.DWMC from  DDC_HYXH_SSDW s where s.ID = f.ZZJGDMZH and rownum = 1) as dwmc  "
-				+ " from ddc_flow f where f.slyj='1' and f.slbm in (select org_id  from OA_DEPT_VIEW  "
-				+ " start with org_id in  (select t.org_id from OA_DEPT_VIEW t where t.up_org="
-				+ team + ")   connect by prior org_id = up_org)";
+				+ "f.SSDWID, (select s.DWMC from  DDC_HYXH_SSDW s where s.ID = f.SSDWID and rownum = 1) as dwmc  "
+				+ " from ddc_flow f where f.slyj='1' and f.ywlx='A' and f.slbm in (select org_id  from OA_DEPT_VIEW  "
+				+ " start with org_id ="
+				+ team
+				+ " connect by prior org_id = up_org)";
 		if (StringUtils.isNotBlank(xsqy)) {
 			sql += " and f.xsqy='" + xsqy + "'";
 		}
@@ -422,7 +427,7 @@ public class StatisticalAction {
 			sql += " and f.HYXHZH = '" + hyxhzh + "'";
 		}
 		if (StringUtils.isNotBlank(dwmcId)) {
-			sql += " and f.ZZJGDMZH = " + dwmcId;
+			sql += " and f.SSDWID = " + dwmcId;
 		}
 
 		sql += "  order by f.id desc";
@@ -450,8 +455,8 @@ public class StatisticalAction {
 			String hyxhzh, String team) {
 		Page page = ServiceUtil.getcurrPage(request);
 		String sql = "select d.id,d.dabh,d.cphm,d.hyxhzh,(select b.HYXHMC from ddc_hyxh_base b where b.hyxhzh=d.hyxhzh and rownum=1 ) as hyxhzhName,d.ppxh, d.djh,"
-				+ "  d.zzjgdmzh,(select s.DWMC from ddc_hyxh_ssdw s where s.id = d.zzjgdmzh and rownum = 1) as dwmc,"
-				+ "d.jsrxm1,d.sfzmhm1,d.SLRQ  from ddc_daxxb d where d.slbm in (select org_id  from OA_DEPT_VIEW  start with org_id  = '"
+				+ "  d.SSDWID,(select s.DWMC from ddc_hyxh_ssdw s where s.id = d.SSDWID and rownum = 1) as dwmc,"
+				+ "d.jsrxm1,d.sfzmhm1,d.SLRQ  from ddc_daxxb d where d.zt != 'E' and d.slbm in (select org_id  from OA_DEPT_VIEW  start with org_id  = '"
 				+ team + "'  connect by prior org_id = up_org) ";
 		if (StringUtils.isNotBlank(dabh)) {
 			sql += " and d.dabh like '%" + dabh + "%'";
@@ -463,7 +468,7 @@ public class StatisticalAction {
 			sql += " and d.cphm like '%" + cphm + "%'";
 		}
 		if (StringUtils.isNotBlank(dwmcId)) {
-			sql += " and  d.ZZJGDMZH like '%" + dwmcId + "%'";
+			sql += " and  d.SSDWID like '%" + dwmcId + "%'";
 		}
 		if (StringUtils.isNotBlank(hyxhzh)) {
 			sql += " and d.HYXHZH like '%" + hyxhzh + "%'";
@@ -495,7 +500,7 @@ public class StatisticalAction {
 	public Map<String, Object> queryHyxhTbDetail(HttpServletRequest request,
 			String hyxhzh) {
 		Page page = ServiceUtil.getcurrPage(request);
-		String sql = "select f.lsh,(select d.DWMC from  DDC_HYXH_SSDW d where d.id= f.zzjgdmzh)as dwmc,"
+		String sql = "select f.lsh,(select d.DWMC from  DDC_HYXH_SSDW d where d.id= f.SSDWID)as dwmc,"
 				+ " f.ppxh,f.djh,f.jsrxm1,f.sfzmhm1,f.slrq from ddc_flow f where f.slyj='1' and f.hyxhzh='"
 				+ hyxhzh + "'";
 		sql += "  order by f.id desc";
@@ -520,7 +525,7 @@ public class StatisticalAction {
 	public Map<String, Object> queryHyxhBaDetail(HttpServletRequest request,
 			String hyxhzh) {
 		Page page = ServiceUtil.getcurrPage(request);
-		String sql = " select da.dabh,(select d.DWMC from  DDC_HYXH_SSDW d where d.id= da.zzjgdmzh )as dwmc, "
+		String sql = " select da.dabh,(select d.DWMC from  DDC_HYXH_SSDW d where d.id= da.SSDWID )as dwmc, "
 				+ "da.djh,  da.cphm,da.ppxh,da.jsrxm1,da.sfzmhm1,da.syrq"
 				+ " from ddc_daxxb da where da.hyxhzh='"
 				+ hyxhzh
@@ -546,7 +551,7 @@ public class StatisticalAction {
 	public Map<String, Object> queryHyxhSbDetail(HttpServletRequest request,
 			String hyxhzh) {
 		Page page = ServiceUtil.getcurrPage(request);
-		String sql = "select sb.id,sb.lsh,(select d.DWMC from  DDC_HYXH_SSDW d where d.id=sb.ssdw_id) as dwmc,"
+		String sql = "select sb.id,sb.lsh,(select d.DWMC from  DDC_HYXH_SSDW d where d.id=sb.SSDWID) as dwmc,"
 				+ "(select h.HYXHMC from DDC_HYXH_BASE h where h.hyxhzh=sb.hyxhzh) as hyxhmc,"
 				+ "sb.ppxh,sb.djh,sb.jsrxm1,sb.sfzmhm1,(select jt.USER_NAME from jt_user jt where jt.user_code=sb.slr) as slrmc,"
 				+ "(select dept.org_name from oa_dept_view dept where dept.org_id = sb.slbm) as slbmmc,"
@@ -572,14 +577,15 @@ public class StatisticalAction {
 	@ResponseBody
 	public Map<String, Object> queryByHyxh(HttpServletRequest request) {
 		Page p = ServiceUtil.getcurrPage(request);
-		String sql = "select distinct a.hyxhzh, a.hyxhmc,decode(a.sb, '', '0', a.sb) sb,decode(b.total, '', '0', b.total) ba,"
-				+ " a.tb from (select n.hyxhzh, n.hyxhmc,decode(m.total, '', '0', m.total) sb,n.total tb "
-				+ "from (select s.hyxhzh, count(*) total from ddc_hyxh_ssdwclsb s  where s.hyxhzh !='cs'"
-				+ "  group by s.hyxhzh) m  right join (select h.hyxhzh, h.hyxhmc, decode(c.total, '', '0', c.total) total"
-				+ " from ddc_hyxh_base h left join (select f.hyxhzh, count(*) total from ddc_flow f where f.slyj = '1' group by f.hyxhzh) c"
-				+ "  on h.hyxhzh = c.hyxhzh where h.hyxhzh != 'cs') n on m.hyxhzh = n.hyxhzh) a full join (select d.hyxhzh, d.hyxhmc, x.total"
-				+ " from ddc_hyxh_base d  left join (select t.hyxhzh, count(*) total  from ddc_daxxb t  group by t.hyxhzh) x"
-				+ " on d.hyxhzh = x.hyxhzh  where d.hyxhzh != 'cs') b  on a.hyxhzh = b.hyxhzh order by a.hyxhmc desc";
+		String sql = "select distinct a.hyxhzh,  a.hyxhmc,decode(a.sb, '', '0', a.sb) sb,decode(b.total, '', '0', b.total) ba,"
+				+ "a.tb,a.totalpe from (select n.hyxhzh,  n.hyxhmc, decode(m.total, '', '0', m.total) sb,  n.total tb,n.totalpe "
+				+ " from (select s.hyxhzh, count(*) total  from ddc_hyxh_ssdwclsb s where s.hyxhzh != 'cs'   group by s.hyxhzh) m"
+				+ "  right join (select h.hyxhzh,  h.hyxhmc,h.totalpe , decode(c.total, '', '0', c.total) total from ddc_hyxh_base h"
+				+ " left join (select f.hyxhzh, count(*) total  from ddc_flow f  where f.slyj = '1' and f.ywlx='A'  group by f.hyxhzh) c"
+				+ "  on h.hyxhzh = c.hyxhzh    where h.hyxhzh != 'cs') n   on m.hyxhzh = n.hyxhzh) a"
+				+ " full join (select d.hyxhzh, d.hyxhmc, x.total from ddc_hyxh_base d left join (select t.hyxhzh, count(*) total"
+				+ " from ddc_daxxb t where t.zt!='E' group by t.hyxhzh) x on d.hyxhzh = x.hyxhzh where d.hyxhzh != 'cs') b  on a.hyxhzh = b.hyxhzh"
+				+ " order by a.hyxhmc desc";
 		Map<String, Object> sqlMap = iStatisticalService.findBySpringSqlPage(
 				sql, p);
 		List<Map<String, Object>> sqlList = (List<Map<String, Object>>) sqlMap
@@ -588,13 +594,14 @@ public class StatisticalAction {
 		Long sbs = 0l;// 总申报量
 		Long bas = 0l;// 总备案量
 		Long tbs = 0l;// 总退办量
-		Long totalSbs = 0l;
+		Long totals = 0l;
 
 		for (int i = 0; i < sqlList.size(); i++) {
 			Map<String, Object> objMap = sqlList.get(i);
 			Statics stat = new Statics();
 			stat.setEname(objMap.get("HYXHZH").toString());
 			stat.setCname(objMap.get("HYXHMC").toString());
+			stat.setTotal(objMap.get("TOTALPE").toString());
 			stat.setSb(objMap.get("SB").toString());
 			stat.setBa(objMap.get("BA").toString());
 			stat.setTb(objMap.get("TB").toString());
@@ -602,14 +609,14 @@ public class StatisticalAction {
 			sbs += Long.valueOf(objMap.get("SB").toString());
 			bas += Long.valueOf(objMap.get("BA").toString());
 			tbs += Long.valueOf(objMap.get("TB").toString());
-
+			totals += Long.valueOf(objMap.get("TOTALPE").toString());
 			slist.add(stat);
 		}
 
 		Statics stats = new Statics();
 		stats.setEname("total");
 		stats.setCname("总计");
-		stats.setTotal(String.valueOf(totalSbs));
+		stats.setTotal(String.valueOf(totals));
 		stats.setSb(String.valueOf(sbs));
 		stats.setBa(String.valueOf(bas));
 		stats.setTb(String.valueOf(tbs));
@@ -643,8 +650,8 @@ public class StatisticalAction {
 		sb.append(" left join (select f.xsqy, count(*) total from ddc_flow f where f.slyj = '1'  and f.ywlx = 'A'  and f.hyxhzh!='cs' group by f.xsqy) g");
 		sb.append(" on h.dmz = g.xsqy where h.dmlb = 'SSQY') n on m.xsqy = n.dmz) a");
 		sb.append(" full join (select s.dmz, s.dmms1, x.total from ddc_sjzd s");
-		sb.append(" left join (select d.xsqy, count(*) total from ddc_daxxb d where d.hyxhzh != 'cs' group by d.xsqy) x");
-		sb.append(" on s.dmz = x.xsqy where s.dmlb = 'SSQY') b on a.dmz = b.dmz order by a.dmms1 asc");
+		sb.append(" left join (select d.xsqy, count(*) total from ddc_daxxb d where d.hyxhzh != 'cs' and d.ZT != 'E' group by d.xsqy) x");
+		sb.append(" on s.dmz = x.xsqy where s.dmlb = 'SSQY' ) b on a.dmz = b.dmz order by a.dmms1 asc");
 		Map<String, Object> sqlMap = iStatisticalService.findBySpringSqlPage(
 				sb.toString(), p);
 		List<Map<String, Object>> sqlList = (List<Map<String, Object>>) sqlMap
@@ -848,7 +855,7 @@ public class StatisticalAction {
 			sql1 += " and t.HYXHZH = '" + hyxhzh + "'";
 		}
 		if (StringUtils.isNotBlank(dwmcId)) {
-			sql1 += " and  t.ZZJGDMZH = " + dwmcId;
+			sql1 += " and  t.SSDWID = " + dwmcId;
 		}
 		if (StringUtils.isNotBlank(xsqy)) {
 			sql1 += " and t.xsqy = " + xsqy;
@@ -878,12 +885,12 @@ public class StatisticalAction {
 	@RequestMapping("/queryByBgBusinessDetail")
 	@ResponseBody
 	public Map<String, Object> queryByBgBusinessDetail(String area, String djh,
-			String cphm, String type, String hyxhzh, String dwId,
-			HttpServletRequest request) {
+			String dtstart, String dtend, String cphm, String type,
+			String hyxhzh, String dwId, HttpServletRequest request) {
 		Page p = ServiceUtil.getcurrPage(request);
 		String sql1 = "select t.id,t.cphm,t.djh,t.dabh,t.JSRXM1,t.SFZMHM1,(select s.dmms1 from ddc_sjzd s where s.dmz = t.XSQY "
 				+ "and s.dmlb = 'SSQY' and rownum = 1) as xsqyName,";
-		sql1 += "to_char(t.slrq,'yyyy-mm-dd hh24:mi:ss') as slrq from ddc_flow t where t.cphm is not null and t.hyxhzh != 'cs'";
+		sql1 += "t.slrq,(select d.DWMC from DDC_HYXH_SSDW d where d.id=t.SSDWID) as dwmc from ddc_flow t where t.cphm is not null and t.hyxhzh != 'cs'";
 		sql1 += " and t.ywlx='" + type + "' and t.xsqy='" + area + "'";
 		if (StringUtils.isNotBlank(djh)) {
 			sql1 += " and t.djh like '%" + djh + "%'";
@@ -892,11 +899,17 @@ public class StatisticalAction {
 			sql1 += " and t.HYXHZH = '" + hyxhzh + "'";
 		}
 		if (StringUtils.isNotBlank(dwId)) {
-			sql1 += " and t.ZZJGDMZH = '" + dwId + "'";
+			sql1 += " and t.SSDWID = '" + dwId + "'";
 		}
 
 		if (StringUtils.isNotBlank(cphm)) {
 			sql1 += " and t.cphm like '" + cphm + "'";
+		}
+		if (StringUtils.isNotBlank(dtstart)) {
+			sql1 += " and t.slrq >=to_date('" + dtstart + "','yyyy-MM-dd')";
+		}
+		if (StringUtils.isNotBlank(dtend)) {
+			sql1 += " and t.slrq <=to_date('" + dtend + "','yyyy-MM-dd')";
 		}
 
 		sql1 += " order by t.slrq desc";
@@ -927,13 +940,13 @@ public class StatisticalAction {
 		ddcFlow.setXsqyName(xsqyName);// 所属区域
 
 		// 申报单位
-		if (StringUtils.isNotBlank(ddcFlow.getZzjgdmzh())) {
+		if (StringUtils.isNotBlank(ddcFlow.getSsdwId())) {
 			DdcHyxhSsdw ddcHyxhSsdw = iInDustryService.getDdcHyxhSsdwById(Long
-					.parseLong(ddcFlow.getZzjgdmzh()));
+					.parseLong(ddcFlow.getSsdwId()));
 			if (ddcHyxhSsdw != null) {
-				ddcFlow.setZzjgdmzhName(ddcHyxhSsdw.getDwmc());
+				ddcFlow.setSsdwName(ddcHyxhSsdw.getDwmc());
 			} else {
-				ddcFlow.setZzjgdmzhName(null);
+				ddcFlow.setSsdwName(null);
 			}
 		}
 		// 协会名称
@@ -941,7 +954,7 @@ public class StatisticalAction {
 			DdcHyxhBase ddcHyxhBase = iInDustryService
 					.getDdcHyxhBaseByCode(ddcFlow.getHyxhzh());
 			if (ddcHyxhBase != null) {
-				ddcFlow.setHyxhName(ddcHyxhBase.getHyxhmc());
+				ddcFlow.setHyxhzhName(ddcHyxhBase.getHyxhmc());
 			}
 		}
 
@@ -953,6 +966,18 @@ public class StatisticalAction {
 		String ywyyName = iEbikeService.findByProPerties("YWYY_A",
 				ddcFlow.getYwyy());
 		ddcFlow.setYwyyName(ywyyName);
+		// 注销的业务原因
+		if (ddcFlow.getYwlx().equalsIgnoreCase("D")) {
+			String[] ywyyStrings = ddcFlow.getYwyy().split(",");
+			String ywyyNameList = "";
+			for (String ywyy : ywyyStrings) {
+				String zxywyyName = iEbikeService.findByProPerties("YWYY_D",
+						ywyy);
+				ywyyNameList += zxywyyName + ",";
+			}
+			ddcFlow.setYwyyName(ywyyNameList);
+		}
+
 		// 受理 人
 		if (StringUtils.isNotBlank(ddcFlow.getSlr())) {
 			JtUser jtUser = iJtUserService
@@ -999,9 +1024,19 @@ public class StatisticalAction {
 		String showEbikeImg = parseUrl(ddcFlow.getVcEbikeImg());
 		String showUser1Img = parseUrl(ddcFlow.getVcUser1Img());
 		String showUser2Img = parseUrl(ddcFlow.getVcUser2Img());
+		String vcUser1CardImg1Show = parseUrl(ddcFlow.getVcUser1CardImg1());
+		String vcUser1CardImg2Show = parseUrl(ddcFlow.getVcUser1CardImg2());
+		String vcUser2CardImg1Show = parseUrl(ddcFlow.getVcUser2CardImg1());
+		String vcUser2CardImg2Show = parseUrl(ddcFlow.getVcUser2CardImg2());
+		String vcEbikeInvoiceImgShow = parseUrl(ddcFlow.getVcEbikeInvoiceImg());
 		ddcFlow.setVcShowEbikeImg(showEbikeImg);
 		ddcFlow.setVcShowUser1Img(showUser1Img);
 		ddcFlow.setVcShowUser2Img(showUser2Img);
+		ddcFlow.setVcUser1CardImg1Show(vcUser1CardImg1Show);
+		ddcFlow.setVcUser1CardImg2Show(vcUser1CardImg2Show);
+		ddcFlow.setVcUser2CardImg1Show(vcUser2CardImg1Show);
+		ddcFlow.setVcUser2CardImg2Show(vcUser2CardImg2Show);
+		ddcFlow.setVcEbikeInvoiceImgShow(vcEbikeInvoiceImgShow);
 		request.setAttribute("ddcFlow", ddcFlow);
 		request.setAttribute("selectSlzls", selectSlzls);
 		request.setAttribute("ddcApproveUsers", ddcApproveUsers);
@@ -1091,5 +1126,79 @@ public class StatisticalAction {
 		list.add(map12);
 		list.add(map13);
 		return list;
+	}
+
+	/**
+	 * 
+	 * 方法描述：查询区域统计------备案详情列表
+	 * 
+	 * @param request
+	 * @param djh
+	 * @param zt
+	 * @param dwmcId
+	 * @param hyxhzh
+	 * @param flag
+	 * @param cphm
+	 * @param jsrxm1
+	 * @param dabh
+	 * @param sfzhm1
+	 * @param xsqy
+	 * @param response
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年4月16日 上午11:05:32
+	 */
+	@RequestMapping("/queryBaList")
+	@ResponseBody
+	public Map<String, Object> queryBaList(HttpServletRequest request,
+			String djh, String zt, String dwmcId, String hyxhzh, String flag,
+			String cphm, String jsrxm1, String dabh, String sfzhm1,
+			String xsqy, HttpServletResponse response) {
+
+		Page p = ServiceUtil.getcurrPage(request);
+
+		String sql = "select A.ID,A.DABH,A.CPHM,A.DJH,A.JSRXM1,A.GDYJ,A.SFZMHM1,A.SLYJ,  A.hyxhzh,A.SSDWID, "
+				+ " (select b.hyxhmc from ddc_hyxh_base b where b.hyxhzh=a.hyxhzh and rownum=1) as hyxhmc,"
+				+ "(SELECT S.DWMC FROM DDC_HYXH_SSDW S WHERE S.ID=A.SSDWID and rownum=1 ) AS DWMC,"
+				+ "(select d.DMMS1 from ddc_sjzd d where d.dmz=a.xsqy and d.dmlb='SSQY'  and rownum=1) as xsqy, "
+				+ "(SELECT D.DMMS1 FROM DDC_SJZD D WHERE D.DMZ=A.ZT AND D.DMLB='CLZT'  and rownum=1)AS ZT from DDC_DAXXB A where 1=1"
+				+ " and a.HYXHZH != 'cs' and a.zt != 'E'";
+
+		// 电机号
+		if (StringUtils.isNotBlank(djh)) {
+			sql += " and a.djh like '%" + djh + "%'";
+		}
+		// 档案编号
+		if (StringUtils.isNotBlank(dabh)) {
+			sql += " and a.dabh like '%" + dabh + "%'";
+		}
+		// 车牌号
+		if (StringUtils.isNotBlank(cphm)) {
+			sql += " and a.sfzhm1 like '%" + cphm + "%'";
+		}
+		// 驾驶人
+		if (StringUtils.isNotBlank(jsrxm1)) {
+			sql += " and a.JSRXM1 like '%" + jsrxm1 + "%'";
+		}
+		// 身份证
+		if (StringUtils.isNotBlank(sfzhm1)) {
+			sql += " and a.SFZMHM1 like '%" + sfzhm1 + "%'";
+		}
+		// 行驶区域
+		if (StringUtils.isNotBlank(xsqy)) {
+			sql += " and a.XSQY = '" + xsqy + "'";
+		}
+		// 协会名称
+		if (StringUtils.isNotBlank(hyxhzh)) {
+			sql += " and a.HYXHZH = '" + hyxhzh + "'";
+		}
+		// 单位名称
+		if (StringUtils.isNotBlank(dwmcId)) {
+			sql += " and a.SSDWID = " + dwmcId;
+		}
+		sql += "  order by A.ID DESC";
+		Map<String, Object> resultMap = iEbikeService.queryBySpringSql(sql, p);
+		return resultMap;
 	}
 }

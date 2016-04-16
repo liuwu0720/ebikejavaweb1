@@ -13,6 +13,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -65,9 +66,17 @@ public class BlackListAction {
 	 */
 	@RequestMapping("/queryAll")
 	@ResponseBody
-	public Map<String, Object> queryAll(HttpServletRequest request) {
+	public Map<String, Object> queryAll(HttpServletRequest request,
+			String sfzhm, String jsrxm) {
 		Page p = ServiceUtil.getcurrPage(request);
 		HqlHelper hql = new HqlHelper(DdcHmd.class);
+		if (StringUtils.isNotBlank(sfzhm)) {
+			hql.addLike("sfzhm", sfzhm);
+		}
+		if (StringUtils.isNotBlank(jsrxm)) {
+			hql.addLike("jsrxm", jsrxm);
+		}
+
 		hql.addOrderBy("id");
 		hql.setQueryPage(p);
 		Map<String, Object> resultMap = iDdcHmdService.queryByHql(hql);

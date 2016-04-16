@@ -260,12 +260,12 @@ function queryHyxhDwDetail(obj){
 				</tr>
 				<tr>
 					<th>总配额</th>
-					<td><input  name="hyxhsjzpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+					<td><input  name="totalPe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
 				</tr>
 				<tr>
 					
 					<th>剩余配额</th>
-					<td><input  name="lastpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+					<td><input  name="hyxhsjzpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
 				</tr>
 			</table>
 				

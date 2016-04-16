@@ -728,19 +728,13 @@ public class GenericHibernateDao<T extends Serializable, PK extends Serializable
 
 		// 分页处理
 		if (hql.getQueryPage() != null) {
-			Query countQuery = this
-					.getSession()
-					.createQuery(
-							"select count(*) "
-									+ hql.getHQL()
-											.substring(
-													0,
-													hql.getHQL().indexOf(
-															"order by") == -1 ? hql
-															.getHQL().length()
-															: hql.getHQL()
-																	.indexOf(
-																			"order by")));
+			String sqlsString = "select count(*) "
+					+ hql.getHQL().substring(
+							0,
+							hql.getHQL().indexOf("order by") == -1 ? hql
+									.getHQL().length() : hql.getHQL().indexOf(
+									"order by"));
+			Query countQuery = this.getSession().createQuery(sqlsString);
 			// 注册查询参数
 			if (hql.getParams().size() > 0) {
 				int i = 0;
@@ -749,6 +743,7 @@ public class GenericHibernateDao<T extends Serializable, PK extends Serializable
 					i++;
 				}
 			}
+
 			int totalCount = Integer.valueOf(countQuery.uniqueResult()
 					.toString());
 			if (totalCount == 0) {
@@ -852,4 +847,22 @@ public class GenericHibernateDao<T extends Serializable, PK extends Serializable
 		return this.getHibernateTemplate().find(queryString, values);
 	}
 
+	public Map<String, Object> getSpringHql(String hql, Page page) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		Query query = this.getSession().createQuery(hql);
+
+		if (page != null) {
+			String sqlsString = "select count(1) as count from (" + hql + ") ";
+			Query countQuery = this.getSession().createQuery(sqlsString);
+			int totalCount = Integer.valueOf(countQuery.uniqueResult()
+					.toString());
+			System.out.println("totalCount = " + totalCount);
+			// result.put("total", query.list().size());
+		}
+
+		query.setFirstResult(page.getFirstResult());
+		query.setMaxResults(page.getRecordCountperPage());
+		result.put("rows", query.list());
+		return result;
+	}
 }

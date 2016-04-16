@@ -56,8 +56,8 @@ public class DdcHyxhSsdwclsb implements java.io.Serializable {
 	private String bz;
 	private String sqr;
 	private Date sqrq;
-	private String slzl;// 受理资料，分割 字典表
-	private String slyj;// 受理意见 0同意 1不同意
+	private String slzl;
+	private String slyj;
 	private String slbz;
 	private String slr;
 	private Date slrq;
@@ -72,8 +72,20 @@ public class DdcHyxhSsdwclsb implements java.io.Serializable {
 	private String vcShowEbikeImg;
 	private String vcShowUser1Img;
 	private String vcShowUser2Img;
-	private Integer slIndex;
+	private Integer slIndex;// 受理审批顺序 0-等待行业协会审批 1-民敬审批
 	private String tbyy;// 退办原因
+	private String vcUser1CardImg1;// 驾驶人1身份证照片正面
+	private String vcUser1CardImg2;// 驾驶人1身份证照片反面
+	private String vcUser2CardImg1;// 驾驶人2身份证照片正面
+	private String vcUser2CardImg2;// 驾驶人2身份证照片反面
+	private String vcEbikeInvoiceImg;// 购车发票
+	private String vcUser1CardImg1Show;
+	private String vcUser1CardImg2Show;// 驾驶人1身份证照片反面
+	private String vcUser2CardImg1Show;// 驾驶人2身份证照片正面
+	private String vcUser2CardImg2Show;// 驾驶人2身份证照片反面
+	private String vcEbikeInvoiceImgShow;
+	private Integer nEnable;
+	private String note;
 	private boolean isApprove = false;
 
 	// Constructors
@@ -85,51 +97,6 @@ public class DdcHyxhSsdwclsb implements java.io.Serializable {
 	/** minimal constructor */
 	public DdcHyxhSsdwclsb(String lsh) {
 		this.lsh = lsh;
-	}
-
-	/** full constructor */
-	public DdcHyxhSsdwclsb(String lsh, String hyxhzh, String ssdwId,
-			String cphm, String ppxh, String cysy, String djh, String jtzz,
-			String jsrxm1, String xb1, String sfzmhm1, String lxdh1,
-			String jsrxm2, String xb2, String sfzmhm2, String lxdh2,
-			String jsrxm3, String xb3, String sfzmhm3, String lxdh3,
-			String xsqy, String bz, String sqr, Date sqrq, String slzl,
-			String slyj, String slbz, String slr, Date slrq, String slbm,
-			String synFlag, String tranFlag, Date tranDate, String sqip) {
-		this.lsh = lsh;
-		this.hyxhzh = hyxhzh;
-		this.ssdwId = ssdwId;
-		this.cphm = cphm;
-		this.ppxh = ppxh;
-		this.cysy = cysy;
-		this.djh = djh;
-		this.jtzz = jtzz;
-		this.jsrxm1 = jsrxm1;
-		this.xb1 = xb1;
-		this.sfzmhm1 = sfzmhm1;
-		this.lxdh1 = lxdh1;
-		this.jsrxm2 = jsrxm2;
-		this.xb2 = xb2;
-		this.sfzmhm2 = sfzmhm2;
-		this.lxdh2 = lxdh2;
-		this.jsrxm3 = jsrxm3;
-		this.xb3 = xb3;
-		this.sfzmhm3 = sfzmhm3;
-		this.lxdh3 = lxdh3;
-		this.xsqy = xsqy;
-		this.bz = bz;
-		this.sqr = sqr;
-		this.sqrq = sqrq;
-		this.slzl = slzl;
-		this.slyj = slyj;
-		this.slbz = slbz;
-		this.slr = slr;
-		this.slrq = slrq;
-		this.slbm = slbm;
-		this.synFlag = synFlag;
-		this.tranFlag = tranFlag;
-		this.tranDate = tranDate;
-		this.sqip = sqip;
 	}
 
 	@Id
@@ -162,7 +129,7 @@ public class DdcHyxhSsdwclsb implements java.io.Serializable {
 		this.hyxhzh = hyxhzh;
 	}
 
-	@Column(name = "SSDW_ID", length = 200)
+	@Column(name = "SSDWID", length = 200)
 	public String getSsdwId() {
 		return this.ssdwId;
 	}
@@ -568,17 +535,17 @@ public class DdcHyxhSsdwclsb implements java.io.Serializable {
 		this.vcShowUser2Img = vcShowUser2Img;
 	}
 
-	@Transient
-	public boolean isApprove() {
-		return isApprove;
+	@Column(name = "TBYY", length = 100)
+	public String getTbyy() {
+		return tbyy;
 	}
 
 	/**
-	 * @param isApprove
-	 *            : set the property isApprove.
+	 * @param tbyy
+	 *            : set the property tbyy.
 	 */
-	public void setApprove(boolean isApprove) {
-		this.isApprove = isApprove;
+	public void setTbyy(String tbyy) {
+		this.tbyy = tbyy;
 	}
 
 	@Column(name = "SL_INDEX")
@@ -594,6 +561,162 @@ public class DdcHyxhSsdwclsb implements java.io.Serializable {
 		this.slIndex = slIndex;
 	}
 
+	@Column(name = "VC_USER1_CARDIMG1", length = 100)
+	public String getVcUser1CardImg1() {
+		return vcUser1CardImg1;
+	}
+
+	/**
+	 * @param vcUser1CardImg1
+	 *            : set the property vcUser1CardImg1.
+	 */
+	public void setVcUser1CardImg1(String vcUser1CardImg1) {
+		this.vcUser1CardImg1 = vcUser1CardImg1;
+	}
+
+	@Column(name = "VC_USER1_CARDIMG2", length = 100)
+	public String getVcUser1CardImg2() {
+		return vcUser1CardImg2;
+	}
+
+	/**
+	 * @param vcUser1CardImg2
+	 *            : set the property vcUser1CardImg2.
+	 */
+	public void setVcUser1CardImg2(String vcUser1CardImg2) {
+		this.vcUser1CardImg2 = vcUser1CardImg2;
+	}
+
+	@Column(name = "VC_USER2_CARDIMG1", length = 100)
+	public String getVcUser2CardImg1() {
+		return vcUser2CardImg1;
+	}
+
+	/**
+	 * @param vcUser2CardImg1
+	 *            : set the property vcUser2CardImg1.
+	 */
+	public void setVcUser2CardImg1(String vcUser2CardImg1) {
+		this.vcUser2CardImg1 = vcUser2CardImg1;
+	}
+
+	@Column(name = "VC_USER2_CARDIMG2", length = 100)
+	public String getVcUser2CardImg2() {
+		return vcUser2CardImg2;
+	}
+
+	/**
+	 * @param vcUser2CardImg2
+	 *            : set the property vcUser2CardImg2.
+	 */
+	public void setVcUser2CardImg2(String vcUser2CardImg2) {
+		this.vcUser2CardImg2 = vcUser2CardImg2;
+	}
+
+	@Transient
+	public String getVcUser1CardImg1Show() {
+		return vcUser1CardImg1Show;
+	}
+
+	/**
+	 * @param vcUser1CardImg1Show
+	 *            : set the property vcUser1CardImg1Show.
+	 */
+	public void setVcUser1CardImg1Show(String vcUser1CardImg1Show) {
+		this.vcUser1CardImg1Show = vcUser1CardImg1Show;
+	}
+
+	@Transient
+	public String getVcUser1CardImg2Show() {
+		return vcUser1CardImg2Show;
+	}
+
+	/**
+	 * @param vcUser1CardImg2Show
+	 *            : set the property vcUser1CardImg2Show.
+	 */
+	public void setVcUser1CardImg2Show(String vcUser1CardImg2Show) {
+		this.vcUser1CardImg2Show = vcUser1CardImg2Show;
+	}
+
+	@Transient
+	public String getVcUser2CardImg1Show() {
+		return vcUser2CardImg1Show;
+	}
+
+	/**
+	 * @param vcUser2CardImg1Show
+	 *            : set the property vcUser2CardImg1Show.
+	 */
+	public void setVcUser2CardImg1Show(String vcUser2CardImg1Show) {
+		this.vcUser2CardImg1Show = vcUser2CardImg1Show;
+	}
+
+	@Transient
+	public String getVcUser2CardImg2Show() {
+		return vcUser2CardImg2Show;
+	}
+
+	/**
+	 * @param vcUser2CardImg2Show
+	 *            : set the property vcUser2CardImg2Show.
+	 */
+	public void setVcUser2CardImg2Show(String vcUser2CardImg2Show) {
+		this.vcUser2CardImg2Show = vcUser2CardImg2Show;
+	}
+
+	@Transient
+	public String getNote() {
+		return note;
+	}
+
+	/**
+	 * @param note
+	 *            : set the property note.
+	 */
+	public void setNote(String note) {
+		this.note = note;
+	}
+
+	@Column(name = "ENABLE")
+	public Integer getnEnable() {
+		return nEnable;
+	}
+
+	/**
+	 * @param nEnable
+	 *            : set the property nEnable.
+	 */
+	public void setnEnable(Integer nEnable) {
+		this.nEnable = nEnable;
+	}
+
+	@Column(name = "VC_EBIKE_INVOICE", length = 100)
+	public String getVcEbikeInvoiceImg() {
+		return vcEbikeInvoiceImg;
+	}
+
+	/**
+	 * @param vcEbikeInvoiceImg
+	 *            : set the property vcEbikeInvoiceImg.
+	 */
+	public void setVcEbikeInvoiceImg(String vcEbikeInvoiceImg) {
+		this.vcEbikeInvoiceImg = vcEbikeInvoiceImg;
+	}
+
+	@Transient
+	public String getVcEbikeInvoiceImgShow() {
+		return vcEbikeInvoiceImgShow;
+	}
+
+	/**
+	 * @param vcEbikeInvoiceImgShow
+	 *            : set the property vcEbikeInvoiceImgShow.
+	 */
+	public void setVcEbikeInvoiceImgShow(String vcEbikeInvoiceImgShow) {
+		this.vcEbikeInvoiceImgShow = vcEbikeInvoiceImgShow;
+	}
+
 	@Transient
 	public String getHyxhzhName() {
 		return hyxhzhName;
@@ -607,17 +730,17 @@ public class DdcHyxhSsdwclsb implements java.io.Serializable {
 		this.hyxhzhName = hyxhzhName;
 	}
 
-	@Column(name = "TBYY", length = 100)
-	public String getTbyy() {
-		return tbyy;
+	@Transient
+	public boolean isApprove() {
+		return isApprove;
 	}
 
 	/**
-	 * @param tbyy
-	 *            : set the property tbyy.
+	 * @param isApprove
+	 *            : set the property isApprove.
 	 */
-	public void setTbyy(String tbyy) {
-		this.tbyy = tbyy;
+	public void setApprove(boolean isApprove) {
+		this.isApprove = isApprove;
 	}
 
 }

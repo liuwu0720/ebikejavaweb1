@@ -44,12 +44,6 @@ $(document).ready(function(){
 		height:h,
 		loadMsg:'正在加载,请稍等...',
 		columns : [ [{
-			field : 'id',
-			title : 'id',
-			checkbox : true,
-			align:'center',
-			width : 120
-		},{
 			field : 'lsh',
 			title : '流水号',
 			align:'center',
@@ -75,7 +69,7 @@ $(document).ready(function(){
 			width : 120,
 			formatter:function(value,row,index){
 				var datevalue = new Date(value);
-				return datevalue.toLocaleString();
+				return datevalue.toLocaleDateString();
 			}
 		},{
 			field : 'bjjg',
@@ -162,10 +156,8 @@ function approveRow(id){
 </head>
 <body class="easyui-layout">
 
-	<div>
-		<table id="dg" style="width:90%;">
 
-			<div id="tb" style="padding: 5px; background: #E8F1FF;">
+			<div class="searchdiv">
 				<span>流水号</span>
 				<input id="lsh" type="text" class="easyui-validatebox"  style="height: 32px;">  
 				<span>协会名称：</span>
@@ -178,16 +170,17 @@ function approveRow(id){
 				</select>
 				<a class="easyui-linkbutton" plain="true" onclick="doSearch()"
 					iconCls="icon-search">查询 </a>
-			</div>
+			
+		<table id="dg" style="width:90%;">
 		</table>
-	</div>
+</div>
 	
     <!-- 点编辑时弹出的表单 -->
 	<div id="dgformDiv" class="easyui-dialog"
-		style="width:650px;height:450px;padding:10px 20px 20px 20px;"
+		style="width:500px;height:400px;padding:10px 20px 20px 20px;"
 		closed="true" buttons="#dlg-buttons2">
 		<form id="dgform" class="easyui-form">
-			<table class="table" id="table">
+			<table class="dialogtable">
 				<tr>
 					<th>协会名称</th>
 					<td><input  name=hyxhmc type="text" class="easyui-validatebox" style="height: 32px;width:100%;" readonly="readonly"></td>
@@ -208,12 +201,12 @@ function approveRow(id){
 				</tr>
 				<tr>
 					<th>总配额</th>
-					<td><input  name="hyxhsjzpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+					<td><input  name="totalPe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
 				</tr>
 				<tr>
 					
 					<th>剩余配额</th>
-					<td><input  name="lastpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+					<td><input  name="hyxhsjzpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
 				</tr>
 			</table>
 				

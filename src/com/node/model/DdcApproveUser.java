@@ -10,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * 
@@ -39,6 +41,8 @@ public class DdcApproveUser implements java.io.Serializable {
 	private Long approveTableid;
 	private Date approveTime;
 	private String lsh;
+	private String sysFlag;
+	private Date tranDate;
 
 	// Constructors
 
@@ -171,6 +175,33 @@ public class DdcApproveUser implements java.io.Serializable {
 	 */
 	public void setLsh(String lsh) {
 		this.lsh = lsh;
+	}
+
+	@Column(name = "SYN_FLAG", length = 10)
+	public String getSysFlag() {
+		return sysFlag;
+	}
+
+	/**
+	 * @param sysFlag
+	 *            : set the property sysFlag.
+	 */
+	public void setSysFlag(String sysFlag) {
+		this.sysFlag = sysFlag;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "TRAN_DATE")
+	public Date getTranDate() {
+		return tranDate;
+	}
+
+	/**
+	 * @param tranDate
+	 *            : set the property tranDate.
+	 */
+	public void setTranDate(Date tranDate) {
+		this.tranDate = tranDate;
 	}
 
 }

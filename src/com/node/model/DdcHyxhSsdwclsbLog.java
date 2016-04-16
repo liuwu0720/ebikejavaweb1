@@ -154,7 +154,7 @@ public class DdcHyxhSsdwclsbLog implements java.io.Serializable {
 		this.hyxhzh = hyxhzh;
 	}
 
-	@Column(name = "SSDW_ID", length = 200)
+	@Column(name = "SSDWID", length = 200)
 	public Long getSsdwId() {
 		return this.ssdwId;
 	}

@@ -57,7 +57,7 @@ $(document).ready(function(){
 			align:'center',
 			width : 220,
 			formatter:function(value,row,index){
-				var query = "<a  href='javascript:void(0)'  onclick='queryHyxhDwDetail(\""+row.ZZJGDMZH+"\")'>"+value+"</a>";
+				var query = "<a  href='javascript:void(0)'  onclick='queryHyxhDwDetail(\""+row.SSDWID+"\")'>"+value+"</a>";
 				return query;	
 			}
 		},{
@@ -101,7 +101,6 @@ $(document).ready(function(){
 			width : 80,
 			formatter:function(value,index){
 				if(value == '注销'){
-					
 					return "<p style='color:red'>注销</p>";
 				}else{
 					return value;
@@ -164,7 +163,7 @@ function doSearch(){
 		cphm:$("#cphm").val(),
 		 dwmcId:$("#hyxsssdwmc").combobox("getValue"),
 		 xsqy:$("#xsqy").combobox("getValue"),
-		 hyxhzh:$("#hyxhzh").combobox("getValue"),
+		 hyxhzh:$("#hyxhzh").combobox("getValue")
 	}); 
 }
 
@@ -217,33 +216,33 @@ function queryHyxhDwDetail(obj){
 </head>
 <body class="easyui-layout">
 
-	<div>
-		<table id="dg" style="width:90%;">
-
-			<div id="tb" style="padding: 5px; background: #E8F1FF;">
-				<span>协会名称：</span>
-				<input id="hyxhzh" style="height: 32px;">  
-				<span>公司名称：</span>
-				<input id="hyxsssdwmc" style="height: 32px;">
-				<span>行驶区域：</span>
-				<input id="xsqy" style="height: 32px;width: 80px;">
-				<span>档案编号：</span>
-				<input id="dabh" type="text" class="easyui-validatebox" name="dabh" ></input>
-				<span>电机号:</span> <input id="djh" name="djh"
-					class="easyui-validatebox" type="text" > &nbsp;&nbsp;&nbsp;
-				
+	<div class="searchdiv">
+			<div>
+				<span>协会名称</span>
+				<input id="hyxhzh">  
+				<span>公司名称</span>
+				<input id="hyxsssdwmc" >
+				<span>行驶区域</span>
+				<input id="xsqy" ><br>
+				<span>档案编号</span>
+				<input id="dabh" type="text" class="easyui-validatebox" ></input>
+				<span>电机号</span> <input id="djh"
+					class="easyui-validatebox" type="text" >
+				<span>车牌号</span> <input id="cphm" 
+					class="easyui-validatebox" type="text" >
 				<a class="easyui-linkbutton" plain="true" onclick="doSearch()"
 					iconCls="icon-search">查询 </a>
 			</div>
+		<table id="dg" style="width:90%;">
 		</table>
 	</div>
 	
 	
 	 <!-- 行业协会详情 -->
 	<div id="dgformDiv" class="easyui-dialog"
-		style="width:650px;height:450px;padding:10px 20px 20px 20px;" closed="true">
+		style="width:500px;height:450px;padding:10px 20px 20px 20px;" closed="true">
 		<form id="dgform" class="easyui-form">
-			<table class="table" id="table">
+			<table class="dialogtable">
 				<tr>
 					<th>协会名称</th>
 					<td><input  name=hyxhmc type="text" class="easyui-validatebox" style="height: 32px;width:100%;" readonly="readonly"></td>
@@ -267,12 +266,12 @@ function queryHyxhDwDetail(obj){
 				</tr>
 				<tr>
 					<th>总配额</th>
-					<td><input  name="hyxhsjzpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+					<td><input  name="totalPe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
 				</tr>
 				<tr>
 					
 					<th>剩余配额</th>
-					<td><input  name="lastpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+					<td><input  name="hyxhsjzpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
 				</tr>
 			</table>
 				
@@ -280,10 +279,9 @@ function queryHyxhDwDetail(obj){
 	</div>
 	
 	 <!-- 单位信息详情 -->
-	<div id="dgformDiv2" class="easyui-dialog"
-		style="width:650px;height:450px;padding:10px 20px 20px 20px;" closed="true">
+	<div id="dgformDiv2" class="easyui-dialog"  style="width:500px;height:450px;padding:10px 20px 20px 20px;" closed="true">
 		<form id="dgform2" class="easyui-form">
-			<table class="table" id="table2">
+			<table class="dialogtable">
 				<tr>
 					<th>单位名称</th>
 					<td><input  name=dwmc type="text" class="easyui-validatebox" style="height: 32px;width:100%;" readonly="readonly"></td>
@@ -306,7 +304,11 @@ function queryHyxhDwDetail(obj){
 					<td><input  name="lxdh" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
 				</tr>
 				<tr>
-					<th>配额</th>
+					<th>总配额</th>
+					<td><input  name="totalPe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+				</tr>
+				<tr>
+					<th>剩余配额</th>
 					<td><input  name="dwpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
 				</tr>
 				<tr>

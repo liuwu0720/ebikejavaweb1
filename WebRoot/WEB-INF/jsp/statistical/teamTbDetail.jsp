@@ -83,7 +83,7 @@ $(document).ready(function(){
 			align:'center',
 			width : 180,
 			formatter:function(value,row,index){
-				var query = "<a  href='javascript:void(0)'  onclick='queryHyxhDwDetail(\""+row.ZZJGDMZH+"\")'>"+value+"</a>";
+				var query = "<a  href='javascript:void(0)'  onclick='queryHyxhDwDetail(\""+row.SSDWID+"\")'>"+value+"</a>";
 				return query;	
 			}
 		},{
@@ -202,10 +202,7 @@ function queryRow(id){
 <body class="easyui-layout">
 
 	<div>
-		
-	 
-		<table id="dg" style="width:90%;">
-			<div id="tb" class="searchdiv">
+		<div id="tb" class="searchdiv">
 				<span>流水号</span>
 				<input id="lsh" type="text" class="easyui-validatebox"></input>
 				<span>电机号</span> <input id="djh" class="easyui-validatebox" type="text" >
@@ -219,7 +216,9 @@ function queryRow(id){
 				<input id="hyxsssdwmc" style="height: 32px;">  
 				<a class="easyui-linkbutton" plain="true" onclick="doSearch()"
 					iconCls="icon-search">查询 </a>
-			</div>
+			</div>	
+	 
+		<table id="dg" style="width:90%;">
 		</table>
 		
 	</div>
@@ -252,12 +251,12 @@ function queryRow(id){
 				</tr>
 				<tr>
 					<th>总配额</th>
-					<td><input  name="hyxhsjzpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+					<td><input  name="totalPe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
 				</tr>
 				<tr>
 					
 					<th>剩余配额</th>
-					<td><input  name="lastpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+					<td><input  name="hyxhsjzpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
 				</tr>
 			</table>
 				

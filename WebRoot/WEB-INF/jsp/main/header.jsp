@@ -35,9 +35,9 @@ function sessionOut(){
 		<div class="header-tool">
 			<ul>
 				<li class="setting-header"><a href="<%=basePath%>userAction/modifyPassword" title="设置" target="main"> <i
-						class="iconfont header-icon-setting">&#xe601;</i><br> <span style="margin-left:-5px;margin-top:3px;">设置</span></li>
+						class="iconfont header-icon-setting">&#xe601;</i><br> <span>设置</span></li>
 				<li class="setting-header"></a> <a href="javascript:void(0)" target="_top" title="退出" onclick="sessionOut()"> <i
-						class="iconfont header-icon-setting">&#xe604;</i><br> <span style="margin-left:-5px;">退出
+						class="iconfont header-icon-setting">&#xe604;</i><br> <span>退出
 					</span>
 				</a></li>
 			</ul>

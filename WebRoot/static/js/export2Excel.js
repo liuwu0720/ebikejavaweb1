@@ -5,11 +5,11 @@
 /*<script type="text/javascript" src="../../ebike/static/js/json2.js"></script>*/
 
 //导出Excel
-function commonExcelExport(titleArr,keysArr,content){
+function commonExcelExport(titleArr,keysArr,content,actionUrl,fileName){
 	var tempForm = document.createElement("form");    
     tempForm.id="tempForm1";    
     tempForm.method="post";    
-    tempForm.action="../../ebike/ebikeAction/exportExcel";
+    tempForm.action=actionUrl;
     
     var hideInput = document.createElement("input");    
     hideInput.type="hidden";    
@@ -26,9 +26,15 @@ function commonExcelExport(titleArr,keysArr,content){
     hideInput2.name= "keysArr" 
     hideInput2.value=  keysArr;
     
+    var hideInput3 = document.createElement("input");    
+    hideInput3.type="hidden";    
+    hideInput3.name= "fileName" 
+    hideInput3.value=  fileName;
+    
     tempForm.appendChild(hideInput);
     tempForm.appendChild(hideInput1);   
-    tempForm.appendChild(hideInput2);   
+    tempForm.appendChild(hideInput2);  
+    tempForm.appendChild(hideInput3); 
     document.body.appendChild(tempForm);    
     tempForm.submit(); 
 }

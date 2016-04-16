@@ -43,20 +43,27 @@ $(document).ready(function(){
 		height:h,
 		width:w,
 		loadMsg:'正在加载,请稍等...',
+		toolbar : [ {
+			id : 'btn1',
+			text : '导出',
+			iconCls : 'icon-print',
+			handler : function() {
+				excelExport();
+			}
+		}],
 		columns : [ [{
-			field : 'id',
-			title : 'id',
-			checkbox : true,
-			align:'center',
-			width : 120
-		},{
 			field : 'dwmc',
 			title : '单位名称',
 			align:'center',
 			width : 220
 		},{
 			field : 'dwpe',
-			title : '单位配额',
+			title : '剩余配额',
+			align:'center',
+			width : 120
+		},{
+			field : 'totalPe',
+			title : '总配额',
 			align:'center',
 			width : 120
 		},{
@@ -189,8 +196,7 @@ function updateSaveData(){
 //查询功能
 function doSearch(){
 	 $('#dg').datagrid('load',{
-		 hyxhzh: $("#hyxhzh").combobox("getValue"),
-		 dwmc:$("#dwmc").val()
+		 hyxhzh: $("#hyxhzh").combobox("getValue")
 	}); 
 }
 
@@ -213,22 +219,40 @@ function queryHyxhDetail(obj){
 	})
 	
 }
+
+function excelExport (){
+	var titleArr = ["单位名称","总配额","剩余配额","联系人","联系电话","申请人","申请日期","所属协会","状态"]; 
+	var keysArr =["dwmc","totalPe","dwpe","lxr","lxdh","sqr","sqrq","hyxhzhName","zt"];
+	var content = JSON.stringify($('#dg').datagrid('getData').rows);
+	
+	var rows = $('#dg').datagrid('getData').rows;
+	for(var i in rows) {
+		rows[i]['sqrq'] = getLocalTime(rows[i]['sqrq']);
+	}
+	for(var i in rows) {
+		if(rows[i]['zt'] == 0){
+			rows[i]['zt'] = "禁用";
+		}else{
+			rows[i]['zt'] = "启用";
+		}
+	}
+	var actionUrl = '<%=basePath%>ebikeAction/exportExcel';
+	var fileName="单位信息";
+	var content = JSON.stringify(rows);
+	commonExcelExport(titleArr,keysArr,content,actionUrl,fileName);
+}
 </script>
 </head>
 <body class="easyui-layout">
 
-	<div>
-		<table id="dg" style="width:90%;">
-
-			<div id="tb" style="padding: 5px; background: #E8F1FF;">
+	<div  class="searchdiv"> 
+		<div>
 				<span>协会名称名称：</span>
 				<input id="hyxhzh" style="height: 32px;">  
-				
-				<span>单位名称：</span>
-				<input id="dwmc" type="text" class="easyui-validatebox"></input>
 				<a class="easyui-linkbutton" plain="true" onclick="doSearch()"
 					iconCls="icon-search">查询 </a>
-			</div>
+		</div>
+		<table id="dg" style="width:90%;">
 		</table>
 	</div>
 	
@@ -260,9 +284,9 @@ function queryHyxhDetail(obj){
 	
     <!-- 行业协会详情 -->
 	<div id="dgformDiv2" class="easyui-dialog"
-		style="width:650px;height:450px;padding:10px 20px 20px 20px;" closed="true">
+		style="width:500px;height:400px;padding:10px 20px 20px 20px;" closed="true">
 		<form id="dgform2" class="easyui-form">
-			<table class="table" id="table">
+			<table class="dialogtable" >
 				<tr>
 					<th>协会名称</th>
 					<td><input  name=hyxhmc type="text" class="easyui-validatebox" style="height: 32px;width:100%;" readonly="readonly"></td>
@@ -286,12 +310,12 @@ function queryHyxhDetail(obj){
 				</tr>
 				<tr>
 					<th>总配额</th>
-					<td><input  name="hyxhsjzpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+					<td><input  name="totalPe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
 				</tr>
 				<tr>
 					
 					<th>剩余配额</th>
-					<td><input  name="lastpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+					<td><input  name="hyxhsjzpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
 				</tr>
 			</table>
 				

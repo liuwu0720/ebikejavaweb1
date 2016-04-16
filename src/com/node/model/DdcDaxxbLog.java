@@ -29,8 +29,8 @@ public class DdcDaxxbLog implements java.io.Serializable {
 	private String ywlx;
 	private String ywyy;
 	private String hyxhzh;
-	private String zzjgdmzh;
-	private String zzjgdmzhName;
+	private String ssdwId;// 单位ID
+	private String ssdwName;
 	private String cphm;
 	private String ppxh;
 	private String cysy;
@@ -79,6 +79,16 @@ public class DdcDaxxbLog implements java.io.Serializable {
 	private String vcShowEbikeImg;
 	private String vcShowUser1Img;
 	private String vcShowUser2Img;
+	private String vcUser1CardImg1;// 驾驶人1身份证照片正面
+	private String vcUser1CardImg2;// 驾驶人1身份证照片反面
+	private String vcUser2CardImg1;// 驾驶人2身份证照片正面
+	private String vcUser2CardImg2;// 驾驶人2身份证照片反面
+	private String vcEbikeInvoiceImg;// 购车发票
+	private String vcUser1CardImg1Show;
+	private String vcUser1CardImg2Show;// 驾驶人1身份证照片反面
+	private String vcUser2CardImg1Show;// 驾驶人2身份证照片正面
+	private String vcUser2CardImg2Show;// 驾驶人2身份证照片反面
+	private String vcEbikeInvoiceImgShow;
 
 	// Constructors
 
@@ -89,64 +99,6 @@ public class DdcDaxxbLog implements java.io.Serializable {
 	/** minimal constructor */
 	public DdcDaxxbLog(String dabh) {
 		this.dabh = dabh;
-	}
-
-	/** full constructor */
-	public DdcDaxxbLog(String dabh, String ywlx, String ywyy, String hyxhzh,
-			String zzjgdmzh, String cphm, String ppxh, String cysy, String djh,
-			String jtzz, String jsrxm1, String xb1, String sfzmhm1,
-			String lxdh1, String jsrxm2, String xb2, String sfzmhm2,
-			String lxdh2, String jsrxm3, String xb3, String sfzmhm3,
-			String lxdh3, String xsqy, String bz, String zt, Date syrq,
-			String slzl, String slyj, String slbz, String slr, Date slrq,
-			String slbm, String gdyj, String tbyy, String gdbz, String gdr,
-			Date gdrq, String gdbm, String synFlag, String tranFlag,
-			Date tranDate, String czr, String czbm, Date czrq, String cznr) {
-		this.dabh = dabh;
-		this.ywlx = ywlx;
-		this.ywyy = ywyy;
-		this.hyxhzh = hyxhzh;
-		this.zzjgdmzh = zzjgdmzh;
-		this.cphm = cphm;
-		this.ppxh = ppxh;
-		this.cysy = cysy;
-		this.djh = djh;
-		this.jtzz = jtzz;
-		this.jsrxm1 = jsrxm1;
-		this.xb1 = xb1;
-		this.sfzmhm1 = sfzmhm1;
-		this.lxdh1 = lxdh1;
-		this.jsrxm2 = jsrxm2;
-		this.xb2 = xb2;
-		this.sfzmhm2 = sfzmhm2;
-		this.lxdh2 = lxdh2;
-		this.jsrxm3 = jsrxm3;
-		this.xb3 = xb3;
-		this.sfzmhm3 = sfzmhm3;
-		this.lxdh3 = lxdh3;
-		this.xsqy = xsqy;
-		this.bz = bz;
-		this.zt = zt;
-		this.syrq = syrq;
-		this.slzl = slzl;
-		this.slyj = slyj;
-		this.slbz = slbz;
-		this.slr = slr;
-		this.slrq = slrq;
-		this.slbm = slbm;
-		this.gdyj = gdyj;
-		this.tbyy = tbyy;
-		this.gdbz = gdbz;
-		this.gdr = gdr;
-		this.gdrq = gdrq;
-		this.gdbm = gdbm;
-		this.synFlag = synFlag;
-		this.tranFlag = tranFlag;
-		this.tranDate = tranDate;
-		this.czr = czr;
-		this.czbm = czbm;
-		this.czrq = czrq;
-		this.cznr = cznr;
 	}
 
 	// Property accessors
@@ -197,13 +149,13 @@ public class DdcDaxxbLog implements java.io.Serializable {
 		this.hyxhzh = hyxhzh;
 	}
 
-	@Column(name = "ZZJGDMZH", length = 200)
-	public String getZzjgdmzh() {
-		return this.zzjgdmzh;
+	@Column(name = "SSDWID", length = 500)
+	public String getSsdwId() {
+		return ssdwId;
 	}
 
-	public void setZzjgdmzh(String zzjgdmzh) {
-		this.zzjgdmzh = zzjgdmzh;
+	public void setSsdwId(String ssdwId) {
+		this.ssdwId = ssdwId;
 	}
 
 	@Column(name = "CPHM", length = 20)
@@ -606,16 +558,16 @@ public class DdcDaxxbLog implements java.io.Serializable {
 	}
 
 	@Transient
-	public String getZzjgdmzhName() {
-		return zzjgdmzhName;
+	public String getSsdwName() {
+		return ssdwName;
 	}
 
 	/**
-	 * @param zzjgdmzhName
-	 *            : set the property zzjgdmzhName.
+	 * @param ssdwName
+	 *            : set the property ssdwName.
 	 */
-	public void setZzjgdmzhName(String zzjgdmzhName) {
-		this.zzjgdmzhName = zzjgdmzhName;
+	public void setSsdwName(String ssdwName) {
+		this.ssdwName = ssdwName;
 	}
 
 	@Transient
@@ -683,4 +635,133 @@ public class DdcDaxxbLog implements java.io.Serializable {
 		this.vcShowUser2Img = vcShowUser2Img;
 	}
 
+	@Column(name = "VC_EBIKE_INVOICE", length = 100)
+	public String getVcEbikeInvoiceImg() {
+		return vcEbikeInvoiceImg;
+	}
+
+	/**
+	 * @param vcEbikeInvoiceImg
+	 *            : set the property vcEbikeInvoiceImg.
+	 */
+	public void setVcEbikeInvoiceImg(String vcEbikeInvoiceImg) {
+		this.vcEbikeInvoiceImg = vcEbikeInvoiceImg;
+	}
+
+	@Transient
+	public String getVcEbikeInvoiceImgShow() {
+		return vcEbikeInvoiceImgShow;
+	}
+
+	/**
+	 * @param vcEbikeInvoiceImgShow
+	 *            : set the property vcEbikeInvoiceImgShow.
+	 */
+	public void setVcEbikeInvoiceImgShow(String vcEbikeInvoiceImgShow) {
+		this.vcEbikeInvoiceImgShow = vcEbikeInvoiceImgShow;
+	}
+
+	@Column(name = "VC_USER1_CARDIMG1", length = 100)
+	public String getVcUser1CardImg1() {
+		return vcUser1CardImg1;
+	}
+
+	/**
+	 * @param vcUser1CardImg1
+	 *            : set the property vcUser1CardImg1.
+	 */
+	public void setVcUser1CardImg1(String vcUser1CardImg1) {
+		this.vcUser1CardImg1 = vcUser1CardImg1;
+	}
+
+	@Column(name = "VC_USER1_CARDIMG2", length = 100)
+	public String getVcUser1CardImg2() {
+		return vcUser1CardImg2;
+	}
+
+	/**
+	 * @param vcUser1CardImg2
+	 *            : set the property vcUser1CardImg2.
+	 */
+	public void setVcUser1CardImg2(String vcUser1CardImg2) {
+		this.vcUser1CardImg2 = vcUser1CardImg2;
+	}
+
+	@Column(name = "VC_USER2_CARDIMG1", length = 100)
+	public String getVcUser2CardImg1() {
+		return vcUser2CardImg1;
+	}
+
+	/**
+	 * @param vcUser2CardImg1
+	 *            : set the property vcUser2CardImg1.
+	 */
+	public void setVcUser2CardImg1(String vcUser2CardImg1) {
+		this.vcUser2CardImg1 = vcUser2CardImg1;
+	}
+
+	@Column(name = "VC_USER2_CARDIMG2", length = 100)
+	public String getVcUser2CardImg2() {
+		return vcUser2CardImg2;
+	}
+
+	/**
+	 * @param vcUser2CardImg2
+	 *            : set the property vcUser2CardImg2.
+	 */
+	public void setVcUser2CardImg2(String vcUser2CardImg2) {
+		this.vcUser2CardImg2 = vcUser2CardImg2;
+	}
+
+	@Transient
+	public String getVcUser1CardImg1Show() {
+		return vcUser1CardImg1Show;
+	}
+
+	/**
+	 * @param vcUser1CardImg1Show
+	 *            : set the property vcUser1CardImg1Show.
+	 */
+	public void setVcUser1CardImg1Show(String vcUser1CardImg1Show) {
+		this.vcUser1CardImg1Show = vcUser1CardImg1Show;
+	}
+
+	@Transient
+	public String getVcUser1CardImg2Show() {
+		return vcUser1CardImg2Show;
+	}
+
+	/**
+	 * @param vcUser1CardImg2Show
+	 *            : set the property vcUser1CardImg2Show.
+	 */
+	public void setVcUser1CardImg2Show(String vcUser1CardImg2Show) {
+		this.vcUser1CardImg2Show = vcUser1CardImg2Show;
+	}
+
+	@Transient
+	public String getVcUser2CardImg1Show() {
+		return vcUser2CardImg1Show;
+	}
+
+	/**
+	 * @param vcUser2CardImg1Show
+	 *            : set the property vcUser2CardImg1Show.
+	 */
+	public void setVcUser2CardImg1Show(String vcUser2CardImg1Show) {
+		this.vcUser2CardImg1Show = vcUser2CardImg1Show;
+	}
+
+	@Transient
+	public String getVcUser2CardImg2Show() {
+		return vcUser2CardImg2Show;
+	}
+
+	/**
+	 * @param vcUser2CardImg2Show
+	 *            : set the property vcUser2CardImg2Show.
+	 */
+	public void setVcUser2CardImg2Show(String vcUser2CardImg2Show) {
+		this.vcUser2CardImg2Show = vcUser2CardImg2Show;
+	}
 }

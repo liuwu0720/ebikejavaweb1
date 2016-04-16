@@ -115,6 +115,14 @@ $(document).ready(function(){
 			}
 		}
 		] ],
+		toolbar : [ {
+			id : 'btn1',
+			text : '导出',
+			iconCls : 'icon-print',
+			handler : function() {
+				excelExport();
+			}
+		}],
 		onLoadSuccess:function(){  
             $('#dg').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题  
         }
@@ -122,6 +130,18 @@ $(document).ready(function(){
 	
 	
 });
+function excelExport(){
+	var titleArr = ["行驶区域","备案量","变更量","转移量","注销量","检验量"]; 
+	var keysArr =["cname","ba","bg","zy","zx","jy"];
+	var rows = $('#dg').datagrid('getData').rows;
+	var actionUrl = '<%=basePath%>ebikeAction/exportExcel';
+	var fileName="业务量统计";
+	var content = JSON.stringify(rows);
+	commonExcelExport(titleArr,keysArr,content,actionUrl,fileName);
+	
+	
+}
+
 function badetail(obj){
 	var areacode = obj;
 	window.location.href="<%=basePath%>statisticalAction/getBesinessDetail?areacode="+areacode+"&&type=A";
@@ -148,10 +168,6 @@ function jydetail(obj){
 
 	<div>
 		<table id="dg" style="width:90%;">
-
-			<div id="tb" style="padding: 5px; background: #E8F1FF;">
-			
-			</div>
 		</table>
 	</div>
 		

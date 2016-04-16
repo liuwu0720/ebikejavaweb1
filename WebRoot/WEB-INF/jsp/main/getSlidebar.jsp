@@ -36,7 +36,7 @@
 <body>
 	<div class="menu">
 		<div class="menu-header">
-			<div class="menu-icon">菜单管理</div>
+			<!-- <div class="menu-icon">菜单管理</div> -->
 			<ul class="menu-ul">
 				<c:forEach items="${nodeJtMenus }" var="node">
 					<li class="menu-li">

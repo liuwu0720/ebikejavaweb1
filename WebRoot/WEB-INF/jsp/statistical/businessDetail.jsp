@@ -61,12 +61,6 @@ $(document).ready(function(){
 		width:w,
 		loadMsg:'正在加载,请稍等...',
 		columns : [ [{
-			field : 'id',
-			title : 'id',
-			checkbox : true,
-			align:'center',
-			width : 120
-		},{
 			field : 'ddmc',
 			title : '大队名称',
 			align:'center',
@@ -112,6 +106,14 @@ $(document).ready(function(){
 			}
 		}
 		] ],
+		toolbar : [ {
+			id : 'btn1',
+			text : '导出',
+			iconCls : 'icon-print',
+			handler : function() {
+				excelExport();
+			}
+		}],
 		onLoadSuccess:function(){  
             $('#dg').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题  
         }
@@ -140,6 +142,18 @@ $(document).ready(function(){
 function getDetail(id){
 	window.location.href="<%=basePath%>statisticalAction/getFlowDetailById?id="+id;
 }
+//导出excel
+function excelExport(){
+	var titleArr = ["大队名称","中队名称","民警","档案编号","车牌号码","电机号","受理日期"]; 
+	var keysArr =["ddmc","zdmc","slr","dabh","cphm","djh","slrq"];
+	var rows = $('#dg').datagrid('getData').rows;
+	var actionUrl = '<%=basePath%>ebikeAction/exportExcel';
+	var fileName="业务量统计";
+	var content = JSON.stringify(rows);
+	commonExcelExport(titleArr,keysArr,content,actionUrl,fileName);
+	
+	
+}
 
 //查询功能
 function doSearch(){
@@ -148,31 +162,30 @@ function doSearch(){
 		cphm:$("#cphm").val(),
 		 dwmcId:$("#hyxsssdwmc").combobox("getValue"),
 		 xsqy:$("#xsqy").combobox("getValue"),
-		 hyxhzh:$("#hyxhzh").combobox("getValue"),
+		 hyxhzh:$("#hyxhzh").combobox("getValue")
 	}); 
 }
 </script>
 </head>
 <body class="easyui-layout">
 
-	<div>
-		<table id="dg" style="width:90%;">
-
-			<div id="tb" style="padding-top: 5px; background: #E8F1FF;width: 100%;">
-				<span>协会名称：</span>
+	<div class="searchdiv">
+		<div>
+				<span>协会名称</span>
 				<input id="hyxhzh" style="height: 32px;">  
-				<span>公司名称：</span>
+				<span>公司名称</span>
 				<input id="hyxsssdwmc" style="height: 32px;">
-				<span>行驶区域：</span>
-				<input id="xsqy" style="height: 32px;width: 80px;">
-				<span>车牌号：</span>
-				<input id="cphm" type="text" class="easyui-validatebox"  ></input>
-				<span>电机号:</span> <input id="djh" name="djh"
-					class="easyui-validatebox" type="text" > &nbsp;&nbsp;&nbsp;
+				<span>行驶区域</span>
+				<input id="xsqy" style="height: 32px;width: 80px;"><br>
+				<span>车牌号</span>
+				<input id="cphm" type="text" class="easyui-validatebox"></input>
+				<span>电机号</span> <input id="djh" name="djh"
+					class="easyui-validatebox" type="text" >
 				
 				<a class="easyui-linkbutton" plain="true" onclick="doSearch()"
 					iconCls="icon-search">查询 </a>
 			</div>
+		<table id="dg" style="width:90%;">
 		</table>
 	</div>
 	

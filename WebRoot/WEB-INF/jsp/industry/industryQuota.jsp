@@ -46,12 +46,6 @@ $(document).ready(function(){
 		}],
 		
 		columns : [ [{
-			field : 'id',
-			title : 'id',
-			checkbox : true,
-			align:'center',
-			width : 120
-		},{
 			field : 'hyxhmc',
 			title : '行业协会名称',
 			align:'center',
@@ -67,13 +61,13 @@ $(document).ready(function(){
 			align:'center',
 			width : 120
 		},{
-			field : 'hyxhsjzpe',
+			field : 'totalPe',
 			title : '总配额',
 			align:'center',
 			width : 120
 		},{
-			field : 'lastpe',
-			title : '已有配额',
+			field : 'hyxhsjzpe',
+			title : '剩余配额',
 			align:'center',
 			width : 120
 		},{
@@ -116,8 +110,8 @@ $(document).ready(function(){
 
 
 function excelExport (){
-	var titleArr = ["行业协会名称","行业协会负责人","负责人电话","总配额","已有配额","车牌号码首字母","创建人","创建日期"]; 
-	var keysArr =["hyxhmc","hyxhfzr","hyxhfzrdh","hyxhsjzpe","lastpe","hyxhlb","cjr","cjrq"];
+	var titleArr = ["行业协会名称","行业协会负责人","负责人电话","总配额","剩余配额","车牌号码首字母","创建人","创建日期"]; 
+	var keysArr =["hyxhmc","hyxhfzr","hyxhfzrdh","totalPe","hyxhsjzpe","hyxhlb","cjr","cjrq"];
 	var content = JSON.stringify($('#dg').datagrid('getData').rows);
 	
 	var rows = $('#dg').datagrid('getData').rows;
@@ -125,8 +119,10 @@ function excelExport (){
 		rows[i]['cjrq'] = getLocalTime(rows[i]['cjrq']);
 	}
 	
+	var actionUrl = '<%=basePath%>ebikeAction/exportExcel';
+	var fileName="行业协会信息";
 	var content = JSON.stringify(rows);
-	commonExcelExport(titleArr,keysArr,content);
+	commonExcelExport(titleArr,keysArr,content,actionUrl,fileName);
 }
 
 //修改配额
@@ -209,15 +205,16 @@ function checkvalues(){
 </head>
 <body class="easyui-layout">
 
-	<div>
-		<table id="dg" style="width:90%;">
-
-			<div id="tb" style="padding: 5px; background: #E8F1FF;">
+	<div  class="searchdiv">
+		
+			<div >
 				<span>协会名称：</span>
 				<input id="hyxhmc" type="text" class="easyui-validatebox"></input>
 				<a class="easyui-linkbutton" plain="true" onclick="doSearch()"
 					iconCls="icon-search">查询 </a>
 			</div>
+		<table id="dg" style="width:90%;">
+
 		</table>
 	</div>
 	
@@ -229,13 +226,13 @@ function checkvalues(){
 			<table class="table">
 				<tr>
 					<td>总配额:</td>
-					<td><input id="hyxhsjzpe" class="easyui-numberspinner" name="hyxhsjzpe"
+					<td><input id="hyxhsjzpe" class="easyui-numberspinner" name="totalPe"
 						data-options="increment:1,required:true,validType:'number'"  min="0"  max="1000000"
 						style="width:120px;height:30px;"></input></td>
 				</tr>
 				<tr>
-					<td>已用配额</td>
-					<td><input type="text" id="lastpe" name="lastpe" readonly="readonly" style="border: 0px;color: red"> </td>
+					<td>剩余配额</td>
+					<td><input type="text" id="lastpe" name="hyxhsjzpe" readonly="readonly" style="border: 0px;color: red"> </td>
 				</tr>
 			</table>
 			<input type="hidden" name="id" />

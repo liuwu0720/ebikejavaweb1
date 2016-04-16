@@ -137,7 +137,8 @@ public class UserAction {
 	@RequestMapping("/queryAllUsers")
 	@ResponseBody
 	public Map<String, Object> queryAllUsers(HttpServletRequest request,
-			String deptName, String userCode, String userName, String deptId) {
+			String userRole, String deptName, String userCode, String userName,
+			String deptId) {
 		Page p = ServiceUtil.getcurrPage(request);
 		StringBuffer sql = new StringBuffer(
 				"select t.id, t.USER_CODE, t.USER_NAME, t.ORG_ID,d.org_name, t.FLAG, j.id as jid,j.user_role,j.OP_DATE,j.USER_STATE  "
@@ -152,6 +153,9 @@ public class UserAction {
 		}
 		if (StringUtils.isNotBlank(deptName)) {
 			sql.append(" and d.org_name like '%" + deptName + "%'");
+		}
+		if (StringUtils.isNotBlank(userRole)) {
+			sql.append(" and j.user_role like '%" + userRole + "%'");
 		}
 
 		if (StringUtils.isNotBlank(deptId)) {
@@ -452,5 +456,12 @@ public class UserAction {
 			e.printStackTrace();
 			AjaxUtil.rendJson(response, false, "失败！");
 		}
+	}
+
+	@RequestMapping("/getRoles")
+	@ResponseBody
+	public List<JtRole> getRoles() {
+		List<JtRole> jtRoles = iJtUserService.getAllRoles();
+		return jtRoles;
 	}
 }

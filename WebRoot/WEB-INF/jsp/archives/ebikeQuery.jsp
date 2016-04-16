@@ -12,14 +12,7 @@
 <base href="<%=basePath%>">
 
 <title>电动车档案查询</title>
-<style type="text/css">
-#table  input{
-	border: 0;
-}
- #table2 input{
-	border: 0;
-}
-</style>
+
 <%@include file="../common/common.jsp"%>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -53,12 +46,6 @@ $(document).ready(function(){
 			}
 		}],
 		columns : [ [{
-			field : 'ID',
-			title : 'ID',
-			checkbox : true,
-			align:'center',
-			width : 120
-		},{
 			field : 'HYXHMC',
 			title : '行业协会名称',
 			align:'center',
@@ -73,7 +60,7 @@ $(document).ready(function(){
 			align:'center',
 			width : 220,
 			formatter:function(value,row,index){
-				var query = "<a  href='javascript:void(0)'  onclick='queryHyxhDwDetail(\""+row.ZZJGDMZH+"\")'>"+value+"</a>";
+				var query = "<a  href='javascript:void(0)'  onclick='queryHyxhDwDetail(\""+row.SSDWID+"\")'>"+value+"</a>";
 				return query;	
 			}
 		},{
@@ -97,27 +84,10 @@ $(document).ready(function(){
 			align:'center',
 			width : 120
 		},{
-			field : 'SFZMHM1',
-			title : '身份证号码',
-			align:'center',
-			width : 120
-		},{
 			field : 'XSQY',
 			title : '行驶区域',
 			align:'center',
 			width : 120
-		},{
-			field : 'GDYJ',
-			title : '归档意见',
-			align:'center',
-			width : 120,
-			formatter:function(value,index){
-				if(value == 0){
-					return '办结';
-				}else{
-					return '退办'
-				}
-			}
 		},{
 			field : 'ZT',
 			title : '车辆状态',
@@ -137,7 +107,7 @@ $(document).ready(function(){
 			align:'center',
 			width : 120,
 			formatter:function(value,row,index){
-				var query = "<a  href='javascript:void(0)'  onclick='queryRow("+row.ID+")'>查看</a>|<a  href='javascript:void(0)'  onclick='queryQRCode("+row.ID+")'>打印</a>";
+				var query = "<a  href='javascript:void(0)'  onclick='queryRow("+row.ID+")'>查看</a>";
 				return query;	
 				
 			}
@@ -201,6 +171,9 @@ function doSearch(){
 
 //查看
 function queryRow(id){
+	$.messager.progress({
+		text:"正在处理，请稍候..."
+	});
 	window.location.href="<%=basePath%>ebikeAction/queryInfoById?id="+id
 }
 
@@ -220,9 +193,10 @@ function excelExport(){
 			rows[i]['GDYJ'] = "退办";
 		}
 	}
-	
+	var actionUrl = '<%=basePath%>ebikeAction/exportExcel';
+	var fileName="电动车档案信息";
 	var content = JSON.stringify(rows);
-	commonExcelExport(titleArr,keysArr,content);
+	commonExcelExport(titleArr,keysArr,content,actionUrl,fileName);
 	
 	
 }
@@ -267,17 +241,17 @@ function queryHyxhDwDetail(obj){
 </script>
 </head>
 <body class="easyui-layout">
+	<div class="searchdiv">
 	<div>
-	<div id="tb"  class="searchdiv">
-					<span>区&nbsp;&nbsp;域</span>
+				<span>区&nbsp;&nbsp;域</span>
 				<input id="xsqy" style="height: 32px;">  
 				<span>档案编号</span>
 				<input id="dabh" type="text" class="easyui-validatebox" name="dabh" ></input>
 				<span>电机号&nbsp;&nbsp;</span> <input id="djh" name="djh"
-					class="easyui-validatebox" type="text" ><br/>
+					class="easyui-validatebox" type="text" >
 
 				<span>姓&nbsp;&nbsp;名</span> <input id="jsrxm1" name="jsrxm1"
-					class="easyui-validatebox" type="text" >
+					class="easyui-validatebox" type="text" ><br/>
 				<span>协会名称</span>
 				<input id="hyxhzh" style="height: 32px;">  
 				<span>公司名称</span>
@@ -293,9 +267,9 @@ function queryHyxhDwDetail(obj){
 	
  <!-- 行业协会详情 -->
 	<div id="dgformDiv" class="easyui-dialog"
-		style="width:650px;height:450px;padding:10px 20px 20px 20px;" closed="true">
+		style="width:500px;height:400px;padding:10px 20px 20px 20px;" closed="true">
 		<form id="dgform" class="easyui-form">
-			<table class="table" id="table">
+			<table class="dialogtable">
 				<tr>
 					<th>协会名称</th>
 					<td><input  name=hyxhmc type="text" class="easyui-validatebox" style="height: 32px;width:100%;" readonly="readonly"></td>
@@ -318,11 +292,11 @@ function queryHyxhDwDetail(obj){
 				</tr>
 				<tr>
 					<th>总配额</th>
-					<td><input  name="hyxhsjzpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+					<td><input  name="totalPe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
 				</tr>
 				<tr>
 					<th>剩余配额</th>
-					<td><input  name="lastpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+					<td><input  name="hyxhsjzpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
 				</tr>
 			</table>
 				
@@ -331,9 +305,9 @@ function queryHyxhDwDetail(obj){
 	
 	 <!-- 单位信息详情 -->
 	<div id="dgformDiv2" class="easyui-dialog"
-		style="width:650px;height:450px;padding:10px 20px 20px 20px;" closed="true">
+		style="width:500px;height:400px;padding:10px 20px 20px 20px;" closed="true">
 		<form id="dgform2" class="easyui-form">
-			<table class="table" id="table2">
+			<table class="dialogtable">
 				<tr>
 					<th>单位名称</th>
 					<td><input  name=dwmc type="text" class="easyui-validatebox" style="height: 32px;width:100%;" readonly="readonly"></td>
@@ -356,7 +330,11 @@ function queryHyxhDwDetail(obj){
 					<td><input  name="lxdh" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
 				</tr>
 				<tr>
-					<th>配额</th>
+					<th>总配额</th>
+					<td><input  name="totalPe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+				</tr>
+				<tr>
+					<th>剩余配额</th>
 					<td><input  name="dwpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
 				</tr>
 				<tr>

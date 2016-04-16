@@ -66,7 +66,7 @@ $(document).ready(function(){
 	var userPriArray = userPri.split(",");
 	for(var i in userPriArray){
 		if(userPriArray[i]!==""){
-			
+		
 			var roleId = userPriArray[i];
 			document.getElementById(roleId).checked=true;
 		}

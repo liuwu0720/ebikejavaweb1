@@ -20,11 +20,98 @@ ul li {
 	border: 0;
 }
 
-.panel-fit body{
-   background-color: #E8F1FF;
- }
+#main {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+#main,#main tr,#main th,#main td {
+	border: 1px solid #C4E1FF;
+}
+
+#main tr {
+	height: 30px;
+	background-color: #EEF2FB;
+	line-height: 30px;
+}
+
+#main th {
+	text-align: right;
+	font-weight: bold;
+	width: 10%;
+}
+
+#main td {
+	width: 15%;
+	text-align: left;
+	padding-left: 5px;
+}
+.dialogtable{
+	border-collapse: collapse;
+	width: 100%;
+}
+.dialogtable tr,.dialogtable th,.dialogtable td {
+	border: 1px solid #C4E1FF;
+}
+
+.dialogtable tr {
+	height: 30px;
+	line-height: 30px;
+}
+
+.dialogtable th {
+	text-align: left;
+	font-weight: bold;
+	padding: 5px;
+	width: 40%;
+}
+
+.dialogtable td {
+	text-align: left;
+	vertical-align:middle;
+	width: 60%;
+}
+.dialogtable input{
+	border: 0;
+	margin-top: 5px;
+}
+.borderinput input{
+	border: 1px solid red;
+}
 
 
+
+.maindiv {
+	background-color: #E4E4FB;
+	vertical-align: middle;
+	width: 100%;
+}
+ h2{
+	text-align: center;
+}
+.maindiv input {
+	vertical-align: middle;
+	padding: 0;
+}
+.searchdiv{
+	padding: 5px 0 5px 10px;
+    background: #E8F1FF;
+    /* margin: 5px; */
+    text-align: left;
+}
+.searchdiv input{
+	height:30px;
+}
+
+.searchspan{
+	text-align: center;
+	color: red;
+}
+
+.carddiv{
+	background-color: #E4E4FB;
+	vertical-align: middle;
+}
 
 /* 左侧导航栏background: #b7d2ff */
 .menu {
@@ -218,7 +305,7 @@ ul li {
 
 /**************************** 欢迎页面 ***********************/
 .main_welcome{
-	background-color: #fff;
+	background-color: #E8F1FF;
     height: 100%;
     width: 100%;
     position: absolute;
@@ -230,11 +317,11 @@ ul li {
     padding-top: 10%;
     text-align: center;
     font-size: 25px;
-    color: #777;
+    color: #5720AF;
 }
 .main_welcome i{
 	font-size: 90px;
-	color: #24748f;
+	color: #5720AF;
 }
 
 
@@ -252,10 +339,6 @@ table {
 td {
 	padding: 0;
 	vertical-align: middle;
-}
-
-table {
-	background-color: transparent;
 }
 
 caption {
@@ -282,7 +365,7 @@ th {
 	border-top: 1px solid #ddd;
 }
 
-.table>thead>tr>th,.table>tbody>tr>th,.table>tfoot>tr>th,.table>thead>tr>td,.table>tbody>tr>td,.table>tfoot>tr>td
+.table>thead>tr>th,.table>tbody>tr>th,.table>tfoot>tr>th,.table>thead>tr>td,.table>tbody>tr>td,.table>tr>td
 	{
 	padding: 8px;
 	line-height: 1.42857143;
@@ -308,7 +391,7 @@ th {
 	background-color: #fff;
 }
 
-.table-condensed>thead>tr>th,.table-condensed>tbody>tr>th,.table-condensed>tfoot>tr>th,.table-condensed>thead>tr>td,.table-condensed>tbody>tr>td,.table-condensed>tfoot>tr>td
+.table-condensed>thead>tr>th,.table-condensed>tbody>tr>th,.table-condensed>tfoot>tr>th,.table-condensed>thead>tr>td,.table-condensed>tbody>tr>td,.table-condensed>tr>td
 	{
 	padding: 5px;
 }
@@ -405,6 +488,9 @@ table td[class*="col-"],table th[class*="col-"] {
 	background-color: #E4E4FB;
 	vertical-align: middle;
 }
+.tablediv p{
+	text-align: center;
+}
 
 .tablediv input {
 	vertical-align: middle;
@@ -424,7 +510,6 @@ table td[class*="col-"],table th[class*="col-"] {
 	background-color: #A9A9F7;
 	text-align: center;
 }
-
 .btn_primary {
 	width: 100px;
 	height: 32px;
@@ -442,7 +527,6 @@ table td[class*="col-"],table th[class*="col-"] {
 	text-align: center;
 	cursor: pointer;
 }
-
 .btndiv {
 	text-align: center;
 }
@@ -453,47 +537,6 @@ table td[class*="col-"],table th[class*="col-"] {
 
 .tbdiv p {
 	font-weight: bolder;
-}
-
-#main {
-	border-collapse: collapse;
-}
-
-#main,#main tr,#main th,#main td {
-	border: 1px solid #C4E1FF;
-}
-
-#main tr {
-	height: 30px;
-	background-color: #EEF2FB;
-	line-height: 30px;
-}
-
-#main th {
-	text-align: right;
-	font-weight: bold;
-	width: 10%;
-}
-
-#main td {
-	width: 15%;
-	text-align: left;
-	padding-left: 5px;
-}
-
-.maindiv {
-	background-color: #fff;
-	vertical-align: middle;
-}
-
-.maindiv input {
-	vertical-align: middle;
-}
-.searchdiv{
-	padding: 5px 0 5px 10px;
-    background: #E8F1FF;
-    /* margin: 5px; */
-    text-align: left;
 }
 
 .photo {
@@ -512,7 +555,9 @@ table td[class*="col-"],table th[class*="col-"] {
 	height: 180px;
 	margin-top: 15px;
 }
-
+.qrcode span{
+	text-align: center;
+}
 #ebikeQRCode .contentRight li {
 	padding: 6px;
 	color: #24748f;
@@ -540,11 +585,7 @@ table td[class*="col-"],table th[class*="col-"] {
 	color: black;
 	font-size: 14px;
 }
-
-tr th {
-	text-align: center;
-}
-
  .btndiv_print {
 	position: fixed; bottom: 10px;right:43%
 }
+

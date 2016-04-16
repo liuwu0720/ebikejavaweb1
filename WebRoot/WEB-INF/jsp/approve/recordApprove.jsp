@@ -94,26 +94,21 @@ $(document).ready(function(){
 				return datevalue.toLocaleString();
 			}
 		},{
-			field : 'slrq',
-			title : '审批日期',
-			align:'center',
-			width : 120,
-			formatter:function(value,index){
-				var datevalue = new Date(value);
-				return datevalue.toLocaleString();
-			}
-		},{
 			field : 'slyj',
 			title : '审批状态',
 			align:'center',
 			width : 120,
 			formatter:function(value,row,index){
-				if(value == 0){
-					return "已同意";
+				if(value == null){
+					if(row.slIndex == 0){
+						return "等待协会审批";
+					}else{
+						return "等待交警审批";
+					}
+				}else if(value == 0){
+					return "已审核(同意) ";
 				}else if(value == 1){
-					return "<p style='color:red'>已拒绝</p>";
-				}else{
-					return "审批中";
+					return "已审核(拒绝) ";
 				}
 			}
 		},{
@@ -232,36 +227,35 @@ function queryHyxhDwDetail(obj){
 </head>
 <body class="easyui-layout">
 
-	<div>
-		<table id="dg" style="width:90%;">
-
-			<div id="tb" class="searchdiv">
+	<div class="searchdiv">
+		<div>
 				<span>流水号</span>
 				<input id="lsh" type="text" class="easyui-validatebox"  style="height: 32px;">  
-				<span>协会名称：</span>
+				<span>协会名称</span>
 				<input id="hyxhzh" style="height: 32px;">  
 				<span>公司名称：</span>
-				<input id="hyxsssdwmc" style="height: 32px;">
-				<span>审批状态：</span>
+				<input id="hyxsssdwmc" style="height: 32px;"><br>
+				<span>审批状态</span>
 				<select  class="easyui-combobox" id=bjjg style="width:100px;height: 32px;">   
-   				 	<option value="">审批中</option>   
-  				    <option value="0">已同意</option>    
-  					<option value="1">已拒绝</option> 
-  					<option value="-1">所有</option> 
+   				 	<option value="">所有</option>
+					<option value="-1">审批中</option>
+					<option value="0">已同意</option>
+					<option value="1">已拒绝</option> 
 				</select>
-				<span>行驶区域：</span>
+				<span>行驶区域</span>
 				<input id="xsqy" style="height: 32px;">
 				<a class="easyui-linkbutton" plain="true" onclick="doSearch()"
 					iconCls="icon-search">查询 </a>
 			</div>
+		<table id="dg" style="width:90%;">
 		</table>
 	</div>
 	
     <!-- 行业协会详情 -->
 	<div id="dgformDiv" class="easyui-dialog"
-		style="width:650px;height:450px;padding:10px 20px 20px 20px;" closed="true">
+		style="width:500px;height:400px;padding:10px 20px 20px 20px;" closed="true">
 		<form id="dgform" class="easyui-form">
-			<table class="table" id="table">
+			<table class="dialogtable">
 				<tr>
 					<th>协会名称</th>
 					<td><input  name=hyxhmc type="text" class="easyui-validatebox" style="height: 32px;width:100%;" readonly="readonly"></td>
@@ -285,12 +279,12 @@ function queryHyxhDwDetail(obj){
 				</tr>
 				<tr>
 					<th>总配额</th>
-					<td><input  name="hyxhsjzpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+					<td><input  name="totalPe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
 				</tr>
 				<tr>
 					
 					<th>剩余配额</th>
-					<td><input  name="lastpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+					<td><input  name="hyxhsjzpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
 				</tr>
 			</table>
 				
@@ -299,28 +293,28 @@ function queryHyxhDwDetail(obj){
 	
 	 <!-- 单位信息详情 -->
 	<div id="dgformDiv2" class="easyui-dialog"
-		style="width:650px;height:450px;padding:10px 20px 20px 20px;" closed="true">
+		style="width:500px;height:400px;padding:10px 20px 20px 20px;" closed="true">
 		<form id="dgform2" class="easyui-form">
-			<table class="table" id="table2">
+			<table  class="dialogtable" >
 				<tr>
 					<th>单位名称</th>
-					<td><input  name=dwmc type="text" class="easyui-validatebox" style="height: 32px;width:100%;" readonly="readonly"></td>
+					<td><input  name=dwmc type="text" class="easyui-validatebox"  readonly="readonly"></td>
 				</tr>
 				<tr>
 					<th>所属协会</th>
-					<td><input  name=hyxhzhName type="text" class="easyui-validatebox" style="height: 32px;width:100%;" readonly="readonly"></td>
+					<td><input  name=hyxhzhName type="text" class="easyui-validatebox"  readonly="readonly"></td>
 				</tr>
 				<tr>
 					<th>组织机构代码证号</th>
-					<td><input  name=zzjgdmzh type="text" class="easyui-validatebox" style="height: 32px;width:100%;" readonly="readonly"></td>
+					<td><input  name=zzjgdmzh type="text" class="easyui-validatebox" readonly="readonly"></td>
 				</tr>
 				<tr>
 					<th>地址</th>
-					<td><input  name="zsdz" type="text" class="easyui-validatebox" style="height: 32px;width:100%;" readonly="readonly"></td>
+					<td><input  name="zsdz" type="text" class="easyui-validatebox" readonly="readonly"></td>
 				</tr>
 				<tr>
 					<th>联系人</th>
-					<td><input  name="lxr" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+					<td><input  name="lxr" type="text" class="easyui-validatebox"  readonly="readonly"></td>
 				</tr>
 				<tr>
 					
@@ -328,7 +322,11 @@ function queryHyxhDwDetail(obj){
 					<td><input  name="lxdh" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
 				</tr>
 				<tr>
-					<th>配额</th>
+					<th>总配额</th>
+					<td><input  name="totalPe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+				</tr>
+				<tr>
+					<th>剩余配额</th>
 					<td><input  name="dwpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
 				</tr>
 				<tr>

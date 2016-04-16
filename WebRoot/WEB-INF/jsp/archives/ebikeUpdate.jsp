@@ -40,12 +40,6 @@ $(document).ready(function(){
 		width:w,
 		loadMsg:'正在加载,请稍等...',
 		columns : [ [{
-			field : 'ID',
-			title : 'ID',
-			checkbox : true,
-			align:'center',
-			width : 120
-		},{
 			field : 'HYXHMC',
 			title : '行业协会名称',
 			align:'center',
@@ -60,7 +54,7 @@ $(document).ready(function(){
 			align:'center',
 			width : 220,
 			formatter:function(value,row,index){
-				var query = "<a  href='javascript:void(0)'  onclick='queryHyxhDwDetail(\""+row.ZZJGDMZH+"\")'>"+value+"</a>";
+				var query = "<a  href='javascript:void(0)'  onclick='queryHyxhDwDetail(\""+row.SSDWID+"\")'>"+value+"</a>";
 				return query;	
 			}
 		},{
@@ -81,11 +75,6 @@ $(document).ready(function(){
 		},{
 			field : 'JSRXM1',
 			title : '驾驶人',
-			align:'center',
-			width : 120
-		},{
-			field : 'SFZMHM1',
-			title : '身份证号码',
 			align:'center',
 			width : 120
 		},{
@@ -186,54 +175,8 @@ function queryRow(id){
 
 //修改
 function updateRow(id){
-	$('#dgform').form('clear');
+	window.location.href="<%=basePath%>ebikeAction/updateDaxxb?id="+id
 
-	$('#pe').hide();
-	$('#dw').attr("readonly",true);
-	$.ajax({
-		type: "GET",
-   	    url: "<%=basePath%>ebikeAction/queryDdcDaxxbById",
-   	   data:{
-		  id:id
-	   }, 
-	   dataType: "json",
-	   success:function(data){
- 			  if(data){
- 				 $('#dgformDiv').dialog('open').dialog('setTitle', '详情信息');
- 				 $('#dgform').form('load', data);
- 				 if(data.vcShowEbikeImg == null){
- 					 $("#img").attr("src","<%=basePath%>static/images/iconfont-wu.png");
- 				 }else{
- 					 $("#img").attr("src",data.vcShowEbikeImg);
- 				 }
- 				 if(data.vcShowUser1Img == null){
- 					 $("#img1").attr("src","<%=basePath%>static/images/iconfont-wu.png");
- 				 }else{
- 					 $("#img1").attr("src",data.vcShowUser1Img);
- 				 }
- 				if(data.vcShowUser2Img == null){
-					 $("#img2").attr("src","<%=basePath%>static/images/iconfont-wu.png");
-				 }else{
-					 $("#img2").attr("src",data.vcShowUser2Img);
-				 }
- 			
- 				//车身颜色
- 				$('#cysy').combobox({
- 					 url:'<%=basePath%>ebikeAction/getAllColorsAjax',    
- 					    valueField:'dmz',    
- 					    textField:'dmms1',
- 					    value:data.cysy  //默认选中的值       
- 				});
- 				//行驶区域
- 				$('#xsqy2').combobox({
- 					 url:'<%=basePath%>ebikeAction/getArea',    
- 					    valueField:'dmz',    
- 					    textField:'dmms1',
- 					    value:data.xsqy   //默认选中的值       
- 				})
- 			  }
- 		  }
-	})
 }
 
 
@@ -252,42 +195,6 @@ function CheckFileSize(obj){
 
 
 
-//保存操作
-function updateSaveData(){
-	$.messager.progress({
-		text:"正在处理，请稍候..."
-	});
-	$('#dgform').form('submit', {
-				url : "<%=basePath%>ebikeAction/saveOrUpdate",
-				onSubmit : function() {
-					
-					var isValid = $("#dgform").form('enableValidation').form(
-							'validate');
-
-					if (!isValid) {
-						$.messager.progress('close'); // 如果表单是无效的则隐藏进度条
-					}
-					return isValid; // 返回false终止表单提交
-				},
-				success : function(data) {
-					var data = eval('(' + data + ')'); // change the JSON
-					if (data.isSuccess) {
-						$.messager.show({ // show error message
-							title : '提示',
-							msg : data.message
-						});
-						$('#dgformDiv').dialog('close');
-						
-						$("#dg").datagrid('reload');
-					}else{
-						alert(data.message);
-					}
-					$.messager.progress('close'); // 如果提交成功则隐藏进度条
-
-				}
-
-			});
-}
 
 //查看行业协会详情
 function queryHyxhDetail(obj){
@@ -330,10 +237,8 @@ function queryHyxhDwDetail(obj){
 </head>
 <body class="easyui-layout">
 
-	<div>
-		<table id="dg" style="width:90%;">
-
-			<div id="tb"  class="searchdiv">
+	<div class="searchdiv">
+		<div>
 					<span>区&nbsp;&nbsp;域</span>
 				<input id="xsqy" style="height: 32px;">  
 				<span>档案编号</span>
@@ -350,148 +255,16 @@ function queryHyxhDwDetail(obj){
 				<a class="easyui-linkbutton" plain="true" onclick="doSearch()"
 					iconCls="icon-search">查询 </a>
 			</div>
+		<table id="dg" style="width:90%;">
 		</table>
 	</div>
-	
-	<!-- 点新增，编辑时弹出的表单 -->
-	<div id="dgformDiv" class="easyui-dialog"
-		style="width:850px;height:550px;padding:10px 20px 20px 20px;"
-		closed="true">
-		<form id="dgform" class="easyui-form" enctype="multipart/form-data"
-			method="post">
-			<table class="table">
-				<tr style="display: none">
-					<td>id</td>
-					<td><input class="easyui-validatebox" type="text" name="id"></input>
-					</td>
-				</tr>
-				<tr>
-					<td>车辆状态：</td>
-					<td><input  name="ztName" style="height:30px;width: 200px;" readonly="readonly"></td>
-					<td>车牌号码</td>
-					<td><input  name="cphm" style="height:30px;width: 200px;"/><br /></td>
-				</tr>
-				<tr>
-					<td>申报单位：</td>
-					<td><input id="dw" name="zzjgdmzhName" style="height:30px;width: 200px;"><span id="pe" style="color: red;display: none"></span></td>
-					<td>车身照片</td>
-					<td><input  type="file" id="file_upload"
-						name="file_upload" /><br /></td>
-				</tr>
-				<tr>
-					<td>品牌型号</td>
-					<td><input class="easyui-validatebox" type="text"
-						data-options="required:true" name="ppxh"
-						style="height: 32px;"></input></td>
-					<td>车身颜色</td>
-					<td><input id="cysy" name="cysy" style="height:30px;"></td>
-				</tr>
-				<tr>
-					<td>电机号：</td>
-					<td><input class="easyui-validatebox" type="text"
-						data-options="required:true" name="djh" style="height: 32px"></input>
-					</td>
-					<td>脚踏装置:</td>
-					<td><select id="jtzz" class="easyui-combobox" name="jtzz"
-						style="height:32px;width: 50px;">
-							<option value="0">有</option>
-							<option value="1">无</option>
-					</select></td>
-				</tr>
-				<tr>
-					<td>驾驶人姓名1</td>
-					<td><input class="easyui-validatebox" type="text"
-						data-options="required:true" name="jsrxm1" style="height: 32px"></td>
 
-					<td>驾驶人姓名2</td>
-					<td><input class="easyui-validatebox" type="text"
-						data-options="required:false" name="jsrxm2" style="height: 32px"></td>
-				</tr>
-				<tr>
-					<td>驾驶人性别1</td>
-					<td><select id="xb1" class="easyui-combobox" name="xb1" required="true"  
-						style="height:32px;width: 100px;">
-						    <option value="-1">--请选择--</option>
-							<option value="0">男</option>
-							<option value="1">女</option>
-					</select></td>
-					<td>驾驶人性别2</td>
-					<td><select id="xb2" class="easyui-combobox" name="xb2" 
-						style="height:32px;width: 100px;">
-						    <option value="-1">--请选择--</option>
-							<option value="0">男</option>
-							<option value="1">女</option>
-					</select></td>
-				</tr>
-				<tr>
-					<td>身份证号码1</td>
-					<td><input class="easyui-validatebox" type="text" id="sfzmhm1"
-						data-options="required:true,validType:'idcard'" name="sfzmhm1" style="height: 32px">
-					</td>
-					<td>身份证号码2</td>
-					<td><input class="easyui-validatebox" type="text"  validType="notequals['#sfzmhm1']" 
-					  name="sfzmhm2" style="height: 32px">
-					</td>
-				</tr>
-				<tr>
-					<td>联系电话1</td>
-					<td><input class="easyui-validatebox" type="text"
-						data-options="required:true,validType:'phoneNum'" name="lxdh1" style="height: 32px">
-					</td>
-					<td>联系电话2</td>
-					<td><input class="easyui-validatebox" type="text"
-						data-options="required:false,validType:'phoneNum'" name="lxdh2" style="height: 32px">
-					</td>
-				</tr>
-				<tr>
-					<td>驾驶人照片1</td>
-					<td><input  type="file" 
-						name="file_upload1" onchange="CheckFileSize(this);" /><br /></td>
-					<td>驾驶人照片2</td>
-					<td><input  type="file" id="file_upload2"
-						name="file_upload2" /><br /></td>
-				</tr>
-				<tr>
-					<td>行驶区域</td>
-					<td><input id="xsqy2" name="xsqy" style="height:30px;" required="true"  ></td>
-					<td>备注</td>
-					<td><textarea rows="5" cols="25" name="bz"></textarea></td>
-				</tr>
-				<tr>
-					<td colspan="2"><div  class="imgdiv"><p>驾驶人1</p><img id="img1" /></div></td>
-					<td colspan="2"><div  class="imgdiv"><p>驾驶人2</p><img id="img2"/></div></td>
-
-				</tr>
-				<tr>
-					<td>车身照片</td>
-					<td colspan="3"><div  class="imgdiv"><img id="img"  /></div></td>
-				</tr>
-			</table>
-				<input  type="hidden" name="vcEbikeImg"	>
-				<input  type="hidden" name="vcUser1Img">
-				<input type="hidden" name="vcUser2Img">
-				<input type="hidden" name="dabh" >
-				<input  type="hidden" name="ywlx">
-				<input  type="hidden" name="ywyy">
-				
-				
-		</form>
-		<div class="btndiv">
-			<a href="javascript:void(0)" class="easyui-linkbutton" id="saveBtn"
-				iconCls="icon-ok" onclick="updateSaveData()" style="width:90px">保存</a>
-			<a href="javascript:void(0)" class="easyui-linkbutton"
-				iconCls="icon-cancel"
-				onclick="javascript:$('#dgformDiv').dialog('close')"
-				style="width:90px">取消</a>
-		</div>
-	</div>
-	
 		
  <!-- 行业协会详情 -->
 	<div id="dgformDiv3" class="easyui-dialog"
-		style="width:650px;height:450px;padding:10px 20px 20px 20px;" closed="true">
+		style="width:500px;height:400px;padding:10px 20px 20px 20px;" closed="true">
 		<form id="dgform3" class="easyui-form">
-			<table class="table input_border0">
+			<table class="dialogtable">
 				<tr>
 					<th>协会名称</th>
 					<td><input  name=hyxhmc type="text" class="easyui-validatebox" style="height: 32px;width:100%;" readonly="readonly"></td>
@@ -515,12 +288,12 @@ function queryHyxhDwDetail(obj){
 				</tr>
 				<tr>
 					<th>总配额</th>
-					<td><input  name="hyxhsjzpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+					<td><input  name="totalPe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
 				</tr>
 				<tr>
 					
 					<th>剩余配额</th>
-					<td><input  name="lastpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+					<td><input  name="hyxhsjzpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
 				</tr>
 			</table>
 				
@@ -529,9 +302,9 @@ function queryHyxhDwDetail(obj){
 	
 	 <!-- 单位信息详情 -->
 	<div id="dgformDiv2" class="easyui-dialog"
-		style="width:650px;height:450px;padding:10px 20px 20px 20px;" closed="true">
+		style="width:500px;height:400px;padding:10px 20px 20px 20px;" closed="true">
 		<form id="dgform2" class="easyui-form">
-			<table class="table input_border0" >
+			<table class="dialogtable" >
 				<tr>
 					<th>单位名称</th>
 					<td><input  name=dwmc type="text" class="easyui-validatebox" style="height: 32px;width:100%;" readonly="readonly"></td>
@@ -554,7 +327,11 @@ function queryHyxhDwDetail(obj){
 					<td><input  name="lxdh" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
 				</tr>
 				<tr>
-					<th>配额</th>
+					<th>总配额</th>
+					<td><input  name="totalPe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+				</tr>
+				<tr>
+					<th>剩余配额</th>
 					<td><input  name="dwpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
 				</tr>
 				<tr>

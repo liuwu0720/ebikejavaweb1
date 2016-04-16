@@ -12,59 +12,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <title>备案详情</title>
     
 	<%@include file="../common/common.jsp"%>
-		<style type="text/css">
-	*{
-		margin:0;
-		padding:0;
-		font-size:12px;
-	}
-	#main{
-		border-collapse:collapse;
-	}
-	#main,#main tr,#main th,#main td{
-		border:1px solid #C4E1FF;
-	}
-	#main tr{
-		height:30px;
-		background-color:#EEF2FB;
-		line-height:30px;
-	}
-	#main th{
-		text-align:right;
-		font-weight:bold;
-		width:10%;
-	}
-	#main td{
-		width:15%;
-		text-align:left;
-		padding-left:5px;
-	}
-	.maindiv{
-		background-color: #E4E4FB;
-		vertical-align:middle;
-	}
-	.maindiv input{
-		vertical-align:middle;
-	}
-	.btn{
-	width: 100px;
-	height: 32px;
-	background-color: #A9A9F7;
-	text-align: center;
-	}
-	.btndiv{
-		text-align: center;
-	}
-	.tbdiv{
-		margin: 0 40px;
-	}
-	.tbdiv p{
-		font-weight: bolder;
-	}
-	</style>
+
 	<script type="text/javascript">
 	
-	$(document).ready(function(){
+<%-- 	$(document).ready(function(){
 		if('${ddcDaxxb.vcShowEbikeImg}'==''){
 			 $("#img_0").attr("src","<%=basePath%>static/images/iconfont-wu.png");
 		}else{
@@ -80,19 +31,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}else{
 			$("#img1_1").attr("src",'${ddcDaxxb.vcShowUser1Img}');
 		} 
-	})
+	}) --%>
 	
 	
 	
 	//保存操作
 
 	function checkSure(obj){
-		
 		$.messager.progress({
 				text:"正在处理，请稍候..."
 			});
 		$('#dgform').form('submit', {
-					url : "<%=basePath%>approvalAction/sureCheckApprove?id="+obj,
+					url : "<%=basePath%>approvalAction/sureCheckApprove",
 					onSubmit : function() {
 						var isValid = $("#dgform").form('enableValidation').form(
 								'validate');
@@ -121,21 +71,34 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				});
 	}
 	
-	
+
+	function exportPage() {
+		$("#main").css('width', '650px');
+		var bdhtml=window.document.body.innerHTML;
+		var startStr="<!--startprint-->";//设置打印开始区域 
+		var endStr="<!--endprint-->";//设置打印结束区域 
+		var printHtml=bdhtml.substring(bdhtml.indexOf(startStr)+startStr.length,bdhtml.indexOf(endStr));//从标记里获取需要打印的页面 
+		window.document.body.innerHTML=printHtml;//需要打印的页面 
+		window.print(); 
+		window.document.body.innerHTML=bdhtml;//还原界面 
+	}
 	</script>
 	
   </head>
   
   <body>
-    <form id="dgform" class="easyui-form" method="post">
+  <div  class="maindiv">
+  <!--startprint-->
+    	<h2>车辆备案详情</h2>
+    	<form action="" id="dgform">
     	<table id="main" class="table table-condensed"  border="1" cellpadding="0" cellspacing="0" width="98%">
     		<tr>
     			<th>档案编号</th>
     			<td>${ddcDaxxb.dabh }</td>
     			<th>协会名称</th>
-    			<td>${ddcDaxxb.hyxhzhmc }</td>
+    			<td>${ddcDaxxb.hyxhzhName }</td>
     			<th>单位名称</th>
-    			<td>${ddcDaxxb.zzjgdmzhName }</td>
+    			<td>${ddcDaxxb.ssdwName }</td>
     			<th>品牌型号</th>
     			<td>${ddcDaxxb.ppxh }</td>
     		</tr>
@@ -213,29 +176,65 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<td colspan="2">
 					<div class="imgdiv"> 
 					<p>驾驶人1照片</p>
-					<img id="img1_1"  src="<%=basePath%>static/images/iconfont-wu.png"/></div>
+					<img  src="${ddcDaxxb.vcShowUser1Img }"/></div>
 					</td>
 					<td colspan="2">
 					<div  class="imgdiv">
 					<p>驾驶人2照片</p>
-					<img id="img2_2"  src="<%=basePath%>static/images/iconfont-wu.png"/>
-					</div><br /></td>
-					<td colspan="4">
+					<img   src="${ddcDaxxb.vcShowUser2Img }"/>
+					</div></td>
+					<td colspan="2">
 					<div  class="imgdiv">
 					<p>车身照片</p>
-					<img id="img_0"  src="<%=basePath%>static/images/iconfont-wu.png"/>
-					</div><br /></td>
+					<img   src="${ddcDaxxb.vcEbikeImg }"/>
+					</div></td>
+					<td colspan="2">
+					<div  class="imgdiv">
+					<p>购车发票</p>
+					<img  src="${ddcDaxxb.vcEbikeInvoiceImgShow }"/>
+					</div></td>
 				</tr>
+				<tr>
+				<td colspan="2">
+					<div class="imgdiv"> 
+					<p>驾驶人1身份证正面</p>
+					<a href="${ddcDaxxb.vcUser1CardImg1Show }" target="_blank">
+					<img   src="${ddcDaxxb.vcUser1CardImg1Show }"/>
+					</a></div>
+				</td>
+				<td colspan="2">
+					<div class="imgdiv"> 
+					<p>驾驶人1身份证反面</p>
+					<a href="${ddcDaxxb.vcUser1CardImg2Show }" target="_blank">
+					<img  src="${ddcDaxxb.vcUser1CardImg2Show }"/>
+					</a></div>
+				</td>
+				<td colspan="2">
+					<div class="imgdiv"> 
+					<p>驾驶人2身份证正面</p>
+					<a href="${ddcDaxxb.vcUser2CardImg1Show }" target="_blank">
+					<img   src="${ddcDaxxb.vcUser2CardImg1Show }"/>
+					</a></div>
+				</td>
+				<td colspan="2">
+					<div class="imgdiv"> 
+					<p>驾驶人2身份证反面</p>
+					<a href="${ddcDaxxb.vcUser2CardImg2Show }" target="_blank">
+					<img  src="${ddcDaxxb.vcUser2CardImg2Show }"/>
+					</a></div>
+				</td>
+			</tr>	
     	</table>
-		
+    	<input type="hidden" name="id" value="${ddcDaxxb.id }">
+    </form>	
+	<!--endprint-->	
 			<div class="btndiv">
-				
+			<button type="button" class="btn" onclick="exportPage()">打印</button>	
 			<button type="button" class="btn" onclick="checkSure(${ddcDaxxb.id})">检验合格</button>
 			<button type="button" class="btn" onclick="history.back()">返回</button>
 			</div>
 		
-    </form>
-    
+  </div>  
     
   </body>
 </html>

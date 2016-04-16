@@ -49,8 +49,13 @@ $(document).ready(function(){
 			align:'center',
 			width : 120,
 			formatter:function(value,row,index){
-				var detail = "<a  href='javascript:void(0)'  onclick='sbdetail(\""+row.ename+"\")'>"+value+"</a>";
-				return detail;
+				if(row.cname !== '统计'){
+					var detail = "<a  href='javascript:void(0)'  onclick='sbdetail(\""+row.ename+"\")'>"+value+"</a>";
+					return detail;
+				}else{
+					return value;
+				}
+			
 			}
 		},{
 			field : 'ba',
@@ -58,8 +63,13 @@ $(document).ready(function(){
 			align:'center',
 			width : 120,
 			formatter:function(value,row,index){
-				var detail = "<a  href='javascript:void(0)'  onclick='badetail(\""+row.ename+"\")'>"+value+"</a>";
-				return detail;
+				if(row.cname !== '统计'){
+					var detail = "<a  href='javascript:void(0)'  onclick='badetail(\""+row.ename+"\")'>"+value+"</a>";
+					return detail;
+				}else{
+					return value;
+				}
+				
 			}
 		},{
 			field : 'tb',
@@ -67,17 +77,22 @@ $(document).ready(function(){
 			align:'center',
 			width : 120,
 			formatter:function(value,row,index){
-				var detail = "<a  href='javascript:void(0)'  onclick='tbdetail(\""+row.ename+"\")'>"+value+"</a>";
-				return detail;
+				
+				if(row.cname !== '统计'){
+					var detail = "<a  href='javascript:void(0)'  onclick='tbdetail(\""+row.ename+"\")'>"+value+"</a>";
+					return detail;
+				}else{
+					return value;
+				}
 			}
 		}
 		] ],
 		toolbar : [ {
 			id : 'btn1',
-			text : '打印',
-			iconCls : 'icon-save',
+			text : '导出',
+			iconCls : 'icon-print',
 			handler : function() {
-				exportPage();
+				excelExport();
 			}
 		}],
 		onLoadSuccess:function(){  
@@ -87,17 +102,18 @@ $(document).ready(function(){
 	
 	
 });
-function exportPage() {
-	$("#dg").css('width', '650px');
-	var bdhtml=window.document.body.innerHTML;
-	var startStr="<!--startprint-->";//设置打印开始区域 
-	var endStr="<!--endprint-->";//设置打印结束区域 
-	var printHtml=bdhtml.substring(bdhtml.indexOf(startStr)+startStr.length,bdhtml.indexOf(endStr));//从标记里获取需要打印的页面 
-	window.document.body.innerHTML=printHtml;//需要打印的页面 
-	window.print(); 
-	window.document.body.innerHTML=bdhtml;//还原界面 
+function excelExport(){
+	var titleArr = ["行驶区域","已申报","已备案","已退办"]; 
+	var keysArr =["cname","sb","ba","tb"];
+	var rows = $('#dg').datagrid('getData').rows;
+	
+	var actionUrl = '<%=basePath%>ebikeAction/exportExcel';
+	var fileName="区域车辆统计";
+	var content = JSON.stringify(rows);
+	commonExcelExport(titleArr,keysArr,content,actionUrl,fileName);
+	
+	
 }
-
 //已申报
 function sbdetail(obj){
 	var areacode = obj;

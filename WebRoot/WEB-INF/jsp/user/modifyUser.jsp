@@ -61,10 +61,10 @@
 </head>
 
 <body>
-	<div class="tablediv">
+	<div class="maindiv">
 		<form id="dgform" class="easyui-form" enctype="multipart/form-data"
 			action="" method="post">
-			<table class="table">
+			<table id="main" class="table">
 				<tr>
 					<th>用户姓名</th>
 					<td>${jtUser.userName }</td>

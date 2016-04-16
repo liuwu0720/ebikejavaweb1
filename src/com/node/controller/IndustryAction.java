@@ -112,11 +112,12 @@ public class IndustryAction {
 		List<Map<String, Object>> mapList = (List<Map<String, Object>>) resultMap
 				.get("rows");
 
-		for (int i = 0; i < mapList.size(); i++) {
-			DdcHyxhBase ddcHyxhBase = (DdcHyxhBase) mapList.get(i);
-			int lastpe = iInDustryService.getDdcHyxhBaseLastPe(ddcHyxhBase);// 已用配额
-			ddcHyxhBase.setLastpe(lastpe);
-		}
+		/*
+		 * for (int i = 0; i < mapList.size(); i++) { DdcHyxhBase ddcHyxhBase =
+		 * (DdcHyxhBase) mapList.get(i); int lastpe =
+		 * iInDustryService.getDdcHyxhBaseLastPe(ddcHyxhBase);// 已用配额
+		 * ddcHyxhBase.setLastpe(lastpe); }
+		 */
 		return resultMap;
 	}
 
@@ -136,7 +137,17 @@ public class IndustryAction {
 		long dId = Long.parseLong(id);
 		DdcHyxhBase ddcHyxhBase = iInDustryService.getDdcHyxhBase(dId);
 		int pe = Integer.parseInt(hyxhsjzpe);
-		ddcHyxhBase.setHyxhsjzpe(pe);
+		int hasUseNum = ddcHyxhBase.getTotalPe() - ddcHyxhBase.getHyxhsjzpe();// 已经用掉的配额
+		if (pe < hasUseNum) {
+			AjaxUtil.rendJson(response, false, "修改失败,该协会已经用了【" + hasUseNum
+					+ "】个配额，需大于这个数!");
+			return;
+		}
+
+		ddcHyxhBase.setTotalPe(pe);
+		ddcHyxhBase.setHyxhsjzpe(ddcHyxhBase.getTotalPe() - hasUseNum);
+		ddcHyxhBase.setSynFlag(SystemConstants.SYSFLAG_UPDATE);
+		ddcHyxhBase.setTranDate(new Date());
 		try {
 			iInDustryService.update(ddcHyxhBase);
 			AjaxUtil.rendJson(response, true, "修改成功");
@@ -165,21 +176,34 @@ public class IndustryAction {
 		// 所属的行业协会
 		DdcHyxhBase ddcHyxhBase = iInDustryService
 				.getDdcHyxhBaseByCode(ddcHyxhSsdw.getHyxhzh());
-		int minusNum = ssdwDwpe - ddcHyxhSsdw.getDwpe();
+		int minusNum = ssdwDwpe - ddcHyxhSsdw.getDwpe();// 增加的配额
 
 		if (ssdwDwpe == ddcHyxhSsdw.getDwpe()) {
 			AjaxUtil.rendJson(response, true, "修改成功！");
 			return;
 		} else {
 			if (ddcHyxhBase.getHyxhsjzpe() < minusNum) {
-				AjaxUtil.rendJson(response, false, "配额不足，修改失败");
+				AjaxUtil.rendJson(response, false,
+						"行业协会【" + ddcHyxhBase.getHyxhmc() + "】配额不足，修改失败");
 				return;
 			} else {
-				ddcHyxhSsdw.setDwpe(ssdwDwpe);
-				iInDustryService.update(ddcHyxhSsdw);
-				ddcHyxhBase.setHyxhsjzpe(ddcHyxhBase.getHyxhsjzpe() - minusNum);
-				iInDustryService.update(ddcHyxhBase);
-				AjaxUtil.rendJson(response, true, "修改成功！");
+				int hasNum = ddcHyxhSsdw.getTotalPe() - ddcHyxhSsdw.getDwpe();// 已经用掉的配额
+				if (ssdwDwpe < hasNum) {
+					AjaxUtil.rendJson(response, false, "该单位已经用了【" + hasNum
+							+ "】个配额，需大于这个数!");
+					return;
+				} else {
+					ddcHyxhSsdw.setTotalPe(ssdwDwpe);
+					ddcHyxhSsdw.setDwpe(ddcHyxhSsdw.getTotalPe() - hasNum);
+					ddcHyxhSsdw.setSynFlag(SystemConstants.SYSFLAG_UPDATE);
+					ddcHyxhSsdw.setTranDate(new Date());
+					iInDustryService.update(ddcHyxhSsdw);
+					ddcHyxhBase.setHyxhsjzpe(ddcHyxhBase.getHyxhsjzpe()
+							- minusNum);// 协会剩余配额
+					iInDustryService.update(ddcHyxhBase);
+					AjaxUtil.rendJson(response, true, "修改成功！");
+				}
+
 			}
 		}
 	}
@@ -198,8 +222,6 @@ public class IndustryAction {
 	public DdcHyxhBase queryIndustryById(String id) {
 		long dId = Long.parseLong(id);
 		DdcHyxhBase ddcHyxhBase = iInDustryService.getDdcHyxhBase(dId);
-		int lastpe = iInDustryService.getDdcHyxhBaseLastPe(ddcHyxhBase);
-		ddcHyxhBase.setLastpe(lastpe);
 		return ddcHyxhBase;
 	}
 
@@ -217,8 +239,6 @@ public class IndustryAction {
 	@ResponseBody
 	public DdcHyxhBase queryHxyHyxhBaseByCode(String code) {
 		DdcHyxhBase ddcHyxhBase = iInDustryService.getDdcHyxhBaseByCode(code);
-		int lastpe = iInDustryService.getDdcHyxhBaseLastPe(ddcHyxhBase);
-		ddcHyxhBase.setLastpe(lastpe);
 		return ddcHyxhBase;
 	}
 
@@ -399,6 +419,7 @@ public class IndustryAction {
 		if (ddcHyxhBase.getId() == null) {
 			try {
 				ddcHyxhBase.setHyxhmm("123456");
+				ddcHyxhBase.setHyxhsjzpe(ddcHyxhBase.getTotalPe());// 新增时剩余配额=总配额
 				iInDustryService.save(ddcHyxhBase);
 				AjaxUtil.rendJson(response, true, "新增成功，默认密码为123456");
 			} catch (Exception e) {
@@ -407,6 +428,11 @@ public class IndustryAction {
 			}
 		} else {
 			try {
+				if (ddcHyxhBase.getTotalPe() < ddcHyxhBase.getHyxhsjzpe()) {
+					AjaxUtil.rendJson(response, false, "剩余配额应该小于总配额！");
+					return;
+				}
+
 				iInDustryService.update(ddcHyxhBase);
 				AjaxUtil.rendJson(response, true, "操作成功");
 			} catch (Exception e) {

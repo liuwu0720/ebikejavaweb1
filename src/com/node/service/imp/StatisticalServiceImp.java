@@ -158,11 +158,11 @@ public class StatisticalServiceImp implements IStatisticalService {
 			Map<?, ?> map = (Map<?, ?>) dlist.get(i);
 			StringBuffer sb = new StringBuffer();
 			sb.append("select a.ba,b.tb from ");
-			sb.append("(select count(*) ba from ddc_daxxb d where d.slbm in ");
+			sb.append("(select count(*) ba from ddc_daxxb d where d.zt !='E' and d.slbm in ");
 			sb.append("(select org_id from OA_DEPT_VIEW start with org_id='"
 					+ map.get("dcode")
 					+ "' connect by prior org_id=up_org)) a,");
-			sb.append("(select count(*) tb from ddc_flow f where f.slyj='1' and f.slbm in ");
+			sb.append("(select count(*) tb from ddc_flow f where f.slyj='1' and f.ywlx = 'A' and f.slbm in ");
 			sb.append("(select org_id from OA_DEPT_VIEW start with org_id='"
 					+ map.get("dcode") + "' connect by prior org_id=up_org)) b");
 			Object[] obj = (Object[]) iJtUserDao.getDateBySQL(sb.toString());

@@ -113,10 +113,8 @@ function queryRow(id){
 </head>
 <body class="easyui-layout">
 
-	<div>
-	
-		<table id="dg" style="width:70%;">
-			<div id="tb"  class="searchdiv">
+	<div  class="searchdiv">
+		<div id="tb" >
 				<span>流水号</span>
 				<input id="lsh" type="text" class="easyui-validatebox"></input>
 				<span>电机号</span> <input id="djh" 
@@ -130,6 +128,7 @@ function queryRow(id){
 				<a class="easyui-linkbutton" plain="true" onclick="doSearch()"
 					iconCls="icon-search">查询 </a>
 			</div>
+		<table id="dg" style="width:70%;">
 		</table>
 	
 	</div>

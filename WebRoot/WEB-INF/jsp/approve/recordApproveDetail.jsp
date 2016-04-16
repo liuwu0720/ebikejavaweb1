@@ -14,7 +14,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<%@include file="../common/common.jsp"%>
 	<script type="text/javascript">
 	
-	$(document).ready(function(){
+<%-- 	$(document).ready(function(){
 		if('${ddcHyxhSsdwclsb.vcShowEbikeImg}'==''){
 			 $("#img_0").attr("src","<%=basePath%>static/images/iconfont-wu.png");
 		}else{
@@ -30,7 +30,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}else{
 			$("#img1_1").attr("src",'${ddcHyxhSsdwclsb.vcShowUser1Img}');
 		} 
-	})
+	}) --%>
 	
 	
 	function sureState(state){
@@ -164,17 +164,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-    <form action="">
+    <div  class="maindiv">
+    	<form action="">
+    	<h2>车辆备案申报详情</h2>
     	<table id="main" class="table table-condensed"  border="1" cellpadding="0" cellspacing="0" width="98%">
     		<tr>
     			<th>流水号</th>
     			<td>${ddcHyxhSsdwclsb.lsh }</td>
-    			<th>协会名称</th>
-    			<td>${ddcHyxhSsdwclsb.hyxhzhName }</td>
+    			
     			<th>单位名称</th>
     			<td>${ddcHyxhSsdwclsb.ssdwName }</td>
     			<th>品牌型号</th>
     			<td>${ddcHyxhSsdwclsb.ppxh }</td>
+    			<th></th>
+    			<td></td>
     		</tr>
     		<tr>
     			<th>电机号</th>
@@ -264,31 +267,84 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     				</c:forEach>
     			</td>
     		</tr>
+    		</c:if>
+    		<c:if test="${ddcHyxhSsdwclsb.slyj==0 }">
+    		<tr>
+    			<th>受理资料</th>
+    			<td colspan="7">
+    				<c:forEach items="${selectSlzls }" var="tb">
+    					<p>${tb.dmms1 }</p>
+    				</c:forEach>
+    			</td>
+    		</tr>
+    		</c:if>
     		<tr>
     			<th>办结意见</th>
     			<td colspan="7">
     				${ddcHyxhSsdwclsb.slbz }
     			</td>
     		</tr>
-			</c:if>
+			
 				<tr>
 					<td colspan="2">
 					<div class="imgdiv"> 
 					<p>驾驶人1照片</p>
-					<img id="img1_1"  src="<%=basePath%>static/images/iconfont-wu.png"/></div>
+					<a href="${ddcHyxhSsdwclsb.vcShowUser1Img }" target="_blank">
+					<img  src="${ddcHyxhSsdwclsb.vcShowUser1Img }"/>
+					</a></div>
 					</td>
 					<td colspan="2">
 					<div  class="imgdiv">
 					<p>驾驶人2照片</p>
-					<img id="img2_2"  src="<%=basePath%>static/images/iconfont-wu.png"/>
-					</div><br /></td>
-					<td colspan="4">
+					<a href="${ddcHyxhSsdwclsb.vcShowUser2Img }" target="_blank">
+					<img  src="${ddcHyxhSsdwclsb.vcShowUser2Img }"/>
+					</a>
+					</div></td>
+					<td colspan="2">
+					<a href="${ddcHyxhSsdwclsb.vcShowEbikeImg }" target="_blank">
 					<div  class="imgdiv">
 					<p>车身照片</p>
-					<img id="img_0"  src="<%=basePath%>static/images/iconfont-wu.png"/>
-					</div><br /></td>
+					<img  src="${ddcHyxhSsdwclsb.vcShowEbikeImg }"/>
+					</div></a></td>
+					<td colspan="2">
+					<a href="${ddcHyxhSsdwclsb.vcEbikeInvoiceImgShow }" target="_blank">
+					<div  class="imgdiv">
+					<p>购车发票</p>
+					<img   src="${ddcHyxhSsdwclsb.vcEbikeInvoiceImgShow }"/>
+					</div></a></td>
 				</tr>
+			<tr>
+				<td colspan="2">
+					<div class="imgdiv"> 
+					<p>驾驶人1身份证正面</p>
+					<a href="${ddcHyxhSsdwclsb.vcUser1CardImg1Show }" target="_blank">
+					<img   src="${ddcHyxhSsdwclsb.vcUser1CardImg1Show }"/>
+					</a></div>
+				</td>
+				<td colspan="2">
+					<div class="imgdiv"> 
+					<p>驾驶人1身份证反面</p>
+					<a href="${ddcHyxhSsdwclsb.vcUser1CardImg2Show }" target="_blank">
+					<img  src="${ddcHyxhSsdwclsb.vcUser1CardImg2Show }"/>
+					</a></div>
+				</td>
+				<td colspan="2">
+					<div class="imgdiv"> 
+					<p>驾驶人2身份证正面</p>
+					<a href="${ddcHyxhSsdwclsb.vcUser2CardImg1Show }" target="_blank">
+					<img  src="${ddcHyxhSsdwclsb.vcUser2CardImg1Show }"/>
+					</a></div>
+				</td>
+				<td colspan="2">
+					<div class="imgdiv"> 
+					<p>驾驶人2身份证反面</p>
+					<a href="${ddcHyxhSsdwclsb.vcUser2CardImg2Show }" target="_blank">
+					<img   src="${ddcHyxhSsdwclsb.vcUser2CardImg2Show }"/>
+					</a></div>
+				</td>
+			</tr>		
     	</table>
+    
     	<table class="table table-condensed">
 				<caption style="text-align: center">审批人及审批意见</caption>
 				<tr>
@@ -328,7 +384,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</c:if>	
     </form>
-    
+    </div>
       <!-- 点退办时弹出的表单 -->
 	<div id="dgformDiv" class="easyui-dialog"
 		style="width:550px;padding:10px 20px 20px 20px;"

@@ -9,16 +9,12 @@ package com.node.controller;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.Console;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -39,6 +35,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.node.model.DdcDaxxb;
+import com.node.model.DdcHyxhBase;
 import com.node.model.DdcHyxhSsdw;
 import com.node.model.DdcSjzd;
 import com.node.model.JtUser;
@@ -140,9 +137,9 @@ public class EbikeAction {
 
 		Page p = ServiceUtil.getcurrPage(request);
 
-		String sql = "select A.ID,A.DABH,A.CPHM,A.DJH,A.JSRXM1,A.GDYJ,A.SFZMHM1,  A.hyxhzh,A.ZZJGDMZH, "
+		String sql = "select A.ID,A.DABH,A.CPHM,A.DJH,A.JSRXM1,A.GDYJ,A.SFZMHM1,A.SLYJ,  A.hyxhzh,A.SSDWID, "
 				+ " (select b.hyxhmc from ddc_hyxh_base b where b.hyxhzh=a.hyxhzh and rownum=1) as hyxhmc,"
-				+ "(SELECT S.DWMC FROM DDC_HYXH_SSDW S WHERE S.ID=A.ZZJGDMZH and rownum=1 ) AS DWMC,"
+				+ "(SELECT S.DWMC FROM DDC_HYXH_SSDW S WHERE S.ID=A.SSDWID and rownum=1 ) AS DWMC,"
 				+ "(select d.DMMS1 from ddc_sjzd d where d.dmz=a.xsqy and d.dmlb='SSQY'  and rownum=1) as xsqy, "
 				+ "(SELECT D.DMMS1 FROM DDC_SJZD D WHERE D.DMZ=A.ZT AND D.DMLB='CLZT'  and rownum=1)AS ZT from DDC_DAXXB A where 1=1 and a.HYXHZH != 'cs'";
 
@@ -187,34 +184,41 @@ public class EbikeAction {
 		}
 		// 单位名称
 		if (StringUtils.isNotBlank(dwmcId)) {
-			sql += " and a.ZZJGDMZH = " + dwmcId;
+			sql += " and a.SSDWID = " + dwmcId;
 		}
 		sql += "  order by A.ID DESC";
 		Map<String, Object> resultMap = iEbikeService.queryBySpringSql(sql, p);
 		return resultMap;
 	}
-	
+
 	/**
 	 * 
 	 * 方法描述：导出excel
-	 * @param titleArr  标头中文列名
-	 * @param keysArr   列名的英文(对应表中的字段)
-	 * @param content    需要导出的数据内容
-	 * @version: 1.0	
+	 * 
+	 * @param titleArr
+	 *            标头中文列名
+	 * @param keysArr
+	 *            列名的英文(对应表中的字段)
+	 * @param content
+	 *            需要导出的数据内容
+	 * @version: 1.0
 	 * @author: Daniel Zou
 	 * @version: 2016年4月14日 下午2:00:31
 	 */
 	@RequestMapping("/exportExcel")
-	public String exportExcel(String content,String[] titleArr,String[] keysArr,HttpServletRequest request,
-			HttpServletResponse response) throws Exception{
-        JSONArray jsonArray = JSONArray.fromObject(content);
-        // 创建一个webbook，对应一个Excel文件  
-		HSSFWorkbook wb = ExcelUtil.getWorkBook(titleArr,keysArr,jsonArray);
-        response.setContentType("application/vnd.ms-excel;");
-		String fileName = "export.xls";
+	public String exportExcel(String content, String[] titleArr,
+			String[] keysArr, String fileName, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		JSONArray jsonArray = JSONArray.fromObject(content);
+		// 创建一个webbook，对应一个Excel文件
+		HSSFWorkbook wb = ExcelUtil.getWorkBook(titleArr, keysArr, jsonArray,
+				fileName);
+		response.setContentType("application/vnd.ms-excel;");
+		fileName = fileName + ".xls";
 		fileName = new String(fileName.getBytes(), "iso8859-1");
-		response.setHeader("content-disposition", "attachment; filename=" + fileName);  // 设定输出文件头
-		ByteArrayOutputStream baos = new ByteArrayOutputStream(); 
+		response.setHeader("content-disposition", "attachment; filename="
+				+ fileName); // 设定输出文件头
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		wb.write(baos);
 		ServletOutputStream out = response.getOutputStream();
 		byte[] b = new byte[1024];
@@ -233,6 +237,7 @@ public class EbikeAction {
 
 	/**
 	 * 方法描述：
+	 * 
 	 * @param id
 	 * @param request
 	 * @param response
@@ -259,13 +264,13 @@ public class EbikeAction {
 				.findByProPerties("CLZT", ddcDaxxb.getZt());
 		ddcDaxxb.setZtName(ztName);
 		// 申报单位
-		if (StringUtils.isNotBlank(ddcDaxxb.getZzjgdmzh())) {
+		if (StringUtils.isNotBlank(ddcDaxxb.getSsdwId())) {
 			DdcHyxhSsdw ddcHyxhSsdw = iInDustryService.getDdcHyxhSsdwById(Long
-					.parseLong(ddcDaxxb.getZzjgdmzh()));
+					.parseLong(ddcDaxxb.getSsdwId()));
 			if (ddcHyxhSsdw != null) {
-				ddcDaxxb.setZzjgdmzhName(ddcHyxhSsdw.getDwmc());
+				ddcDaxxb.setSsdwName(ddcHyxhSsdw.getDwmc());
 			} else {
-				ddcDaxxb.setZzjgdmzhName(null);
+				ddcDaxxb.setSsdwName(null);
 			}
 		}
 
@@ -291,8 +296,8 @@ public class EbikeAction {
 	 */
 	@RequestMapping("/queryInfoById")
 	public String queryInfoById(String id, HttpServletRequest request) {
-		long sbId = Long.parseLong(id);
-		DdcDaxxb ddcDaxxb = iEbikeService.getById(sbId);
+		long longId = Long.parseLong(id);
+		DdcDaxxb ddcDaxxb = iEbikeService.getDdcDaxxbById(longId);
 		String cysyName = iEbikeService.findByProPerties("CSYS",
 				ddcDaxxb.getCysy());
 
@@ -300,46 +305,133 @@ public class EbikeAction {
 		String xsqyName = iEbikeService.findByProPerties("SSQY",
 				ddcDaxxb.getXsqy());
 		ddcDaxxb.setXsqyName(xsqyName);// 所属区域
-		// 状态
+
 		String ztName = iEbikeService
 				.findByProPerties("CLZT", ddcDaxxb.getZt());
 		ddcDaxxb.setZtName(ztName);
 		// 申报单位
-		if (StringUtils.isNotBlank(ddcDaxxb.getZzjgdmzh())) {
+		if (StringUtils.isNotBlank(ddcDaxxb.getSsdwId())) {
 			DdcHyxhSsdw ddcHyxhSsdw = iInDustryService.getDdcHyxhSsdwById(Long
-					.parseLong(ddcDaxxb.getZzjgdmzh()));
+					.parseLong(ddcDaxxb.getSsdwId()));
 			if (ddcHyxhSsdw != null) {
-				ddcDaxxb.setZzjgdmzhName(ddcHyxhSsdw.getDwmc());
+				ddcDaxxb.setSsdwName(ddcHyxhSsdw.getDwmc());
 			} else {
-				ddcDaxxb.setZzjgdmzhName(null);
+				ddcDaxxb.setSsdwName(null);
 			}
 		}
 		// 业务类型
 		String ywlxName = iEbikeService.findByProPerties("YWLX",
 				ddcDaxxb.getYwlx());
 		ddcDaxxb.setYwlxName(ywlxName);
-		// 业务原因
-		String ywyyName = iEbikeService.findByProPerties("YWYY_A",
-				ddcDaxxb.getYwyy());
-		ddcDaxxb.setYwyyName(ywyyName);
 
-		// 受理人
+		DdcHyxhBase ddcHyxhBase = iInDustryService
+				.getDdcHyxhBaseByCode(ddcDaxxb.getHyxhzh());// 行业协会账号
+		ddcDaxxb.setHyxhzhName(ddcHyxhBase.getHyxhmc());
+		// 用户
 		JtUser jtUser = iJtUserService.getJtUserByUserCode(ddcDaxxb.getSlr());
 		ddcDaxxb.setSlrName(jtUser.getUserName());
-		// 受理部门
-		JtViewDept jtViewDept = iJtUserService.getJtDeptByOrg(jtUser
-				.getUserOrg());
-		ddcDaxxb.setSlbm(jtViewDept.getOrgName());
+		// 部门
+		JtViewDept jtViewDept = iJtUserService.getJtDeptByOrg(ddcDaxxb
+				.getSlbm());
+		ddcDaxxb.setSlbmName(jtViewDept.getOrgName());
+
+		List<DdcSjzd> slzls = iEbikeService.getSelectSlzl(ddcDaxxb.getSlzl());// 选中的退办原因
 		String showEbikeImg = parseUrl(ddcDaxxb.getVcEbikeImg());
 		String showUser1Img = parseUrl(ddcDaxxb.getVcUser1Img());
 		String showUser2Img = parseUrl(ddcDaxxb.getVcUser2Img());
+		String vcUser1CardImg1Show = parseUrl(ddcDaxxb.getVcUser1CardImg1());
+		String vcUser1CardImg2Show = parseUrl(ddcDaxxb.getVcUser1CardImg2());
+		String vcUser2CardImg1Show = parseUrl(ddcDaxxb.getVcUser2CardImg1());
+		String vcUser2CardImg2Show = parseUrl(ddcDaxxb.getVcUser2CardImg2());
+		String vcEbikeInvoiceImgShow = parseUrl(ddcDaxxb.getVcEbikeInvoiceImg());
 		ddcDaxxb.setVcShowEbikeImg(showEbikeImg);
 		ddcDaxxb.setVcShowUser1Img(showUser1Img);
 		ddcDaxxb.setVcShowUser2Img(showUser2Img);
+		ddcDaxxb.setVcUser1CardImg1Show(vcUser1CardImg1Show);
+		ddcDaxxb.setVcUser1CardImg2Show(vcUser1CardImg2Show);
+		ddcDaxxb.setVcUser2CardImg1Show(vcUser2CardImg1Show);
+		ddcDaxxb.setVcUser2CardImg2Show(vcUser2CardImg2Show);
+		ddcDaxxb.setVcEbikeInvoiceImgShow(vcEbikeInvoiceImgShow);
 		request.setAttribute("ddcDaxxb", ddcDaxxb);
+		request.setAttribute("slzls", slzls);
 		return "archives/ebikedetail";
 	}
-	
+
+	/**
+	 * 
+	 * 方法描述：档案信息更改
+	 * 
+	 * @param id
+	 * @param request
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年4月15日 下午8:04:38
+	 */
+	@RequestMapping("/updateDaxxb")
+	public String updateDaxxb(String id, HttpServletRequest request) {
+		long longId = Long.parseLong(id);
+		DdcDaxxb ddcDaxxb = iEbikeService.getDdcDaxxbById(longId);
+		String cysyName = iEbikeService.findByProPerties("CSYS",
+				ddcDaxxb.getCysy());
+
+		ddcDaxxb.setCysyName(cysyName);// 车身颜色
+		String xsqyName = iEbikeService.findByProPerties("SSQY",
+				ddcDaxxb.getXsqy());
+		ddcDaxxb.setXsqyName(xsqyName);// 所属区域
+
+		String ztName = iEbikeService
+				.findByProPerties("CLZT", ddcDaxxb.getZt());
+		ddcDaxxb.setZtName(ztName);
+		// 申报单位
+		if (StringUtils.isNotBlank(ddcDaxxb.getSsdwId())) {
+			DdcHyxhSsdw ddcHyxhSsdw = iInDustryService.getDdcHyxhSsdwById(Long
+					.parseLong(ddcDaxxb.getSsdwId()));
+			if (ddcHyxhSsdw != null) {
+				ddcDaxxb.setSsdwName(ddcHyxhSsdw.getDwmc());
+			} else {
+				ddcDaxxb.setSsdwName(null);
+			}
+		}
+		// 业务类型
+		String ywlxName = iEbikeService.findByProPerties("YWLX",
+				ddcDaxxb.getYwlx());
+		ddcDaxxb.setYwlxName(ywlxName);
+
+		DdcHyxhBase ddcHyxhBase = iInDustryService
+				.getDdcHyxhBaseByCode(ddcDaxxb.getHyxhzh());// 行业协会账号
+		ddcDaxxb.setHyxhzhName(ddcHyxhBase.getHyxhmc());
+		// 用户
+		JtUser jtUser = iJtUserService.getJtUserByUserCode(ddcDaxxb.getSlr());
+		ddcDaxxb.setSlrName(jtUser.getUserName());
+		// 部门
+		JtViewDept jtViewDept = iJtUserService.getJtDeptByOrg(ddcDaxxb
+				.getSlbm());
+		ddcDaxxb.setSlbmName(jtViewDept.getOrgName());
+
+		// List<DdcSjzd> slzls =
+		// iEbikeService.getSelectSlzl(ddcDaxxb.getSlzl());// 选中的退办原因
+		String showEbikeImg = parseUrl(ddcDaxxb.getVcEbikeImg());
+		String showUser1Img = parseUrl(ddcDaxxb.getVcUser1Img());
+		String showUser2Img = parseUrl(ddcDaxxb.getVcUser2Img());
+		String vcUser1CardImg1Show = parseUrl(ddcDaxxb.getVcUser1CardImg1());
+		String vcUser1CardImg2Show = parseUrl(ddcDaxxb.getVcUser1CardImg2());
+		String vcUser2CardImg1Show = parseUrl(ddcDaxxb.getVcUser2CardImg1());
+		String vcUser2CardImg2Show = parseUrl(ddcDaxxb.getVcUser2CardImg2());
+		String vcEbikeInvoiceImgShow = parseUrl(ddcDaxxb.getVcEbikeInvoiceImg());
+		ddcDaxxb.setVcShowEbikeImg(showEbikeImg);
+		ddcDaxxb.setVcShowUser1Img(showUser1Img);
+		ddcDaxxb.setVcShowUser2Img(showUser2Img);
+		ddcDaxxb.setVcUser1CardImg1Show(vcUser1CardImg1Show);
+		ddcDaxxb.setVcUser1CardImg2Show(vcUser1CardImg2Show);
+		ddcDaxxb.setVcUser2CardImg1Show(vcUser2CardImg1Show);
+		ddcDaxxb.setVcUser2CardImg2Show(vcUser2CardImg2Show);
+		ddcDaxxb.setVcEbikeInvoiceImgShow(vcEbikeInvoiceImgShow);
+		request.setAttribute("ddcDaxxb", ddcDaxxb);
+		// request.setAttribute("slzls", slzls);
+		return "archives/ebikeUpdateDetail";
+	}
+
 	/**
 	 * 
 	 * 方法描述：查看二维码详情页面
@@ -367,13 +459,13 @@ public class EbikeAction {
 				.findByProPerties("CLZT", ddcDaxxb.getZt());
 		ddcDaxxb.setZtName(ztName);
 		// 申报单位
-		if (StringUtils.isNotBlank(ddcDaxxb.getZzjgdmzh())) {
+		if (StringUtils.isNotBlank(ddcDaxxb.getSsdwId())) {
 			DdcHyxhSsdw ddcHyxhSsdw = iInDustryService.getDdcHyxhSsdwById(Long
-					.parseLong(ddcDaxxb.getZzjgdmzh()));
+					.parseLong(ddcDaxxb.getSsdwId()));
 			if (ddcHyxhSsdw != null) {
-				ddcDaxxb.setZzjgdmzhName(ddcHyxhSsdw.getDwmc());
+				ddcDaxxb.setSsdwName(ddcHyxhSsdw.getDwmc());
 			} else {
-				ddcDaxxb.setZzjgdmzhName(null);
+				ddcDaxxb.setSsdwName(null);
 			}
 		}
 		// 业务类型
@@ -499,24 +591,7 @@ public class EbikeAction {
 			@RequestParam(value = "file_upload1", required = false) MultipartFile file_upload1,
 			@RequestParam(value = "file_upload2", required = false) MultipartFile file_upload2,
 			HttpServletResponse response) {
-		if (!fileupload.isEmpty()
-				&& fileupload.getSize() / 1024 / 1024 > SystemConstants.MAXFILESIZE) {
-			AjaxUtil.rendJson(response, false, "车身照片超出最大尺寸，允许上传大小为"
-					+ SystemConstants.MAXFILESIZE + "MB");
-			return;
-		}
-		if (!file_upload1.isEmpty()
-				&& file_upload1.getSize() / 1024 / 1024 > SystemConstants.MAXFILESIZE) {
-			AjaxUtil.rendJson(response, false, "驾驶人1照片超出最大尺寸，允许上传大小为"
-					+ SystemConstants.MAXFILESIZE + "MB");
-			return;
-		}
-		if (!file_upload2.isEmpty()
-				&& file_upload2.getSize() / 1024 / 1024 > SystemConstants.MAXFILESIZE) {
-			AjaxUtil.rendJson(response, false, "驾驶人2照片超出最大尺寸，允许上传大小为"
-					+ SystemConstants.MAXFILESIZE + "MB");
-			return;
-		}
+
 		try {
 			DdcDaxxb ddcDaxxb = iEbikeService
 					.getDdcDaxxbById(ddcDaxxb1.getId());
@@ -534,26 +609,22 @@ public class EbikeAction {
 			ddcDaxxb.setLxdh2(ddcDaxxb1.getLxdh2());
 			ddcDaxxb.setXsqy(ddcDaxxb1.getXsqy());
 			ddcDaxxb.setBz(ddcDaxxb1.getBz());
-			String ebike_jpgPath = uploadImg(request, fileupload);// 上传车身照片
-			if (StringUtils.isNotBlank(ebike_jpgPath)) {
-				ddcDaxxb.setVcEbikeImg(ebike_jpgPath);
-			} else {
-				ddcDaxxb.setVcEbikeImg(ddcDaxxb.getVcEbikeImg());
-			}
-
-			String vcUser1_img = uploadImg(request, file_upload1);// 上传驾驶人1照片
-			if (StringUtils.isNotBlank(vcUser1_img)) {
-				ddcDaxxb.setVcUser1Img(vcUser1_img);
-			} else {
-				ddcDaxxb.setVcUser1Img(ddcDaxxb.getVcUser1Img());
-			}
-
-			String vcUser2_img = uploadImg(request, file_upload2);// 上传驾驶人2照片
-			if (StringUtils.isNotBlank(vcUser2_img)) {
-				ddcDaxxb.setVcUser2Img(vcUser2_img);
-			} else {
-				ddcDaxxb.setVcUser2Img(ddcDaxxb.getVcUser2Img());
-			}
+			/*
+			 * String ebike_jpgPath = uploadImg(request, fileupload);// 上传车身照片
+			 * if (StringUtils.isNotBlank(ebike_jpgPath)) {
+			 * ddcDaxxb.setVcEbikeImg(ebike_jpgPath); } else {
+			 * ddcDaxxb.setVcEbikeImg(ddcDaxxb.getVcEbikeImg()); }
+			 * 
+			 * String vcUser1_img = uploadImg(request, file_upload1);// 上传驾驶人1照片
+			 * if (StringUtils.isNotBlank(vcUser1_img)) {
+			 * ddcDaxxb.setVcUser1Img(vcUser1_img); } else {
+			 * ddcDaxxb.setVcUser1Img(ddcDaxxb.getVcUser1Img()); }
+			 * 
+			 * String vcUser2_img = uploadImg(request, file_upload2);// 上传驾驶人2照片
+			 * if (StringUtils.isNotBlank(vcUser2_img)) {
+			 * ddcDaxxb.setVcUser2Img(vcUser2_img); } else {
+			 * ddcDaxxb.setVcUser2Img(ddcDaxxb.getVcUser2Img()); }
+			 */
 			iEbikeService.updateDdcDaxxb(ddcDaxxb);
 
 			AjaxUtil.rendJson(response, true, "操作成功");

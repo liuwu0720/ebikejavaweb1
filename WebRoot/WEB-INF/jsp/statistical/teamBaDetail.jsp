@@ -64,11 +64,6 @@ $(document).ready(function(){
 			align:'center',
 			width : 120
 		},{
-			field : 'SFZMHM1',
-			title : '身份证号码1',
-			align:'center',
-			width : 120
-		},{
 			field : 'HYXHZHNAME',
 			title : '协会名称',
 			align:'center',
@@ -83,7 +78,7 @@ $(document).ready(function(){
 			align:'center',
 			width : 120,
 			formatter:function(value,row,index){
-				var query = "<a  href='javascript:void(0)'  onclick='queryHyxhDwDetail(\""+row.ZZJGDMZH+"\")'>"+value+"</a>";
+				var query = "<a  href='javascript:void(0)'  onclick='queryHyxhDwDetail(\""+row.SSDWID+"\")'>"+value+"</a>";
 				return query;	
 			}
 		},{
@@ -114,6 +109,13 @@ $(document).ready(function(){
 			handler : function() {
 				history.go(-1);
 			}
+		}, {
+			id : 'btn1',
+			text : '导出',
+			iconCls : 'icon-print',
+			handler : function() {
+				excelExport();
+			}
 		}],
 		onLoadSuccess:function(){  
             $('#dg').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题  
@@ -141,6 +143,22 @@ $('#xsqy').combobox({
 }); 
 	
 });
+function excelExport(){
+	var titleArr = ["档案编号","车牌号码","品牌型号","电机号","驾驶人1","协会名称","单位名称","受理日期"]; 
+	var keysArr =["DABH","CPHM","PPXH","DJH","JSRXM1","HYXHZHNAME","DWMC","SLRQ"];
+	var rows = $('#dg').datagrid('getData').rows;
+	for(var i in rows) {
+		rows[i]['SLRQ'] = getLocalTime(rows[i]['SLRQ']);
+	}
+	var actionUrl = '<%=basePath%>ebikeAction/exportExcel';
+	var fileName="大队车辆统计";
+	var content = JSON.stringify(rows);
+	commonExcelExport(titleArr,keysArr,content,actionUrl,fileName);
+	
+	
+}
+
+
 //查看详情
 function queryRow(id){
 	$.messager.progress({
@@ -255,12 +273,12 @@ function doSearch(){
 				</tr>
 				<tr>
 					<th>总配额</th>
-					<td><input  name="hyxhsjzpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+					<td><input  name="totalPe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
 				</tr>
 				<tr>
 					
 					<th>剩余配额</th>
-					<td><input  name="lastpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
+					<td><input  name="hyxhsjzpe" type="text" class="easyui-validatebox" style="height: 32px;" readonly="readonly"></td>
 				</tr>
 			</table>
 				

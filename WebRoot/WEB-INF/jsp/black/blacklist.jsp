@@ -217,10 +217,8 @@ function updateSaveData(){
 </head>
 <body class="easyui-layout">
 
-	<div>
-		<table id="dg" style="width:90%;">
-
-			<div id="tb" style="padding: 5px; background: #E8F1FF;">
+	<div class="searchdiv">
+			<div >
 				<span>姓名：</span>
 				<input id="jsrxm" type="text" class="easyui-validatebox" name="jsrxm" ></input>
 				<span>身份证号码:</span> <input id="sfzhm" name="sfzhm"
@@ -228,6 +226,7 @@ function updateSaveData(){
 				<a class="easyui-linkbutton" plain="true" onclick="doSearch()"
 					iconCls="icon-search">查询 </a>
 			</div>
+		<table id="dg" style="width:90%;">
 		</table>
 	</div>
 	
