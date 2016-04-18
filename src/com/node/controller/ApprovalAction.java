@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.node.model.DdcApproveUser;
 import com.node.model.DdcDaxxb;
+import com.node.model.DdcDriver;
 import com.node.model.DdcFlow;
 import com.node.model.DdcHyxhBasb;
 import com.node.model.DdcHyxhBase;
@@ -546,6 +547,12 @@ public class ApprovalAction {
 			ddcHyxhBasb.setSynFlag(SystemConstants.SYSFLAG_UPDATE);
 			ddcHyxhBasb.setTranDate(new Date());
 			DdcApproveUser approveUser = new DdcApproveUser();
+			String sql = "select SEQ_DDC_APPROVE_USER.nextval from dual";
+			Object object = iEbikeService.getDateBySQL(sql);
+			String seq = object.toString();
+			String md = new SimpleDateFormat("yyMMdd").format(new Date());
+			String approveNo = "N" + md + seq;// 生成审批编号
+			approveUser.setApproveNo(approveNo);
 			approveUser.setUserName(jtUser.getUserName());// 姓名
 			approveUser.setUserOrgname(jtUser.getUserOrgName());// 部门
 			approveUser.setUserRoleName(jtUser.getUserRoleName());// 角色
@@ -715,6 +722,12 @@ public class ApprovalAction {
 
 			// 审批 人
 			DdcApproveUser approveUser = new DdcApproveUser();
+			String sql = "select SEQ_DDC_APPROVE_USER.nextval from dual";
+			Object object = iEbikeService.getDateBySQL(sql);
+			String seq = object.toString();
+			String md = new SimpleDateFormat("yyMMdd").format(new Date());
+			String approveNo = "N" + md + seq;// 生成审批编号
+			approveUser.setApproveNo(approveNo);
 			approveUser.setUserName(jtUser.getUserName());// 姓名
 			approveUser.setUserOrgname(jtUser.getUserOrgName());// 部门
 			approveUser.setUserRoleName(jtUser.getUserRoleName());// 角色
@@ -790,6 +803,12 @@ public class ApprovalAction {
 				ddcFlow.setTranDate(new Date());
 				// 审批人及审批状态
 				DdcApproveUser approveUser = new DdcApproveUser();
+				String sql = "select SEQ_DDC_APPROVE_USER.nextval from dual";
+				Object object = iEbikeService.getDateBySQL(sql);
+				String seq = object.toString();
+				String md = new SimpleDateFormat("yyMMdd").format(new Date());
+				String approveNo = "N" + md + seq;// 生成审批编号
+				approveUser.setApproveNo(approveNo);
 				approveUser.setUserName(jtUser.getUserName());// 姓名
 				approveUser.setUserOrgname(jtUser.getUserOrgName());// 部门
 				approveUser.setUserRoleName(jtUser.getUserRoleName());// 角色
@@ -844,6 +863,28 @@ public class ApprovalAction {
 					iEbikeService.saveDdcApproveUser(approveUser);
 					iEbikeService.saveDdcFlow(ddcFlow);
 					iEbikeService.saveDaxxb(daxxb);
+					DdcDriver ddcDriver = new DdcDriver();
+					ddcDriver.setDabh(daxxb.getDabh());
+					ddcDriver.setDaid(daxxb.getId());
+					ddcDriver.setXb(daxxb.getXb1());
+					ddcDriver.setJsrxm(daxxb.getJsrxm1());
+					ddcDriver.setLxdh(daxxb.getLxdh1());
+					ddcDriver.setUserCode(daxxb.getLxdh1());
+					ddcDriver.setUserPassword("123456");
+					ddcDriver.setSynFlag(SystemConstants.SYSFLAG_ADD);
+					iEbikeService.saveDdcDriver(ddcDriver);
+					if (StringUtils.isNotBlank(daxxb.getJsrxm2())) {
+						DdcDriver ddcDriver2 = new DdcDriver();
+						ddcDriver2.setDabh(daxxb.getDabh());
+						ddcDriver2.setDaid(daxxb.getId());
+						ddcDriver2.setXb(daxxb.getXb2());
+						ddcDriver2.setJsrxm(daxxb.getJsrxm2());
+						ddcDriver2.setLxdh(daxxb.getLxdh2());
+						ddcDriver2.setUserCode(daxxb.getLxdh2());
+						ddcDriver2.setUserPassword("123456");
+						ddcDriver2.setSynFlag(SystemConstants.SYSFLAG_ADD);
+						iEbikeService.saveDdcDriver(ddcDriver);
+					}
 					AjaxUtil.rendJson(response, true, "保存成功!");
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -856,6 +897,12 @@ public class ApprovalAction {
 				ddcHyxhSsdwclsb.setSynFlag(SystemConstants.SYSFLAG_UPDATE);
 				ddcHyxhSsdwclsb.setTranDate(new Date());
 				DdcApproveUser approveUser = new DdcApproveUser();
+				String sql = "select SEQ_DDC_APPROVE_USER.nextval from dual";
+				Object object = iEbikeService.getDateBySQL(sql);
+				String seq = object.toString();
+				String md = new SimpleDateFormat("yyMMdd").format(new Date());
+				String approveNo = "S" + md + seq;// 生成审批编号
+				approveUser.setApproveNo(approveNo);
 				approveUser.setUserName(jtUser.getUserName());// 姓名
 				approveUser.setUserOrgname(jtUser.getUserOrgName());// 部门
 				approveUser.setUserRoleName(jtUser.getUserRoleName());// 角色
@@ -1015,7 +1062,7 @@ public class ApprovalAction {
 		Object object = iEbikeService.getDateBySQL(sql);
 		String seq = object.toString();
 		String md = new SimpleDateFormat("yyMMdd").format(new Date());
-		String lsh = "A" + md + seq;// 生成流水表流水号
+		String lsh = "E" + md + seq;// 生成流水表流水号
 		flow.setLsh(lsh);
 		flow.setYwlx("E");
 		flow.setYwyy("A");

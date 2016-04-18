@@ -43,6 +43,7 @@ public class DdcApproveUser implements java.io.Serializable {
 	private String lsh;
 	private String sysFlag;
 	private Date tranDate;
+	private String approveNo;// 审批编号
 
 	// Constructors
 
@@ -202,6 +203,19 @@ public class DdcApproveUser implements java.io.Serializable {
 	 */
 	public void setTranDate(Date tranDate) {
 		this.tranDate = tranDate;
+	}
+
+	@Column(name = "APPROVE_NO", unique = true, nullable = false, length = 100)
+	public String getApproveNo() {
+		return approveNo;
+	}
+
+	/**
+	 * @param approveNo
+	 *            : set the property approveNo.
+	 */
+	public void setApproveNo(String approveNo) {
+		this.approveNo = approveNo;
 	}
 
 }

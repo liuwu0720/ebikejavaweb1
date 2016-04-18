@@ -17,13 +17,16 @@ import org.springframework.stereotype.Service;
 
 import com.node.dao.IDdcApprovalUserDao;
 import com.node.dao.IDdcDaxxbDao;
+import com.node.dao.IDdcDriverDao;
 import com.node.dao.IDdcFlowDao;
 import com.node.dao.IDdcHyxhBasbDao;
 import com.node.dao.IDdcHyxhBaseDao;
 import com.node.dao.IDdcHyxhSsdwclsbDao;
 import com.node.dao.IDdcSjzdDao;
+import com.node.dao.IFileRecordDao;
 import com.node.model.DdcApproveUser;
 import com.node.model.DdcDaxxb;
+import com.node.model.DdcDriver;
 import com.node.model.DdcFlow;
 import com.node.model.DdcHyxhBasb;
 import com.node.model.DdcHyxhBase;
@@ -62,6 +65,12 @@ public class EbikeServiceImp implements IEbikeService {
 
 	@Autowired
 	IDdcHyxhSsdwclsbDao iDdcHyxhSsdwclsbDao;
+
+	@Autowired
+	IDdcDriverDao iDdcDriverDao;
+
+	@Autowired
+	IFileRecordDao iFileRecordDao;
 
 	/*
 	 * (non-Javadoc)
@@ -414,5 +423,30 @@ public class EbikeServiceImp implements IEbikeService {
 		} else {
 			return null;
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.node.service.IEbikeService#saveDdcDriver(com.node.model.DdcDriver)
+	 */
+	@Override
+	public void saveDdcDriver(DdcDriver ddcDriver) {
+		// TODO Auto-generated method stub
+		iDdcDriverDao.save(ddcDriver);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.node.service.IEbikeService#queryFileRecordByHql(com.node.util.HqlHelper
+	 * )
+	 */
+	@Override
+	public Map<String, Object> queryFileRecordByHql(HqlHelper hql) {
+		// TODO Auto-generated method stub
+		return iFileRecordDao.findAllByHqlHelp(hql);
 	}
 }

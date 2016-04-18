@@ -12,6 +12,7 @@ import java.util.Map;
 
 import com.node.model.DdcApproveUser;
 import com.node.model.DdcDaxxb;
+import com.node.model.DdcDriver;
 import com.node.model.DdcFlow;
 import com.node.model.DdcHyxhBasb;
 import com.node.model.DdcHyxhBase;
@@ -289,5 +290,26 @@ public interface IEbikeService {
 	 * @version: 2016年4月5日 下午1:34:39
 	 */
 	List<DdcApproveUser> findApproveUsersByLsh(String lsh);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param ddcDriver
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年4月16日 下午7:14:45
+	 */
+	void saveDdcDriver(DdcDriver ddcDriver);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param hql
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年4月17日 下午6:40:01
+	 */
+	Map<String, Object> queryFileRecordByHql(HqlHelper hql);
 
 }

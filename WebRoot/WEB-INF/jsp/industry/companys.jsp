@@ -54,8 +54,13 @@ $(document).ready(function(){
 			align:'center',
 			width : 120
 		},{
-			field : 'sqr',
-			title : '申请人',
+			field : 'totalPe',
+			title : '总配额',
+			align:'center',
+			width : 120
+		},{
+			field : 'dwpe',
+			title : '剩余配额',
 			align:'center',
 			width : 120
 		},{
@@ -68,7 +73,7 @@ $(document).ready(function(){
 				return unixTimestamp.toLocaleString();
 			}   
 		},{
-			field : 'hyxhzh',
+			field : 'hyxhzhName',
 			title : '所属协会',
 			align:'center',
 			width : 120

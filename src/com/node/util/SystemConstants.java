@@ -50,6 +50,10 @@ public class SystemConstants {
 	 */
 	public static final Integer PIC_IMG = 1;
 	/**
+	 * EXCEL路径
+	 */
+	public static final Integer PIC_EXCEL = 2;
+	/**
 	 * 最大文件
 	 */
 	public static final long MAXFILESIZE = 10;

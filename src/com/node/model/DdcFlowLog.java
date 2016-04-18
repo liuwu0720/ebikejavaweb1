@@ -1,8 +1,17 @@
+/**
+ * 文件名：DdcFlowLog.java
+ * 版本信息：Version 1.0
+ * 日期：2016年4月18日
+ * Copyright 结点科技 Corporation 2016 
+ * 版权所有
+ */
 package com.node.model;
 
 import static javax.persistence.GenerationType.SEQUENCE;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,73 +24,75 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 /**
- * DdcDaxxbLog entity. @author MyEclipse Persistence Tools
+ * 类描述：
+ * 
+ * @version: 1.0
+ * @author: liuwu
+ * @version: 2016年4月18日 下午5:19:19
  */
 @Entity
-@Table(name = "DDC_DAXXB_LOG")
+@Table(name = "DDC_FLOW_LOG")
 @org.hibernate.annotations.Entity(dynamicInsert = true, dynamicUpdate = true)
-public class DdcDaxxbLog implements java.io.Serializable {
+public class DdcFlowLog implements Serializable {
+	// Fields
 
 	/* serialVersionUID: serialVersionUID */
-	private static final long serialVersionUID = 5117158049244294570L;
-	// Fields
+	private static final long serialVersionUID = -8287525779523216573L;
 	private Long id;
-	private String dabh;// 新进入的数据，自动生成档案编号4403 00000001；老数据去更新
-	private String ywlx;// 业务类型
+	private String lsh;
+	private String ywlx;
 	private String ywlxName;
-	private String ywyy;// 业务原因
+	private String ywyy;
 	private String ywyyName;
-	private String hyxhzh;//
+	private String hyxhzh;
 	private String hyxhzhName;
-	private String ssdwId;// 单位ID
+	private String dabh;
+	private String ssdwId;
+	private String ssdwName;
 	private String cphm;
 	private String ppxh;
-	private String ssdwName;
-	private String cysy;// 车身验色
-	private String cysyName;
-	private String djh;// 电机号
-	private String jtzz;// 脚踏装置（有、无）
-	private String jsrxm1;// 驾驶人姓名1
-	private String xb1;// 性别1
-	private String sfzmhm1;// 身份证号码1
-	private String lxdh1;// 联系电话1
-	private String jsrxm2;// 驾驶人姓名2
-	private String xb2;// 性别2
-	private String sfzmhm2;// 身份证号码2
-	private String lxdh2;// 联系电话2
-	private String jsrxm3;// 驾驶人姓名3
-	private String xb3;// 性别3
-	private String sfzmhm3;// 身份证号码3
-	private String lxdh3;// 联系电话3
-	private String xsqy;// 行驶区域(福田区、罗湖区.....)
+	private String cysy;
+	private String cysyName;// 车身颜色
+	private String djh;
+	private String jtzz;
+	private String jsrxm1;
+	private String xb1;
+	private String sfzmhm1;
+	private String lxdh1;
+	private String jsrxm2;
+	private String xb2;
+	private String sfzmhm2;
+	private String lxdh2;
+	private String jsrxm3;
+	private String xb3;
+	private String sfzmhm3;
+	private String lxdh3;
+	private String xsqy;
 	private String xsqyName;
-	private String bz;// 备注
-	private String zt;// 车辆状态 填字典
-	private String ztName;
-	private Date syrq;// 审验日期：新车归档日期+2年或年审验车合格后的归档日期+2年
-	private String slzl;// 受理资料，分割 字典表
-	private String slyj;// 受理意见 0 同意 1 不同意 特别注意 档案更正是要填写本表记录
-	private String slbz;// 受理备注
-	private String slr;// 受理人
-	private String slrName;
-	private Date slrq;// 受理日期
-	private String slbm;// 受理部门
-	private String slbmName;
-	private String gdyj;// 归档意见 0 办结 1 退办 成功办结的信息才会进入本表
-	private String tbyy;// 退办原因
-	private String gdbz;// 归档备注
-	private String gdr;// 归档人
-	private Date gdrq;// 归档日期
-	private String gdbm;// 归档部门
-	private String synFlag;// 同步标志 ADD新增 UP更改
-	private String tranFlag;// 传送标志(该字段必须有索引)
-	private Date tranDate;// 传送时间
+	private String bz;
+	private String slzl;
+	private String slyj;
+	private String slbz;
+	private String slr;
+	private Date slrq;
+	private String slbm;
+	private String gdyj;
+	private String tbyy;
+	private String gdbz;
+	private String gdr;
+	private Date gdrq;
+	private String gdbm;
+	private String synFlag;
+	private String tranFlag;
+	private Date tranDate;
+	private String yclb;
 	private String vcEbikeImg;// 车身图片
 	private String vcUser1Img;// 驾驶人1图片
 	private String vcUser2Img;// 驾驶人2图片
 	private String vcShowEbikeImg;
 	private String vcShowUser1Img;
 	private String vcShowUser2Img;
+	private List<String> slzlList;
 	private String vcUser1CardImg1;// 驾驶人1身份证照片正面
 	private String vcUser1CardImg2;// 驾驶人1身份证照片反面
 	private String vcUser2CardImg1;// 驾驶人2身份证照片正面
@@ -92,13 +103,13 @@ public class DdcDaxxbLog implements java.io.Serializable {
 	private String vcUser2CardImg1Show;// 驾驶人2身份证照片正面
 	private String vcUser2CardImg2Show;// 驾驶人2身份证照片反面
 	private String vcEbikeInvoiceImgShow;
-
-	// Constructors
+	private String vcTableName;
+	private Long iTableId;
 
 	// Property accessors
-	@SequenceGenerator(name = "DDC_DAXXB_LOG", sequenceName = "SEQ_DDC_DAXXB_LOG", allocationSize = 1)
+	@SequenceGenerator(name = "DDC_FLOW_LOG", sequenceName = "SEQ_DDC_FLOW_LOG", allocationSize = 1)
 	@Id
-	@GeneratedValue(strategy = SEQUENCE, generator = "DDC_DAXXB_LOG")
+	@GeneratedValue(strategy = SEQUENCE, generator = "DDC_FLOW_LOG")
 	@Column(name = "ID", unique = true, nullable = false, precision = 22, scale = 0)
 	public Long getId() {
 		return this.id;
@@ -108,13 +119,13 @@ public class DdcDaxxbLog implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "DABH", unique = true, nullable = false, length = 20)
-	public String getDabh() {
-		return this.dabh;
+	@Column(name = "LSH", nullable = false, length = 20)
+	public String getLsh() {
+		return this.lsh;
 	}
 
-	public void setDabh(String dabh) {
-		this.dabh = dabh;
+	public void setLsh(String lsh) {
+		this.lsh = lsh;
 	}
 
 	@Column(name = "YWLX", length = 20)
@@ -142,6 +153,15 @@ public class DdcDaxxbLog implements java.io.Serializable {
 
 	public void setHyxhzh(String hyxhzh) {
 		this.hyxhzh = hyxhzh;
+	}
+
+	@Column(name = "DABH", length = 20)
+	public String getDabh() {
+		return this.dabh;
+	}
+
+	public void setDabh(String dabh) {
+		this.dabh = dabh;
 	}
 
 	@Column(name = "SSDWID", length = 500)
@@ -328,24 +348,6 @@ public class DdcDaxxbLog implements java.io.Serializable {
 		this.bz = bz;
 	}
 
-	@Column(name = "ZT", length = 10)
-	public String getZt() {
-		return this.zt;
-	}
-
-	public void setZt(String zt) {
-		this.zt = zt;
-	}
-
-	@Column(name = "SYRQ", length = 7)
-	public Date getSyrq() {
-		return this.syrq;
-	}
-
-	public void setSyrq(Date syrq) {
-		this.syrq = syrq;
-	}
-
 	@Column(name = "SLZL", length = 100)
 	public String getSlzl() {
 		return this.slzl;
@@ -382,6 +384,7 @@ public class DdcDaxxbLog implements java.io.Serializable {
 		this.slr = slr;
 	}
 
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "SLRQ", length = 7)
 	public Date getSlrq() {
 		return this.slrq;
@@ -409,7 +412,7 @@ public class DdcDaxxbLog implements java.io.Serializable {
 		this.gdyj = gdyj;
 	}
 
-	@Column(name = "TBYY", length = 10)
+	@Column(name = "TBYY", length = 100)
 	public String getTbyy() {
 		return this.tbyy;
 	}
@@ -436,7 +439,7 @@ public class DdcDaxxbLog implements java.io.Serializable {
 		this.gdr = gdr;
 	}
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "GDRQ", length = 7)
 	public Date getGdrq() {
 		return this.gdrq;
@@ -483,30 +486,13 @@ public class DdcDaxxbLog implements java.io.Serializable {
 		this.tranDate = tranDate;
 	}
 
-	@Transient
-	public String getSsdwName() {
-		return ssdwName;
+	@Column(name = "YCLB", length = 20)
+	public String getYclb() {
+		return this.yclb;
 	}
 
-	/**
-	 * @param ssdwName
-	 *            : set the property ssdwName.
-	 */
-	public void setSsdwName(String ssdwName) {
-		this.ssdwName = ssdwName;
-	}
-
-	@Transient
-	public String getZtName() {
-		return ztName;
-	}
-
-	/**
-	 * @param ztName
-	 *            : set the property ztName.
-	 */
-	public void setZtName(String ztName) {
-		this.ztName = ztName;
+	public void setYclb(String yclb) {
+		this.yclb = yclb;
 	}
 
 	@Column(name = "VC_EBIKE_IMG", length = 100)
@@ -614,6 +600,19 @@ public class DdcDaxxbLog implements java.io.Serializable {
 	}
 
 	@Transient
+	public String getSsdwName() {
+		return ssdwName;
+	}
+
+	/**
+	 * @param ssdwName
+	 *            : set the property ssdwName.
+	 */
+	public void setSsdwName(String ssdwName) {
+		this.ssdwName = ssdwName;
+	}
+
+	@Transient
 	public String getYwlxName() {
 		return ywlxName;
 	}
@@ -637,6 +636,19 @@ public class DdcDaxxbLog implements java.io.Serializable {
 	 */
 	public void setYwyyName(String ywyyName) {
 		this.ywyyName = ywyyName;
+	}
+
+	@Transient
+	public List<String> getSlzlList() {
+		return slzlList;
+	}
+
+	/**
+	 * @param slzlList
+	 *            : set the property slzlList.
+	 */
+	public void setSlzlList(List<String> slzlList) {
+		this.slzlList = slzlList;
 	}
 
 	@Column(name = "VC_EBIKE_INVOICE", length = 100)
@@ -769,6 +781,32 @@ public class DdcDaxxbLog implements java.io.Serializable {
 		this.vcUser2CardImg2Show = vcUser2CardImg2Show;
 	}
 
+	@Column(name = "TABLENAME", length = 20)
+	public String getVcTableName() {
+		return vcTableName;
+	}
+
+	/**
+	 * @param vcTableName
+	 *            : set the property vcTableName.
+	 */
+	public void setVcTableName(String vcTableName) {
+		this.vcTableName = vcTableName;
+	}
+
+	@Column(name = "TABLEID")
+	public Long getiTableId() {
+		return iTableId;
+	}
+
+	/**
+	 * @param iTableId
+	 *            : set the property iTableId.
+	 */
+	public void setiTableId(Long iTableId) {
+		this.iTableId = iTableId;
+	}
+
 	@Transient
 	public String getHyxhzhName() {
 		return hyxhzhName;
@@ -780,31 +818,5 @@ public class DdcDaxxbLog implements java.io.Serializable {
 	 */
 	public void setHyxhzhName(String hyxhzhName) {
 		this.hyxhzhName = hyxhzhName;
-	}
-
-	@Transient
-	public String getSlrName() {
-		return slrName;
-	}
-
-	/**
-	 * @param slrName
-	 *            : set the property slrName.
-	 */
-	public void setSlrName(String slrName) {
-		this.slrName = slrName;
-	}
-
-	@Transient
-	public String getSlbmName() {
-		return slbmName;
-	}
-
-	/**
-	 * @param slbmName
-	 *            : set the property slbmName.
-	 */
-	public void setSlbmName(String slbmName) {
-		this.slbmName = slbmName;
 	}
 }
