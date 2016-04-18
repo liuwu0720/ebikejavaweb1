@@ -399,7 +399,7 @@ public class UserAction {
 		request.getSession().removeAttribute(SystemConstants.SESSION_USER);
 		PrintWriter out = response.getWriter();
 		out.println("<script>window.parent.location.replace('"
-				+ request.getContextPath() + "/index.jsp')</script>");
+				+ request.getContextPath() + "/')</script>");
 		out.flush();
 		out.close();
 		return null;

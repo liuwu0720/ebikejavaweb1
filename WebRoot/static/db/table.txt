@@ -1,0 +1,3435 @@
+-- Create table
+create table DDC_APPROVE_USER
+(
+  id              NUMBER not null,
+  user_name       VARCHAR2(50),
+  user_orgname    VARCHAR2(50),
+  user_role_name  VARCHAR2(200),
+  approve_index   NUMBER,
+  approve_note    VARCHAR2(500),
+  approve_table   VARCHAR2(100),
+  approve_tableid NUMBER,
+  approve_time    DATE,
+  approve_state   NUMBER,
+  lsh             VARCHAR2(100),
+  syn_flag        VARCHAR2(10),
+  tran_date       DATE,
+  approve_no      VARCHAR2(100)
+)
+tablespace EBIKEOUT_DATA
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+-- Add comments to the table 
+comment on table DDC_APPROVE_USER
+  is '审批人意见表';
+-- Add comments to the columns 
+comment on column DDC_APPROVE_USER.id
+  is '主键';
+comment on column DDC_APPROVE_USER.user_name
+  is '用户姓名';
+comment on column DDC_APPROVE_USER.user_orgname
+  is '用户部门';
+comment on column DDC_APPROVE_USER.user_role_name
+  is '用户角色';
+comment on column DDC_APPROVE_USER.approve_index
+  is '用户审批顺序';
+comment on column DDC_APPROVE_USER.approve_note
+  is '用户审批备注';
+comment on column DDC_APPROVE_USER.approve_table
+  is '审批表名';
+comment on column DDC_APPROVE_USER.approve_tableid
+  is '审批表名ID';
+comment on column DDC_APPROVE_USER.approve_time
+  is '审批时间';
+comment on column DDC_APPROVE_USER.approve_state
+  is '审批意见 0-同意 1-拒绝';
+comment on column DDC_APPROVE_USER.lsh
+  is '流水号';
+comment on column DDC_APPROVE_USER.syn_flag
+  is '同步标志';
+comment on column DDC_APPROVE_USER.tran_date
+  is '传送时间';
+comment on column DDC_APPROVE_USER.approve_no
+  is '审批编号(唯一)';
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table DDC_APPROVE_USER
+  add constraint PK_DDC_APPROVE_USER primary key (ID)
+  using index 
+  tablespace EBIKEOUT_DATA
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+alter table DDC_APPROVE_USER
+  add constraint UN_APPROVE_NO unique (APPROVE_NO)
+  using index 
+  tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+-- Create table
+create table DDC_DAXXB
+(
+  id                NUMBER not null,
+  dabh              VARCHAR2(50) not null,
+  ywlx              VARCHAR2(20),
+  ywyy              VARCHAR2(20),
+  hyxhzh            VARCHAR2(20),
+  ssdwid            VARCHAR2(500),
+  cphm              VARCHAR2(50),
+  ppxh              VARCHAR2(50),
+  cysy              VARCHAR2(20),
+  djh               VARCHAR2(50),
+  jtzz              VARCHAR2(20),
+  jsrxm1            VARCHAR2(20),
+  xb1               VARCHAR2(20),
+  sfzmhm1           VARCHAR2(20),
+  lxdh1             VARCHAR2(20),
+  jsrxm2            VARCHAR2(20),
+  xb2               VARCHAR2(20),
+  sfzmhm2           VARCHAR2(20),
+  lxdh2             VARCHAR2(20),
+  jsrxm3            VARCHAR2(20),
+  xb3               VARCHAR2(20),
+  sfzmhm3           VARCHAR2(20),
+  lxdh3             VARCHAR2(20),
+  xsqy              VARCHAR2(20),
+  bz                VARCHAR2(200),
+  zt                VARCHAR2(10),
+  syrq              DATE,
+  slzl              VARCHAR2(100),
+  slyj              VARCHAR2(20),
+  slbz              VARCHAR2(100),
+  slr               VARCHAR2(20),
+  slrq              DATE,
+  slbm              VARCHAR2(20),
+  gdyj              VARCHAR2(20),
+  tbyy              CHAR(10),
+  gdbz              VARCHAR2(100),
+  gdr               VARCHAR2(20),
+  gdrq              DATE,
+  gdbm              VARCHAR2(20),
+  syn_flag          VARCHAR2(10),
+  tran_flag         VARCHAR2(10),
+  tran_date         DATE,
+  vc_user1img       VARCHAR2(100),
+  vc_user2img       VARCHAR2(100),
+  vc_ebike_img      VARCHAR2(100),
+  vc_user1_cardimg1 VARCHAR2(100),
+  vc_user1_cardimg2 VARCHAR2(100),
+  vc_user2_cardimg1 VARCHAR2(100),
+  vc_user2_cardimg2 VARCHAR2(100),
+  vc_ebike_invoice  VARCHAR2(100)
+)
+tablespace EBIKEOUT_DATA
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+-- Add comments to the table 
+comment on table DDC_DAXXB
+  is '电动车档案信息表';
+-- Add comments to the columns 
+comment on column DDC_DAXXB.dabh
+  is '新进入的数据，自动生成档案编号4403 00000001；老数据去更新';
+comment on column DDC_DAXXB.ywlx
+  is '业务类型';
+comment on column DDC_DAXXB.ywyy
+  is '业务原因';
+comment on column DDC_DAXXB.hyxhzh
+  is '行业协会账户';
+comment on column DDC_DAXXB.ssdwid
+  is '所属单位ID(对应表DDC_HYXH_SSDW的ID)';
+comment on column DDC_DAXXB.cphm
+  is '车牌号码，办结后，以流水转入本表的车牌号码数据填充本表';
+comment on column DDC_DAXXB.ppxh
+  is '品牌型号';
+comment on column DDC_DAXXB.cysy
+  is '车身验色';
+comment on column DDC_DAXXB.djh
+  is '电机号';
+comment on column DDC_DAXXB.jtzz
+  is '脚踏装置（有、无）';
+comment on column DDC_DAXXB.jsrxm1
+  is '驾驶人姓名1';
+comment on column DDC_DAXXB.xb1
+  is '性别1';
+comment on column DDC_DAXXB.sfzmhm1
+  is '身份证号码1';
+comment on column DDC_DAXXB.lxdh1
+  is '联系电话1';
+comment on column DDC_DAXXB.jsrxm2
+  is '驾驶人姓名2';
+comment on column DDC_DAXXB.xb2
+  is '性别2';
+comment on column DDC_DAXXB.sfzmhm2
+  is '身份证号码2';
+comment on column DDC_DAXXB.lxdh2
+  is '联系电话2';
+comment on column DDC_DAXXB.jsrxm3
+  is '驾驶人姓名3';
+comment on column DDC_DAXXB.xb3
+  is '性别3';
+comment on column DDC_DAXXB.sfzmhm3
+  is '身份证号码3';
+comment on column DDC_DAXXB.lxdh3
+  is '联系电话3';
+comment on column DDC_DAXXB.xsqy
+  is '行驶区域(福田区、罗湖区.....)';
+comment on column DDC_DAXXB.bz
+  is '备注';
+comment on column DDC_DAXXB.zt
+  is '车辆状态 填字典';
+comment on column DDC_DAXXB.syrq
+  is '审验日期：新车归档日期+2年或年审验车合格后的归档日期+2年';
+comment on column DDC_DAXXB.slzl
+  is '受理资料，分割 字典表';
+comment on column DDC_DAXXB.slyj
+  is '受理意见 0 同意 1 不同意 特别注意 档案更正是要填写本表记录';
+comment on column DDC_DAXXB.slbz
+  is '受理备注';
+comment on column DDC_DAXXB.slr
+  is '受理人';
+comment on column DDC_DAXXB.slrq
+  is '受理日期';
+comment on column DDC_DAXXB.slbm
+  is '受理部门';
+comment on column DDC_DAXXB.gdyj
+  is '归档意见 0 办结 1 退办 成功办结的信息才会进入本表';
+comment on column DDC_DAXXB.tbyy
+  is '退办原因';
+comment on column DDC_DAXXB.gdbz
+  is '归档备注';
+comment on column DDC_DAXXB.gdr
+  is '归档人';
+comment on column DDC_DAXXB.gdrq
+  is '归档日期';
+comment on column DDC_DAXXB.gdbm
+  is '归档部门';
+comment on column DDC_DAXXB.syn_flag
+  is '同步标志,填写规则详看其他文档';
+comment on column DDC_DAXXB.tran_flag
+  is '传送标志(该字段必须有索引)';
+comment on column DDC_DAXXB.tran_date
+  is '传送时间';
+comment on column DDC_DAXXB.vc_user1img
+  is '驾驶人照片1';
+comment on column DDC_DAXXB.vc_user2img
+  is '驾驶人照片2';
+comment on column DDC_DAXXB.vc_ebike_img
+  is '车辆照片';
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table DDC_DAXXB
+  add primary key (ID)
+  using index 
+  tablespace EBIKEOUT_DATA
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+alter table DDC_DAXXB
+  add constraint UNI_DDC_DAXXB unique (DABH)
+  using index 
+  tablespace EBIKEOUT_DATA
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+  -- Create table
+create table DDC_DAXXB_LOG
+(
+  id                NUMBER not null,
+  dabh              VARCHAR2(50) not null,
+  ywlx              VARCHAR2(20),
+  ywyy              VARCHAR2(20),
+  hyxhzh            VARCHAR2(20),
+  ssdwid            VARCHAR2(500),
+  cphm              VARCHAR2(20),
+  ppxh              VARCHAR2(20),
+  cysy              VARCHAR2(20),
+  djh               VARCHAR2(30),
+  jtzz              VARCHAR2(20),
+  jsrxm1            VARCHAR2(20),
+  xb1               VARCHAR2(20),
+  sfzmhm1           VARCHAR2(20),
+  lxdh1             VARCHAR2(20),
+  jsrxm2            VARCHAR2(20),
+  xb2               VARCHAR2(20),
+  sfzmhm2           VARCHAR2(20),
+  lxdh2             VARCHAR2(20),
+  jsrxm3            VARCHAR2(20),
+  xb3               VARCHAR2(20),
+  sfzmhm3           VARCHAR2(20),
+  lxdh3             VARCHAR2(20),
+  xsqy              VARCHAR2(20),
+  bz                VARCHAR2(200),
+  zt                VARCHAR2(10),
+  syrq              DATE,
+  slzl              VARCHAR2(100),
+  slyj              VARCHAR2(20),
+  slbz              VARCHAR2(100),
+  slr               VARCHAR2(20),
+  slrq              DATE,
+  slbm              VARCHAR2(20),
+  gdyj              VARCHAR2(20),
+  tbyy              CHAR(10),
+  gdbz              VARCHAR2(100),
+  gdr               VARCHAR2(20),
+  gdrq              DATE,
+  gdbm              VARCHAR2(20),
+  syn_flag          VARCHAR2(10),
+  tran_flag         VARCHAR2(10),
+  tran_date         DATE,
+  vc_user1img       VARCHAR2(100),
+  vc_user2img       VARCHAR2(100),
+  vc_user1_cardimg2 VARCHAR2(100),
+  vc_user2_cardimg1 VARCHAR2(100),
+  vc_user2_cardimg2 VARCHAR2(100),
+  vc_ebike_invoice  VARCHAR2(100),
+  vc_user1_cardimg1 VARCHAR2(100),
+  vc_ebike_img      VARCHAR2(100)
+)
+tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+-- Add comments to the table 
+comment on table DDC_DAXXB_LOG
+  is '电动车档案信息表';
+-- Add comments to the columns 
+comment on column DDC_DAXXB_LOG.id
+  is '主键';
+comment on column DDC_DAXXB_LOG.dabh
+  is '档案编号';
+comment on column DDC_DAXXB_LOG.ywlx
+  is '业务类型';
+comment on column DDC_DAXXB_LOG.ywyy
+  is '业务原因';
+comment on column DDC_DAXXB_LOG.hyxhzh
+  is '行业协会账户';
+comment on column DDC_DAXXB_LOG.ssdwid
+  is '所属单位ID(对应表DDC_HYXH_SSDW的ID)';
+comment on column DDC_DAXXB_LOG.cphm
+  is '车牌号码，办结后，以流水转入本表的车牌号码数据填充本表';
+comment on column DDC_DAXXB_LOG.ppxh
+  is '品牌型号';
+comment on column DDC_DAXXB_LOG.cysy
+  is '车身验色';
+comment on column DDC_DAXXB_LOG.djh
+  is '电机号';
+comment on column DDC_DAXXB_LOG.jtzz
+  is '脚踏装置（有、无）';
+comment on column DDC_DAXXB_LOG.jsrxm1
+  is '驾驶人姓名1';
+comment on column DDC_DAXXB_LOG.xb1
+  is '性别1';
+comment on column DDC_DAXXB_LOG.sfzmhm1
+  is '身份证号码1';
+comment on column DDC_DAXXB_LOG.lxdh1
+  is '联系电话1';
+comment on column DDC_DAXXB_LOG.jsrxm2
+  is '驾驶人姓名2';
+comment on column DDC_DAXXB_LOG.xb2
+  is '性别2';
+comment on column DDC_DAXXB_LOG.sfzmhm2
+  is '身份证号码2';
+comment on column DDC_DAXXB_LOG.lxdh2
+  is '联系电话2';
+comment on column DDC_DAXXB_LOG.jsrxm3
+  is '驾驶人姓名3';
+comment on column DDC_DAXXB_LOG.xb3
+  is '性别3';
+comment on column DDC_DAXXB_LOG.sfzmhm3
+  is '身份证号码3';
+comment on column DDC_DAXXB_LOG.lxdh3
+  is '联系电话3';
+comment on column DDC_DAXXB_LOG.xsqy
+  is '行驶区域(福田区、罗湖区.....)';
+comment on column DDC_DAXXB_LOG.bz
+  is '备注';
+comment on column DDC_DAXXB_LOG.zt
+  is '车辆状态 填字典';
+comment on column DDC_DAXXB_LOG.syrq
+  is '审验日期：新车归档日期+2年或年审验车合格后的归档日期+2年';
+comment on column DDC_DAXXB_LOG.slzl
+  is '受理资料，分割 字典表';
+comment on column DDC_DAXXB_LOG.slyj
+  is '受理意见 0 同意 1 不同意 特别注意 档案更正是要填写本表记录';
+comment on column DDC_DAXXB_LOG.slbz
+  is '受理备注';
+comment on column DDC_DAXXB_LOG.slr
+  is '受理人';
+comment on column DDC_DAXXB_LOG.slrq
+  is '受理日期';
+comment on column DDC_DAXXB_LOG.slbm
+  is '受理部门';
+comment on column DDC_DAXXB_LOG.gdyj
+  is '归档意见 0 办结 1 退办 成功办结的信息才会进入本表';
+comment on column DDC_DAXXB_LOG.tbyy
+  is '退办原因';
+comment on column DDC_DAXXB_LOG.gdbz
+  is '归档备注';
+comment on column DDC_DAXXB_LOG.gdr
+  is '归档人';
+comment on column DDC_DAXXB_LOG.gdrq
+  is '归档日期';
+comment on column DDC_DAXXB_LOG.gdbm
+  is '归档部门';
+comment on column DDC_DAXXB_LOG.syn_flag
+  is '同步标志,填写规则详看其他文档';
+comment on column DDC_DAXXB_LOG.tran_flag
+  is '传送标志(该字段必须有索引)';
+comment on column DDC_DAXXB_LOG.tran_date
+  is '传送时间';
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table DDC_DAXXB_LOG
+  add primary key (ID)
+  using index 
+  tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+  -- Create table
+create table DDC_DRIVER
+(
+  id            NUMBER not null,
+  dabh          VARCHAR2(50),
+  daid          NUMBER,
+  jsrxm         VARCHAR2(50),
+  xb            VARCHAR2(50),
+  lxdh          VARCHAR2(50),
+  syn_flag      VARCHAR2(50),
+  tran_date     DATE default sysdate,
+  user_code     VARCHAR2(50),
+  user_password VARCHAR2(50)
+)
+tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+-- Add comments to the table 
+comment on table DDC_DRIVER
+  is '司机表';
+-- Add comments to the columns 
+comment on column DDC_DRIVER.id
+  is '主键';
+comment on column DDC_DRIVER.dabh
+  is '档案编号';
+comment on column DDC_DRIVER.daid
+  is '档案表ID';
+comment on column DDC_DRIVER.jsrxm
+  is '姓名';
+comment on column DDC_DRIVER.xb
+  is '姓名';
+comment on column DDC_DRIVER.lxdh
+  is '联系电话';
+comment on column DDC_DRIVER.syn_flag
+  is '传送标志';
+comment on column DDC_DRIVER.tran_date
+  is '传送时间';
+comment on column DDC_DRIVER.user_code
+  is '用户名';
+comment on column DDC_DRIVER.user_password
+  is '用户密码';
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table DDC_DRIVER
+  add constraint PK_DDC_DRIVER primary key (ID)
+  using index 
+  tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+  -- Create table
+create table DDC_FLOW
+(
+  id                NUMBER not null,
+  lsh               VARCHAR2(20) not null,
+  ywlx              VARCHAR2(20),
+  ywyy              VARCHAR2(20),
+  hyxhzh            VARCHAR2(20),
+  dabh              VARCHAR2(20),
+  cphm              VARCHAR2(20),
+  ppxh              VARCHAR2(20),
+  cysy              VARCHAR2(20),
+  djh               VARCHAR2(30),
+  jtzz              VARCHAR2(20),
+  jsrxm1            VARCHAR2(20),
+  xb1               VARCHAR2(20),
+  sfzmhm1           VARCHAR2(20),
+  lxdh1             VARCHAR2(20),
+  jsrxm2            VARCHAR2(20),
+  xb2               VARCHAR2(20),
+  sfzmhm2           VARCHAR2(20),
+  lxdh2             VARCHAR2(20),
+  jsrxm3            VARCHAR2(20),
+  xb3               VARCHAR2(20),
+  sfzmhm3           VARCHAR2(20),
+  lxdh3             VARCHAR2(20),
+  xsqy              VARCHAR2(20),
+  bz                VARCHAR2(500),
+  slzl              VARCHAR2(100),
+  slyj              VARCHAR2(20),
+  slbz              VARCHAR2(100),
+  slr               VARCHAR2(20),
+  slrq              DATE,
+  slbm              VARCHAR2(20),
+  gdyj              VARCHAR2(20),
+  tbyy              VARCHAR2(100),
+  gdbz              VARCHAR2(100),
+  gdr               VARCHAR2(20),
+  gdrq              DATE,
+  gdbm              VARCHAR2(20),
+  syn_flag          VARCHAR2(10),
+  tran_flag         VARCHAR2(10),
+  tran_date         DATE,
+  yclb              VARCHAR2(20),
+  vc_user1img       VARCHAR2(100),
+  vc_user2img       VARCHAR2(100),
+  vc_ebike_img      VARCHAR2(100),
+  vc_user1_cardimg1 VARCHAR2(100),
+  vc_user1_cardimg2 VARCHAR2(100),
+  vc_user2_cardimg1 VARCHAR2(100),
+  vc_user2_cardimg2 VARCHAR2(100),
+  vc_ebike_invoice  VARCHAR2(100),
+  ssdwid            VARCHAR2(200),
+  tablename         VARCHAR2(20),
+  tableid           NUMBER
+)
+tablespace EBIKEOUT_DATA
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+-- Add comments to the table 
+comment on table DDC_FLOW
+  is '电动车业务流水表';
+-- Add comments to the columns 
+comment on column DDC_FLOW.lsh
+  is '业务流水号';
+comment on column DDC_FLOW.ywlx
+  is '业务类型';
+comment on column DDC_FLOW.ywyy
+  is '业务原因';
+comment on column DDC_FLOW.hyxhzh
+  is '行业协会账户';
+comment on column DDC_FLOW.dabh
+  is '新备案申请的不用填，老业务要填';
+comment on column DDC_FLOW.cphm
+  is '车牌号码，办结后，取个车牌序号，五位 00001开始编；新备案申请
+
+的不用填，老业务要填';
+comment on column DDC_FLOW.ppxh
+  is '品牌型号';
+comment on column DDC_FLOW.cysy
+  is '车身验色';
+comment on column DDC_FLOW.djh
+  is '电机号';
+comment on column DDC_FLOW.jtzz
+  is '脚踏装置（有、无）';
+comment on column DDC_FLOW.jsrxm1
+  is '驾驶人姓名1';
+comment on column DDC_FLOW.xb1
+  is '性别1';
+comment on column DDC_FLOW.sfzmhm1
+  is '身份证号码1';
+comment on column DDC_FLOW.lxdh1
+  is '联系电话1';
+comment on column DDC_FLOW.jsrxm2
+  is '驾驶人姓名2';
+comment on column DDC_FLOW.xb2
+  is '性别2';
+comment on column DDC_FLOW.sfzmhm2
+  is '身份证号码2';
+comment on column DDC_FLOW.lxdh2
+  is '联系电话2';
+comment on column DDC_FLOW.jsrxm3
+  is '驾驶人姓名3';
+comment on column DDC_FLOW.xb3
+  is '性别3';
+comment on column DDC_FLOW.sfzmhm3
+  is '身份证号码3';
+comment on column DDC_FLOW.lxdh3
+  is '联系电话3';
+comment on column DDC_FLOW.xsqy
+  is '行驶区域(福田区、罗湖区.....)';
+comment on column DDC_FLOW.bz
+  is '备注';
+comment on column DDC_FLOW.slzl
+  is '受理资料，分割 字典表';
+comment on column DDC_FLOW.slyj
+  is '受理意见 0 同意 1 不同意 特别注意 档案更正是要填写本表记录';
+comment on column DDC_FLOW.slbz
+  is '受理备注';
+comment on column DDC_FLOW.slr
+  is '受理人';
+comment on column DDC_FLOW.slrq
+  is '受理日期';
+comment on column DDC_FLOW.slbm
+  is '受理部门';
+comment on column DDC_FLOW.gdyj
+  is '归档意见 0 办结 1 退办 ，成功办结后用本表信息更新，同时更新车
+
+牌号和电动车档案表';
+comment on column DDC_FLOW.tbyy
+  is '退办原因';
+comment on column DDC_FLOW.gdbz
+  is '归档备注';
+comment on column DDC_FLOW.gdr
+  is '归档人';
+comment on column DDC_FLOW.gdrq
+  is '归档日期';
+comment on column DDC_FLOW.gdbm
+  is '归档部门';
+comment on column DDC_FLOW.syn_flag
+  is '同步标志,填写规则详看其他文档';
+comment on column DDC_FLOW.tran_flag
+  is '传送标志(该字段必须有索引)';
+comment on column DDC_FLOW.tran_date
+  is '传送时间';
+comment on column DDC_FLOW.yclb
+  is '验车类别';
+comment on column DDC_FLOW.vc_user1img
+  is '驾驶人照片1';
+comment on column DDC_FLOW.vc_user2img
+  is '驾驶人照片2';
+comment on column DDC_FLOW.vc_ebike_img
+  is '车辆照片';
+comment on column DDC_FLOW.ssdwid
+  is '所属单位ID(对应表DDC_HYXH_SSDW的ID)';
+comment on column DDC_FLOW.tablename
+  is '业务表名';
+comment on column DDC_FLOW.tableid
+  is '业务表ID';
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table DDC_FLOW
+  add primary key (ID)
+  using index 
+  tablespace EBIKEOUT_DATA
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+  -- Create table
+create table DDC_FLOW_LOG
+(
+  id                NUMBER not null,
+  lsh               VARCHAR2(20) not null,
+  ywlx              VARCHAR2(20),
+  ywyy              VARCHAR2(50),
+  hyxhzh            VARCHAR2(20),
+  dabh              VARCHAR2(50),
+  zzjgdmzh          VARCHAR2(200),
+  cphm              VARCHAR2(20),
+  ppxh              VARCHAR2(20),
+  cysy              VARCHAR2(20),
+  djh               VARCHAR2(30),
+  jtzz              VARCHAR2(20),
+  jsrxm1            VARCHAR2(20),
+  xb1               VARCHAR2(20),
+  sfzmhm1           VARCHAR2(20),
+  lxdh1             VARCHAR2(20),
+  jsrxm2            VARCHAR2(20),
+  xb2               VARCHAR2(20),
+  sfzmhm2           VARCHAR2(20),
+  lxdh2             VARCHAR2(20),
+  jsrxm3            VARCHAR2(20),
+  xb3               VARCHAR2(20),
+  sfzmhm3           VARCHAR2(20),
+  lxdh3             VARCHAR2(20),
+  xsqy              VARCHAR2(20),
+  bz                VARCHAR2(200),
+  slzl              VARCHAR2(100),
+  slyj              VARCHAR2(20),
+  slbz              VARCHAR2(100),
+  slr               VARCHAR2(20),
+  slrq              DATE,
+  slbm              VARCHAR2(20),
+  gdyj              VARCHAR2(20),
+  tbyy              VARCHAR2(100),
+  gdbz              VARCHAR2(100),
+  gdr               VARCHAR2(20),
+  gdrq              DATE,
+  gdbm              VARCHAR2(20),
+  syn_flag          VARCHAR2(10),
+  tran_flag         VARCHAR2(10),
+  tran_date         DATE,
+  czr               VARCHAR2(20),
+  vc_user1img       VARCHAR2(100),
+  vc_user2img       VARCHAR2(100),
+  vc_ebike_img      VARCHAR2(100),
+  yclb              VARCHAR2(20),
+  vc_user2_cardimg1 VARCHAR2(100),
+  vc_user2_cardimg2 VARCHAR2(100),
+  vc_ebike_invoice  VARCHAR2(100),
+  ssdwid            VARCHAR2(200),
+  tablename         VARCHAR2(20),
+  tableid           NUMBER,
+  vc_user1_cardimg1 VARCHAR2(100),
+  vc_user1_cardimg2 VARCHAR2(100)
+)
+tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+-- Add comments to the table 
+comment on table DDC_FLOW_LOG
+  is '电动车业务流水表';
+-- Add comments to the columns 
+comment on column DDC_FLOW_LOG.lsh
+  is '业务流水号';
+comment on column DDC_FLOW_LOG.ywlx
+  is '业务类型';
+comment on column DDC_FLOW_LOG.ywyy
+  is '业务原因';
+comment on column DDC_FLOW_LOG.hyxhzh
+  is '行业协会账户';
+comment on column DDC_FLOW_LOG.dabh
+  is '新备案申请的不用填，老业务要填';
+comment on column DDC_FLOW_LOG.zzjgdmzh
+  is '组织机构代码证号';
+comment on column DDC_FLOW_LOG.cphm
+  is '车牌号码，办结后，取个车牌序号，五位 00001开始编；新备案申请的不用填，老业务要填';
+comment on column DDC_FLOW_LOG.ppxh
+  is '品牌型号';
+comment on column DDC_FLOW_LOG.cysy
+  is '车身验色';
+comment on column DDC_FLOW_LOG.djh
+  is '电机号';
+comment on column DDC_FLOW_LOG.jtzz
+  is '脚踏装置（有、无）';
+comment on column DDC_FLOW_LOG.jsrxm1
+  is '驾驶人姓名1';
+comment on column DDC_FLOW_LOG.xb1
+  is '性别1';
+comment on column DDC_FLOW_LOG.sfzmhm1
+  is '身份证号码1';
+comment on column DDC_FLOW_LOG.lxdh1
+  is '联系电话1';
+comment on column DDC_FLOW_LOG.jsrxm2
+  is '驾驶人姓名2';
+comment on column DDC_FLOW_LOG.xb2
+  is '性别2';
+comment on column DDC_FLOW_LOG.sfzmhm2
+  is '身份证号码2';
+comment on column DDC_FLOW_LOG.lxdh2
+  is '联系电话2';
+comment on column DDC_FLOW_LOG.jsrxm3
+  is '驾驶人姓名3';
+comment on column DDC_FLOW_LOG.xb3
+  is '性别3';
+comment on column DDC_FLOW_LOG.sfzmhm3
+  is '身份证号码3';
+comment on column DDC_FLOW_LOG.lxdh3
+  is '联系电话3';
+comment on column DDC_FLOW_LOG.xsqy
+  is '行驶区域(福田区、罗湖区.....)';
+comment on column DDC_FLOW_LOG.bz
+  is '备注';
+comment on column DDC_FLOW_LOG.slzl
+  is '受理资料，分割 字典表';
+comment on column DDC_FLOW_LOG.slyj
+  is '受理意见 0 同意 1 不同意 特别注意 档案更正是要填写本表记录';
+comment on column DDC_FLOW_LOG.slbz
+  is '受理备注';
+comment on column DDC_FLOW_LOG.slr
+  is '受理人';
+comment on column DDC_FLOW_LOG.slrq
+  is '受理日期';
+comment on column DDC_FLOW_LOG.slbm
+  is '受理部门';
+comment on column DDC_FLOW_LOG.gdyj
+  is '归档意见 0 办结 1 退办 ，成功办结后用本表信息更新，同时更新车牌号和电动车档案表';
+comment on column DDC_FLOW_LOG.tbyy
+  is '退办原因';
+comment on column DDC_FLOW_LOG.gdbz
+  is '归档备注';
+comment on column DDC_FLOW_LOG.gdr
+  is '归档人';
+comment on column DDC_FLOW_LOG.gdrq
+  is '归档日期';
+comment on column DDC_FLOW_LOG.gdbm
+  is '归档部门';
+comment on column DDC_FLOW_LOG.syn_flag
+  is '同步标志,填写规则详看其他文档';
+comment on column DDC_FLOW_LOG.tran_flag
+  is '传送标志(该字段必须有索引)';
+comment on column DDC_FLOW_LOG.tran_date
+  is '传送时间';
+comment on column DDC_FLOW_LOG.czr
+  is '操作人';
+comment on column DDC_FLOW_LOG.vc_user1img
+  is '操作部门';
+comment on column DDC_FLOW_LOG.vc_user2img
+  is '操作日期';
+comment on column DDC_FLOW_LOG.vc_ebike_img
+  is '操作内容';
+comment on column DDC_FLOW_LOG.yclb
+  is '验车类别';
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table DDC_FLOW_LOG
+  add constraint PK_DDC_FLOW_LOG primary key (ID)
+  using index 
+  tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+  -- Create table
+create table DDC_HMD
+(
+  id        NUMBER(11) not null,
+  jsrxm     VARCHAR2(20),
+  sfzhm     VARCHAR2(20),
+  xb        VARCHAR2(10),
+  lxdh      VARCHAR2(20),
+  bz        VARCHAR2(200),
+  cjr       VARCHAR2(20),
+  cjbm      VARCHAR2(20),
+  cjrq      DATE,
+  syn_flag  VARCHAR2(10),
+  tran_flag VARCHAR2(10),
+  tran_date DATE
+)
+tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+-- Add comments to the table 
+comment on table DDC_HMD
+  is '黑名单信息管理';
+-- Add comments to the columns 
+comment on column DDC_HMD.id
+  is '编号';
+comment on column DDC_HMD.jsrxm
+  is '驾驶人姓名';
+comment on column DDC_HMD.sfzhm
+  is '身份证号码';
+comment on column DDC_HMD.xb
+  is '性别【0=男，1=女】';
+comment on column DDC_HMD.lxdh
+  is '联系电话';
+comment on column DDC_HMD.bz
+  is '备注';
+comment on column DDC_HMD.cjr
+  is '操作人';
+comment on column DDC_HMD.cjbm
+  is '操作部门';
+comment on column DDC_HMD.cjrq
+  is '操作日期';
+comment on column DDC_HMD.syn_flag
+  is '同步标志【UW=添加、修改，DW=删除】';
+comment on column DDC_HMD.tran_flag
+  is '传送标志';
+comment on column DDC_HMD.tran_date
+  is '传送日期';
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table DDC_HMD
+  add primary key (ID)
+  using index 
+  tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+  -- Create table
+create table DDC_HMD_LOG
+(
+  id    NUMBER(11) not null,
+  jsrxm VARCHAR2(20),
+  sfzhm VARCHAR2(20),
+  xb    VARCHAR2(10),
+  lxdh  VARCHAR2(20),
+  bz    VARCHAR2(200),
+  cjr   VARCHAR2(20),
+  cjbm  VARCHAR2(20),
+  cjrq  DATE,
+  czr   VARCHAR2(20),
+  czbm  VARCHAR2(20),
+  czrq  DATE,
+  czlx  VARCHAR2(10)
+)
+tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+-- Add comments to the table 
+comment on table DDC_HMD_LOG
+  is '黑名单信息管理日志';
+-- Add comments to the columns 
+comment on column DDC_HMD_LOG.id
+  is '编号';
+comment on column DDC_HMD_LOG.jsrxm
+  is '驾驶人姓名';
+comment on column DDC_HMD_LOG.sfzhm
+  is '身份证号码';
+comment on column DDC_HMD_LOG.xb
+  is '性别【0=男，1=女】';
+comment on column DDC_HMD_LOG.lxdh
+  is '联系电话';
+comment on column DDC_HMD_LOG.bz
+  is '备注';
+comment on column DDC_HMD_LOG.cjr
+  is '创建人';
+comment on column DDC_HMD_LOG.cjbm
+  is '创建部门';
+comment on column DDC_HMD_LOG.cjrq
+  is '创建日期';
+comment on column DDC_HMD_LOG.czr
+  is '操作人';
+comment on column DDC_HMD_LOG.czbm
+  is '操作部门';
+comment on column DDC_HMD_LOG.czrq
+  is '操作日期';
+comment on column DDC_HMD_LOG.czlx
+  is '操作类型【A=添加，U=修改，D=删除】';
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table DDC_HMD_LOG
+  add primary key (ID)
+  using index 
+  tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+  -- Create table
+create table DDC_HYXH_BASB
+(
+  id         NUMBER not null,
+  lsh        VARCHAR2(50) not null,
+  hyxhzh     VARCHAR2(20),
+  hyxhsqpe   NUMBER,
+  bz         VARCHAR2(200),
+  sqr        VARCHAR2(50),
+  sqrq       DATE,
+  hyxhbcsjpe NUMBER,
+  bjjg       VARCHAR2(20),
+  bjbz       VARCHAR2(100),
+  bzjr       VARCHAR2(10),
+  bjbm       VARCHAR2(50),
+  bjrq       DATE,
+  syn_flag   VARCHAR2(10),
+  tran_flag  VARCHAR2(10),
+  tran_date  DATE,
+  sl_index   NUMBER default 1,
+  hyxhmc     VARCHAR2(50)
+)
+tablespace EBIKEOUT_DATA
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+-- Add comments to the table 
+comment on table DDC_HYXH_BASB
+  is '行业协会备案申报表';
+-- Add comments to the columns 
+comment on column DDC_HYXH_BASB.id
+  is '序列';
+comment on column DDC_HYXH_BASB.lsh
+  is '流水号';
+comment on column DDC_HYXH_BASB.hyxhzh
+  is '行业协会账户';
+comment on column DDC_HYXH_BASB.hyxhsqpe
+  is '行业协会申请配额';
+comment on column DDC_HYXH_BASB.bz
+  is '备注信息';
+comment on column DDC_HYXH_BASB.sqr
+  is '申请人';
+comment on column DDC_HYXH_BASB.sqrq
+  is '申请日期';
+comment on column DDC_HYXH_BASB.hyxhbcsjpe
+  is '行业协会本次实际批准配额';
+comment on column DDC_HYXH_BASB.bjjg
+  is '办结结果 0同意 1不同意 为空表示在审批中';
+comment on column DDC_HYXH_BASB.bjbz
+  is '办结备注';
+comment on column DDC_HYXH_BASB.bzjr
+  is '办结人';
+comment on column DDC_HYXH_BASB.bjbm
+  is '办结部门';
+comment on column DDC_HYXH_BASB.bjrq
+  is '办结日期';
+comment on column DDC_HYXH_BASB.syn_flag
+  is '同步标志,填写规则详看其他文档';
+comment on column DDC_HYXH_BASB.tran_flag
+  is '传送标志(该字段必须有索引)';
+comment on column DDC_HYXH_BASB.tran_date
+  is '传送时间';
+comment on column DDC_HYXH_BASB.sl_index
+  is '当前审批角色顺序 1-受理民警 2-领导 数字大等级高';
+comment on column DDC_HYXH_BASB.hyxhmc
+  is '行业协会名称';
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table DDC_HYXH_BASB
+  add constraint PK_DDC_HYXH_BASB primary key (ID)
+  using index 
+  tablespace EBIKEOUT_DATA
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+alter table DDC_HYXH_BASB
+  add constraint NK_DDC_HYXH_BASB_XH unique (LSH)
+  using index 
+  tablespace EBIKEOUT_DATA
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+  -- Create table
+create table DDC_HYXH_BASB_LOG
+(
+  id        NUMBER not null,
+  lsh       VARCHAR2(20) not null,
+  hyxhzh    VARCHAR2(20),
+  hyxhsqpe  NUMBER,
+  bz        VARCHAR2(200),
+  sqr       VARCHAR2(50),
+  sqrq      DATE,
+  bjjg      VARCHAR2(20),
+  bjbz      VARCHAR2(100),
+  bzjr      VARCHAR2(10),
+  bjbm      VARCHAR2(50),
+  bjrq      DATE,
+  syn_flag  VARCHAR2(10),
+  tran_flag VARCHAR2(10),
+  tran_date DATE,
+  sl_index  NUMBER,
+  hyxhmc    VARCHAR2(50),
+  yxhbcsjpe NUMBER
+)
+tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+-- Add comments to the table 
+comment on table DDC_HYXH_BASB_LOG
+  is '行业协会备案申报表';
+-- Add comments to the columns 
+comment on column DDC_HYXH_BASB_LOG.lsh
+  is '申报配额流水号';
+comment on column DDC_HYXH_BASB_LOG.hyxhzh
+  is '行业协会账户';
+comment on column DDC_HYXH_BASB_LOG.hyxhsqpe
+  is '行业协会申请配额';
+comment on column DDC_HYXH_BASB_LOG.bz
+  is '备注信息';
+comment on column DDC_HYXH_BASB_LOG.sqr
+  is '申请人';
+comment on column DDC_HYXH_BASB_LOG.sqrq
+  is '申请日期';
+comment on column DDC_HYXH_BASB_LOG.bjjg
+  is '办结结果 0同意 1不同意';
+comment on column DDC_HYXH_BASB_LOG.bjbz
+  is '办结备注';
+comment on column DDC_HYXH_BASB_LOG.bzjr
+  is '办结人';
+comment on column DDC_HYXH_BASB_LOG.bjbm
+  is '办结部门';
+comment on column DDC_HYXH_BASB_LOG.bjrq
+  is '办结日期';
+comment on column DDC_HYXH_BASB_LOG.syn_flag
+  is '同步标志,填写规则详看其他文档';
+comment on column DDC_HYXH_BASB_LOG.tran_flag
+  is '传送标志(该字段必须有索引)';
+comment on column DDC_HYXH_BASB_LOG.tran_date
+  is '传送时间';
+comment on column DDC_HYXH_BASB_LOG.yxhbcsjpe
+  is '操作内容';
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table DDC_HYXH_BASB_LOG
+  add constraint PK_DDC_HYXH_BASB_LOG primary key (ID)
+  using index 
+  tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+  -- Create table
+create table DDC_HYXH_BASE
+(
+  id        NUMBER not null,
+  hyxhzh    VARCHAR2(20) not null,
+  hyxhmm    VARCHAR2(20),
+  hyxhmc    VARCHAR2(100),
+  hyxhdz    VARCHAR2(200),
+  hyxhfzr   VARCHAR2(50),
+  hyxhfzrdh VARCHAR2(50),
+  hyxhsjzpe NUMBER default 0,
+  bz        VARCHAR2(200),
+  cjr       VARCHAR2(20),
+  cjrq      DATE,
+  cjbm      VARCHAR2(20),
+  hyxhlb    VARCHAR2(10),
+  syn_flag  VARCHAR2(10),
+  tran_flag VARCHAR2(10),
+  tran_date DATE,
+  totalpe   NUMBER
+)
+tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+-- Add comments to the table 
+comment on table DDC_HYXH_BASE
+  is '行业协会信息基本信息表';
+-- Add comments to the columns 
+comment on column DDC_HYXH_BASE.hyxhzh
+  is '行业协会账户';
+comment on column DDC_HYXH_BASE.hyxhmm
+  is '行业协会密码';
+comment on column DDC_HYXH_BASE.hyxhmc
+  is '行业协会名称';
+comment on column DDC_HYXH_BASE.hyxhdz
+  is '行业协会地址';
+comment on column DDC_HYXH_BASE.hyxhfzr
+  is '行业协会负责人';
+comment on column DDC_HYXH_BASE.hyxhfzrdh
+  is '行业协会负责人电话';
+comment on column DDC_HYXH_BASE.hyxhsjzpe
+  is '行业协会剩余配额';
+comment on column DDC_HYXH_BASE.bz
+  is '备注信息';
+comment on column DDC_HYXH_BASE.cjr
+  is '创建人';
+comment on column DDC_HYXH_BASE.cjrq
+  is '创建日期';
+comment on column DDC_HYXH_BASE.cjbm
+  is '创建部门';
+comment on column DDC_HYXH_BASE.hyxhlb
+  is '行业协会类别';
+comment on column DDC_HYXH_BASE.syn_flag
+  is '同步标志';
+comment on column DDC_HYXH_BASE.tran_flag
+  is '传送标志';
+comment on column DDC_HYXH_BASE.tran_date
+  is '传送时间';
+comment on column DDC_HYXH_BASE.totalpe
+  is '总配额';
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table DDC_HYXH_BASE
+  add primary key (ID)
+  using index 
+  tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+  -- Create table
+create table DDC_HYXH_BASE_LOG
+(
+  id        NUMBER not null,
+  hyxhzh    VARCHAR2(20) not null,
+  hyxhmm    VARCHAR2(20),
+  hyxhmc    VARCHAR2(100),
+  hyxhdz    VARCHAR2(200),
+  hyxhfzr   VARCHAR2(50),
+  hyxhfzrdh VARCHAR2(50),
+  hyxhsjzpe NUMBER,
+  bz        VARCHAR2(200),
+  cjr       VARCHAR2(20),
+  cjrq      DATE,
+  cjbm      VARCHAR2(20),
+  hyxhlb    VARCHAR2(10),
+  syn_flag  VARCHAR2(10),
+  tran_flag VARCHAR2(10),
+  tran_date DATE,
+  czr       VARCHAR2(20),
+  czbm      VARCHAR2(20),
+  czrq      DATE,
+  cznr      VARCHAR2(20)
+)
+tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+-- Add comments to the table 
+comment on table DDC_HYXH_BASE_LOG
+  is '行业协会信息基本信息表';
+-- Add comments to the columns 
+comment on column DDC_HYXH_BASE_LOG.hyxhzh
+  is '行业协会账户';
+comment on column DDC_HYXH_BASE_LOG.hyxhmm
+  is '行业协会密码';
+comment on column DDC_HYXH_BASE_LOG.hyxhmc
+  is '行业协会名称';
+comment on column DDC_HYXH_BASE_LOG.hyxhdz
+  is '行业协会地址';
+comment on column DDC_HYXH_BASE_LOG.hyxhfzr
+  is '行业协会负责人';
+comment on column DDC_HYXH_BASE_LOG.hyxhfzrdh
+  is '行业协会负责人电话';
+comment on column DDC_HYXH_BASE_LOG.hyxhsjzpe
+  is '行业协会实际总配额（在DDC_HYXH_BASB 支队领导批完并办结去加这个数）';
+comment on column DDC_HYXH_BASE_LOG.bz
+  is '备注信息';
+comment on column DDC_HYXH_BASE_LOG.cjr
+  is '创建人';
+comment on column DDC_HYXH_BASE_LOG.cjrq
+  is '创建日期';
+comment on column DDC_HYXH_BASE_LOG.cjbm
+  is '创建部门';
+comment on column DDC_HYXH_BASE_LOG.hyxhlb
+  is '行业协会类别';
+comment on column DDC_HYXH_BASE_LOG.syn_flag
+  is '同步标志';
+comment on column DDC_HYXH_BASE_LOG.tran_flag
+  is '传送标志';
+comment on column DDC_HYXH_BASE_LOG.tran_date
+  is '传送时间';
+comment on column DDC_HYXH_BASE_LOG.czr
+  is '操作人';
+comment on column DDC_HYXH_BASE_LOG.czbm
+  is '操作部门';
+comment on column DDC_HYXH_BASE_LOG.czrq
+  is '操作日期';
+comment on column DDC_HYXH_BASE_LOG.cznr
+  is '操作内容';
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table DDC_HYXH_BASE_LOG
+  add primary key (ID)
+  using index 
+  tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+  -- Create table
+create table DDC_HYXH_SSDW
+(
+  id         NUMBER not null,
+  hyxhzh     VARCHAR2(20) not null,
+  dwmc       VARCHAR2(100),
+  zzjgdmzh   VARCHAR2(200),
+  zsdz       VARCHAR2(100),
+  lxr        VARCHAR2(50),
+  lxdh       VARCHAR2(50),
+  bz         VARCHAR2(200),
+  sqr        VARCHAR2(50),
+  sqrq       DATE,
+  zt         VARCHAR2(1) default 1,
+  shr        VARCHAR2(20),
+  shrq       DATE,
+  shbm       VARCHAR2(20),
+  syn_flag   VARCHAR2(10),
+  tran_flag  VARCHAR2(10),
+  tran_date  DATE,
+  dwpe       NUMBER,
+  vc_picpath VARCHAR2(500),
+  usercode   VARCHAR2(50),
+  password   VARCHAR2(50),
+  shflag     NUMBER default 0,
+  totalpe    NUMBER
+)
+tablespace EBIKEOUT_DATA
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+-- Add comments to the table 
+comment on table DDC_HYXH_SSDW
+  is '行业协会信息所属单位';
+-- Add comments to the columns 
+comment on column DDC_HYXH_SSDW.id
+  is '记录ID';
+comment on column DDC_HYXH_SSDW.hyxhzh
+  is '行业协会帐号';
+comment on column DDC_HYXH_SSDW.dwmc
+  is '单位名称';
+comment on column DDC_HYXH_SSDW.zzjgdmzh
+  is '组织机构代码证号';
+comment on column DDC_HYXH_SSDW.zsdz
+  is '住所地址（深圳市福田区）';
+comment on column DDC_HYXH_SSDW.lxr
+  is '联系人';
+comment on column DDC_HYXH_SSDW.lxdh
+  is '联系电话';
+comment on column DDC_HYXH_SSDW.bz
+  is '备注信息';
+comment on column DDC_HYXH_SSDW.sqr
+  is '申请人';
+comment on column DDC_HYXH_SSDW.sqrq
+  is '申请日期';
+comment on column DDC_HYXH_SSDW.zt
+  is '0 禁用 1 启用';
+comment on column DDC_HYXH_SSDW.shr
+  is '审核人';
+comment on column DDC_HYXH_SSDW.shrq
+  is '审核日期';
+comment on column DDC_HYXH_SSDW.shbm
+  is '审核部门';
+comment on column DDC_HYXH_SSDW.syn_flag
+  is '同步标志,填写规则详看其他文档';
+comment on column DDC_HYXH_SSDW.tran_flag
+  is '传送标志(该字段必须有索引)';
+comment on column DDC_HYXH_SSDW.tran_date
+  is '传送时间';
+comment on column DDC_HYXH_SSDW.dwpe
+  is '单位配额';
+comment on column DDC_HYXH_SSDW.vc_picpath
+  is '营业执照图片';
+comment on column DDC_HYXH_SSDW.usercode
+  is '用户名';
+comment on column DDC_HYXH_SSDW.password
+  is '密码';
+comment on column DDC_HYXH_SSDW.shflag
+  is '审核标志 0-未审核等待提交资料  1-已审核';
+comment on column DDC_HYXH_SSDW.totalpe
+  is '单位总配额';
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table DDC_HYXH_SSDW
+  add constraint PK_DDC_HYXH_SSDW primary key (ID)
+  using index 
+  tablespace EBIKEOUT_DATA
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+alter table DDC_HYXH_SSDW
+  add constraint UNK_DDC_HYXH_SSDW unique (DWMC)
+  using index 
+  tablespace EBIKEOUT_DATA
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+  -- Create table
+create table DDC_HYXH_SSDWCLSB
+(
+  id                NUMBER not null,
+  lsh               VARCHAR2(50) not null,
+  hyxhzh            VARCHAR2(50),
+  ssdwid            VARCHAR2(200),
+  cphm              VARCHAR2(50),
+  ppxh              VARCHAR2(50),
+  cysy              VARCHAR2(50),
+  djh               VARCHAR2(50),
+  jtzz              VARCHAR2(50),
+  jsrxm1            VARCHAR2(50),
+  xb1               VARCHAR2(50),
+  sfzmhm1           VARCHAR2(50),
+  lxdh1             VARCHAR2(50),
+  jsrxm2            VARCHAR2(50),
+  xb2               VARCHAR2(50),
+  sfzmhm2           VARCHAR2(50),
+  lxdh2             VARCHAR2(50),
+  jsrxm3            VARCHAR2(50),
+  xb3               VARCHAR2(50),
+  sfzmhm3           VARCHAR2(50),
+  lxdh3             VARCHAR2(50),
+  xsqy              VARCHAR2(50),
+  bz                VARCHAR2(500),
+  sqr               VARCHAR2(50),
+  sqrq              DATE,
+  slzl              VARCHAR2(100),
+  slyj              VARCHAR2(10),
+  slbz              VARCHAR2(100),
+  slr               VARCHAR2(110),
+  slrq              DATE,
+  slbm              VARCHAR2(20),
+  syn_flag          VARCHAR2(10),
+  tran_flag         VARCHAR2(10),
+  tran_date         DATE,
+  sqip              VARCHAR2(50),
+  vc_user1img       VARCHAR2(100),
+  vc_user2img       VARCHAR2(100),
+  vc_ebike_img      VARCHAR2(100),
+  tbyy              VARCHAR2(100),
+  sl_index          NUMBER default 0,
+  vc_user1_cardimg1 VARCHAR2(100),
+  vc_user1_cardimg2 VARCHAR2(100),
+  vc_user2_cardimg1 VARCHAR2(100),
+  vc_user2_cardimg2 VARCHAR2(100),
+  enable            NUMBER default 1,
+  vc_ebike_invoice  VARCHAR2(100)
+)
+tablespace EBIKEOUT_DATA
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+-- Add comments to the table 
+comment on table DDC_HYXH_SSDWCLSB
+  is '行业协会信息所属单位车辆申报表';
+-- Add comments to the columns 
+comment on column DDC_HYXH_SSDWCLSB.id
+  is '序列';
+comment on column DDC_HYXH_SSDWCLSB.lsh
+  is '流水号';
+comment on column DDC_HYXH_SSDWCLSB.hyxhzh
+  is '行业协会账户';
+comment on column DDC_HYXH_SSDWCLSB.ssdwid
+  is '所属单位ID,对应 DDC_HYXH_SSDW的记录ID';
+comment on column DDC_HYXH_SSDWCLSB.cphm
+  is '车牌号码，第一次申报是空的，不用显示';
+comment on column DDC_HYXH_SSDWCLSB.ppxh
+  is '品牌型号';
+comment on column DDC_HYXH_SSDWCLSB.cysy
+  is '车身验色';
+comment on column DDC_HYXH_SSDWCLSB.djh
+  is '电机号';
+comment on column DDC_HYXH_SSDWCLSB.jtzz
+  is '脚踏装置（有、无）';
+comment on column DDC_HYXH_SSDWCLSB.jsrxm1
+  is '驾驶人姓名1';
+comment on column DDC_HYXH_SSDWCLSB.xb1
+  is '性别1';
+comment on column DDC_HYXH_SSDWCLSB.sfzmhm1
+  is '身份证号码1';
+comment on column DDC_HYXH_SSDWCLSB.lxdh1
+  is '联系电话1';
+comment on column DDC_HYXH_SSDWCLSB.jsrxm2
+  is '驾驶人姓名2';
+comment on column DDC_HYXH_SSDWCLSB.xb2
+  is '性别2';
+comment on column DDC_HYXH_SSDWCLSB.sfzmhm2
+  is '身份证号码2';
+comment on column DDC_HYXH_SSDWCLSB.lxdh2
+  is '联系电话2';
+comment on column DDC_HYXH_SSDWCLSB.jsrxm3
+  is '驾驶人姓名3';
+comment on column DDC_HYXH_SSDWCLSB.xb3
+  is '性别3';
+comment on column DDC_HYXH_SSDWCLSB.sfzmhm3
+  is '身份证号码3';
+comment on column DDC_HYXH_SSDWCLSB.lxdh3
+  is '联系电话3';
+comment on column DDC_HYXH_SSDWCLSB.xsqy
+  is '行驶区域(福田区、罗湖区.....)';
+comment on column DDC_HYXH_SSDWCLSB.bz
+  is '备注';
+comment on column DDC_HYXH_SSDWCLSB.sqr
+  is '申请人';
+comment on column DDC_HYXH_SSDWCLSB.sqrq
+  is '申请日期';
+comment on column DDC_HYXH_SSDWCLSB.slzl
+  is '受理资料，分割 字典表';
+comment on column DDC_HYXH_SSDWCLSB.slyj
+  is '受理意见 0同意 1不同意';
+comment on column DDC_HYXH_SSDWCLSB.slbz
+  is '受理备注';
+comment on column DDC_HYXH_SSDWCLSB.slr
+  is '受理人';
+comment on column DDC_HYXH_SSDWCLSB.slrq
+  is '受理日期';
+comment on column DDC_HYXH_SSDWCLSB.slbm
+  is '受理部门';
+comment on column DDC_HYXH_SSDWCLSB.syn_flag
+  is '同步标志,填写规则详看其他文档';
+comment on column DDC_HYXH_SSDWCLSB.tran_flag
+  is '传送标志(该字段必须有索引)';
+comment on column DDC_HYXH_SSDWCLSB.tran_date
+  is '传送时间';
+comment on column DDC_HYXH_SSDWCLSB.sqip
+  is '申请IP地址';
+comment on column DDC_HYXH_SSDWCLSB.vc_user1img
+  is '驾驶人1照片';
+comment on column DDC_HYXH_SSDWCLSB.vc_user2img
+  is '驾驶人2照片';
+comment on column DDC_HYXH_SSDWCLSB.vc_ebike_img
+  is '车辆照片';
+comment on column DDC_HYXH_SSDWCLSB.tbyy
+  is '退办原因';
+comment on column DDC_HYXH_SSDWCLSB.sl_index
+  is '受理审批顺序';
+comment on column DDC_HYXH_SSDWCLSB.vc_user1_cardimg1
+  is '驾驶人1身份证照片正面';
+comment on column DDC_HYXH_SSDWCLSB.vc_user1_cardimg2
+  is '驾驶人1身份证照片反面';
+comment on column DDC_HYXH_SSDWCLSB.vc_user2_cardimg1
+  is '驾驶人2身份证照片正面';
+comment on column DDC_HYXH_SSDWCLSB.vc_user2_cardimg2
+  is '驾驶人2身份证照片反面面';
+comment on column DDC_HYXH_SSDWCLSB.enable
+  is '1-有效 0无效';
+comment on column DDC_HYXH_SSDWCLSB.vc_ebike_invoice
+  is '车辆购车发票';
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table DDC_HYXH_SSDWCLSB
+  add constraint PK_DDC_HYXH_SSDWCLSB primary key (ID)
+  using index 
+  tablespace EBIKEOUT_DATA
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+alter table DDC_HYXH_SSDWCLSB
+  add constraint UNK_DDC_HYXH_SSDWCLSB unique (LSH)
+  using index 
+  tablespace EBIKEOUT_DATA
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+  -- Create table
+create table DDC_HYXH_SSDWCLSB_LOG
+(
+  id        NUMBER not null,
+  lsh       VARCHAR2(20) not null,
+  hyxhzh    VARCHAR2(20),
+  ssdw_id   VARCHAR2(200),
+  cphm      VARCHAR2(20),
+  ppxh      VARCHAR2(20),
+  cysy      VARCHAR2(20),
+  djh       VARCHAR2(30),
+  jtzz      VARCHAR2(20),
+  jsrxm1    VARCHAR2(20),
+  xb1       VARCHAR2(20),
+  sfzmhm1   VARCHAR2(20),
+  lxdh1     VARCHAR2(20),
+  jsrxm2    VARCHAR2(20),
+  xb2       VARCHAR2(20),
+  sfzmhm2   VARCHAR2(20),
+  lxdh2     VARCHAR2(20),
+  jsrxm3    VARCHAR2(20),
+  xb3       VARCHAR2(20),
+  sfzmhm3   VARCHAR2(20),
+  lxdh3     VARCHAR2(20),
+  xsqy      VARCHAR2(20),
+  bz        VARCHAR2(200),
+  sqr       VARCHAR2(50),
+  sqrq      DATE,
+  slzl      VARCHAR2(100),
+  slyj      VARCHAR2(10),
+  slbz      VARCHAR2(100),
+  slr       VARCHAR2(20),
+  slrq      DATE,
+  slbm      VARCHAR2(20),
+  syn_flag  VARCHAR2(10),
+  tran_flag VARCHAR2(10),
+  tran_date DATE,
+  czr       VARCHAR2(20),
+  czbm      VARCHAR2(20),
+  czrq      DATE,
+  cznr      VARCHAR2(20),
+  sqip      VARCHAR2(50)
+)
+tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+-- Add comments to the table 
+comment on table DDC_HYXH_SSDWCLSB_LOG
+  is '行业协会信息所属单位车辆申报表';
+-- Add comments to the columns 
+comment on column DDC_HYXH_SSDWCLSB_LOG.lsh
+  is '车辆申报流水号';
+comment on column DDC_HYXH_SSDWCLSB_LOG.hyxhzh
+  is '行业协会账户';
+comment on column DDC_HYXH_SSDWCLSB_LOG.ssdw_id
+  is '所属单位ID,对应 DDC_HYXH_SSDW的记录ID';
+comment on column DDC_HYXH_SSDWCLSB_LOG.cphm
+  is '车牌号码，第一次申报是空的，不用显示';
+comment on column DDC_HYXH_SSDWCLSB_LOG.ppxh
+  is '品牌型号';
+comment on column DDC_HYXH_SSDWCLSB_LOG.cysy
+  is '车身验色';
+comment on column DDC_HYXH_SSDWCLSB_LOG.djh
+  is '电机号';
+comment on column DDC_HYXH_SSDWCLSB_LOG.jtzz
+  is '脚踏装置（有、无）';
+comment on column DDC_HYXH_SSDWCLSB_LOG.jsrxm1
+  is '驾驶人姓名1';
+comment on column DDC_HYXH_SSDWCLSB_LOG.xb1
+  is '性别1';
+comment on column DDC_HYXH_SSDWCLSB_LOG.sfzmhm1
+  is '身份证号码1';
+comment on column DDC_HYXH_SSDWCLSB_LOG.lxdh1
+  is '联系电话1';
+comment on column DDC_HYXH_SSDWCLSB_LOG.jsrxm2
+  is '驾驶人姓名2';
+comment on column DDC_HYXH_SSDWCLSB_LOG.xb2
+  is '性别2';
+comment on column DDC_HYXH_SSDWCLSB_LOG.sfzmhm2
+  is '身份证号码2';
+comment on column DDC_HYXH_SSDWCLSB_LOG.lxdh2
+  is '联系电话2';
+comment on column DDC_HYXH_SSDWCLSB_LOG.jsrxm3
+  is '驾驶人姓名3';
+comment on column DDC_HYXH_SSDWCLSB_LOG.xb3
+  is '性别3';
+comment on column DDC_HYXH_SSDWCLSB_LOG.sfzmhm3
+  is '身份证号码3';
+comment on column DDC_HYXH_SSDWCLSB_LOG.lxdh3
+  is '联系电话3';
+comment on column DDC_HYXH_SSDWCLSB_LOG.xsqy
+  is '行驶区域(福田区、罗湖区.....)';
+comment on column DDC_HYXH_SSDWCLSB_LOG.bz
+  is '备注';
+comment on column DDC_HYXH_SSDWCLSB_LOG.sqr
+  is '申请人';
+comment on column DDC_HYXH_SSDWCLSB_LOG.sqrq
+  is '申请日期';
+comment on column DDC_HYXH_SSDWCLSB_LOG.slzl
+  is '受理资料，分割 字典表';
+comment on column DDC_HYXH_SSDWCLSB_LOG.slyj
+  is '受理意见 0同意 1不同意';
+comment on column DDC_HYXH_SSDWCLSB_LOG.slbz
+  is '受理备注';
+comment on column DDC_HYXH_SSDWCLSB_LOG.slr
+  is '受理人';
+comment on column DDC_HYXH_SSDWCLSB_LOG.slrq
+  is '受理日期';
+comment on column DDC_HYXH_SSDWCLSB_LOG.slbm
+  is '受理部门';
+comment on column DDC_HYXH_SSDWCLSB_LOG.syn_flag
+  is '同步标志,填写规则详看其他文档';
+comment on column DDC_HYXH_SSDWCLSB_LOG.tran_flag
+  is '传送标志(该字段必须有索引)';
+comment on column DDC_HYXH_SSDWCLSB_LOG.tran_date
+  is '传送时间';
+comment on column DDC_HYXH_SSDWCLSB_LOG.czr
+  is '操作人';
+comment on column DDC_HYXH_SSDWCLSB_LOG.czbm
+  is '操作部门';
+comment on column DDC_HYXH_SSDWCLSB_LOG.czrq
+  is '操作日期';
+comment on column DDC_HYXH_SSDWCLSB_LOG.cznr
+  is '操作内容';
+comment on column DDC_HYXH_SSDWCLSB_LOG.sqip
+  is '申请IP';
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table DDC_HYXH_SSDWCLSB_LOG
+  add primary key (ID)
+  using index 
+  tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+  -- Create table
+create table DDC_HYXH_SSDW_LOG
+(
+  id        NUMBER not null,
+  hyxhzh    VARCHAR2(20) not null,
+  dwmc      VARCHAR2(100),
+  zzjgdmzh  VARCHAR2(200),
+  zsdz      VARCHAR2(100),
+  lxr       VARCHAR2(50),
+  lxdh      VARCHAR2(12),
+  bz        VARCHAR2(200),
+  sqr       VARCHAR2(50),
+  sqrq      DATE,
+  zt        VARCHAR2(1),
+  shr       VARCHAR2(20),
+  shrq      DATE,
+  shbm      VARCHAR2(20),
+  syn_flag  VARCHAR2(10),
+  tran_flag VARCHAR2(10),
+  tran_date DATE,
+  czr       VARCHAR2(20),
+  czbm      VARCHAR2(20),
+  czrq      DATE,
+  cznr      VARCHAR2(20),
+  dwpe      NUMBER
+)
+tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+-- Add comments to the table 
+comment on table DDC_HYXH_SSDW_LOG
+  is '行业协会信息所属单位';
+-- Add comments to the columns 
+comment on column DDC_HYXH_SSDW_LOG.id
+  is '记录ID';
+comment on column DDC_HYXH_SSDW_LOG.hyxhzh
+  is '行业协会账户';
+comment on column DDC_HYXH_SSDW_LOG.dwmc
+  is '单位名称';
+comment on column DDC_HYXH_SSDW_LOG.zzjgdmzh
+  is '组织机构代码证号';
+comment on column DDC_HYXH_SSDW_LOG.zsdz
+  is '住所地址（深圳市福田区）';
+comment on column DDC_HYXH_SSDW_LOG.lxr
+  is '联系人';
+comment on column DDC_HYXH_SSDW_LOG.lxdh
+  is '联系电话';
+comment on column DDC_HYXH_SSDW_LOG.bz
+  is '备注信息';
+comment on column DDC_HYXH_SSDW_LOG.sqr
+  is '申请人';
+comment on column DDC_HYXH_SSDW_LOG.sqrq
+  is '申请日期';
+comment on column DDC_HYXH_SSDW_LOG.zt
+  is '0 禁用 1 启用';
+comment on column DDC_HYXH_SSDW_LOG.shr
+  is '审核人';
+comment on column DDC_HYXH_SSDW_LOG.shrq
+  is '审核日期';
+comment on column DDC_HYXH_SSDW_LOG.shbm
+  is '审核部门';
+comment on column DDC_HYXH_SSDW_LOG.syn_flag
+  is '同步标志,填写规则详看其他文档';
+comment on column DDC_HYXH_SSDW_LOG.tran_flag
+  is '传送标志(该字段必须有索引)';
+comment on column DDC_HYXH_SSDW_LOG.tran_date
+  is '传送时间';
+comment on column DDC_HYXH_SSDW_LOG.czr
+  is '操作人';
+comment on column DDC_HYXH_SSDW_LOG.czbm
+  is '操作部门';
+comment on column DDC_HYXH_SSDW_LOG.czrq
+  is '操作日期';
+comment on column DDC_HYXH_SSDW_LOG.cznr
+  is '操作内容';
+comment on column DDC_HYXH_SSDW_LOG.dwpe
+  is '单位配额';
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table DDC_HYXH_SSDW_LOG
+  add constraint PK_DDC_HYXH_SSDW_LOG primary key (ID)
+  using index 
+  tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+  -- Create table
+create table DDC_SJZD
+(
+  id        NUMBER not null,
+  dmz       VARCHAR2(20),
+  dmms1     VARCHAR2(200),
+  dmms2     VARCHAR2(200),
+  dmlb      VARCHAR2(20),
+  bz        VARCHAR2(50),
+  cjr       VARCHAR2(20),
+  cjrq      DATE,
+  cjbm      VARCHAR2(20),
+  syn_flag  VARCHAR2(10),
+  tran_flag VARCHAR2(10),
+  tran_date DATE
+)
+tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+-- Add comments to the table 
+comment on table DDC_SJZD
+  is '电动车业务数据字典表';
+-- Add comments to the columns 
+comment on column DDC_SJZD.id
+  is '记录ID';
+comment on column DDC_SJZD.dmz
+  is '代码值';
+comment on column DDC_SJZD.dmms1
+  is '代码描述1';
+comment on column DDC_SJZD.dmms2
+  is '代码描述2';
+comment on column DDC_SJZD.dmlb
+  is '代码类别';
+comment on column DDC_SJZD.bz
+  is '备注';
+comment on column DDC_SJZD.cjr
+  is '创建人';
+comment on column DDC_SJZD.cjrq
+  is '创建日期';
+comment on column DDC_SJZD.cjbm
+  is '创建部门';
+comment on column DDC_SJZD.syn_flag
+  is '同步标志,填写规则详看其他文档';
+comment on column DDC_SJZD.tran_flag
+  is '传送标志(该字段必须有索引)';
+comment on column DDC_SJZD.tran_date
+  is '传送时间';
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table DDC_SJZD
+  add constraint DDC_SJZD_PK primary key (ID)
+  using index 
+  tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+  -- Create table
+create table FILERECORD
+(
+  id        NUMBER,
+  filename  VARCHAR2(50),
+  datetiime DATE,
+  flag      NUMBER,
+  filepath  VARCHAR2(100)
+)
+tablespace EBIKEOUT_DATA
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+-- Add comments to the columns 
+comment on column FILERECORD.flag
+  is '0-导入 1-导出';
+  -- Create table
+create table JT_DEPT
+(
+  id        NUMBER not null,
+  org_id    VARCHAR2(50),
+  up_org    VARCHAR2(50),
+  org_name  VARCHAR2(100),
+  jb        VARCHAR2(5),
+  op_ip     VARCHAR2(20),
+  op_date   VARCHAR2(50),
+  op_remark VARCHAR2(200),
+  org_state VARCHAR2(2)
+)
+tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+-- Add comments to the columns 
+comment on column JT_DEPT.org_id
+  is '部门id';
+comment on column JT_DEPT.up_org
+  is '上级部门';
+comment on column JT_DEPT.org_name
+  is '部门名称';
+comment on column JT_DEPT.jb
+  is '部门级别';
+comment on column JT_DEPT.op_ip
+  is '操作IP';
+comment on column JT_DEPT.op_date
+  is '操作日期';
+comment on column JT_DEPT.op_remark
+  is '操作备注';
+comment on column JT_DEPT.org_state
+  is '部门状态';
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table JT_DEPT
+  add constraint PK_DEPT_ID primary key (ID)
+  using index 
+  tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+  -- Create table
+create table JT_MENU
+(
+  id        NUMBER not null,
+  vc_menu   VARCHAR2(20),
+  vc_url    VARCHAR2(50),
+  n_enable  NUMBER default 0,
+  n_sort    NUMBER,
+  vc_icon   VARCHAR2(20),
+  i_parent  NUMBER not null,
+  vc_parent VARCHAR2(50),
+  vc_desc   VARCHAR2(200)
+)
+tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+-- Add comments to the table 
+comment on table JT_MENU
+  is '菜单表';
+-- Add comments to the columns 
+comment on column JT_MENU.vc_menu
+  is '菜单名';
+comment on column JT_MENU.vc_url
+  is '链接地址';
+comment on column JT_MENU.n_enable
+  is '0有效 1无效';
+comment on column JT_MENU.n_sort
+  is '排序';
+comment on column JT_MENU.vc_icon
+  is '图标';
+comment on column JT_MENU.i_parent
+  is '父ID';
+comment on column JT_MENU.vc_parent
+  is '父菜单名';
+comment on column JT_MENU.vc_desc
+  is '描述';
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table JT_MENU
+  add constraint PK_JT_MENU primary key (ID)
+  using index 
+  tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+  -- Create table
+create table JT_PRIVILEGE
+(
+  id         NUMBER not null,
+  pri_name   VARCHAR2(100),
+  pri_sort   VARCHAR2(100),
+  pri_parent NUMBER,
+  pri_page   VARCHAR2(500),
+  op_ip      VARCHAR2(20),
+  op_date    VARCHAR2(50),
+  op_remark  VARCHAR2(200)
+)
+tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+-- Add comments to the table 
+comment on table JT_PRIVILEGE
+  is '权限表';
+-- Add comments to the columns 
+comment on column JT_PRIVILEGE.pri_name
+  is '权限名称';
+comment on column JT_PRIVILEGE.pri_sort
+  is '权限排序';
+comment on column JT_PRIVILEGE.pri_parent
+  is '上级权限id';
+comment on column JT_PRIVILEGE.pri_page
+  is '权限对应的页面';
+comment on column JT_PRIVILEGE.op_ip
+  is '操作ip';
+comment on column JT_PRIVILEGE.op_date
+  is '操作时间';
+comment on column JT_PRIVILEGE.op_remark
+  is '操作备注';
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table JT_PRIVILEGE
+  add primary key (ID)
+  using index 
+  tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+  -- Create table
+create table JT_ROLE
+(
+  id         NUMBER not null,
+  role_name  VARCHAR2(50),
+  role_type  VARCHAR2(10),
+  role_state VARCHAR2(2) default 1,
+  op_ip      VARCHAR2(20),
+  op_date    VARCHAR2(50),
+  op_remark  VARCHAR2(200),
+  role_desc  VARCHAR2(200),
+  role_sort  NUMBER
+)
+tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+-- Add comments to the table 
+comment on table JT_ROLE
+  is '角色表';
+-- Add comments to the columns 
+comment on column JT_ROLE.role_name
+  is '角色名称';
+comment on column JT_ROLE.role_type
+  is '角色类型1-审批角色 0一般角色';
+comment on column JT_ROLE.role_state
+  is '角色状态  1-有效 ';
+comment on column JT_ROLE.op_ip
+  is '操作ip';
+comment on column JT_ROLE.op_date
+  is '操作时间';
+comment on column JT_ROLE.op_remark
+  is '操作备注';
+comment on column JT_ROLE.role_desc
+  is '角色描述';
+comment on column JT_ROLE.role_sort
+  is '审批顺序 ';
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table JT_ROLE
+  add primary key (ID)
+  using index 
+  tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+  -- Create table
+create table JT_ROLE_MENU
+(
+  id     NUMBER not null,
+  roleid NUMBER,
+  menuid NUMBER
+)
+tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+-- Add comments to the table 
+comment on table JT_ROLE_MENU
+  is '角色菜单关联表';
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table JT_ROLE_MENU
+  add constraint PK_JT_ROLE_MENU primary key (ID)
+  using index 
+  tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+  -- Create table
+create table JT_ROLE_PRIVILEGE
+(
+  id        NUMBER not null,
+  role_id   NUMBER,
+  pri_id    NUMBER,
+  op_ip     VARCHAR2(20),
+  op_date   VARCHAR2(50),
+  op_remark VARCHAR2(200)
+)
+tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+-- Add comments to the table 
+comment on table JT_ROLE_PRIVILEGE
+  is '角色权限表';
+-- Add comments to the columns 
+comment on column JT_ROLE_PRIVILEGE.role_id
+  is '对应的角色id';
+comment on column JT_ROLE_PRIVILEGE.pri_id
+  is '对应的权限id';
+comment on column JT_ROLE_PRIVILEGE.op_ip
+  is '操作ip';
+comment on column JT_ROLE_PRIVILEGE.op_date
+  is '操作日期';
+comment on column JT_ROLE_PRIVILEGE.op_remark
+  is '操作备注';
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table JT_ROLE_PRIVILEGE
+  add primary key (ID)
+  using index 
+  tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+  -- Create table
+create table JT_USER
+(
+  id            NUMBER not null,
+  user_code     VARCHAR2(20),
+  user_password VARCHAR2(20),
+  user_name     VARCHAR2(20),
+  user_org      VARCHAR2(150),
+  user_state    VARCHAR2(2),
+  user_role     VARCHAR2(100),
+  op_ip         VARCHAR2(20),
+  op_date       VARCHAR2(50),
+  op_remark     VARCHAR2(200),
+  user_pri      VARCHAR2(300 CHAR),
+  flag          NUMBER default 0
+)
+tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+-- Add comments to the table 
+comment on table JT_USER
+  is '用户表';
+-- Add comments to the columns 
+comment on column JT_USER.user_code
+  is '用户帐号';
+comment on column JT_USER.user_password
+  is '用户密码';
+comment on column JT_USER.user_name
+  is '用户姓名';
+comment on column JT_USER.user_org
+  is '用户所属部门';
+comment on column JT_USER.user_state
+  is '用户状态';
+comment on column JT_USER.user_role
+  is '用户所属角色';
+comment on column JT_USER.op_ip
+  is '操作ip';
+comment on column JT_USER.op_date
+  is '操作时间';
+comment on column JT_USER.op_remark
+  is '操作备注';
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table JT_USER
+  add primary key (ID)
+  using index 
+  tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+  -- Create table
+create table PIC_PATH
+(
+  id            NUMBER not null,
+  vc_addpath    VARCHAR2(100),
+  dt_add        DATE default SYSDATE,
+  i_type        NUMBER,
+  vc_type       VARCHAR2(100),
+  vc_parse_path VARCHAR2(100)
+)
+tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+-- Add comments to the table 
+comment on table PIC_PATH
+  is '图片路径配置表';
+-- Add comments to the columns 
+comment on column PIC_PATH.id
+  is '主键';
+comment on column PIC_PATH.vc_addpath
+  is '保存路径';
+comment on column PIC_PATH.dt_add
+  is '添加时间';
+comment on column PIC_PATH.i_type
+  is '图片类型ID';
+comment on column PIC_PATH.vc_type
+  is '图片类型名称';
+comment on column PIC_PATH.vc_parse_path
+  is '图片解析路径';
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table PIC_PATH
+  add constraint PK_PICPATH primary key (ID)
+  using index 
+  tablespace EBIKEIN_DATA
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+  ========================================================================================
+  
+  
+  
+  
+  
+  
+  
+  
+  insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (92, '2099-01-01 00:00:00', '行业协会停止录入时间', null, 'HYXHTZLRSJ', '行业协会停止录入时间', '数据库添加', to_date('28-04-2012', 'dd-mm-yyyy'), '程序开发', 'UW', '1', to_date('22-04-2013 10:40:19', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (88, 'M', '中国联合网络通信有限公司深圳分公司', null, 'HYXHSSLB', '行业协会所属类别', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:33', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (89, 'M', '中国铁通集团有限公司深圳分公司', null, 'HYXHSSLB', '行业协会所属类别', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:33', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (68, 'A', '市食品行业协会饮用水委员会', null, 'HYXHSSLB', '行业协会所属类别', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:33', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (69, 'B', '市燃气行业协会', null, 'HYXHSSLB', '行业协会所属类别', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:33', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (70, 'C', '市物流与供应链管理协会', null, 'HYXHSSLB', '行业协会所属类别', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:33', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (90, 'H', '羊城晚报社驻深圳办事处', null, 'HYXHSSLB', '行业协会所属类别', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:33', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (81, '440303', '罗湖区', null, 'SSQY', '所属区域', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:33', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (82, '440304', '福田区', null, 'SSQY', '所属区域', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:33', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (84, '440305', '南山区', null, 'SSQY', '所属区域', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:33', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (85, '440306', '宝安区', null, 'SSQY', '所属区域', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:33', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (86, '440308', '盐田区', null, 'SSQY', '所属区域', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:33', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (87, '440307', '龙岗区', null, 'SSQY', '所属区域', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:34', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (91, 'B', '所属单位', null, 'YWYY_C', '业务原因', '数据库添加', to_date('13-03-2012 11:28:17', 'dd-mm-yyyy hh24:mi:ss'), '程序开发', 'UW', '1', to_date('14-05-2012 12:40:34', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (52, '10', '法律、法规、规章或省、市人民政府规定的其他情形的。', null, 'TBYY', '退办原因', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:34', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (53, '1', '车辆使用单位有效的身份证明及其复印件；', null, 'BASQZL', '备案申请资料', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:34', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (54, '2', '车辆驾驶人有效的身份证明及其复印件，所属车辆使用单位人事证明；', null, 'BASQZL', '备案申请资料', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:34', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (55, '3', '购车发票或其他车辆合法来历证明及其复印件；', null, 'BASQZL', '备案申请资料', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:34', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (1, '11', '电机号不符', null, 'TBYY', '退办原因', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:34', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (2, '12', '车身颜色不符', null, 'TBYY', '退办原因', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:34', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (56, '4', '车辆整车出厂合格证明及其复印件；', null, 'BASQZL', '备案申请资料', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:34', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (57, '5', '车辆照片一张。', null, 'BGSQZL', '变更申请资料', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:34', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (58, '1', '车辆使用单位身份证明和复印件；', null, 'BGSQZL', '变更申请资料', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:34', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (59, '2', '属于更换车架或整车的，还应当提交车辆制造厂或经销商出具的车架或整车的来历凭证和复印件；', null, 'BGSQZL', '变更申请资料', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:34', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (60, '3', '属于变更行驶区域的，还应当提交车辆使用单位的证明；', null, 'BGSQZL', '变更申请资料', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:34', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (61, '4', '属于变更车辆驾驶人的，还应当提交车辆驾驶人有效的身份证明及其复印件，所属车辆使用单位人事证明。', null, 'BGSQZL', '变更申请资料', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:34', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (62, '1', '现车辆使用单位和原车辆使用单位的身份证明及复印件；', null, 'ZYSQZL', '转移申请资料', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:34', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (63, '2', '转移的证明、凭证。', null, 'ZYSQZL', '转移申请资料', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:34', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (64, '1', '车辆使用单位的身份证明和复印件；', null, 'ZXSQZL', '注销申请资料', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:34', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (65, '2', '属于车辆灭失、丢失、被盗或损毁的，还应当提交车辆灭失、丢失、被盗或损毁的证明；', null, 'ZXSQZL', '注销申请资料', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:34', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (66, '3', '属于因质量的问题退车的，还应当提交车辆制造厂或者经销商出具的退车证明；', null, 'ZXSQZL', '注销申请资料', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:34', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (67, '4', '属于车辆驾驶人退出车辆使用单位的，还应当提交车辆使用单位的证明。', null, 'ZXSQZL', '注销申请资料', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:34', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (71, 'D', '奶业协会行业', null, 'HYXHSSLB', '行业协会所属类别', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:34', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (72, 'E', '市服务行业协会维修业', null, 'HYXHSSLB', '行业协会所属类别', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:34', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (73, 'F', '市特种设备行业协会协会电梯维修', null, 'HYXHSSLB', '行业协会所属类别', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:34', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (74, 'G', '市水务(集团)有限公司', null, 'HYXHSSLB', '行业协会所属类别', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:34', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (75, 'H', '市报业集团发行有限公司', null, 'HYXHSSLB', '行业协会所属类别', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:34', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (76, 'H', '南方都市报经营有限公司深圳分公司', null, 'HYXHSSLB', '行业协会所属类别', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:34', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (77, 'H', '南方报业传媒集团深圳记者站', null, 'HYXHSSLB', '行业协会所属类别', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:34', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (78, 'L', '市天威视讯股份有限公司', null, 'HYXHSSLB', '行业协会所属类别', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:34', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (79, 'M', '中国电信公司深圳分公司', null, 'HYXHSSLB', '行业协会所属类别', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:34', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (80, 'N', '市邮政局', null, 'HYXHSSLB', '行业协会所属类别', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:34', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (199, 'H', '广州日报', null, 'HYXHSSLB', '行业协会所属类别', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:34', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (93, 'F', '行驶区域', null, 'YWYY_B', '业务原因', '数据库添加', to_date('25-05-2012', 'dd-mm-yyyy'), '程序开发', 'UW', '1', to_date('26-05-2012 02:24:19', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (110, '440320', '大鹏新区', null, 'SSQY', '所属区域', null, null, null, 'IW', '1', to_date('25-07-2012 10:42:38', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (111, '440319', '龙华新区', null, 'SSQY', '所属区域', null, null, null, 'IW', '1', to_date('25-07-2012 10:42:38', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (112, '440318', '坪山新区', null, 'SSQY', '所属区域', null, null, null, 'UW', '1', to_date('27-04-2013 15:12:23', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (113, '440317', '光明新区', null, 'SSQY', '所属区域', null, null, null, 'UW', '1', to_date('27-04-2013 15:12:23', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (3, 'A', '正常', null, 'CLZT', '车辆状态', '数据库添加', to_date('13-03-2012 11:28:17', 'dd-mm-yyyy hh24:mi:ss'), '程序开发', 'UW', '1', to_date('14-05-2012 12:40:34', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (4, 'B', '迁出', null, 'CLZT', '车辆状态', '数据库添加', to_date('13-03-2012 11:28:17', 'dd-mm-yyyy hh24:mi:ss'), '程序开发', 'UW', '1', to_date('14-05-2012 12:40:34', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (5, 'C', '被盗抢', null, 'CLZT', '车辆状态', '数据库添加', to_date('13-03-2012 11:28:17', 'dd-mm-yyyy hh24:mi:ss'), '程序开发', 'UW', '1', to_date('14-05-2012 12:40:34', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (6, 'D', '停驶', null, 'CLZT', '车辆状态', '数据库添加', to_date('13-03-2012 11:28:17', 'dd-mm-yyyy hh24:mi:ss'), '程序开发', 'UW', '1', to_date('14-05-2012 12:40:34', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (7, 'E', '注销', null, 'CLZT', '车辆状态', '数据库添加', to_date('13-03-2012 11:28:17', 'dd-mm-yyyy hh24:mi:ss'), '程序开发', 'UW', '1', to_date('14-05-2012 12:40:34', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (8, 'G', '违法未处理', null, 'CLZT', '车辆状态', '数据库添加', to_date('13-03-2012 11:28:17', 'dd-mm-yyyy hh24:mi:ss'), '程序开发', 'UW', '1', to_date('14-05-2012 12:40:34', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (9, 'H', '海关监管', null, 'CLZT', '车辆状态', '数据库添加', to_date('13-03-2012 11:28:17', 'dd-mm-yyyy hh24:mi:ss'), '程序开发', 'UW', '1', to_date('14-05-2012 12:40:34', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (10, 'I', '事故未处理', null, 'CLZT', '车辆状态', '数据库添加', to_date('13-03-2012 11:28:17', 'dd-mm-yyyy hh24:mi:ss'), '程序开发', 'UW', '1', to_date('14-05-2012 12:40:34', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (11, 'J', '嫌疑车', null, 'CLZT', '车辆状态', '数据库添加', to_date('13-03-2012 11:28:17', 'dd-mm-yyyy hh24:mi:ss'), '程序开发', 'UW', '1', to_date('14-05-2012 12:40:35', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (12, 'K', '查封', null, 'CLZT', '车辆状态', '数据库添加', to_date('13-03-2012 11:28:17', 'dd-mm-yyyy hh24:mi:ss'), '程序开发', 'UW', '1', to_date('14-05-2012 12:40:35', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (13, 'L', '暂扣', null, 'CLZT', '车辆状态', '数据库添加', to_date('13-03-2012 11:28:17', 'dd-mm-yyyy hh24:mi:ss'), '程序开发', 'UW', '1', to_date('14-05-2012 12:40:35', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (14, 'M', '强制注销', null, 'CLZT', '车辆状态', '数据库添加', to_date('13-03-2012 11:28:17', 'dd-mm-yyyy hh24:mi:ss'), '程序开发', 'UW', '1', to_date('14-05-2012 12:40:35', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (15, 'N', '事故逃逸', null, 'CLZT', '车辆状态', '数据库添加', to_date('13-03-2012 11:28:17', 'dd-mm-yyyy hh24:mi:ss'), '程序开发', 'UW', '1', to_date('14-05-2012 12:40:35', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (16, 'O', '锁定', null, 'CLZT', '车辆状态', '数据库添加', to_date('13-03-2012 11:28:17', 'dd-mm-yyyy hh24:mi:ss'), '程序开发', 'UW', '1', to_date('14-05-2012 12:40:35', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (17, 'A', '车辆备案', null, 'YWLX', '业务类型', '数据库添加', to_date('13-03-2012 11:28:17', 'dd-mm-yyyy hh24:mi:ss'), '程序开发', 'UW', '1', to_date('14-05-2012 12:40:35', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (18, 'B', '车辆变更', null, 'YWLX', '业务类型', '数据库添加', to_date('13-03-2012 11:28:17', 'dd-mm-yyyy hh24:mi:ss'), '程序开发', 'UW', '1', to_date('14-05-2012 12:40:35', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (19, 'C', '车辆转移', null, 'YWLX', '业务类型', '数据库添加', to_date('13-03-2012 11:28:17', 'dd-mm-yyyy hh24:mi:ss'), '程序开发', 'UW', '1', to_date('14-05-2012 12:40:35', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (20, 'D', '车辆注销', null, 'YWLX', '业务类型', '数据库添加', to_date('13-03-2012 11:28:17', 'dd-mm-yyyy hh24:mi:ss'), '程序开发', 'UW', '1', to_date('14-05-2012 12:40:35', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (21, 'E', '车辆检验', '2年', 'YWLX', '业务类型', '数据库添加', to_date('13-03-2012 11:28:17', 'dd-mm-yyyy hh24:mi:ss'), '程序开发', 'UW', '1', to_date('14-05-2012 12:40:35', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (22, 'F', '档案更正', null, 'YWLX', '业务类型', '数据库添加', to_date('13-03-2012 11:28:17', 'dd-mm-yyyy hh24:mi:ss'), '程序开发', 'UW', '1', to_date('14-05-2012 12:40:35', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (23, 'A', '正常', null, 'YWYY_A', '业务原因', '数据库添加', to_date('13-03-2012 11:28:17', 'dd-mm-yyyy hh24:mi:ss'), '程序开发', 'UW', '1', to_date('14-05-2012 12:40:35', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (24, 'A', '车架', null, 'YWYY_B', '业务原因', '数据库添加', to_date('13-03-2012 11:28:17', 'dd-mm-yyyy hh24:mi:ss'), '程序开发', 'UW', '1', to_date('14-05-2012 12:40:35', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (25, 'B', '换车', null, 'YWYY_B', '业务原因', '数据库添加', to_date('13-03-2012 11:28:17', 'dd-mm-yyyy hh24:mi:ss'), '程序开发', 'UW', '1', to_date('14-05-2012 12:40:35', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (28, 'E', '驾驶人', null, 'YWYY_B', '业务原因', '数据库添加', to_date('13-03-2012 11:28:17', 'dd-mm-yyyy hh24:mi:ss'), '程序开发', 'UW', '1', to_date('14-05-2012 12:40:35', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (29, 'A', '行驶区域', null, 'YWYY_C', '业务原因', '数据库添加', to_date('13-03-2012 11:28:17', 'dd-mm-yyyy hh24:mi:ss'), '程序开发', 'UW', '1', to_date('14-05-2012 12:40:35', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (30, 'A', '灭失', null, 'YWYY_D', '业务原因', '数据库添加', to_date('13-03-2012 11:28:17', 'dd-mm-yyyy hh24:mi:ss'), '程序开发', 'UW', '1', to_date('14-05-2012 12:40:35', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (31, 'B', '丢失', null, 'YWYY_D', '业务原因', '数据库添加', to_date('13-03-2012 11:28:17', 'dd-mm-yyyy hh24:mi:ss'), '程序开发', 'UW', '1', to_date('14-05-2012 12:40:35', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (32, 'C', '被盗', null, 'YWYY_D', '业务原因', '数据库添加', to_date('13-03-2012 11:28:17', 'dd-mm-yyyy hh24:mi:ss'), '程序开发', 'UW', '1', to_date('14-05-2012 12:40:35', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (33, 'D', '损毁', null, 'YWYY_D', '业务原因', '数据库添加', to_date('13-03-2012 11:28:17', 'dd-mm-yyyy hh24:mi:ss'), '程序开发', 'UW', '1', to_date('14-05-2012 12:40:35', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (34, 'E', '报废', null, 'YWYY_D', '业务原因', '数据库添加', to_date('13-03-2012 11:28:17', 'dd-mm-yyyy hh24:mi:ss'), '程序开发', 'UW', '1', to_date('14-05-2012 12:40:35', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (35, 'F', '退车', null, 'YWYY_D', '业务原因', '数据库添加', to_date('13-03-2012 11:28:17', 'dd-mm-yyyy hh24:mi:ss'), '程序开发', 'UW', '1', to_date('14-05-2012 12:40:35', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (36, 'G', '退出', null, 'YWYY_D', '业务原因', '数据库添加', to_date('13-03-2012 11:28:17', 'dd-mm-yyyy hh24:mi:ss'), '程序开发', 'UW', '1', to_date('14-05-2012 12:40:35', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (37, 'H', '迁出', null, 'YWYY_D', '业务原因', '数据库添加', to_date('13-03-2012 11:28:17', 'dd-mm-yyyy hh24:mi:ss'), '程序开发', 'UW', '1', to_date('14-05-2012 12:40:35', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (38, 'A', '正常', null, 'YWYY_E', '业务原因', '数据库添加', to_date('13-03-2012 11:28:17', 'dd-mm-yyyy hh24:mi:ss'), '程序开发', 'UW', '1', to_date('14-05-2012 12:40:35', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (39, 'A', '正常', null, 'YWYY_F', '业务原因', '数据库添加', to_date('13-03-2012 11:28:17', 'dd-mm-yyyy hh24:mi:ss'), '程序开发', 'UW', '1', to_date('14-05-2012 12:40:35', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (40, '1', '深黄色', null, 'CSYS', '车身颜色', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:35', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (41, '2', '深绿色', null, 'CSYS', '车身颜色', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:35', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (42, '3', '天蓝色', null, 'CSYS', '车身颜色', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:35', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (43, '1', '提交的证明、凭证不真实或无效的；', null, 'TBYY', '退办原因', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:35', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (44, '2', '车辆来历证明记载的车辆所有人与身份证明不符的；', null, 'TBYY', '退办原因', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:35', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (45, '3', '提交的证明、凭证与车辆不符的；', null, 'TBYY', '退办原因', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:35', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (46, '4', '车辆驾驶人年龄不满16周岁的；', null, 'TBYY', '退办原因', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:35', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (47, '5', '车辆无脚踏装置的；', null, 'TBYY', '退办原因', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:35', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (48, '6', '车辆电动机号不清晰或者无法辨识的；', null, 'TBYY', '退办原因', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:35', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (49, '7', '车辆属于改装、拼装的电动自行车；', null, 'TBYY', '退办原因', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:36', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (50, '8', '车辆被人民法院、人民检察院、行政执法部门依法查封、扣押的；', null, 'TBYY', '退办原因', null, null, null, 'UW', '1', to_date('14-05-2012 12:40:36', 'dd-mm-yyyy hh24:mi:ss'));
+insert into DDC_SJZD (id, dmz, dmms1, dmms2, dmlb, bz, cjr, cjrq, cjbm, syn_flag, tran_flag, tran_date)
+values (51, '9', '超出配额数量的。', null, 'TBYY', '退办原因', 'admin', to_date('12-04-2012 10:59:59', 'dd-mm-yyyy hh24:mi:ss'), '30015', 'UW', '1', to_date('14-05-2012 12:40:36', 'dd-mm-yyyy hh24:mi:ss'));
+commit;
+prompt 95 records loaded
+prompt Loading JT_DEPT...
+insert into JT_DEPT (id, org_id, up_org, org_name, jb, op_ip, op_date, op_remark, org_state)
+values (1, '454333', '30146', '鸟中队', null, '127.0.0.1', '2016-03-22 09:41:07', '超级管理员用户于2016-03-22 09:41:07添加了部门:鸟中队', '1');
+commit;
+prompt 1 records loaded
+prompt Loading JT_MENU...
+insert into JT_MENU (id, vc_menu, vc_url, n_enable, n_sort, vc_icon, i_parent, vc_parent, vc_desc)
+values (63, '黑名单管理', 'blackListAction/getAll', 0, 4, '&#xe609;', 1, '系统管理', '黑名单管理');
+insert into JT_MENU (id, vc_menu, vc_url, n_enable, n_sort, vc_icon, i_parent, vc_parent, vc_desc)
+values (83, '字典管理', 'dictionaryAction/getAll', 0, 5, '&#xe617;', 1, '系统管理', '常用字');
+insert into JT_MENU (id, vc_menu, vc_url, n_enable, n_sort, vc_icon, i_parent, vc_parent, vc_desc)
+values (183, '检验审批', 'approvalAction/checkApprove', 0, 3, '&#xe613;', 43, '审批管理', '电动车检验管理');
+insert into JT_MENU (id, vc_menu, vc_url, n_enable, n_sort, vc_icon, i_parent, vc_parent, vc_desc)
+values (1, '系统管理', null, 0, 8, '&#xe601;', 0, null, null);
+insert into JT_MENU (id, vc_menu, vc_url, n_enable, n_sort, vc_icon, i_parent, vc_parent, vc_desc)
+values (2, '菜单管理', 'systemAction/getAll', 0, 1, '&#xe611;', 1, '系统管理', '44444444444');
+insert into JT_MENU (id, vc_menu, vc_url, n_enable, n_sort, vc_icon, i_parent, vc_parent, vc_desc)
+values (44, '备案审批', 'approvalAction/recordApprove', 0, 2, '&#xe60e;', 43, '审批管理', null);
+insert into JT_MENU (id, vc_menu, vc_url, n_enable, n_sort, vc_icon, i_parent, vc_parent, vc_desc)
+values (123, '电动车档案管理', null, 0, 5, '&#xe600;', 0, null, null);
+insert into JT_MENU (id, vc_menu, vc_url, n_enable, n_sort, vc_icon, i_parent, vc_parent, vc_desc)
+values (124, '档案查询', 'ebikeAction/getAll', 0, 1, '&#xe615;', 123, '电动车档案管理', '档案查询');
+insert into JT_MENU (id, vc_menu, vc_url, n_enable, n_sort, vc_icon, i_parent, vc_parent, vc_desc)
+values (126, '补订档案表', 'ebikeAction/getAlladd', 1, 3, '&#xe61d;', 123, '电动车档案管理', '补订档案表');
+insert into JT_MENU (id, vc_menu, vc_url, n_enable, n_sort, vc_icon, i_parent, vc_parent, vc_desc)
+values (143, '统计查询', null, 0, 6, '&#xe616;', 0, null, null);
+insert into JT_MENU (id, vc_menu, vc_url, n_enable, n_sort, vc_icon, i_parent, vc_parent, vc_desc)
+values (145, '区域车辆统计', 'statisticalAction/getByArea', 0, 2, '&#xe607;', 143, '统计查询', null);
+insert into JT_MENU (id, vc_menu, vc_url, n_enable, n_sort, vc_icon, i_parent, vc_parent, vc_desc)
+values (146, '协会车辆统计', 'statisticalAction/getByHyxh', 0, 3, '&#xe61e;', 143, '统计查询', null);
+insert into JT_MENU (id, vc_menu, vc_url, n_enable, n_sort, vc_icon, i_parent, vc_parent, vc_desc)
+values (147, '大队车辆统计', 'statisticalAction/getByTeam', 0, 4, '&#xe60c;', 143, '统计查询', null);
+insert into JT_MENU (id, vc_menu, vc_url, n_enable, n_sort, vc_icon, i_parent, vc_parent, vc_desc)
+values (23, '用户管理', 'deptAction/getAll', 0, 2, '&#xe60c;', 1, '系统管理', '3333333333');
+insert into JT_MENU (id, vc_menu, vc_url, n_enable, n_sort, vc_icon, i_parent, vc_parent, vc_desc)
+values (24, '角色管理', 'userRoleAction/getAll', 0, 3, '&#xe602;', 1, '系统管理', 'rtrrrrrrrrrrrrrrr');
+insert into JT_MENU (id, vc_menu, vc_url, n_enable, n_sort, vc_icon, i_parent, vc_parent, vc_desc)
+values (103, '行业协会账户管理', 'industryAction/getAll', 0, 6, '&#xe61e;', 1, '系统管理', null);
+insert into JT_MENU (id, vc_menu, vc_url, n_enable, n_sort, vc_icon, i_parent, vc_parent, vc_desc)
+values (104, '协会所属单位管理', 'industryAction/getAllCompany', 0, 7, '&#xe61a;', 1, '系统管理', null);
+insert into JT_MENU (id, vc_menu, vc_url, n_enable, n_sort, vc_icon, i_parent, vc_parent, vc_desc)
+values (45, '配额审批', 'approvalAction/quotaApprove', 0, 1, '&#xe60f;', 43, '审批管理', null);
+insert into JT_MENU (id, vc_menu, vc_url, n_enable, n_sort, vc_icon, i_parent, vc_parent, vc_desc)
+values (125, '档案更正', 'ebikeAction/getAllupdate', 0, 2, '&#xe60e;', 123, '电动车档案管理', null);
+insert into JT_MENU (id, vc_menu, vc_url, n_enable, n_sort, vc_icon, i_parent, vc_parent, vc_desc)
+values (163, '配额管理', null, 0, 1, '&#xe60f;', 0, null, null);
+insert into JT_MENU (id, vc_menu, vc_url, n_enable, n_sort, vc_icon, i_parent, vc_parent, vc_desc)
+values (43, '审批管理', null, 0, 0, '&#xe614;', 0, null, null);
+insert into JT_MENU (id, vc_menu, vc_url, n_enable, n_sort, vc_icon, i_parent, vc_parent, vc_desc)
+values (144, '业务量统计', 'statisticalAction/getByBusiness', 0, 1, '&#xe618;', 143, '统计查询', null);
+insert into JT_MENU (id, vc_menu, vc_url, n_enable, n_sort, vc_icon, i_parent, vc_parent, vc_desc)
+values (148, '退办查询', 'statisticalAction/getByBack', 0, 5, '&#xe620;', 143, '统计查询', null);
+insert into JT_MENU (id, vc_menu, vc_url, n_enable, n_sort, vc_icon, i_parent, vc_parent, vc_desc)
+values (149, '流水查询', 'statisticalAction/getByWater', 0, 6, '&#xe61f;', 143, '统计查询', null);
+insert into JT_MENU (id, vc_menu, vc_url, n_enable, n_sort, vc_icon, i_parent, vc_parent, vc_desc)
+values (164, '协会配额管理', 'industryAction/getIndusryQuota', 0, 1, '&#xe61e;', 163, '行业协会配额管理', null);
+insert into JT_MENU (id, vc_menu, vc_url, n_enable, n_sort, vc_icon, i_parent, vc_parent, vc_desc)
+values (165, '单位配额管理', 'industryAction/getCompanyQuota', 0, 2, '&#xe61a;', 163, '配额管理', null);
+insert into JT_MENU (id, vc_menu, vc_url, n_enable, n_sort, vc_icon, i_parent, vc_parent, vc_desc)
+values (203, '数据同步', 'dataAction/getAll', 0, 11, '&#xe612;', 1, '系统管理', '内网数据同步');
+commit;
+prompt 27 records loaded
+prompt Loading JT_PRIVILEGE...
+insert into JT_PRIVILEGE (id, pri_name, pri_sort, pri_parent, pri_page, op_ip, op_date, op_remark)
+values (15, '档案更正', '15', 13, 'dagl_getDaxxList?flag=gz', null, null, null);
+insert into JT_PRIVILEGE (id, pri_name, pri_sort, pri_parent, pri_page, op_ip, op_date, op_remark)
+values (17, '字典管理', '17', 10, 'sys_getSjzdList', null, null, null);
+insert into JT_PRIVILEGE (id, pri_name, pri_sort, pri_parent, pri_page, op_ip, op_date, op_remark)
+values (20, '电动自行车注销', '20', 4, 'dagl_getDaxxList?flag=zx', null, null, null);
+insert into JT_PRIVILEGE (id, pri_name, pri_sort, pri_parent, pri_page, op_ip, op_date, op_remark)
+values (21, '电动自行车转移', '21', 4, 'dagl_getDaxxList?flag=zy', null, null, null);
+insert into JT_PRIVILEGE (id, pri_name, pri_sort, pri_parent, pri_page, op_ip, op_date, op_remark)
+values (13, '电动自行车档案管理', '13', 0, null, null, null, null);
+insert into JT_PRIVILEGE (id, pri_name, pri_sort, pri_parent, pri_page, op_ip, op_date, op_remark)
+values (22, '电动自行车检验', '22', 4, 'dagl_getDaxxList?flag=jy', null, null, null);
+insert into JT_PRIVILEGE (id, pri_name, pri_sort, pri_parent, pri_page, op_ip, op_date, op_remark)
+values (1, '行业协会配额管理', '1', 0, null, '127.0.0.1', '20120329', 'aa');
+insert into JT_PRIVILEGE (id, pri_name, pri_sort, pri_parent, pri_page, op_ip, op_date, op_remark)
+values (2, '行业协会配额管理', '2', 1, 'sys_getBaseList?flag=xhpe', '127.0.0.1', '20120329', 'aa');
+insert into JT_PRIVILEGE (id, pri_name, pri_sort, pri_parent, pri_page, op_ip, op_date, op_remark)
+values (3, '行业协会所属单位配额管理', '3', 1, 'sys_getSsdwList?flag=dwpe', null, null, null);
+insert into JT_PRIVILEGE (id, pri_name, pri_sort, pri_parent, pri_page, op_ip, op_date, op_remark)
+values (4, '电动自行车业务受理', '4', 0, null, null, null, null);
+insert into JT_PRIVILEGE (id, pri_name, pri_sort, pri_parent, pri_page, op_ip, op_date, op_remark)
+values (5, '电动车备案', '5', 4, 'clsb_getClsbList?flag=sb', null, null, null);
+insert into JT_PRIVILEGE (id, pri_name, pri_sort, pri_parent, pri_page, op_ip, op_date, op_remark)
+values (16, '补打档案表', '16', 13, 'dagl_getDaxxList?flag=bddab', null, null, null);
+insert into JT_PRIVILEGE (id, pri_name, pri_sort, pri_parent, pri_page, op_ip, op_date, op_remark)
+values (18, '业务量统计', '18', 24, 'clsb_getYwltj', null, null, null);
+insert into JT_PRIVILEGE (id, pri_name, pri_sort, pri_parent, pri_page, op_ip, op_date, op_remark)
+values (23, '电动自行车变更', '23', 4, 'dagl_getDaxxList?flag=bg', null, null, null);
+insert into JT_PRIVILEGE (id, pri_name, pri_sort, pri_parent, pri_page, op_ip, op_date, op_remark)
+values (34, '流水查询', '34', 24, 'statis_getFlowByCondition', null, null, null);
+insert into JT_PRIVILEGE (id, pri_name, pri_sort, pri_parent, pri_page, op_ip, op_date, op_remark)
+values (10, '系统管理', '10', 0, null, null, null, null);
+insert into JT_PRIVILEGE (id, pri_name, pri_sort, pri_parent, pri_page, op_ip, op_date, op_remark)
+values (11, '行业协会账户管理', '11', 10, 'sys_getBaseList?flag=xhgl', null, null, null);
+insert into JT_PRIVILEGE (id, pri_name, pri_sort, pri_parent, pri_page, op_ip, op_date, op_remark)
+values (12, '行业协会所属单位账户管理', '12', 10, 'sys_getSsdwList?flag=dwgl', null, null, null);
+insert into JT_PRIVILEGE (id, pri_name, pri_sort, pri_parent, pri_page, op_ip, op_date, op_remark)
+values (24, '统计查询', '24', 0, null, null, null, null);
+insert into JT_PRIVILEGE (id, pri_name, pri_sort, pri_parent, pri_page, op_ip, op_date, op_remark)
+values (25, '区域车辆信息统计', '25', 24, 'statis_getStatisByXsqy', null, null, null);
+insert into JT_PRIVILEGE (id, pri_name, pri_sort, pri_parent, pri_page, op_ip, op_date, op_remark)
+values (26, '协会车辆信息统计', '26', 24, 'statis_getStatisByXhcl', null, null, null);
+insert into JT_PRIVILEGE (id, pri_name, pri_sort, pri_parent, pri_page, op_ip, op_date, op_remark)
+values (27, '协会配额信息统计', '27', 24, 'statis_getStatisByXhpe', null, null, null);
+insert into JT_PRIVILEGE (id, pri_name, pri_sort, pri_parent, pri_page, op_ip, op_date, op_remark)
+values (28, '大队车辆信息统计', '28', 24, 'statis_getStatisByDdcl', null, null, null);
+insert into JT_PRIVILEGE (id, pri_name, pri_sort, pri_parent, pri_page, op_ip, op_date, op_remark)
+values (30, '用户管理', '30', 10, 'jst/pages/user.jsp', null, null, null);
+insert into JT_PRIVILEGE (id, pri_name, pri_sort, pri_parent, pri_page, op_ip, op_date, op_remark)
+values (31, '部门管理', '31', 10, 'jst/pages/dept.jsp', null, null, null);
+insert into JT_PRIVILEGE (id, pri_name, pri_sort, pri_parent, pri_page, op_ip, op_date, op_remark)
+values (32, '角色管理', '32', 10, 'jst/pages/role.jsp', null, null, null);
+insert into JT_PRIVILEGE (id, pri_name, pri_sort, pri_parent, pri_page, op_ip, op_date, op_remark)
+values (33, '菜单管理', '33', 10, 'jst/pages/privilege.jsp', null, null, null);
+insert into JT_PRIVILEGE (id, pri_name, pri_sort, pri_parent, pri_page, op_ip, op_date, op_remark)
+values (14, '档案查询', '14', 13, 'dagl_getDaxxList?flag=cx', null, null, null);
+insert into JT_PRIVILEGE (id, pri_name, pri_sort, pri_parent, pri_page, op_ip, op_date, op_remark)
+values (19, '黑名单管理', '19', 10, 'sys_getHmdList', null, null, null);
+insert into JT_PRIVILEGE (id, pri_name, pri_sort, pri_parent, pri_page, op_ip, op_date, op_remark)
+values (29, '电动自行车退办查询', '29', 24, 'clsb_getFlowListByTb', null, null, null);
+commit;
+prompt 30 records loaded
+prompt Loading JT_ROLE...
+insert into JT_ROLE (id, role_name, role_type, role_state, op_ip, op_date, op_remark, role_desc, role_sort)
+values (4, '禁摩办', '1', '1', null, '2016-03-23 10:13:12', null, '1111111111', 1);
+insert into JT_ROLE (id, role_name, role_type, role_state, op_ip, op_date, op_remark, role_desc, role_sort)
+values (1, '管理员', '0', '1', null, '2016-03-23 10:13:00', null, null, null);
+insert into JT_ROLE (id, role_name, role_type, role_state, op_ip, op_date, op_remark, role_desc, role_sort)
+values (2, '大队管理员', '1', '1', null, '2016-03-23 10:13:05', null, '哇哇哇哇哇哇哇哇哇哇哇', 2);
+insert into JT_ROLE (id, role_name, role_type, role_state, op_ip, op_date, op_remark, role_desc, role_sort)
+values (3, '验车民警', '0', '1', null, '2016-03-23 10:13:09', null, null, 1);
+commit;
+prompt 4 records loaded
+prompt Loading JT_ROLE_MENU...
+insert into JT_ROLE_MENU (id, roleid, menuid)
+values (163, 1, 143);
+insert into JT_ROLE_MENU (id, roleid, menuid)
+values (164, 1, 163);
+insert into JT_ROLE_MENU (id, roleid, menuid)
+values (165, 1, 43);
+insert into JT_ROLE_MENU (id, roleid, menuid)
+values (166, 1, 63);
+insert into JT_ROLE_MENU (id, roleid, menuid)
+values (167, 1, 83);
+insert into JT_ROLE_MENU (id, roleid, menuid)
+values (168, 1, 2);
+insert into JT_ROLE_MENU (id, roleid, menuid)
+values (161, 1, 1);
+insert into JT_ROLE_MENU (id, roleid, menuid)
+values (162, 1, 123);
+insert into JT_ROLE_MENU (id, roleid, menuid)
+values (169, 1, 23);
+insert into JT_ROLE_MENU (id, roleid, menuid)
+values (170, 1, 24);
+insert into JT_ROLE_MENU (id, roleid, menuid)
+values (171, 1, 103);
+insert into JT_ROLE_MENU (id, roleid, menuid)
+values (172, 1, 104);
+insert into JT_ROLE_MENU (id, roleid, menuid)
+values (173, 1, 124);
+insert into JT_ROLE_MENU (id, roleid, menuid)
+values (174, 1, 126);
+insert into JT_ROLE_MENU (id, roleid, menuid)
+values (175, 1, 125);
+insert into JT_ROLE_MENU (id, roleid, menuid)
+values (176, 1, 145);
+insert into JT_ROLE_MENU (id, roleid, menuid)
+values (177, 1, 146);
+insert into JT_ROLE_MENU (id, roleid, menuid)
+values (178, 1, 147);
+insert into JT_ROLE_MENU (id, roleid, menuid)
+values (179, 1, 144);
+insert into JT_ROLE_MENU (id, roleid, menuid)
+values (180, 1, 148);
+insert into JT_ROLE_MENU (id, roleid, menuid)
+values (181, 1, 149);
+insert into JT_ROLE_MENU (id, roleid, menuid)
+values (182, 1, 164);
+insert into JT_ROLE_MENU (id, roleid, menuid)
+values (183, 1, 165);
+insert into JT_ROLE_MENU (id, roleid, menuid)
+values (184, 1, 183);
+insert into JT_ROLE_MENU (id, roleid, menuid)
+values (185, 1, 44);
+insert into JT_ROLE_MENU (id, roleid, menuid)
+values (186, 1, 45);
+commit;
+prompt 26 records loaded
+prompt Loading JT_ROLE_PRIVILEGE...
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (45, 2, 34, null, null, null);
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (15, 2, 13, null, null, null);
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (38, 2, 24, null, null, null);
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (140, 1, 1, '100.100.3.64', '2012-06-27 11:55:14', 's');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (141, 1, 2, '100.100.3.64', '2012-06-27 11:55:14', 's');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (142, 1, 3, '100.100.3.64', '2012-06-27 11:55:14', 's');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (143, 1, 4, '100.100.3.64', '2012-06-27 11:55:14', 's');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (144, 1, 5, '100.100.3.64', '2012-06-27 11:55:14', 's');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (145, 1, 10, '100.100.3.64', '2012-06-27 11:55:14', 's');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (146, 1, 11, '100.100.3.64', '2012-06-27 11:55:14', 's');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (147, 1, 12, '100.100.3.64', '2012-06-27 11:55:14', 's');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (148, 1, 17, '100.100.3.64', '2012-06-27 11:55:14', 's');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (149, 1, 19, '100.100.3.64', '2012-06-27 11:55:14', 's');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (150, 1, 30, '100.100.3.64', '2012-06-27 11:55:14', 's');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (151, 1, 31, '100.100.3.64', '2012-06-27 11:55:14', 's');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (152, 1, 32, '100.100.3.64', '2012-06-27 11:55:14', 's');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (153, 1, 33, '100.100.3.64', '2012-06-27 11:55:14', 's');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (154, 1, 13, '100.100.3.64', '2012-06-27 11:55:14', 's');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (155, 1, 14, '100.100.3.64', '2012-06-27 11:55:14', 's');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (156, 1, 15, '100.100.3.64', '2012-06-27 11:55:14', 's');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (157, 1, 24, '100.100.3.64', '2012-06-27 11:55:14', 's');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (158, 1, 18, '100.100.3.64', '2012-06-27 11:55:14', 's');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (159, 1, 25, '100.100.3.64', '2012-06-27 11:55:14', 's');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (160, 1, 26, '100.100.3.64', '2012-06-27 11:55:14', 's');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (161, 1, 27, '100.100.3.64', '2012-06-27 11:55:14', 's');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (162, 1, 28, '100.100.3.64', '2012-06-27 11:55:14', 's');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (163, 1, 29, '100.100.3.64', '2012-06-27 11:55:14', 's');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (35, 4, 24, null, null, null);
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (36, 4, 25, null, null, null);
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (16, 2, 14, null, null, null);
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (13, 2, 4, null, null, null);
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (14, 2, 5, null, null, null);
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (37, 4, 26, null, null, null);
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (100, 46, 1, '100.100.3.64', '2012-05-18 14:05:29', 's');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (101, 46, 2, '100.100.3.64', '2012-05-18 14:05:29', 's');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (102, 46, 3, '100.100.3.64', '2012-05-18 14:05:29', 's');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (103, 47, 1, '100.100.3.64', '2012-05-18 14:05:33', 's');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (104, 47, 2, '100.100.3.64', '2012-05-18 14:05:33', 's');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (105, 47, 3, '100.100.3.64', '2012-05-18 14:05:33', 's');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (106, 48, 1, '100.100.3.64', '2012-05-18 14:05:40', 's');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (107, 48, 2, '100.100.3.64', '2012-05-18 14:05:40', 's');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (108, 48, 3, '100.100.3.64', '2012-05-18 14:05:40', 's');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (120, 65, 1, '100.100.3.64', '2012-05-31 14:59:41', 's');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (121, 65, 2, '100.100.3.64', '2012-05-31 14:59:41', 's');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (122, 65, 3, '100.100.3.64', '2012-05-31 14:59:41', 's');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (123, 65, 4, '100.100.3.64', '2012-05-31 14:59:41', 's');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (124, 65, 20, '100.100.3.64', '2012-05-31 14:59:41', 's');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (125, 65, 22, '100.100.3.64', '2012-05-31 14:59:41', 's');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (126, 65, 23, '100.100.3.64', '2012-05-31 14:59:41', 's');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (164, 1, 20, '100.100.3.64', '2012-06-27 11:55:14', 'a');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (166, 1, 22, '100.100.3.64', '2012-06-27 11:55:14', 'a');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (167, 1, 23, '100.100.3.64', '2012-06-27 11:55:14', 'a');
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (18, 2, 16, null, null, null);
+insert into JT_ROLE_PRIVILEGE (id, role_id, pri_id, op_ip, op_date, op_remark)
+values (24, 2, 18, null, null, null);
+commit;
+prompt 54 records loaded
+prompt Loading JT_USER...
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (610, '053121', '053121', '蒋安众', '30498', '1', '2,', '100.100.65.20', '2014-11-07 15:51:20', '陈赟用户于2014-11-07 15:51:20修改了用户:053121', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (619, '053259', '053259', '郑华', '30084', '1', '2,', '100.100.65.20', '2014-11-07 16:36:10', '陈赟用户于2014-11-07 16:36:10修改了用户:053259', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (621, '067359', '067359', '赵寿利', '30186', '1', '2,', '100.100.65.20', '2014-11-07 16:37:06', '陈赟用户于2014-11-07 16:37:06修改了用户:067359', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (624, '067353', '067353', '吴剑辉', '30207', '1', '2,', '100.100.65.20', '2014-11-07 16:38:50', '陈赟用户于2014-11-07 16:38:50修改了用户:067353', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (636, '053079', '053079', '龙东', '30295', '1', '2,', '100.100.65.20', '2014-11-07 16:45:18', '陈赟用户于2014-11-07 16:45:18修改了用户:053079', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (638, '056182', '056182', '杨涛', '30298', '1', '2,', '100.100.65.20', '2014-11-07 16:46:51', '陈赟用户于2014-11-07 16:46:51修改了用户:056182', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (639, '052797', '052797', '谢飞勇', '30115', '1', '2,', '100.100.65.20', '2014-11-07 16:47:50', '陈赟用户于2014-11-07 16:47:50修改了用户:052797', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (640, '052324', '052324', '吴汝谋', '30299', '1', '2,', '100.100.65.20', '2014-11-07 16:48:12', '陈赟用户于2014-11-07 16:48:12修改了用户:052324', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (641, '053874', '053874', '杨水源', '30118', '1', '2,', '100.100.65.20', '2014-11-07 16:48:32', '陈赟用户于2014-11-07 16:48:32修改了用户:053874', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (581, '065864', '065864', '徐威', '30394', '1', '2,', '100.100.65.20', '2014-11-07 14:49:57', '陈赟用户于2014-11-07 14:49:57修改了用户:065864', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (585, '068853', '068853', '沈亮', '30381', '1', '2,', '100.100.65.20', '2014-11-07 14:59:52', '陈赟用户于2014-11-07 14:59:52修改了用户:068853', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (587, '064656', '064656', '潘旺', '30235', '1', '2,', '100.100.65.20', '2014-11-07 15:00:53', '陈赟用户于2014-11-07 15:00:53修改了用户:064656', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (591, '052904', '052904', '邓树光', '30227', '1', '2,', '100.100.65.20', '2014-11-07 15:05:24', '陈赟用户于2014-11-07 15:05:24修改了用户:052904', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (592, '053193', '053193', '古缨阳', '30107', '1', '2,', '100.100.65.20', '2014-11-07 15:05:43', '陈赟用户于2014-11-07 15:05:43修改了用户:053193', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (594, '065853', '065853', '李顶治', '30402', '1', '2,', '100.100.65.20', '2014-11-07 15:07:47', '陈赟用户于2014-11-07 15:07:47修改了用户:065853', '1,2,3,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (595, '053060', '053060', '孟宪壮', '30068', '1', '2,', '100.100.65.20', '2014-11-07 15:11:07', '陈赟用户于2014-11-07 15:11:07修改了用户:053060', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (600, '070559', '070559', '郑艺', '30366', '1', '2,', '100.100.65.20', '2014-11-07 15:43:36', '陈赟用户于2014-11-07 15:43:36修改了用户:070559', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (601, '052119', '052119', '林云', '30058', '1', '2,', '100.100.65.20', '2014-11-07 15:44:49', '陈赟用户于2014-11-07 15:44:49修改了用户:052119', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (603, '052794', '052794', '孙毅清', '30091', '1', '2,', '100.100.65.20', '2014-11-07 15:47:02', '陈赟用户于2014-11-07 15:47:02修改了用户:052794', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (608, '052832', '052832', '黄建安', '30198', '1', '2,', '100.100.65.20', '2014-11-07 15:50:15', '陈赟用户于2014-11-07 15:50:15修改了用户:052832', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (618, '052607', '052607', '罗培庆', '30081', '1', '2,', '100.100.65.20', '2014-11-07 16:35:32', '陈赟用户于2014-11-07 16:35:32修改了用户:052607', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (620, '070556', '070556', '赵占魁', '30173', '1', '2,', '100.100.65.20', '2014-11-07 16:36:37', '陈赟用户于2014-11-07 16:36:37修改了用户:070556', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (623, '065917', '065917', '余金桥', '30101', '1', '2,', '100.100.65.20', '2014-11-07 16:38:20', '陈赟用户于2014-11-07 16:38:20修改了用户:065917', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (625, '053599', '053599', '欧伟源', '30207', '1', '2,', '100.100.65.20', '2014-11-07 16:39:13', '陈赟用户于2014-11-07 16:39:13修改了用户:053599', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (626, '070444', '070444', '梁斯', '30206', '1', '2,', '100.100.65.20', '2014-11-07 16:40:04', '陈赟用户于2014-11-07 16:40:04修改了用户:070444', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (627, '052880', '052880', '黄国辉', '30206', '1', '2,', '100.100.65.20', '2014-11-07 16:40:29', '陈赟用户于2014-11-07 16:40:29修改了用户:052880', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (630, '054313', '054313', '张耀艺', '30205', '1', '2,', '100.100.65.20', '2014-11-07 16:41:32', '陈赟用户于2014-11-07 16:41:32修改了用户:054313', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (632, '065839', '065839', '陈珊', '30204', '1', '2,', '100.100.65.20', '2014-11-07 16:42:33', '陈赟用户于2014-11-07 16:42:33修改了用户:065839', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (634, '069533', '069533', '钱文隽', '30289', '1', '2,', '100.100.65.20', '2014-11-07 16:44:25', '陈赟用户于2014-11-07 16:44:25修改了用户:069533', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (642, '053800', '053800', '徐力', '30303', '1', '2,', '100.100.65.20', '2014-11-07 16:49:07', '陈赟用户于2014-11-07 16:49:07修改了用户:053800', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (521, '053040', '053040', '赖志忠', '30401', '1', '2,', '100.100.157.23', '2013-12-05 15:20:46', '超级管理员用户于2013-12-05 15:20:46修改了用户:053040', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (586, '053736', '053736', '刘志青', '30109', '1', '2,', '100.100.65.20', '2014-11-07 15:00:25', '陈赟用户于2014-11-07 15:00:25修改了用户:053736', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (588, '065975', '065975', '梁亮', '30223', '1', '2,', '100.100.65.20', '2014-11-07 15:02:54', '陈赟用户于2014-11-07 15:02:54修改了用户:065975', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (589, '065843', '065843', '李思宏', '30223', '1', '2,', '100.100.65.20', '2014-11-07 15:03:41', '陈赟用户于2014-11-07 15:03:41修改了用户:065843', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (622, '052522', '052522', '洪波', '30097', '1', '2,', '100.100.65.20', '2014-11-07 16:37:54', '陈赟用户于2014-11-07 16:37:54修改了用户:052522', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (628, '052881', '052881', '赖承', '30098', '1', '2,', '100.100.65.20', '2014-11-07 16:40:51', '陈赟用户于2014-11-07 16:40:51修改了用户:052881', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (629, '053306', '053306', '邓颂华', '30205', '1', '2,', '100.100.65.20', '2014-11-07 16:41:14', '陈赟用户于2014-11-07 16:41:14修改了用户:053306', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (631, '051920', '051920', '朱胜辉', '30100', '1', '2,', '100.100.65.20', '2014-11-07 16:42:00', '陈赟用户于2014-11-07 16:42:00修改了用户:051920', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (633, '053023', '053023', '李留安', '30111', '1', '2,', '100.100.65.20', '2014-11-07 16:42:58', '陈赟用户于2014-11-07 16:42:58修改了用户:053023', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (635, '054395', '054395', '陈展熊', '30112', '1', '2,', '100.100.65.20', '2014-11-07 16:44:54', '陈赟用户于2014-11-07 16:44:54修改了用户:054395', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (637, '053369', '053369', '欧阳敏', '30113', '1', '2,', '100.100.65.20', '2014-11-07 16:45:44', '陈赟用户于2014-11-07 16:45:44修改了用户:053369', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (661, '052844', '052844', '陈坚胜', '30219', '1', '2,', '100.100.65.19', '2014-11-11 10:24:32', '陈赟用户于2014-11-11 10:24:32修改了用户:052844', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (1001, 'ttttt', '111111', '111111', '30128', '1', null, '127.0.0.1', '2016-03-21 19:12:48', '超级管理员用户于2016-03-21 19:12:48添加了用户:ttttt', null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (1020, '050840', null, '孙洪涛', '30144', '1', '4,', '127.0.0.1', '2016-03-21 23:18:31', '超级管理员用户于2016-03-21 23:18:31修改了用户:050840', null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (1021, '052705', null, '戴登福', '30091', '1', '4,', '127.0.0.1', '2016-03-21 23:18:42', '超级管理员用户于2016-03-21 23:18:42修改了用户:052705', null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (1160, '052201', '052201', '徐克义', '30022', null, null, null, '2016-04-14 10:18:42', null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (1080, '051901', '051901', null, '张超', null, null, null, '2016-03-22 19:05:02', null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (1120, '052067', '052067', '陈昆', '30034', null, null, null, '2016-04-06 09:32:43', null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (1022, '051163', null, '许仕权', '30091', '1', '4,', '127.0.0.1', '2016-03-21 23:21:04', '超级管理员用户于2016-03-21 23:21:04修改了用户:051163', null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (1060, '054403', '054403', null, '张怡圳', null, '4,', null, '2016-03-22 18:59:00', null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (1102, '052818', '052818', '刘宇', '30459', null, null, null, '2016-03-29 10:26:29', null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (1000, 'test', '123456', 'test', '30128', '1', null, '127.0.0.1', '2016-03-21 19:12:18', '超级管理员用户于2016-03-21 19:12:18添加了用户:test', null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (1040, 'guest', 'guest', null, '测试账户', null, null, null, '2016-03-22 14:46:00', null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (1140, '054445', '054445', '黄迎九', '30381', null, null, null, '2016-04-06 16:31:32', null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (1042, 'jmb', 'jmb', null, '禁摩办', null, null, null, '2016-03-22 14:47:18', null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (561, '064447', '064447', '徐超', '30434', '1', '2,', '100.100.64.35', '2014-09-05 17:13:22', '超级管理员用户于2014-09-05 17:13:22修改了用户:064447', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (583, '053442', '053442', '赖艳军', '30375', '1', '2,', '100.100.65.20', '2014-11-07 14:57:06', '陈赟用户于2014-11-07 14:57:06修改了用户:053442', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (584, '051931', '051931', '张号宾', '30441', '1', '2,', '100.100.65.20', '2014-11-07 14:58:10', '陈赟用户于2014-11-07 14:58:10修改了用户:051931', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (590, '065973', '065973', '程剑', '30379', '1', '2,', '100.100.65.20', '2016-03-22 14:39:49', '陈赟用户于2014-11-07 15:04:01修改了用户:065973', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (593, '053375', '053375', '陈志灿', '30230', '1', '2,', '100.100.65.20', '2014-11-07 15:06:43', '陈赟用户于2014-11-07 15:06:43修改了用户:053375', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (596, '052504', '052504', '王筱', '30475', '1', '2,', '100.100.65.20', '2014-11-07 15:13:30', '陈赟用户于2014-11-07 15:13:30修改了用户:052504', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (604, '052699', '052699', '李杭', '30094', '1', '2,', '100.100.65.20', '2014-11-07 15:48:20', '陈赟用户于2014-11-07 15:48:20修改了用户:052699', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (605, '052853', '052853', '江卫奇', '30247', '1', '2,', '100.100.65.20', '2014-11-07 15:48:51', '陈赟用户于2014-11-07 15:48:51修改了用户:052853', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (606, '070524', '070524', '姚冠荣', '30197', '1', '2,', '100.100.65.20', '2014-11-07 15:49:33', '陈赟用户于2014-11-07 15:49:33修改了用户:070524', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (609, '069525', '069525', '张文斌', '30454', '1', '2,', '100.100.65.20', '2014-11-07 15:50:36', '陈赟用户于2014-11-07 15:50:36修改了用户:069525', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (611, '070566', '070566', '周泽峰', '30499', '1', '2,', '100.100.65.20', '2014-11-07 15:51:48', '陈赟用户于2014-11-07 15:51:48修改了用户:070566', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (612, '065869', '065869', '朱志坚', '30457', '1', '2,', '100.100.65.20', '2014-11-07 15:52:11', '陈赟用户于2014-11-07 15:52:11修改了用户:065869', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (613, '051902', '051902', '李永宝', '30462', '1', '2,', '100.100.65.20', '2014-11-07 15:52:38', '陈赟用户于2014-11-07 15:52:38修改了用户:051902', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (614, '054373', '054373', '李展艺', '30456', '1', '2,', '100.100.65.20', '2014-11-07 15:52:56', '陈赟用户于2014-11-07 15:52:56修改了用户:054373', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (1101, '067623', '067623', '黄华树', '30015', null, '1,2,3,', null, '2016-04-16 15:23:57', null, '1,123,143,163,43,63,83,2,23,24,103,104,124,126,125,145,146,147,144,148,149,164,165,44,45,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (616, '065946', '065946', '冯小民', '30461', '1', '2,', '100.100.65.20', '2014-11-07 15:54:58', '陈赟用户于2014-11-07 15:54:58修改了用户:065946', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (241, '053406', '123', '赖志科', '30318', '1', '4,1,3,', '100.100.3.64', '2016-04-16 15:32:41', '超级管理员用户于2012-05-18 14:08:29修改了用户:053406', '1,63,83,2,23,24,103,104,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (341, '053428', '053428', '邱敏', '30201', '1', '2,', '100.100.64.35', '2012-09-19 15:22:59', '超级管理员用户于2012-09-19 15:22:59修改了用户:053428', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (342, '065849', '065849', '龙斌', '30384', '1', '2,', '100.100.64.35', '2012-09-19 15:28:08', '超级管理员用户于2012-09-19 15:28:08修改了用户:065849', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (361, '065928', '829560', '赵修勇', '30199', '1', null, '100.100.3.65', '2012-10-25 16:48:21', '超级管理员用户于2012-10-25 16:48:21修改了用户:065928', '1,2,3,4,5,20,22,23,10,11,12,17,19,30,31,32,33,13,14,15,24,18,25,26,27,28,29,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (381, '070414', '070414', '何大小', '30476', '1', '2,', '100.100.64.35', '2012-12-17 10:05:02', '超级管理员用户于2012-12-17 10:05:02修改了用户:070414', '4,5,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (464, '070511', '070511', '徐镇明', '30197', '1', '2,', '100.100.65.19', '2013-04-19 15:05:45', '李文用户于2013-04-19 15:05:45修改了用户:070511', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (501, '054166', '054166', '林海波', '30499', '1', '2,', '100.100.64.35', '2013-08-20 17:17:03', '超级管理员用户于2013-08-20 17:17:03修改了用户:054166', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (343, '052144', '052144', '曾吉忠', '30235', '1', '2,', '100.100.64.35', '2012-09-19 15:30:48', '超级管理员用户于2012-09-19 15:30:48修改了用户:052144', '4,5,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (344, '052727', '052727', '池永东', '30227', '1', '2,', '100.100.64.35', '2012-09-19 15:32:20', '超级管理员用户于2012-09-19 15:32:20修改了用户:052727', '4,5,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (461, '052825', '052825', '蔡斐琳', '30314', '1', '2,', '100.100.65.19', '2013-04-19 15:03:09', '李文用户于2013-04-19 15:03:09修改了用户:052825', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (462, '053450', '053450', '魏旻', '30454', '1', '2,', '100.100.65.19', '2013-04-19 15:03:24', '李文用户于2013-04-19 15:03:24修改了用户:053450', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (463, '055062', '055062', '柴焰', '30548', '1', '2,', '100.100.65.19', '2013-04-19 15:03:46', '李文用户于2013-04-19 15:03:46修改了用户:055062', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (465, '069527', '069527', '陈鹏飞', '30096', '1', '2,', '100.100.65.19', '2013-04-19 15:06:02', '李文用户于2013-04-19 15:06:02修改了用户:069527', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (466, '052720', '052720', '胡天翔', '30198', '1', '2,', '100.100.65.19', '2013-04-19 15:06:22', '李文用户于2013-04-19 15:06:22修改了用户:052720', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (467, '055378', '055378', '郑华强', '30463', '1', '2,', '100.100.65.19', '2013-04-19 15:07:46', '李文用户于2013-04-19 15:07:46修改了用户:055378', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (468, '055832', '055832', '彭仕明', '30095', '1', '2,', '100.100.65.19', '2013-04-19 15:11:56', '李文用户于2013-04-19 15:11:56修改了用户:055832', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (3, '070423', '456258', '宝城中队(黄明)', '30295', '1', '2', null, null, null, '4,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (4, '053074', '901126', '西乡中队(曾凤友)', '30296', '1', '2,', null, null, null, '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (5, '067606', '002391', '福永中队(邓苗)', '30298', '1', '2,', null, null, null, '4,5,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (6, '065893', '065893', '沙井中队(李征)', '30295', '1', '2,', null, null, null, '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (7, '054379', '054379', '松岗中队(梁华辉)', '30297', '1', '2,', null, null, null, '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (8, '052447', '052447', '龙华中队(陈向华)', '30302', '1', null, null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (9, '053371', '053371', '石岩中队(叶慧恺)', '30303', '1', '2', null, null, null, '4,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (10, '068066', '068066', '观澜中队(曾兴忠)', '30304', '1', '2,', null, null, null, '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (11, '065961', '065961', '大浪中队(杨超)', '30366', '1', '2,', null, null, null, '4,5,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (12, '069509', '069509', '民治中队(朱清非)', '30434', '1', null, null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (13, '070489', '070489', '八卦岭中队(王科)', '30192', '1', '2', null, null, null, '4,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (14, '070430', '070430', '梅莲中队(姜泳)', '30249', '1', '2', null, null, null, '4,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (15, '051893', '051893', '园岭中队(姚壮)', '30255', '1', '2', null, null, null, '4,20,22,23,', 0);
+commit;
+prompt 100 records committed...
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (16, '053233', '132428', '华富中队(黄文杜)', '30257', '1', '2', null, null, null, '4,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (17, '052325', '052325', '南园中队(黄雀恩)', '30261', '1', '2', null, null, null, '4,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (18, '052322', 'ftdd052322jhz', '深南中队(江恒增)', '30263', '1', '2', null, null, null, '4,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (19, '067351', '067351', '香蜜湖中队(王应彬)', '30271', '1', '2', null, null, null, '4,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (20, '052393', '052393', '中心区中队(叶伟国)', '30076', '1', '2', null, null, null, '4,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (21, '052326', '052326', '机动中队(梁建新）', '30269', '1', '2', null, null, null, '4,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (22, '052370', '052370', '特勤中队(罗应元)', '30271', '1', '2', null, null, null, '4,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (23, '053257', '053257', '事故中队(翁增泰)', '30273', '1', '2', null, null, null, '4,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (24, '052442', '052442', '东门中队(黄维江)', '30214', '1', '2', null, null, null, '4,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (25, '052460', '123456', '笋岗中队(吴惠明)', '30276', '1', '2', null, null, null, '4,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (26, '065844', '448560', '桂园中队(陈彬)', '30277', '1', '2', null, null, null, '4,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (27, '052007', '052007', '黄贝中队(周海斌)', '30278', '1', '2', null, null, null, '4,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (28, '052434', '052434', '东湖中队(罗海伟）', '30203', '1', '2', null, null, null, '4,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (29, '070464', '070464', '机动中队(罗家阳)', '30219', '1', '2', null, null, null, '4,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (30, '052589', '052589', '事故中队(何锦绍)', '30283', '1', '2', null, null, null, '4,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (31, '052580', '052580', '特勤中队(钟国荣)', '30282', '1', '2,', null, null, null, '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (32, '051947', '051947', '特勤中队(梁冬江)', '30230', '1', null, null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (33, '052136', 'jtjc701', '坂田中队(陈伟民)', '30380', '1', '2,', null, null, null, '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (34, '053007', '053007', '布吉中队(林旭青)', '30230', '1', '2,', null, null, null, '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (35, '065993', '065993', '龙城中队(李盛辉)', '30384', '1', '2,', null, null, null, '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (36, '053436', '053436', '南澳中队(游家亮)', '30474', '1', '2', null, null, null, '4,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (37, '052110', '052110', '南湾中队(叶军)', '30442', '1', '2,', null, null, null, '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (38, '065994', '065994', '大鹏中队(伍智伟)', '30474', '1', '2', null, null, null, '4,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (39, '051928', '051928', '龙岗中队(李子光)', '30223', '1', '2,', null, null, null, '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (40, '053726', '053726', '葵涌中队(马宁)', '30448', '1', '2', null, null, null, '4,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (41, '053415', '053415', '坪地中队(占小京)', '30551', '1', '2,', null, null, null, '4,5,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (42, '070526', '713900', '平湖中队(叶健康)', '30231', '1', null, null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (43, '052924', '052924', '宝龙中队(庞建奕)', '30383', '1', '2,', null, null, null, '4,5,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (44, '070516', '070516', '横岗中队(颜晓辉)', '30227', '1', null, null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (45, '065933', '065933', '西丽中队(周勇)', '30239', '1', '2', null, null, null, '4,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (46, '055785', '055785', '侨城中队(彭永胜)', '30539', '1', '2,', null, null, null, '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (47, '070488', '314159', '特勤中队(王均裕)', '30239', '1', '2,', null, null, null, '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (48, '070466', '070466', '粤海中队(罗一望)', '30462', '1', '2,', null, null, null, '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (49, '052360', '052360', '桃源中队(李德华)', '30460', '1', '4,1,2,', null, '2016-03-22 18:18:39', null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (50, '054441', '054441', '蛇口中队(武斌)', '30159', '1', '2', null, null, null, '4,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (51, '070418', '070418', '南头中队(黄成柏)', '30459', '1', '2,', null, null, null, '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (52, 'ftdd', 'ftdd', '福田大队', '30068', '1', '2', null, null, null, '13,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (53, '052208', '052208', '机动中队(刘木德)', '30461', '1', '2,', null, null, null, '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (54, '070513', '070513', '许华伟', '30236', '1', '2', null, null, null, '4,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (55, '052804', '052804', '事故中队(罗家良)', '30236', '1', '2', null, null, null, '4,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (56, '052156', '066200', '陈建勇', '30204', '1', '2', null, null, null, '4,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (57, '052568', '052568', '余世锋', '30204', '1', '2', null, null, null, '4,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (58, '052867', '052867', '李山', '30099', '1', '2,', null, null, null, '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (59, '053277', '053277', '欧磊', '30204', '1', '2', null, null, null, '4,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (60, '052646', '052646', '覃永毅', '30182', '1', '2', null, null, null, '4,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (61, '052556', '052556', '曾光', '30184', '1', '2', null, null, null, '4,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (62, '070538', '070538', '曾雪丽', '30186', '1', '2', null, null, null, '4,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (63, '052617', '052617', '黄泽山', '30189', '1', '2', null, null, null, '4,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (64, '052755', '052755', '周小峰', '30186', '1', '2', null, null, null, '4,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (65, '054581', 'Brandy668Q', '刘广安', '30144', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (66, '053003', '488488', '刘肇荣', '30145', '1', '2', null, null, null, '4,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (78, '054063', '054063', '陈利忠', null, '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (79, '052343', '052343', '利锦森', '30078', '1', '2,', null, null, null, '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (80, '052791', '052791', '钟伟军', '30043', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (81, '052378', '052378', '李军', '30433', '1', '2,', null, null, null, '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (82, '054439', '054439', '张良', '30076', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (83, '053148', '053148', '骆穗文', '30074', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (84, '052708', '052708', '胡清林', '30074', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (85, '053937', '053937', '刘俊芳', '30069', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (86, '054255', '054255', '徐汉冲', '30076', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (87, '052476', '052476', '陈亿辉', '30086', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (88, '052384', '052384', '曾品', '30079', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (89, '052069', '052069', '张伟东', '30110', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (90, '052265', '052265', '杨添荣', '30059', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (91, '053102', '053102', '吴志勋', '30060', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (92, '053710', '053710', '张春风', '30061', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (93, '053414', '053414', '詹惠华', '30498', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (94, '052475', '052475', '王坚', '30063', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (95, '052470', '052470', '麦钊雄', '30219', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (96, '053213', '053213', '陈伟彬', '30188', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (97, '052864', '052864', '杨的胜', '30066', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (98, '052278', '052278', '梁忠波', '30094', '1', '2,', null, null, null, '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (99, '052525', '052525', '李志雄', '30458', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (100, '065874', '065874', '马建军', '30093', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (102, '053340', '053340', '黄熙', '30457', '1', '2,', null, null, null, '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (103, '053275', '053275', '陈建红', '30394', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (101, '052318', '052318', '王跃辉', '30414', '1', '2,', null, null, null, '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (105, '069362', '069362', '林洪标', '30456', '1', '2,', null, null, null, '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (106, '053416', '053416', '杨春晓', null, '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (107, '053272', '053272', '侯刚', '30458', '1', '2,', null, null, null, '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (108, '052575', '052575', '何永生', '30092', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (110, '052233', '052233', '黄海东', '30102', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (111, '052996', '052996', '谢飞波', '30447', '1', null, null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (481, '052747', '052747', '陈广潮', '30402', '1', '2,', '100.100.64.35', '2013-04-27 12:04:10', '超级管理员用户于2013-04-27 12:04:10修改了用户:052747', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (113, '061756', '061756', '顾利民', '30376', '1', null, null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (114, '052899', '052899', '黄广清', '30411', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (115, '065237', '065237', '刘荣斌', '30441', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (116, '052889', '052889', '李斗水', '30384', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (117, '052936', '052936', '郑小香', '30117', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (118, '052891', '052891', '李华振', '30413', '1', '2,', null, null, null, '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (132, '053868', '053868', '龚占强', '30376', '1', '2,', null, null, null, '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (131, '053092', '053092', '许志君', '30109', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (133, '069344', '069344', '李贤豪', '30383', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (119, '052116', '052116', '李来添', '30106', '1', '2,', null, null, null, '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (134, '052369', '052369', '严伟斌', '30069', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (122, '053107', '053107', '曾岸峰', '30044', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (123, '053160', '053160', '麦海照', '30206', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (124, '052548', '052548', '杨耀成', '30101', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (125, '053321', '053321', '王乐', '30082', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (126, '052395', '052395', '黎伟平', '30354', '1', '2', null, null, null, null, 0);
+commit;
+prompt 200 records committed...
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (128, '052632', '052632', '彭洲生', '30354', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (130, '052086', '052086', '林贵忠', '30189', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (129, '052754', '457250', '宋小明', '30084', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (135, '054026', '054026', '莫少飞', '30107', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (140, '010671', '010671', '何新友', '30147', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (141, '010742', '010742', '沐浴峰', '30148', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (142, '010732', '010732', '张繁荣', '30149', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (143, '010619', '010619', '杨春荣', null, '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (144, '010739', '010739', '夏立伟', '30147', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (145, '010638', '010638', '黄永强', '30148', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (146, '010656', '010656', '汪力群', '30149', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (147, '010643', '930', '许朱胜', '30150', '1', '2', null, null, null, '4,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (148, '010707', '010707', '张云雁', null, '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (149, '010719', '010719', '王雪', '30150', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (150, '010769', '010769', '史薇娜', '30150', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (484, '052947', '052947', '林伟标', '30414', '1', '2,', '100.100.64.35', '2013-04-27 12:05:25', '超级管理员用户于2013-04-27 12:05:25修改了用户:052947', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (485, '065873', '065873', '张安琪', '30419', '1', '2,', '100.100.64.35', '2013-04-27 12:05:41', '超级管理员用户于2013-04-27 12:05:41修改了用户:065873', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (67, 'lhdd', 'lhdd', '罗湖大队', '30058', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (68, '052756', '052756', '曾向阳', '30068', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (69, '053032', '053032', '朱武智', '30122', '1', '2,', null, null, null, '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (70, '053303', '053303', '周晗', '30113', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (71, '055923', '053303', '朱培和', '30542', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (72, '052466', '052466', '李耀文', '30114', '1', '2,', null, null, null, '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (73, '053359', '053359', '李文进', '30115', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (74, '053009', '053009', '黄佳结', '30069', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (75, '052706', '052706', '郭名威', '30475', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (76, '052488', '052488', '湛沛良', '30119', '1', '2,', null, null, null, '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (77, '063296', '063296', '张富山', '30040', '1', '2', null, null, null, null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (321, '051922', '051922', '吴学俊', null, '1', '2,', '100.100.64.35', '2012-08-30 16:43:01', '超级管理员用户于2012-08-30 16:43:01修改了用户:051922', '4,5,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (322, '054383', '054383', '熊伟宇', '30300', '1', '2,', '100.100.64.35', '2012-08-30 16:45:09', '超级管理员用户于2012-08-30 16:45:09修改了用户:054383', '4,5,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (482, '052894', '052894', '谢志坚', '30413', '1', '2,', '100.100.64.35', '2013-04-27 12:04:35', '超级管理员用户于2013-04-27 12:04:35修改了用户:052894', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (483, '070391', '070391', '陈基灵', '30421', '1', '2,', '100.100.64.35', '2013-04-27 12:05:09', '超级管理员用户于2013-04-27 12:05:09修改了用户:070391', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (1, 'admin', '123456', '超级管理员', '30015', '1', '4,1,', null, '2016-04-17 18:45:37', null, '1,43,203,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (136, '052000', 'lxgny1964', '郭南雁', '30271', '1', '2,', null, '10-4月 -12', null, '4,5,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (137, '051974', '779988', '史丽霞', '30271', '1', '2,', null, '10-4月 -12', null, '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (138, '068571', '20121118', '李咏宵', '30271', '1', '2,', null, '10-4月 -12', null, '4,5,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (2, '053366', '6666', '宝安大队(莫翠清)', '30120', '1', '2,', null, null, null, '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (139, '069550', 'lyh123', '刘贻华', '30484', '1', '2', null, '10-4月 -12', null, '4,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (281, '053897', '888888', '陈海波', '30472', '1', '2,', '100.100.64.35', '2012-06-19 11:32:35', '超级管理员用户于2012-06-19 11:32:35修改了用户:053897', '4,5,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (301, '068567', '368368', '陈少燕', '30204', '1', '2,', '100.100.64.35', '2012-07-18 18:14:34', '超级管理员用户于2012-07-18 18:14:34修改了用户:068567', '4,5,20,22,23,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (421, '052970', 'xhm983338', '薛汉明', '30476', '1', '2,', '100.100.3.65', '2013-03-11 17:45:10', '超级管理员用户于2013-03-11 17:45:10修改了用户:052970', '4,5,22,13,14,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (441, '052061', '052061', '李文', '30465', '1', '1,', '100.100.3.65', '2013-04-08 17:07:50', '超级管理员用户于2013-04-08 17:07:50修改了用户:052061', null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (442, '065922', '675903', '陈赟', '30465', '1', '1,', '100.100.3.65', '2013-04-08 17:08:02', '超级管理员用户于2013-04-08 17:08:02修改了用户:065922', null, 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (522, '069510', '069510', '郝阳阳', '30401', '1', '2,', '100.100.157.23', '2013-12-05 15:21:08', '超级管理员用户于2013-12-05 15:21:08修改了用户:069510', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (541, '052805', '636126', '高玲玲', '30271', '1', '2,', '100.100.64.35', '2014-05-28 16:54:32', '超级管理员用户于2014-05-28 16:54:32修改了用户:052805', '4,5,22,13,14,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (582, '052969', '052969', '杜忠', '30393', '1', '2,', '100.100.65.20', '2014-11-07 14:52:16', '陈赟用户于2014-11-07 14:52:16修改了用户:052969', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (597, '052444', '052444', '刘鸿凯', '30117', '1', '2,', '100.100.65.20', '2014-11-07 15:41:36', '陈赟用户于2014-11-07 15:41:36修改了用户:052444', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (598, '051924', '051924', '陈伟', '30302', '1', '2,', '100.100.65.20', '2014-11-07 15:42:03', '陈赟用户于2014-11-07 15:42:03修改了用户:051924', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (599, '052317', '052317', '梁淦魁', '30364', '1', '2,', '100.100.65.20', '2014-11-07 15:43:07', '陈赟用户于2014-11-07 15:43:07修改了用户:052317', '4,5,22,', 0);
+insert into JT_USER (id, user_code, user_password, user_name, user_org, user_state, user_role, op_ip, op_date, op_remark, user_pri, flag)
+values (607, '053150', '053150', '林少斌', '30096', '1', '2,', '100.100.65.20', '2014-11-07 15:49:50', '陈赟用户于2014-11-07 15:49:50修改了用户:053150', '4,5,22,', 0);
+commit;
+prompt 250 records loaded
+prompt Loading PIC_PATH...
+insert into PIC_PATH (id, vc_addpath, dt_add, i_type, vc_type, vc_parse_path)
+values (2, 'D:/apache-tomcat-6.0.45/webapps/ROOT/excel/', to_date('14-04-2016 17:23:30', 'dd-mm-yyyy hh24:mi:ss'), 2, 'EXCEL', 'http://192.168.76.1:8089/excel/');
+insert into PIC_PATH (id, vc_addpath, dt_add, i_type, vc_type, vc_parse_path)
+values (1, 'D:/apache-tomcat-6.0.45/webapps/ROOT/images/', to_date('12-03-2016 12:40:03', 'dd-mm-yyyy hh24:mi:ss'), 1, '营业执照', 'http://192.168.76.1:8089/mages/');
+commit;
+prompt 2 records loaded
+prompt Enabling triggers for DDC_SJZD...
+alter table DDC_SJZD enable all triggers;
+prompt Enabling triggers for JT_DEPT...
+alter table JT_DEPT enable all triggers;
+prompt Enabling triggers for JT_MENU...
+alter table JT_MENU enable all triggers;
+prompt Enabling triggers for JT_PRIVILEGE...
+alter table JT_PRIVILEGE enable all triggers;
+prompt Enabling triggers for JT_ROLE...
+alter table JT_ROLE enable all triggers;
+prompt Enabling triggers for JT_ROLE_MENU...
+alter table JT_ROLE_MENU enable all triggers;
+prompt Enabling triggers for JT_ROLE_PRIVILEGE...
+alter table JT_ROLE_PRIVILEGE enable all triggers;
+prompt Enabling triggers for JT_USER...
+alter table JT_USER enable all triggers;
+prompt Enabling triggers for PIC_PATH...
+alter table PIC_PATH enable all triggers;
+set feedback on
+set define on
+prompt Done.
+  
+  
+  
+  
+  
+  

@@ -54,7 +54,7 @@ public class SysFilter implements Filter {
 		}
 		response.getWriter().println(
 				"<script>window.top.location.replace('" + path
-						+ "/index.jsp')</script>");
+						+ "/login.jsp')</script>");
 	}
 
 	/**
