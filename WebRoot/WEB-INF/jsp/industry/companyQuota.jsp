@@ -96,7 +96,7 @@ $(document).ready(function(){
 			align:'center',
 			width : 120,
 			formatter:function(value,row,index){
-				var query = "<a  href='javascript:void(0)'  onclick='queryHyxhDetail(\""+row.hyxhzh+"\")'>"+value+"</a>";
+				var query = "<a    onclick='queryHyxhDetail(\""+row.hyxhzh+"\")'>"+value+"</a>";
 				return query;	
 			}
 		},{
@@ -118,7 +118,7 @@ $(document).ready(function(){
 			width : 120,
 			formatter:function(value,row,index){
 				if(row.zt != 0){
-					var reset = "<a  href='javascript:void(0)'  onclick='upateRowQty("+row.id+")'>修改配额</a>&nbsp;&nbsp;&nbsp;";
+					var reset = "<a    onclick='upateRowQty("+row.id+")'>修改配额</a>&nbsp;&nbsp;&nbsp;";
 					return reset;
 				}
 					

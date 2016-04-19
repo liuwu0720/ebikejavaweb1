@@ -213,7 +213,7 @@ public class JtUserServiceImp implements IJtUserService {
 	@Override
 	public List<JtMenu> getAllMenus() {
 		// TODO Auto-generated method stub
-		return iJtMenuDao.findAll();
+		return iJtMenuDao.findByProperty("nEnable", SystemConstants.ENABLE);
 	}
 
 	/*

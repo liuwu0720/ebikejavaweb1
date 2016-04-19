@@ -74,7 +74,7 @@ $(document).ready(function(){
 			align:'center',
 			width : 180,
 			formatter:function(value,row,index){
-				var query = "<a  href='javascript:void(0)'  onclick='queryHyxhDetail(\""+row.HYXHZH+"\")'>"+value+"</a>";
+				var query = "<a    onclick='queryHyxhDetail(\""+row.HYXHZH+"\")'>"+value+"</a>";
 				return query
 			}		
 		},{
@@ -83,7 +83,7 @@ $(document).ready(function(){
 			align:'center',
 			width : 180,
 			formatter:function(value,row,index){
-				var query = "<a  href='javascript:void(0)'  onclick='queryHyxhDwDetail(\""+row.SSDWID+"\")'>"+value+"</a>";
+				var query = "<a    onclick='queryHyxhDwDetail(\""+row.SSDWID+"\")'>"+value+"</a>";
 				return query;	
 			}
 		},{
@@ -101,7 +101,7 @@ $(document).ready(function(){
 			align:'center',
 			width : 100,
 			formatter:function(value,row,index){
-				var query = "<a  href='javascript:void(0)'  onclick='queryRow("+row.ID+")'>查看详情</a>";
+				var query = "<a    onclick='queryRow("+row.ID+")'>查看详情</a>";
 				return query;
 			}
 		}

@@ -39,12 +39,6 @@ $(document).ready(function(){
 		width:w,
 		loadMsg:'正在加载,请稍等...',
 		columns : [ [{
-			field : 'id',
-			title : 'id',
-			checkbox : true,
-			align:'center',
-			width : 120
-		},{
 			field : 'jsrxm',
 			title : '驾驶人姓名',
 			align:'center',
@@ -97,7 +91,7 @@ $(document).ready(function(){
 			align:'center',
 			width : 120,
 			formatter:function(value,row,index){
-				var del = "<a  href='javascript:void(0)'  onclick='deleteRow("+row.id+")'>删除</a>";
+				var del = "<a    onclick='deleteRow("+row.id+")'>删除</a>";
 				
 				return del;	
 			}
@@ -194,7 +188,7 @@ function updateSaveData(){
 					}
 					return isValid; // 返回false终止表单提交
 				},
-				success : function(data) {
+				success : function(data, textStatus) {
 					var data = eval('(' + data + ')'); // change the JSON
 					if (data.isSuccess) {
 						$.messager.show({ // show error message

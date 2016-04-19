@@ -587,6 +587,12 @@ public class ApprovalAction {
 				ddcHyxhBasb.setSynFlag(SystemConstants.SYSFLAG_UPDATE);
 				ddcHyxhBasb.setTranDate(new Date());
 				DdcApproveUser approveUser = new DdcApproveUser();
+				String sql = "select SEQ_DDC_APPROVE_USER.nextval from dual";
+				Object object = iEbikeService.getDateBySQL(sql);
+				String seq = object.toString();
+				String md = new SimpleDateFormat("yyMMdd").format(new Date());
+				String approveNo = "N" + md + seq;// 生成审批编号
+				approveUser.setApproveNo(approveNo);
 				approveUser.setUserName(jtUser.getUserName());// 姓名
 				approveUser.setUserOrgname(jtUser.getUserOrgName());// 部门
 				approveUser.setUserRoleName(jtUser.getUserRoleName());// 角色

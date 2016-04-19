@@ -2,9 +2,13 @@
 	margin: 0;
 	padding: 0;
 }
-
+a {
+cursor: pointer;
+    color: blue;	
+}
 a:visited {
 	text-decoration: none;
+	
 }
 
 a:link {
@@ -22,6 +26,7 @@ ul li {
 
 #main {
 	border-collapse: collapse;
+	
 	width: 100%;
 }
 
@@ -31,7 +36,7 @@ ul li {
 
 #main tr {
 	height: 30px;
-	background-color: #EEF2FB;
+	background-color: #B2E2F6;
 	line-height: 30px;
 }
 
@@ -82,7 +87,7 @@ ul li {
 
 
 .maindiv {
-	background-color: #E4E4FB;
+	background-color: #CCC5FD;
 	vertical-align: middle;
 	width: 100%;
 }
@@ -93,6 +98,7 @@ ul li {
 	vertical-align: middle;
 	padding: 0;
 }
+
 .searchdiv{
 	padding: 5px 0 5px 10px;
     background: #E8F1FF;
@@ -121,15 +127,15 @@ ul li {
     background: -moz-linear-gradient(#eaf2ff, #efefef); Firefox 3.6 - 15
     background: linear-gradient(#eaf2ff, #efefef); 标准的语法（必须放在最后） */
     background: url(../../static/images/leftmenu.png) no-repeat ;
-    background-color: #efefef;
+    background-color: #B2E2F6;
 	color: #C84AFC;
 	position: fixed;
 	top: 0;
 	left: 0;
-	height: 100%;
+	height: 680px;
 	z-index: 12;
 	overflow: hidden;
-	width: 100%;
+	width:220px;
 	padding: 15px 10px 0 20px;
 }
 
@@ -156,7 +162,7 @@ ul li {
 
 .menu-ul li {
 	margin: 5px 0;
-	border-top: 1px solid #fff;
+/* 	border-top: 1px solid #fff; */
 	position: relative;
 	display: block;
 }
@@ -216,10 +222,8 @@ ul li {
 	width: 400px;
 	padding: 1px;
 	margin-left: 87px;
-	background-image: url(../../static/images/header.png) !important;
-	/* FF IE7 */
-	background-repeat: no-repeat;
-	background-position: 50% 0%;
+	
+	
 
 	/* filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../static/images/header.png'); IE6
 	background-image: none; IE6    background-color: #24748f; #c4e1ff*/
@@ -228,7 +232,7 @@ ul li {
 .headerdiv{
 	background-image: url(../../static/images/headbackground.png);
 	width: 100%;
-    height: 100%;
+    height: 200px;
     position: absolute; 
     padding-top: 13px;
     /* background：#24748f;
@@ -240,7 +244,7 @@ ul li {
 }
 
 .setting-header {
-	margin-top: -15px;
+	margin-top: -5px;
 }
 
 .headerdiv i{
@@ -258,11 +262,13 @@ ul li {
 .header-icon-setting {
 	font-size: 34px;
 	color: #F9700C;
+	display: block;
 }
 
 .header-icon-exit {
 	font-size: 34px;
 	color: #F9700C;
+	display: block;
 }
 
 .header-tool {
@@ -387,10 +393,6 @@ th {
 	border-top: 2px solid #ddd;
 }
 
-.table .table {
-	background-color: #fff;
-}
-
 .table-condensed>thead>tr>th,.table-condensed>tbody>tr>th,.table-condensed>tfoot>tr>th,.table-condensed>thead>tr>td,.table-condensed>tbody>tr>td,.table-condensed>tr>td
 	{
 	padding: 5px;
@@ -501,13 +503,13 @@ table td[class*="col-"],table th[class*="col-"] {
 .table-btndiv button{
 	width: 100px;
 	height: 32px;
-	background-color: #A9A9F7;
+	background-color: #B2E2F6;
 	text-align: center;
 }
 .btn {
 	width: 100px;
 	height: 32px;
-	background-color: #A9A9F7;
+	background-color: #B2E2F6;
 	text-align: center;
 }
 .btn_primary {

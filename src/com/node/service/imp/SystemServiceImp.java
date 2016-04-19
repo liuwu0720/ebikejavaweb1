@@ -107,7 +107,7 @@ public class SystemServiceImp implements ISystemService {
 		if (upOrg != null && !upOrg.equals("")) {
 			sql.append(" and UP_ORG = '" + upOrg + "'");
 		}
-		sql.append(" order by flag asc, up_org asc");
+		sql.append(" order by  up_org asc");
 		List<JtViewDept> jtViewDepts = new ArrayList<>();
 		Map<String, Object> resultMap = iJtMenuDao.getSpringSQL(sql.toString(),
 				null);

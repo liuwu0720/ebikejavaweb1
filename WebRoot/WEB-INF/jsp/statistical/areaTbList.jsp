@@ -74,7 +74,7 @@ $(document).ready(function(){
 			align:'center',
 			width : 120,
 			formatter:function(value,row,index){
-				var query = "<a  href='javascript:void(0)'  onclick='queryRow("+row.ID+")'>查看详情</a>";
+				var query = "<a    onclick='queryRow("+row.ID+")'>查看详情</a>";
 				return query;
 			}
 		}
@@ -113,9 +113,7 @@ function queryRow(id){
 <body class="easyui-layout">
 
 	<div>
-	
-		<table id="dg" style="width:70%;">
-			<div id="tb" class="searchdiv">
+		<div id="tb" class="searchdiv">
 				<span>流水号</span>
 				<input id="lsh" type="text" class="easyui-validatebox" name="lsh" ></input>
 				<span>电机号</span> <input id="djh" name="djh"
@@ -127,6 +125,8 @@ function queryRow(id){
 				<a class="easyui-linkbutton" plain="true" onclick="doSearch()"
 					iconCls="icon-search">查询 </a>
 			</div>
+		<table id="dg" style="width:70%;">
+			
 		</table>
 	
 	</div>

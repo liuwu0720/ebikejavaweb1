@@ -64,7 +64,7 @@ $(document).ready(function(){
 			align:'center',
 			width : 120,
 			formatter:function(value,row,index){
-				var del = "<a  href='javascript:void(0)'  onclick='deleteRow("+row.id+")'>删除</a>&nbsp;&nbsp;&nbsp;";
+				var del = "<a    onclick='deleteRow("+row.id+")'>删除</a>&nbsp;&nbsp;&nbsp;";
 				return del;	
 			}
 		}

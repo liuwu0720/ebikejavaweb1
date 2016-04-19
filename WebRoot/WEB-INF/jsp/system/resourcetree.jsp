@@ -97,7 +97,7 @@ $(document).ready(function(){
 			width : 120,
 			formatter:function(value,row,index){
 				
-				return "<a  href='javascript:void(0)'  onclick='deleteRow("+row.id+")'>禁用</a>";
+				return "<a    onclick='deleteRow("+row.id+")'>禁用</a>";
 			}
 		}
 

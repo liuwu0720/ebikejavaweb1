@@ -94,14 +94,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <div class="form-item">
                     <label>用户名</label>
                     <div class="form-input">
-                        <i class="iconfont">&#xe602;</i>
+                        
                         <input type="text" id="username" placeholder="填写用户名" maxlength="20">
                     </div>
                 </div>
                 <div class="form-item">
                     <label>密　码</label>
                     <div class="form-input">
-                        <i class="iconfont">&#xe603;</i>
+                       
                         <input type="password" id="password" placeholder="填写用户密码" maxlength="20">
                     </div>
                 </div>

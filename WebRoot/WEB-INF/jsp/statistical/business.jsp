@@ -50,7 +50,7 @@ $(document).ready(function(){
 			width : 220,
 			formatter:function(value,row,index){
 				if(row.ename !== 'total'){
-					var detail = "<a  href='javascript:void(0)'  onclick='badetail(\""+row.ename+"\")'>"+row.ba+"</a>";
+					var detail = "<a    onclick='badetail(\""+row.ename+"\")'>"+row.ba+"</a>";
 					return detail;
 				}else{
 					return value;
@@ -64,7 +64,7 @@ $(document).ready(function(){
 			width : 120,
 			formatter:function(value,row,index){
 				if(row.ename !== 'total'){
-					var detail = "<a  href='javascript:void(0)'  onclick='bgdetail(\""+row.ename+"\")'>"+row.bg+"</a>";
+					var detail = "<a    onclick='bgdetail(\""+row.ename+"\")'>"+row.bg+"</a>";
 					return detail;
 				}else{
 					return value;
@@ -78,7 +78,7 @@ $(document).ready(function(){
 			width : 120,
 			formatter:function(value,row,index){
 				if(row.ename !== 'total'){
-					var detail = "<a  href='javascript:void(0)'  onclick='zydetail(\""+row.ename+"\")'>"+row.zy+"</a>";
+					var detail = "<a    onclick='zydetail(\""+row.ename+"\")'>"+row.zy+"</a>";
 					return detail;
 				}else{
 					return value;
@@ -92,7 +92,7 @@ $(document).ready(function(){
 			width : 120,
 			formatter:function(value,row,index){
 				if(row.ename !== 'total'){
-					var detail = "<a  href='javascript:void(0)'  onclick='zxdetail(\""+row.ename+"\")'>"+row.zx+"</a>";
+					var detail = "<a    onclick='zxdetail(\""+row.ename+"\")'>"+row.zx+"</a>";
 					return detail;
 				}else{
 					return value;
@@ -106,7 +106,7 @@ $(document).ready(function(){
 			width : 120,
 			formatter:function(value,row,index){
 				if(row.ename !== 'total'){
-					var detail = "<a  href='javascript:void(0)'  onclick='jydetail(\""+row.ename+"\")'>"+row.jy+"</a>";
+					var detail = "<a    onclick='jydetail(\""+row.ename+"\")'>"+row.jy+"</a>";
 					return detail;
 				}else{
 					return value;

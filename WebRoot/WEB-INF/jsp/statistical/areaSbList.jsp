@@ -57,7 +57,7 @@ $(document).ready(function(){
 			align:'center',
 			width : 220,
 			formatter:function(value,row,index){
-				var query = "<a  href='javascript:void(0)'  onclick='queryHyxhDetail(\""+row.hyxhzh+"\")'>"+value+"</a>";
+				var query = "<a    onclick='queryHyxhDetail(\""+row.hyxhzh+"\")'>"+value+"</a>";
 				return query;	
 			}
 		},{
@@ -66,7 +66,7 @@ $(document).ready(function(){
 			align:'center',
 			width : 120,
 			formatter:function(value,row,index){
-				var query = "<a  href='javascript:void(0)'  onclick='queryHyxhDwDetail(\""+row.ssdwId+"\")'>"+value+"</a>";
+				var query = "<a    onclick='queryHyxhDwDetail(\""+row.ssdwId+"\")'>"+value+"</a>";
 				return query;	
 			}
 		},{
@@ -122,7 +122,7 @@ $(document).ready(function(){
 			align:'center',
 			width : 120,
 			formatter:function(value,row,index){
-				var query = "<a  href='javascript:void(0)'  onclick='queryRow("+row.id+")'>查看</a>";
+				var query = "<a    onclick='queryRow("+row.id+")'>查看</a>";
 				return query;
 			}
 		}
@@ -220,9 +220,7 @@ function queryHyxhDwDetail(obj){
 <body class="easyui-layout">
 
 	<div>
-		<table id="dg" style="width:90%;">
-
-			<div id="tb" style="padding: 5px; background: #E8F1FF;">
+		<div id="tb" style="padding: 5px; background: #E8F1FF;">
 				<span>流水号</span>
 				<input id="lsh" type="text" class="easyui-validatebox"  style="height: 32px;">  
 				<span>协会名称：</span>
@@ -239,6 +237,7 @@ function queryHyxhDwDetail(obj){
 				<a class="easyui-linkbutton" plain="true" onclick="doSearch()"
 					iconCls="icon-search">查询 </a>
 			</div>
+		<table id="dg" style="width:90%;">
 		</table>
 	</div>
 	

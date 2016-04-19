@@ -55,7 +55,7 @@ $(document).ready(function(){
 			width : 220,
 			formatter:function(value,row,index){
 				if(row.ename !== 'total'){
-					var detail = "<a  href='javascript:void(0)'  onclick='hySbdetail(\""+row.ename+"\")'>"+value+"</a>";
+					var detail = "<a    onclick='hySbdetail(\""+row.ename+"\")'>"+value+"</a>";
 					return detail;
 				}else{
 					return value;
@@ -68,7 +68,7 @@ $(document).ready(function(){
 			width : 220,
 			formatter:function(value,row,index){
 				if(row.ename !== 'total'){
-					var detail = "<a  href='javascript:void(0)'  onclick='hyBadetail(\""+row.ename+"\")'>"+value+"</a>";
+					var detail = "<a    onclick='hyBadetail(\""+row.ename+"\")'>"+value+"</a>";
 					return detail;
 				}else{
 					return value;
@@ -81,7 +81,7 @@ $(document).ready(function(){
 			width : 220,
 			formatter:function(value,row,index){
 				if(row.ename !== 'total'){
-					var detail = "<a  href='javascript:void(0)'  onclick='tbBadetail(\""+row.ename+"\")'>"+value+"</a>";
+					var detail = "<a    onclick='tbBadetail(\""+row.ename+"\")'>"+value+"</a>";
 					return detail;
 				}else{
 					return value;

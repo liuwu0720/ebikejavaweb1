@@ -101,7 +101,6 @@ public class BlackListAction {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			;
 			AjaxUtil.rendJson(response, false, "操作失败！系统错误");
 		}
 	}

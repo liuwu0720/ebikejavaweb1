@@ -22,7 +22,7 @@
 
 #main1 tr {
 	height: 30px;
-	background-color: #EEF2FB;
+	background-color: #B2E2F6;
 	line-height: 30px;
 }
 
@@ -32,23 +32,6 @@
 	width: 10%;
 }
 
-.maindiv {
-	background-color: #E4E4FB;
-	vertical-align: middle;
-}
-
-.maindiv input {
-	vertical-align: middle;
-}
-.btn{
-	width: 100px;
-	height: 32px;
-	background-color: #A9A9F7;
-	text-align: center;
-}
-.btndiv{
-text-align: center;
-}
 </style>
 
 <script type="text/javascript">

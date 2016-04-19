@@ -75,7 +75,7 @@ $(document).ready(function(){
 			align:'center',
 			width : 220,
 			formatter:function(value,row,index){
-				var detail = "<a  href='javascript:void(0)'  onclick='flowDetail("+row.ID+")'>详细信息</a>";
+				var detail = "<a    onclick='flowDetail("+row.ID+")'>详细信息</a>";
 				return detail;
 			}
 		}

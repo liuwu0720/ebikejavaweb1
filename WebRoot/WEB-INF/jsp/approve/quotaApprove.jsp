@@ -59,18 +59,14 @@ $(document).ready(function(){
 			align:'center',
 			width : 120,
 			formatter:function(value,row,index){
-				var query = "<a  href='javascript:void(0)'  onclick='queryHyxhDetail(\""+row.hyxhzh+"\")'>"+value+"</a>";
+				var query = "<a    onclick='queryHyxhDetail(\""+row.hyxhzh+"\")'>"+value+"</a>";
 				return query;	
 			}
 		},{
 			field : 'sqrq',
 			title : '申请日期',
 			align:'center',
-			width : 120,
-			formatter:function(value,row,index){
-				var datevalue = new Date(value);
-				return datevalue.toLocaleDateString();
-			}
+			width : 120
 		},{
 			field : 'bjjg',
 			title : '审批状态',
@@ -91,8 +87,8 @@ $(document).ready(function(){
 			align:'center',
 			width : 120,
 			formatter:function(value,row,index){
-				var query = "<a  href='javascript:void(0)'  onclick='queryRow("+row.id+")'>查看</a>";
-				var approve = "<a  href='javascript:void(0)'  onclick='approveRow("+row.id+")'>审批</a>";
+				var query = "<a    onclick='queryRow("+row.id+")'>查看</a>";
+				var approve = "<a    onclick='approveRow("+row.id+")'>审批</a>";
 				if(row.currentApprove){
 					return approve;	
 				}else{
@@ -151,6 +147,7 @@ function queryRow(id){
 function approveRow(id){
 	window.location.href="<%=basePath%>approvalAction/queryApprovalInfoById?id="+id+"&&type=2"
 }
+
 
 </script>
 </head>

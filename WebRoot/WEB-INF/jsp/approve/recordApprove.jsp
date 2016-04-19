@@ -57,7 +57,7 @@ $(document).ready(function(){
 			align:'center',
 			width : 220,
 			formatter:function(value,row,index){
-				var query = "<a  href='javascript:void(0)'  onclick='queryHyxhDetail(\""+row.hyxhzh+"\")'>"+value+"</a>";
+				var query = "<a    onclick='queryHyxhDetail(\""+row.hyxhzh+"\")'>"+value+"</a>";
 				return query;	
 			}
 		},{
@@ -66,7 +66,7 @@ $(document).ready(function(){
 			align:'center',
 			width : 120,
 			formatter:function(value,row,index){
-				var query = "<a  href='javascript:void(0)'  onclick='queryHyxhDwDetail(\""+row.ssdwId+"\")'>"+value+"</a>";
+				var query = "<a    onclick='queryHyxhDwDetail(\""+row.ssdwId+"\")'>"+value+"</a>";
 				return query;	
 			}
 		},{
@@ -117,8 +117,8 @@ $(document).ready(function(){
 			align:'center',
 			width : 120,
 			formatter:function(value,row,index){
-				var query = "<a  href='javascript:void(0)'  onclick='queryRow("+row.id+")'>查看</a>";
-				var approve = "<a  href='javascript:void(0)'  onclick='approveRow("+row.id+")'><p style='color:red'>审批</p></a>";
+				var query = "<a    onclick='queryRow("+row.id+")'>查看</a>";
+				var approve = "<a    onclick='approveRow("+row.id+")'><p style='color:red'>审批</p></a>";
 				if(row.approve){
 					return approve;	
 				}else{

@@ -121,6 +121,7 @@ public class SystemAction {
 			}
 			AjaxUtil.rendJson(response, true, "操作成功！");
 		} catch (Exception e) {
+			e.printStackTrace();
 			AjaxUtil.rendJson(response, false, "系统错误!");
 		}
 	}

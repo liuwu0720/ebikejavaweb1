@@ -91,7 +91,7 @@ $(document).ready(function(){
 			align:'center',
 			width : 120,
 			formatter:function(value,row,index){
-				var detail = "<a  href='javascript:void(0)'  onclick='getDetail("+row.ID+")'>详情信息</a>&nbsp;&nbsp;&nbsp;";
+				var detail = "<a    onclick='getDetail("+row.ID+")'>详情信息</a>&nbsp;&nbsp;&nbsp;";
 				return detail;	
 			}
 		}

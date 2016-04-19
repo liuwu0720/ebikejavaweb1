@@ -92,10 +92,10 @@ $(document).ready(function(){
 			align:'center',
 			width : 220,
 			formatter:function(value,row,index){
-				var del =  "<a  href='javascript:void(0)'  onclick='deleteRow("+row.id+")'>删除</a>&nbsp;&nbsp;&nbsp;";
-				var auth = "<a  href='javascript:void(0)'  onclick='authRow("+row.id+")'>授权</a>&nbsp;&nbsp;&nbsp;";
-				var reset = "<a  href='javascript:void(0)'  onclick='resetRow("+row.id+")'>重置密码</a>&nbsp;&nbsp;&nbsp;";
-				var adduser = "<a  href='javascript:void(0)'  onclick='addIntoUser(\""+row.userCode+"\")'>转入本系统</a>&nbsp;&nbsp;&nbsp;";
+				var del =  "<a    onclick='deleteRow("+row.id+")'>删除</a>&nbsp;&nbsp;&nbsp;";
+				var auth = "<a    onclick='authRow("+row.id+")'>授权</a>&nbsp;&nbsp;&nbsp;";
+				var reset = "<a    onclick='resetRow("+row.id+")'>重置密码</a>&nbsp;&nbsp;&nbsp;";
+				var adduser = "<a    onclick='addIntoUser(\""+row.userCode+"\")'>转入本系统</a>&nbsp;&nbsp;&nbsp;";
 				if(row.id > 0){
 					return del + auth + reset;
 				}else{

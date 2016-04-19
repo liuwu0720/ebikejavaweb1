@@ -50,7 +50,7 @@ $(document).ready(function(){
 			width : 120,
 			formatter:function(value,row,index){
 				if(row.cname !== '统计'){
-					var detail = "<a  href='javascript:void(0)'  onclick='sbdetail(\""+row.ename+"\")'>"+value+"</a>";
+					var detail = "<a   onclick='sbdetail(\""+row.ename+"\")'>"+value+"</a>";
 					return detail;
 				}else{
 					return value;
@@ -64,7 +64,7 @@ $(document).ready(function(){
 			width : 120,
 			formatter:function(value,row,index){
 				if(row.cname !== '统计'){
-					var detail = "<a  href='javascript:void(0)'  onclick='badetail(\""+row.ename+"\")'>"+value+"</a>";
+					var detail = "<a    onclick='badetail(\""+row.ename+"\")'>"+value+"</a>";
 					return detail;
 				}else{
 					return value;
@@ -79,7 +79,7 @@ $(document).ready(function(){
 			formatter:function(value,row,index){
 				
 				if(row.cname !== '统计'){
-					var detail = "<a  href='javascript:void(0)'  onclick='tbdetail(\""+row.ename+"\")'>"+value+"</a>";
+					var detail = "<a    onclick='tbdetail(\""+row.ename+"\")'>"+value+"</a>";
 					return detail;
 				}else{
 					return value;

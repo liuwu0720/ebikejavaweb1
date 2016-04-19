@@ -69,7 +69,7 @@ $(document).ready(function(){
 			align:'center',
 			width : 120,
 			formatter:function(value,row,index){
-				var query = "<a  href='javascript:void(0)'  onclick='queryHyxhDetail(\""+row.HYXHZH+"\")'>"+value+"</a>";
+				var query = "<a    onclick='queryHyxhDetail(\""+row.HYXHZH+"\")'>"+value+"</a>";
 				return query
 			}		
 		},{
@@ -78,7 +78,7 @@ $(document).ready(function(){
 			align:'center',
 			width : 120,
 			formatter:function(value,row,index){
-				var query = "<a  href='javascript:void(0)'  onclick='queryHyxhDwDetail(\""+row.SSDWID+"\")'>"+value+"</a>";
+				var query = "<a    onclick='queryHyxhDwDetail(\""+row.SSDWID+"\")'>"+value+"</a>";
 				return query;	
 			}
 		},{
@@ -96,7 +96,7 @@ $(document).ready(function(){
 			align:'center',
 			width : 120,
 			formatter:function(value,row,index){
-				var query = "<a  href='javascript:void(0)'  onclick='queryRow("+row.ID+")'>查看</a>";
+				var query = "<a    onclick='queryRow("+row.ID+")'>查看</a>";
 				return query;	
 				
 			}
@@ -222,10 +222,7 @@ function doSearch(){
 <body class="easyui-layout">
 
 	<div>
-		
-	  <!--startprint-->
-		<table id="dg" style="width:90%;">
-				<div  class="searchdiv">
+			<div  class="searchdiv">
 				<span>协会名称</span>
 				<input id="hyxhzh" style="height: 32px;">  
 				<span>公司名称</span>
@@ -240,9 +237,9 @@ function doSearch(){
 				<input id="cphm" type="text" class="easyui-validatebox" ></input>
 				<a class="easyui-linkbutton" plain="true" onclick="doSearch()"
 					iconCls="icon-search">查询 </a>
-			 </div>		
+			 </div>
+		<table id="dg" style="width:90%;">
 		</table>
-		<!--endprint-->	
 	</div>
 		
 	   <!-- 行业协会详情 -->

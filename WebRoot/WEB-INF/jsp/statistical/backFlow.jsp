@@ -74,7 +74,7 @@ $(document).ready(function(){
 			align:'center',
 			width : 120,
 			formatter:function(value,row,index){
-				var query = "<a  href='javascript:void(0)'  onclick='queryRow("+row.ID+")'>查看详情</a>";
+				var query = "<a    onclick='queryRow("+row.ID+")'>查看详情</a>";
 				return query;
 			}
 		}

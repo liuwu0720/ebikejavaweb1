@@ -194,16 +194,19 @@ public class UserRoleAction {
 				iJtUserService.deleteMenusByRoleId(roId);
 			}
 			String[] menuArray = menuString.split(",");
-			for (String menuId : menuArray) {
-				JtRoleMenu jtRoleMenu = new JtRoleMenu();
-				if (StringUtils.isNotBlank(roleId)) {
-					jtRoleMenu.setRoleid(Integer.parseInt(roleId));
-				} else {
-					jtRoleMenu.setRoleid(0);
+			if (StringUtils.isNotBlank(menuString)) {
+				for (String menuId : menuArray) {
+					JtRoleMenu jtRoleMenu = new JtRoleMenu();
+					if (StringUtils.isNotBlank(roleId)) {
+						jtRoleMenu.setRoleid(Integer.parseInt(roleId));
+					} else {
+						jtRoleMenu.setRoleid(0);
+					}
+					jtRoleMenu.setMenuid(Integer.parseInt(menuId));
+					iJtUserService.saveJtRoleMenu(jtRoleMenu);
 				}
-				jtRoleMenu.setMenuid(Integer.parseInt(menuId));
-				iJtUserService.saveJtRoleMenu(jtRoleMenu);
 			}
+
 			AjaxUtil.rendJson(response, true, "操作成功");
 		} catch (Exception e) {
 			AjaxUtil.rendJson(response, false, "系统错误");
