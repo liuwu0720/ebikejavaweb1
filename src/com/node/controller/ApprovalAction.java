@@ -111,6 +111,78 @@ public class ApprovalAction {
 
 	/**
 	 * 
+	 * 方法描述：注销审批
+	 * 
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年4月21日 下午8:23:08
+	 */
+	@RequestMapping("/cancelApproval")
+	public String cancelApproval() {
+		return "approve/cancelApprove";
+	}
+
+	/**
+	 * 
+	 * 方法描述：
+	 * 
+	 * @param djh
+	 * @param dabh
+	 * @param hyxhzh
+	 * @param xsqy
+	 * @param dwmcId
+	 * @param request
+	 * @param cphm
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年4月21日 下午8:32:35
+	 */
+	@RequestMapping("/queryCancelApprove")
+	@ResponseBody
+	public Map<String, Object> queryCancelApprove(String djh, String dabh,
+			String hyxhzh, String xsqy, String dwmcId,
+			HttpServletRequest request, String cphm) {
+		String sql = "select A.ID,A.DABH,A.CPHM,A.DJH,A.JSRXM1,A.GDYJ,A.SFZMHM1,"
+				+ "(select distinct b.HYXHMC from DDC_HYXH_BASE b where b.HYXHZH = A.HYXHZH  and rownum=1) as HYXHMC,a.HYXHZH,"
+				+ " (SELECT distinct S.DWMC FROM DDC_HYXH_SSDW S WHERE S.ID=A.SSDWID  and rownum=1) AS DWMC,a.SSDWID,"
+				+ "(select distinct d.DMMS1 from ddc_sjzd d where d.dmz=a.xsqy and d.dmlb='SSQY' and rownum=1) as xsqy "
+				+ " from DDC_FLOW A WHERE 1=1 ";
+		// 电机号
+		if (StringUtils.isNotBlank(djh)) {
+			sql += " and a.djh like '%" + djh + "%'";
+		}
+		// 档案编号
+		if (StringUtils.isNotBlank(dabh)) {
+			sql += " and a.dabh like '%" + dabh + "%'";
+		}
+		// 车牌号
+		if (StringUtils.isNotBlank(cphm)) {
+			sql += " and a.sfzhm1 like '%" + cphm + "%'";
+		}
+		// 单位
+		if (StringUtils.isNotBlank(dwmcId)) {
+			sql += " and a.SSDWID = " + dwmcId;
+		}
+		// 协会
+		if (StringUtils.isNotBlank(hyxhzh)) {
+			sql += " and a.HYXHZH = '" + hyxhzh + "'";
+		}
+		// 行驶区域
+		if (StringUtils.isNotBlank(xsqy)) {
+			sql += " and a.XSQY = '" + xsqy + "'";
+		}
+
+		sql += "  order by A.ID DESC";
+		Page p = ServiceUtil.getcurrPage(request);
+		Map<String, Object> resultMap = iEbikeService.queryBySpringSql(sql, p);
+
+		return resultMap;
+	}
+
+	/**
+	 * 
 	 * 方法描述：查询电动车检验列表
 	 * 
 	 * @param djh

@@ -151,6 +151,7 @@ public class UserRoleAction {
 		for (JtMenu jtMenu : jtRoleMenus) {
 			jtMenusString += jtMenu.getId() + ",";
 		}
+		System.out.println("jtMenusString= " + jtMenusString);
 		request.setAttribute("jtMenusString", jtMenusString);
 		return "user/userroleAuth";
 	}

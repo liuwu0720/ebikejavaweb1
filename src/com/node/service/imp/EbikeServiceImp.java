@@ -21,6 +21,7 @@ import com.node.dao.IDdcDriverDao;
 import com.node.dao.IDdcFlowDao;
 import com.node.dao.IDdcHyxhBasbDao;
 import com.node.dao.IDdcHyxhBaseDao;
+import com.node.dao.IDdcHyxhSsdwDao;
 import com.node.dao.IDdcHyxhSsdwclsbDao;
 import com.node.dao.IDdcSjzdDao;
 import com.node.dao.IFileRecordDao;
@@ -71,6 +72,9 @@ public class EbikeServiceImp implements IEbikeService {
 
 	@Autowired
 	IFileRecordDao iFileRecordDao;
+
+	@Autowired
+	IDdcHyxhSsdwDao iDdcHyxhSsdwDao;
 
 	/*
 	 * (non-Javadoc)
@@ -449,4 +453,5 @@ public class EbikeServiceImp implements IEbikeService {
 		// TODO Auto-generated method stub
 		return iFileRecordDao.findAllByHqlHelp(hql);
 	}
+
 }

@@ -104,6 +104,7 @@ $(document).ready(function(){
 		] ],
 		onLoadSuccess:function(){  
             $('#dg').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题  
+            $("a").removeAttr("href");
         }
 	});
 });

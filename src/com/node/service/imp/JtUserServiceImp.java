@@ -275,7 +275,10 @@ public class JtUserServiceImp implements IJtUserService {
 		for (JtRoleMenu jtRoleMenu : jtRoleMenus) {
 			int menuId = jtRoleMenu.getMenuid();
 			JtMenu jtMenu = iJtMenuDao.get(menuId);
-			jtMenus.add(jtMenu);
+			if (jtMenu.getnEnable().equals(SystemConstants.ENABLE)) {
+				jtMenus.add(jtMenu);
+			}
+
 		}
 		return jtMenus;
 	}

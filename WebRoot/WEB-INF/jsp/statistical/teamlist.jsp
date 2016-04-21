@@ -75,7 +75,8 @@ $(document).ready(function(){
 			text : '导出',
 			iconCls : 'icon-print',
 			handler : function() {
-				excelExport();
+				//excelExport();
+				prinnt();
 			}
 		}],
 		onLoadSuccess:function(){  
@@ -107,6 +108,16 @@ function excelExport(){
 	commonExcelExport(titleArr,keysArr,content,actionUrl,fileName);
 	
 	
+}
+function prinnt(){
+	$("#dg").css('width', '650px');
+	var bdhtml=window.document.body.innerHTML;
+	var startStr="<!--startprint-->";//设置打印开始区域 
+	var endStr="<!--endprint-->";//设置打印结束区域 
+	var printHtml=bdhtml.substring(bdhtml.indexOf(startStr)+startStr.length,bdhtml.indexOf(endStr));//从标记里获取需要打印的页面 
+	window.document.body.innerHTML=printHtml;//需要打印的页面 
+	window.print(); 
+	window.document.body.innerHTML=bdhtml;//还原界面 
 }
 </script>
 </head>

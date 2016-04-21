@@ -42,12 +42,12 @@ $(document).ready(function(){
 			field : 'cname',
 			title : '行驶区域',
 			align:'center',
-			width : 120
+			width : 80
 		},{
 			field : 'ba',
 			title : '备案量',
 			align:'center',
-			width : 220,
+			width : 80,
 			formatter:function(value,row,index){
 				if(row.ename !== 'total'){
 					var detail = "<a    onclick='badetail(\""+row.ename+"\")'>"+row.ba+"</a>";
@@ -61,7 +61,7 @@ $(document).ready(function(){
 			field : 'bg',
 			title : '变更量',
 			align:'center',
-			width : 120,
+			width : 80,
 			formatter:function(value,row,index){
 				if(row.ename !== 'total'){
 					var detail = "<a    onclick='bgdetail(\""+row.ename+"\")'>"+row.bg+"</a>";
@@ -75,7 +75,7 @@ $(document).ready(function(){
 			field : 'zy',
 			title : '转移量',
 			align:'center',
-			width : 120,
+			width : 80,
 			formatter:function(value,row,index){
 				if(row.ename !== 'total'){
 					var detail = "<a    onclick='zydetail(\""+row.ename+"\")'>"+row.zy+"</a>";
@@ -89,7 +89,7 @@ $(document).ready(function(){
 			field : 'zx',
 			title : '注销量',
 			align:'center',
-			width : 120,
+			width : 80,
 			formatter:function(value,row,index){
 				if(row.ename !== 'total'){
 					var detail = "<a    onclick='zxdetail(\""+row.ename+"\")'>"+row.zx+"</a>";
@@ -103,7 +103,7 @@ $(document).ready(function(){
 			field : 'jy',
 			title : '检验量',
 			align:'center',
-			width : 120,
+			width : 80,
 			formatter:function(value,row,index){
 				if(row.ename !== 'total'){
 					var detail = "<a    onclick='jydetail(\""+row.ename+"\")'>"+row.jy+"</a>";
@@ -120,7 +120,8 @@ $(document).ready(function(){
 			text : '导出',
 			iconCls : 'icon-print',
 			handler : function() {
-				excelExport();
+				//excelExport();
+				prinnt();
 			}
 		}],
 		onLoadSuccess:function(){  
@@ -162,13 +163,26 @@ function jydetail(obj){
 	var areacode = obj;
 	window.location.href="<%=basePath%>statisticalAction/getBesinessDetail?areacode="+areacode+"&&type=E";
 }	
+
+function prinnt(){
+	$("#dg").css('width', '650px');
+	var bdhtml=window.document.body.innerHTML;
+	var startStr="<!--startprint-->";//设置打印开始区域 
+	var endStr="<!--endprint-->";//设置打印结束区域 
+	var printHtml=bdhtml.substring(bdhtml.indexOf(startStr)+startStr.length,bdhtml.indexOf(endStr));//从标记里获取需要打印的页面 
+	window.document.body.innerHTML=printHtml;//需要打印的页面 
+	window.print(); 
+	window.document.body.innerHTML=bdhtml;//还原界面 
+}
 </script>
 </head>
 <body class="easyui-layout">
 
 	<div>
+		  <!--startprint-->
 		<table id="dg" style="width:90%;">
 		</table>
+		<!--endprint-->	
 	</div>
 		
 	

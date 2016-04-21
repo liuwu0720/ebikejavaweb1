@@ -47,12 +47,12 @@ $(document).ready(function(){
 			field : 'total',
 			title : '总配额',
 			align:'center',
-			width : 220
+			width : 80
 		},{
 			field : 'sb',
 			title : '已申报',
 			align:'center',
-			width : 220,
+			width : 80,
 			formatter:function(value,row,index){
 				if(row.ename !== 'total'){
 					var detail = "<a    onclick='hySbdetail(\""+row.ename+"\")'>"+value+"</a>";
@@ -65,7 +65,7 @@ $(document).ready(function(){
 			field : 'ba',
 			title : '已备案',
 			align:'center',
-			width : 220,
+			width : 80,
 			formatter:function(value,row,index){
 				if(row.ename !== 'total'){
 					var detail = "<a    onclick='hyBadetail(\""+row.ename+"\")'>"+value+"</a>";
@@ -78,7 +78,7 @@ $(document).ready(function(){
 			field : 'tb',
 			title : '已退办',
 			align:'center',
-			width : 220,
+			width : 80,
 			formatter:function(value,row,index){
 				if(row.ename !== 'total'){
 					var detail = "<a    onclick='tbBadetail(\""+row.ename+"\")'>"+value+"</a>";
@@ -94,7 +94,8 @@ $(document).ready(function(){
 			text : '导出',
 			iconCls : 'icon-print',
 			handler : function() {
-				excelExport();
+				//excelExport();
+				prinnt();
 			}
 		}],
 		onLoadSuccess:function(){  
@@ -133,17 +134,26 @@ function excelExport(){
 	
 }
 
-
+function prinnt(){
+	$("#dg").css('width', '650px');
+	var bdhtml=window.document.body.innerHTML;
+	var startStr="<!--startprint-->";//设置打印开始区域 
+	var endStr="<!--endprint-->";//设置打印结束区域 
+	var printHtml=bdhtml.substring(bdhtml.indexOf(startStr)+startStr.length,bdhtml.indexOf(endStr));//从标记里获取需要打印的页面 
+	window.document.body.innerHTML=printHtml;//需要打印的页面 
+	window.print(); 
+	window.document.body.innerHTML=bdhtml;//还原界面 
+}
 </script>
 </head>
 <body class="easyui-layout">
 
 	<div>
-	
+	<!--startprint-->
 		<table id="dg" style="width:70%;">
 
 		</table>
-	
+	<!--endprint-->
 	</div>
 	
 	

@@ -62,7 +62,7 @@ $(document).ready(function(){
 			}
 		},{
 			field : 'HYXHMC',
-			title : '行业协会名称1111',
+			title : '行业协会名称',
 			align:'center',
 			width : 220,
 			formatter:function(value,row,index){

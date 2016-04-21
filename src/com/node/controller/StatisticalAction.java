@@ -601,7 +601,8 @@ public class StatisticalAction {
 			Statics stat = new Statics();
 			stat.setEname(objMap.get("HYXHZH").toString());
 			stat.setCname(objMap.get("HYXHMC").toString());
-			stat.setTotal(objMap.get("TOTALPE").toString());
+			stat.setTotal(objMap.get("TOTALPE") == null ? null : objMap.get(
+					"TOTALPE").toString());
 			stat.setSb(objMap.get("SB").toString());
 			stat.setBa(objMap.get("BA").toString());
 			stat.setTb(objMap.get("TB").toString());

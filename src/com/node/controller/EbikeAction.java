@@ -331,9 +331,9 @@ public class EbikeAction {
 		JtUser jtUser = iJtUserService.getJtUserByUserCode(ddcDaxxb.getSlr());
 		ddcDaxxb.setSlrName(jtUser.getUserName());
 		// 部门
-		JtViewDept jtViewDept = iJtUserService.getJtDeptByOrg(ddcDaxxb
-				.getSlbm());
-		ddcDaxxb.setSlbmName(jtViewDept.getOrgName());
+		// JtViewDept jtViewDept = iJtUserService.getJtDeptByOrg(ddcDaxxb
+		// .getSlbm());
+		// ddcDaxxb.setSlbmName(jtViewDept.getOrgName());
 
 		List<DdcSjzd> slzls = iEbikeService.getSelectSlzl(ddcDaxxb.getSlzl());// 选中的退办原因
 		String showEbikeImg = parseUrl(ddcDaxxb.getVcEbikeImg());
@@ -402,12 +402,13 @@ public class EbikeAction {
 				.getDdcHyxhBaseByCode(ddcDaxxb.getHyxhzh());// 行业协会账号
 		ddcDaxxb.setHyxhzhName(ddcHyxhBase.getHyxhmc());
 		// 用户
-		JtUser jtUser = iJtUserService.getJtUserByUserCode(ddcDaxxb.getSlr());
-		ddcDaxxb.setSlrName(jtUser.getUserName());
+		// JtUser jtUser =
+		// iJtUserService.getJtUserByUserCode(ddcDaxxb.getSlr());
+		// ddcDaxxb.setSlrName(jtUser.getUserName());
 		// 部门
-		JtViewDept jtViewDept = iJtUserService.getJtDeptByOrg(ddcDaxxb
-				.getSlbm());
-		ddcDaxxb.setSlbmName(jtViewDept.getOrgName());
+		// JtViewDept jtViewDept = iJtUserService.getJtDeptByOrg(ddcDaxxb
+		// .getSlbm());
+		// ddcDaxxb.setSlbmName(jtViewDept.getOrgName());
 
 		// List<DdcSjzd> slzls =
 		// iEbikeService.getSelectSlzl(ddcDaxxb.getSlzl());// 选中的退办原因
@@ -609,6 +610,7 @@ public class EbikeAction {
 			ddcDaxxb.setLxdh2(ddcDaxxb1.getLxdh2());
 			ddcDaxxb.setXsqy(ddcDaxxb1.getXsqy());
 			ddcDaxxb.setBz(ddcDaxxb1.getBz());
+			ddcDaxxb.setSynFlag(SystemConstants.SYSFLAG_UPDATE);
 			/*
 			 * String ebike_jpgPath = uploadImg(request, fileupload);// 上传车身照片
 			 * if (StringUtils.isNotBlank(ebike_jpgPath)) {
