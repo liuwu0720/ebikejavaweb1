@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.mangofactory.swagger.annotations.ApiIgnore;
 import com.node.model.JtMenu;
 import com.node.model.JtUser;
 import com.node.service.IJtUserService;
@@ -31,6 +32,7 @@ import com.node.service.IJtUserService;
  * @author: liuwu
  * @version: 2016年3月2日 上午8:34:59
  */
+@ApiIgnore
 @Controller
 @RequestMapping("/mainAction")
 public class MainAction {

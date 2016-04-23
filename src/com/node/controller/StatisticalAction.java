@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mangofactory.swagger.annotations.ApiIgnore;
 import com.node.model.DdcApproveUser;
 import com.node.model.DdcFlow;
 import com.node.model.DdcHyxhBase;
@@ -46,6 +47,7 @@ import com.node.util.SystemConstants;
  * @author: liuwu
  * @version: 2016年3月25日 上午9:42:26
  */
+@ApiIgnore
 @Controller
 @RequestMapping("/statisticalAction")
 public class StatisticalAction {
@@ -199,6 +201,21 @@ public class StatisticalAction {
 	@RequestMapping("/getByWater")
 	public String getByWater() {
 		return "statistical/waterFlow";
+	}
+
+	/**
+	 * 
+	 * 方法描述：档案编号的详细流水
+	 * 
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年4月22日 下午2:20:25
+	 */
+	@RequestMapping("/getFlowListByDabh")
+	public String getFlowListByDabh(String dabh, HttpServletRequest request) {
+		request.setAttribute("dabh", dabh);
+		return "statistical/dabhFlows";
 	}
 
 	/**
@@ -930,7 +947,8 @@ public class StatisticalAction {
 	 * @version: 2016年3月25日 下午6:42:59
 	 */
 	@RequestMapping("/getFlowDetailById")
-	public String getFlowDetailById(String id, HttpServletRequest request) {
+	public String getFlowDetailById(String id, HttpServletRequest request,
+			String type) {
 		long flowId = Long.parseLong(id);
 		DdcFlow ddcFlow = iEbikeService.getFlowById(flowId);
 		String cysyName = iEbikeService.findByProPerties("CSYS",
@@ -1017,8 +1035,9 @@ public class StatisticalAction {
 			selectSlzls = iEbikeService
 					.getDbyyList(ddcFlow.getSlzl(), "ZXSQZL");// 注销
 		}
+		String approveTableName = SystemConstants.DDCFLOWTABLE;
 		List<DdcApproveUser> ddcApproveUsers = iEbikeService
-				.findApproveUsersByLsh(ddcFlow.getLsh()); // 审批人
+				.findApproveUsersByProperties(approveTableName, ddcFlow.getId());
 
 		List<DdcSjzd> selectTbyySjzds = iEbikeService.getDbyyList(
 				ddcFlow.getTbyy(), "TBYY");
@@ -1042,6 +1061,7 @@ public class StatisticalAction {
 		request.setAttribute("selectSlzls", selectSlzls);
 		request.setAttribute("ddcApproveUsers", ddcApproveUsers);
 		request.setAttribute("selectTbyySjzds", selectTbyySjzds);
+		request.setAttribute("type", type);
 		return "statistical/businessDetailInfo";
 	}
 
@@ -1200,6 +1220,46 @@ public class StatisticalAction {
 		}
 		sql += "  order by A.ID DESC";
 		Map<String, Object> resultMap = iEbikeService.queryBySpringSql(sql, p);
+		return resultMap;
+	}
+
+	/**
+	 * 
+	 * 方法描述：根据档案编号查询所有流水详情列表
+	 * 
+	 * @param request
+	 * @param dabh
+	 * @param dwId
+	 * @param hyxhzh
+	 * @param dtstart
+	 * @param dtend
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年4月22日 下午2:51:33
+	 */
+	@RequestMapping("/queryDabhFlowList")
+	@ResponseBody
+	public Map<String, Object> queryDabhFlowList(HttpServletRequest request,
+			String dabh, String dwId, String hyxhzh, String dtstart,
+			String dtend) {
+		Page page = ServiceUtil.getcurrPage(request);
+		String sql = " select f.id,(select distinct d.DMMS1 from ddc_sjzd d where d.dmz=f.xsqy and d.dmlb='SSQY' and rownum=1) as XSQYNAME,"
+				+ "f.ppxh,f.JSRXM1,f.SFZMHM1 ,f.cphm,f.dabh, "
+				+ "f.lsh,f.djh,f.slrq,f.hyxhzh,(select d.HYXHMC from ddc_hyxh_base d where d.HYXHZH = f.HYXHZH and rownum = 1) as hyxhmc,"
+				+ "f.SSDWID, (select s.DWMC from  DDC_HYXH_SSDW s where s.ID = f.SSDWID and rownum = 1) as dwmc,f.SL_INDEX  "
+				+ " from ddc_flow f where 1=1 ";
+
+		if (StringUtils.isNotBlank(dtstart)) {
+			sql += " and f.slrq >=to_date('" + dtstart + "','yyyy-MM-dd')";
+		}
+		if (StringUtils.isNotBlank(dtend)) {
+			sql += " and f.slrq <=to_date('" + dtend + "','yyyy-MM-dd')";
+		}
+
+		sql += "  order by f.id desc";
+		Map<String, Object> resultMap = iInDustryService.getBySpringSql(sql,
+				page);
 		return resultMap;
 	}
 }

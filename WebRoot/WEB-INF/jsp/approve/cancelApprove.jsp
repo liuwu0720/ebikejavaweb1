@@ -35,7 +35,7 @@ $(document).ready(function(){
 	$("#dg").datagrid({
 
 		url : "<%=basePath%>approvalAction/queryCancelApprove?time=" + randomNu,
-		title :  "电动车注销",
+		title :  "电动车注销审批",
 		iconCls : 'icon-search',
 		striped : true,
 		fitColumns:true,   //数据列太少 未自适应
@@ -47,62 +47,93 @@ $(document).ready(function(){
 		width:w,
 		loadMsg:'正在加载,请稍等...',
 		columns :  [ [{
-			field : 'DABH',
+			field : 'dabh',
 			title : '档案编号',
 			align:'center',
-			width : 120
+			width : 120,
+			formatter:function(value,row,index){
+				var query = "<a    onclick='queryFlowListByDabh(\""+row.dabh+"\")'>"+value+"</a>";
+				return query;	
+			}
 		},{
-			field : 'DWMC',
+			field : 'ssdwName',
 			title : '单位名称',
 			align:'center',
 			width : 120,
 			formatter:function(value,row,index){
-				var query = "<a    onclick='queryHyxhDwDetail(\""+row.SSDWID+"\")'>"+value+"</a>";
+				var query = "<a    onclick='queryHyxhDwDetail(\""+row.ssdwId+"\")'>"+value+"</a>";
 				return query;	
 			}
 		},{
-			field : 'HYXHMC',
+			field : 'hyxhzhName',
 			title : '行业协会名称',
 			align:'center',
 			width : 120,
 			formatter:function(value,row,index){
-				var query = "<a    onclick='queryHyxhDetail(\""+row.HYXHZH+"\")'>"+value+"</a>";
+				var query = "<a    onclick='queryHyxhDetail(\""+row.hyxhzh+"\")'>"+value+"</a>";
 				return query;	
 			}
 		},{
-			field : 'CPHM',
+			field : 'cphm',
 			title : '车牌号',
 			align:'center',
 			width : 80
 		},{
-			field : 'DJH',
+			field : 'djh',
 			title : '电机号',
 			align:'center',
 			width : 120
 		},{
-			field : 'JSRXM1',
+			field : 'jsrxm1',
 			title : '驾驶人',
 			align:'center',
 			width : 80
 		},{
-			field : 'SFZMHM1',
-			title : '身份证号码',
-			align:'center',
-			width : 80
-		},{
-			field : 'XSQY',
+			field : 'xsqyName',
 			title : '行驶区域',
 			align:'center',
 			width : 50
+		},{
+			field : 'slyj',
+			title : '受理意见',
+			align:'center',
+			width : 50,
+			formatter:function(value,row,index){
+				if(value==null){
+					if(row.slIndex==1){
+						return "等待民警审批";
+					}else{
+						return "等待领导审批";
+					}
+					
+				}else if(value == 0){
+					return "已同意";
+				}else if(value == 1){
+					return "已拒绝";
+				}
+			}
+		},{
+			field : 'sqrq',
+			title : '申请日期',
+			align:'center',
+			width : 50,
+			formatter:function(value,row,index){
+				var timevalue = new Date(value);
+				return timevalue.toLocaleString(); 
+			}
 		},{
 			field : 'null',
 			title:'操作',
 			align:'center',
 			width : 120,
 			formatter:function(value,row,index){
-				var query = "<a    onclick='queryRow("+row.ID+")'>查看</a>";
-				var audit = "<a    onclick='auditRow("+row.ID+")'>审批</a>";
-				return query;	
+				var query = "<a  onclick='queryRow("+row.id+")'>查看</a>&nbsp;&nbsp;&nbsp;";
+				var audit = "<a  onclick='auditRow("+row.id+")'>审批</a>";
+				if(row.approve){
+					return query+audit;	
+				}else{
+					return query;
+				}	
 				
 			}
 		}
@@ -152,9 +183,16 @@ function queryRow(obj){
 	$.messager.progress({
 		text:"正在处理，请稍候..."
 	});
-	window.location.href="<%=basePath%>statisticalAction/getFlowDetailById?id="+id ;
+	window.location.href="<%=basePath%>statisticalAction/getFlowDetailById?id="+obj ;
 	
 }
+function auditRow(obj){
+	$.messager.progress({
+		text:"正在处理，请稍候..."
+	});
+	window.location.href="<%=basePath%>statisticalAction/getFlowDetailById?id="+obj+"&&type=1" ;
+}
+
 //查看行业协会详情
 function queryHyxhDetail(obj){
 
@@ -192,6 +230,14 @@ function queryHyxhDwDetail(obj){
  		  }
 	})
 }
+
+function queryFlowListByDabh(obj){
+	$.messager.progress({
+		text:"正在处理，请稍候..."
+	});
+	window.location.href="<%=basePath%>statisticalAction/getFlowListByDabh?dabh="+obj ;
+}
+
 </script>
 </head>
 <body class="easyui-layout">
@@ -199,11 +245,11 @@ function queryHyxhDwDetail(obj){
 	<div class="searchdiv">
 			<div>
 				<span>协会名称</span>
-				<input id="hyxhzh">  
+				<input id="hyxhzh" style="height: 32px;">  
 				<span>公司名称</span>
-				<input id="hyxsssdwmc" >
+				<input id="hyxsssdwmc" style="height: 32px;">
 				<span>行驶区域</span>
-				<input id="xsqy" ><br>
+				<input id="xsqy" style="height: 32px;"><br>
 				<span>档案编号</span>
 				<input id="dabh" type="text" class="easyui-validatebox" ></input>
 				<span>电机号</span> <input id="djh"

@@ -26,6 +26,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mangofactory.swagger.annotations.ApiIgnore;
 import com.node.model.DdcApproveUser;
 import com.node.model.DdcDaxxb;
 import com.node.model.DdcDriver;
@@ -55,6 +56,7 @@ import com.node.util.SystemConstants;
  * @author: liuwu
  * @version: 2016年3月28日 下午3:35:43
  */
+@ApiIgnore
 @Controller
 @RequestMapping("/approvalAction")
 public class ApprovalAction {
@@ -125,7 +127,7 @@ public class ApprovalAction {
 
 	/**
 	 * 
-	 * 方法描述：
+	 * 方法描述：注销审批
 	 * 
 	 * @param djh
 	 * @param dabh
@@ -144,11 +146,11 @@ public class ApprovalAction {
 	public Map<String, Object> queryCancelApprove(String djh, String dabh,
 			String hyxhzh, String xsqy, String dwmcId,
 			HttpServletRequest request, String cphm) {
-		String sql = "select A.ID,A.DABH,A.CPHM,A.DJH,A.JSRXM1,A.GDYJ,A.SFZMHM1,"
+		String sql = "select A.ID,A.DABH,A.CPHM,A.DJH,A.JSRXM1,A.SLYJ,A.SFZMHM1,A.SL_INDEX,A.SLRQ,"
 				+ "(select distinct b.HYXHMC from DDC_HYXH_BASE b where b.HYXHZH = A.HYXHZH  and rownum=1) as HYXHMC,a.HYXHZH,"
 				+ " (SELECT distinct S.DWMC FROM DDC_HYXH_SSDW S WHERE S.ID=A.SSDWID  and rownum=1) AS DWMC,a.SSDWID,"
 				+ "(select distinct d.DMMS1 from ddc_sjzd d where d.dmz=a.xsqy and d.dmlb='SSQY' and rownum=1) as xsqy "
-				+ " from DDC_FLOW A WHERE 1=1 ";
+				+ " from DDC_FLOW A WHERE 1=1 and a.YWLX = 'D'";
 		// 电机号
 		if (StringUtils.isNotBlank(djh)) {
 			sql += " and a.djh like '%" + djh + "%'";
@@ -177,8 +179,72 @@ public class ApprovalAction {
 		sql += "  order by A.ID DESC";
 		Page p = ServiceUtil.getcurrPage(request);
 		Map<String, Object> resultMap = iEbikeService.queryBySpringSql(sql, p);
+		List<Map<String, Object>> listMaps = (List<Map<String, Object>>) resultMap
+				.get("rows");
+		JtUser jtUser = (JtUser) request.getSession().getAttribute("jtUser");
+		// 获取该用户的审批角色，可能为多重审批角色
+		List<JtRole> approveJtRoles = iJtUserService
+				.getApproveRolesByUser(jtUser);
+		List<DdcFlow> ddcFlows = new ArrayList<>();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		for (int i = 0; i < listMaps.size(); i++) {
+			Map<String, Object> objMap = listMaps.get(i);
+			DdcFlow ddcFlow = new DdcFlow();
+			ddcFlow.setId(Long.parseLong(objMap.get("ID").toString()));
+			ddcFlow.setDabh(objMap.get("DABH").toString());
+			ddcFlow.setCphm(objMap.get("CPHM").toString());
+			ddcFlow.setDjh(objMap.get("DJH").toString());
+			ddcFlow.setJsrxm1(objMap.get("JSRXM1").toString());
+			ddcFlow.setSlyj(objMap.get("SLYJ") == null ? null : objMap.get(
+					"SLYJ").toString());
+			ddcFlow.setSlIndex(Integer.parseInt(objMap.get("SL_INDEX")
+					.toString()));
+			ddcFlow.setHyxhzhName(objMap.get("HYXHMC").toString());
+			ddcFlow.setHyxhzh(objMap.get("HYXHZH").toString());
+			ddcFlow.setSsdwName(objMap.get("DWMC") == null ? null : objMap.get(
+					"DWMC").toString());
+			ddcFlow.setSsdwId(objMap.get("SSDWID").toString());
+			ddcFlow.setXsqyName(objMap.get("XSQY").toString());
+			ddcFlow.setApprove(isCancelApprove(approveJtRoles, ddcFlow));
+			try {
+				ddcFlow.setSlrq(sdf.parse(objMap.get("SLRQ").toString()));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			ddcFlows.add(ddcFlow);
+		}
+		Map<String, Object> newMap = new HashMap<>();
+		newMap.put("total", resultMap.get("total"));
+		newMap.put("rows", ddcFlows);
+		return newMap;
+	}
 
-		return resultMap;
+	/**
+	 * 方法描述：
+	 * 
+	 * @param approveJtRoles
+	 * @param ddcFlow
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年4月22日 上午11:33:37
+	 */
+	private boolean isCancelApprove(List<JtRole> approveJtRoles, DdcFlow ddcFlow) {
+		if (approveJtRoles == null || approveJtRoles.size() == 0) {
+			return false;
+		} else if (StringUtils.isNotBlank(ddcFlow.getSlyj())) {
+			return false;// 已经审批完成的
+		} else {
+			for (JtRole jtRole : approveJtRoles) {
+				if (jtRole.getRoleSort().equals(ddcFlow.getSlIndex() + "")) {
+
+					return true;
+
+				}
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -331,7 +397,7 @@ public class ApprovalAction {
 	}
 
 	/**
-	 * 方法描述：
+	 * 方法描述：判断车辆申报是否为当前用户审批
 	 * 
 	 * @param approveJtRoles
 	 * @param ddcHyxhSsdwclsb
@@ -979,7 +1045,7 @@ public class ApprovalAction {
 				Object object = iEbikeService.getDateBySQL(sql);
 				String seq = object.toString();
 				String md = new SimpleDateFormat("yyMMdd").format(new Date());
-				String approveNo = "S" + md + seq;// 生成审批编号
+				String approveNo = "N" + md + seq;// 生成审批编号
 				approveUser.setApproveNo(approveNo);
 				approveUser.setUserName(jtUser.getUserName());// 姓名
 				approveUser.setUserOrgname(jtUser.getUserOrgName());// 部门
@@ -1183,5 +1249,172 @@ public class ApprovalAction {
 			AjaxUtil.rendJson(response, false, "操作失败！");
 		}
 
+	}
+
+	/**
+	 * 
+	 * 方法描述：注销审批
+	 * 
+	 * @param request
+	 * @param state
+	 * @param response
+	 * @param id
+	 * @param note
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年4月22日 上午10:07:38
+	 */
+	@RequestMapping("/sureApproveCancel")
+	public void sureApproveCancel(HttpServletRequest request, String state,
+			HttpServletResponse response, String id, String note) {
+		JtUser jtUser = (JtUser) request.getSession().getAttribute("jtUser");
+		long dId = Long.parseLong(id);
+		DdcFlow ddcFlow = iEbikeService.getFlowById(dId);
+		String roleName = iJtUserService.getRoleNameByRoleCode(jtUser
+				.getUserRole());
+		String deptName = iJtUserService.getDeptNameByUser(jtUser.getUserOrg());
+		jtUser.setUserRoleName(roleName);
+		jtUser.setUserOrgName(deptName);
+		DdcHyxhBase ddcHyxhBase = iInDustryService.getDdcHyxhBaseByCode(ddcFlow
+				.getHyxhzh());// 行业协会账号
+		DdcDaxxb daxxb = iEbikeService.getDdcDaxxbByDabh(ddcFlow.getDabh());
+		if (state.equals("1")) {
+			daxxb.setSlbz(note);
+			daxxb.setGdbm(jtUser.getUserOrg());
+			daxxb.setGdr(jtUser.getUserCode());
+			daxxb.setGdrq(new Date());
+			daxxb.setGdbz(note);
+			daxxb.setSlyj(state);
+			daxxb.setGdyj(state);
+			daxxb.setSynFlag(SystemConstants.SYSFLAG_UPDATE);
+			// 拒绝，审批结束
+			ddcFlow.setSlyj(state);
+			ddcFlow.setSlbm(deptName);
+			ddcFlow.setSlbz(note);
+			ddcFlow.setSlr(jtUser.getUserName());
+			ddcFlow.setGdbm(deptName);
+			ddcFlow.setGdyj(state);
+			ddcFlow.setGdbm(note);
+			ddcFlow.setGdrq(new Date());
+
+			ddcFlow.setSynFlag(SystemConstants.SYSFLAG_UPDATE);
+			// 审批人及审批状态
+			DdcApproveUser approveUser = new DdcApproveUser();
+			String sql = "select SEQ_DDC_APPROVE_USER.nextval from dual";
+			Object object = iEbikeService.getDateBySQL(sql);
+			String seq = object.toString();
+			String md = new SimpleDateFormat("yyMMdd").format(new Date());
+			String approveNo = "N" + md + seq;// 生成审批编号
+			approveUser.setApproveNo(approveNo);
+			approveUser.setUserName(jtUser.getUserName());// 姓名
+			approveUser.setUserOrgname(jtUser.getUserOrgName());// 部门
+			approveUser.setUserRoleName(jtUser.getUserRoleName());// 角色
+			approveUser.setApproveIndex(ddcFlow.getSlIndex());
+			approveUser.setApproveNote(note);
+			approveUser.setApproveState(Integer.parseInt(state));
+			approveUser.setApproveTable(ddcFlow.getClass().getSimpleName());
+			approveUser.setApproveTableid(ddcFlow.getId());
+			approveUser.setApproveTime(new Date());
+			approveUser.setSysFlag(SystemConstants.SYSFLAG_ADD);
+			approveUser.setTranDate(new Date());
+			try {
+				iEbikeService.updateDdcDaxxb(daxxb);
+				iEbikeService.updateDdcFlow(ddcFlow);
+				iEbikeService.saveDdcApproveUser(approveUser);
+				AjaxUtil.rendJson(response, true, "成功！");
+			} catch (Exception e) {
+				e.printStackTrace();
+				AjaxUtil.rendJson(response, false, "系统错误!");
+			}
+
+		} else if (state.equals("0")) {
+			// 同意:如果当前审批人是最后审批人，则整个流程结束,DdcHyxhBase实际配额数量改变
+			List<JtRole> jtRoles = iJtUserService.getAllApproveRoles();
+			if (ddcFlow.getSlIndex() == jtRoles.size()) {
+				daxxb.setSlbz(note);
+				daxxb.setGdbm(jtUser.getUserOrg());
+				daxxb.setGdr(jtUser.getUserCode());
+				daxxb.setGdrq(new Date());
+				daxxb.setGdbz(note);
+				daxxb.setSlyj(state);
+				daxxb.setGdyj(state);
+				daxxb.setZt("E");// 状态改为已注销
+				daxxb.setSynFlag(SystemConstants.SYSFLAG_UPDATE);
+				// 流水表
+				ddcFlow.setSlyj(state);
+				ddcFlow.setSlbm(deptName);
+				ddcFlow.setSlbz(note);
+				ddcFlow.setSlr(jtUser.getUserName());
+				ddcFlow.setGdbm(deptName);
+				ddcFlow.setGdyj(state);
+				ddcFlow.setGdbm(note);
+				ddcFlow.setGdrq(new Date());
+
+				ddcFlow.setSynFlag(SystemConstants.SYSFLAG_UPDATE);
+				// 审批人及审批状态
+				DdcApproveUser approveUser = new DdcApproveUser();
+				String sql = "select SEQ_DDC_APPROVE_USER.nextval from dual";
+				Object object = iEbikeService.getDateBySQL(sql);
+				String seq = object.toString();
+				String md = new SimpleDateFormat("yyMMdd").format(new Date());
+				String approveNo = "N" + md + seq;// 生成审批编号
+				approveUser.setApproveNo(approveNo);
+				approveUser.setUserName(jtUser.getUserName());// 姓名
+				approveUser.setUserOrgname(jtUser.getUserOrgName());// 部门
+				approveUser.setUserRoleName(jtUser.getUserRoleName());// 角色
+				approveUser.setApproveIndex(ddcFlow.getSlIndex());
+				approveUser.setApproveNote(note);
+				approveUser.setApproveState(Integer.parseInt(state));
+				approveUser.setApproveTable(ddcFlow.getClass().getSimpleName());
+				approveUser.setApproveTableid(ddcFlow.getId());
+				approveUser.setApproveTime(new Date());
+				approveUser.setSysFlag(SystemConstants.SYSFLAG_ADD);
+				approveUser.setTranDate(new Date());
+				// 同意注销，则配额回收协会名下
+				ddcHyxhBase.setHyxhsjzpe(ddcHyxhBase.getHyxhsjzpe() + 1);
+
+				try {
+					iEbikeService.updateDdcDaxxb(daxxb);
+					iEbikeService.updateDdcFlow(ddcFlow);
+					iEbikeService.saveDdcApproveUser(approveUser);
+					iEbikeService.updateDdcHyxhBase(ddcHyxhBase);
+					AjaxUtil.rendJson(response, true, "成功！");
+				} catch (Exception e) {
+					e.printStackTrace();
+					AjaxUtil.rendJson(response, false, "系统错误!");
+				}
+			} else {
+				// 审批人指向下一个角色
+				int nextRoleIndex = ddcFlow.getSlIndex() + 1;
+				ddcFlow.setSlIndex(nextRoleIndex);
+				// 审批人及审批状态
+				DdcApproveUser approveUser = new DdcApproveUser();
+				String sql = "select SEQ_DDC_APPROVE_USER.nextval from dual";
+				Object object = iEbikeService.getDateBySQL(sql);
+				String seq = object.toString();
+				String md = new SimpleDateFormat("yyMMdd").format(new Date());
+				String approveNo = "N" + md + seq;// 生成审批编号
+				approveUser.setApproveNo(approveNo);
+				approveUser.setUserName(jtUser.getUserName());// 姓名
+				approveUser.setUserOrgname(jtUser.getUserOrgName());// 部门
+				approveUser.setUserRoleName(jtUser.getUserRoleName());// 角色
+				approveUser.setApproveIndex(ddcFlow.getSlIndex());
+				approveUser.setApproveNote(note);
+				approveUser.setApproveState(Integer.parseInt(state));
+				approveUser.setApproveTable(SystemConstants.DDCFLOWTABLE);
+				approveUser.setApproveTableid(ddcFlow.getId());
+				approveUser.setApproveTime(new Date());
+				approveUser.setSysFlag(SystemConstants.SYSFLAG_ADD);
+				approveUser.setTranDate(new Date());
+				try {
+					iEbikeService.updateDdcFlow(ddcFlow);
+					iEbikeService.saveDdcApproveUser(approveUser);
+					AjaxUtil.rendJson(response, true, "成功！");
+				} catch (Exception e) {
+					e.printStackTrace();
+					AjaxUtil.rendJson(response, false, "系统错误!");
+				}
+			}
+		}
 	}
 }

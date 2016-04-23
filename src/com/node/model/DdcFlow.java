@@ -94,6 +94,8 @@ public class DdcFlow implements java.io.Serializable {
 	private String vcEbikeInvoiceImgShow;
 	private String vcTableName;
 	private Long iTableId;
+	private Integer slIndex;
+	private boolean isApprove = false;
 
 	// Constructors
 
@@ -818,6 +820,32 @@ public class DdcFlow implements java.io.Serializable {
 	 */
 	public void setHyxhzhName(String hyxhzhName) {
 		this.hyxhzhName = hyxhzhName;
+	}
+
+	@Column(name = "SL_INDEX")
+	public Integer getSlIndex() {
+		return slIndex;
+	}
+
+	/**
+	 * @param slIndex
+	 *            : set the property slIndex.
+	 */
+	public void setSlIndex(Integer slIndex) {
+		this.slIndex = slIndex;
+	}
+
+	@Transient
+	public boolean isApprove() {
+		return isApprove;
+	}
+
+	/**
+	 * @param isApprove
+	 *            : set the property isApprove.
+	 */
+	public void setApprove(boolean isApprove) {
+		this.isApprove = isApprove;
 	}
 
 }

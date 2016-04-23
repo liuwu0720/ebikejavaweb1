@@ -37,6 +37,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import com.mangofactory.swagger.annotations.ApiIgnore;
 import com.node.model.FileRecord;
 import com.node.model.PicPath;
 import com.node.service.IDataService;
@@ -55,6 +56,7 @@ import com.node.util.SystemConstants;
  * @author: liuwu
  * @version: 2016年4月14日 下午4:29:50
  */
+@ApiIgnore
 @Controller
 @RequestMapping("/dataAction")
 public class DataAction {
@@ -79,7 +81,6 @@ public class DataAction {
 		Page p = ServiceUtil.getcurrPage(request);
 		HqlHelper hql = new HqlHelper(FileRecord.class);
 		hql.addOrderBy("id", "desc");
-
 		hql.setQueryPage(p);
 		Map<String, Object> resultMap = iEbikeService.queryFileRecordByHql(hql);
 		return resultMap;

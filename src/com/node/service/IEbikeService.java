@@ -312,4 +312,35 @@ public interface IEbikeService {
 	 */
 	Map<String, Object> queryFileRecordByHql(HqlHelper hql);
 
+	/**
+	 * 方法描述：
+	 * 
+	 * @param dabh
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年4月22日 上午10:31:49
+	 */
+	DdcDaxxb getDdcDaxxbByDabh(String dabh);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param ddcFlow
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年4月22日 上午10:39:11
+	 */
+	void updateDdcFlow(DdcFlow ddcFlow);
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param ddcHyxhBase
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年4月22日 上午10:54:17
+	 */
+	void updateDdcHyxhBase(DdcHyxhBase ddcHyxhBase);
+
 }

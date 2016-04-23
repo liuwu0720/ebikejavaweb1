@@ -103,7 +103,12 @@ $(document).ready(function(){
 					if(row.slIndex == 0){
 						return "等待协会审批";
 					}else{
-						return "等待交警审批";
+						if(row.slIndex == 1){
+							return "等待民警审批";
+						}else{
+							return "等待领导审批";
+						}
+						
 					}
 				}else if(value == 0){
 					return "已审核(同意) ";

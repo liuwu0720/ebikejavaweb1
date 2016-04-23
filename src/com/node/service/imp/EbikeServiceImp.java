@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -452,6 +453,46 @@ public class EbikeServiceImp implements IEbikeService {
 	public Map<String, Object> queryFileRecordByHql(HqlHelper hql) {
 		// TODO Auto-generated method stub
 		return iFileRecordDao.findAllByHqlHelp(hql);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IEbikeService#getDdcDaxxbByDabh(java.lang.String)
+	 */
+	@Override
+	public DdcDaxxb getDdcDaxxbByDabh(String dabh) {
+		List<DdcDaxxb> ddcDaxxbs = iDdcDaxxbDao.findByProperty("dabh", dabh);
+		if (CollectionUtils.isNotEmpty(ddcDaxxbs)) {
+			return ddcDaxxbs.get(0);
+		} else {
+			return null;
+		}
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.IEbikeService#updateDdcFlow(com.node.model.DdcFlow)
+	 */
+	@Override
+	public void updateDdcFlow(DdcFlow ddcFlow) {
+		// TODO Auto-generated method stub
+		iDdcFlowDao.updateCleanBefore(ddcFlow);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.node.service.IEbikeService#updateDdcHyxhBase(com.node.model.DdcHyxhBase
+	 * )
+	 */
+	@Override
+	public void updateDdcHyxhBase(DdcHyxhBase ddcHyxhBase) {
+		// TODO Auto-generated method stub
+		iDdcHyxhBaseDao.updateCleanBefore(ddcHyxhBase);
 	}
 
 }

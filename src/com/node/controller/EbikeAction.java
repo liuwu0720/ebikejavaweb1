@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.mangofactory.swagger.annotations.ApiIgnore;
 import com.node.model.DdcDaxxb;
 import com.node.model.DdcHyxhBase;
 import com.node.model.DdcHyxhSsdw;
@@ -57,6 +58,7 @@ import com.node.util.SystemConstants;
  * @author: liuwu
  * @version: 2016年3月24日 下午1:52:24
  */
+@ApiIgnore
 @Controller
 @RequestMapping("/ebikeAction")
 public class EbikeAction {

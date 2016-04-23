@@ -31,6 +31,101 @@ function exportPage() {
 	window.print(); 
 	window.document.body.innerHTML=bdhtml;//还原界面 
 }
+function sureState(state){
+	//拒绝
+	if(state == 1){
+	 $('#dgformDiv').dialog('open').dialog('setTitle', '填写审批意见');	
+	 $('#dgform').form('load', {
+		 state:state
+		 });
+	}
+	//同意
+	if(state == 0){
+		$('#dgformDiv2').dialog('open').dialog('setTitle', '填写审批意见');	
+		 $('#dgform2').form('load', {
+			 state:state
+		});
+	}
+
+}
+
+//保存操作
+
+function updateSaveData(){
+	var flag =true;
+	if(flag){
+		$.messager.progress({
+			text:"正在处理，请稍候..."
+		});
+	$('#dgform').form('submit', {
+				url : "<%=basePath%>approvalAction/sureApproveCancel",
+				onSubmit : function() {
+					var isValid = $("#dgform").form('enableValidation').form(
+							'validate');
+
+					if (!isValid) {
+						$.messager.progress('close'); // 如果表单是无效的则隐藏进度条
+					}
+					return isValid; // 返回false终止表单提交
+				},
+				success : function(data) {
+					var data = eval('(' + data + ')'); // change the JSON
+					if (data.isSuccess) {
+						$.messager.show({ // show error message
+							title : '提示',
+							msg : data.message
+						});
+						$('#dgformDiv').dialog('close');
+						window.location.href="<%=basePath%>approvalAction/cancelApproval"
+					}else{
+						alert(data.message);
+					}
+					$.messager.progress('close'); // 如果提交成功则隐藏进度条
+
+				}
+
+			});
+	}
+}
+
+function updateSaveData2(){
+	var flag =true;
+	if(flag){
+		$.messager.progress({
+			text:"正在处理，请稍候..."
+		});
+	$('#dgform2').form('submit', {
+				url : "<%=basePath%>approvalAction/sureApproveCancel",
+				onSubmit : function() {
+					var isValid = $("#dgform2").form('enableValidation').form(
+							'validate');
+
+					if (!isValid) {
+						$.messager.progress('close'); // 如果表单是无效的则隐藏进度条
+					}
+					return isValid; // 返回false终止表单提交
+				},
+				success : function(data) {
+					var data = eval('(' + data + ')'); // change the JSON
+					if (data.isSuccess) {
+						$.messager.show({ // show error message
+							title : '提示',
+							msg : data.message
+						});
+						$('#dgformDiv2').dialog('close');
+						window.location.href="<%=basePath%>approvalAction/cancelApproval"
+					}else{
+						alert(data.message);
+					}
+					$.messager.progress('close'); // 如果提交成功则隐藏进度条
+
+				}
+
+			});
+	}
+
+	
+}
 
 </script>
   </head>
@@ -209,12 +304,100 @@ function exportPage() {
 				</td>
 			</tr>	
 			</table>
+	<c:if test="${ddcApproveUsers!=null }">
+		<table class="table table-condensed">
+				<caption style="text-align: center">审批人及审批意见</caption>
+				<tr>
+					<td>审批人</td>
+					<td>审批人角色</td>
+					<td>审批部门</td>
+					<td>审批日期</td>
+					<td>审批意见</td>
+					<td>审批备注</td>
+				</tr>
+				<c:forEach items="${ddcApproveUsers }" var="approve">
+				<tr>
+					<td>${approve.userName }</td>
+					<td>${approve.userRoleName }</td>
+					<td>${approve.userOrgname }</td>
+					<td><fmt:formatDate value="${approve.approveTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+					<c:if test="${approve.approveState==0 }">
+					<td>同意</td>
+					</c:if>
+					<c:if test="${approve.approveState==1 }">
+					<td>拒绝</td>
+					</c:if>
+					<td>${approve.approveNote }</td>
+				</tr>		
+				</c:forEach>
+			</table>		
+	</c:if>				
 		<!--endprint-->		
 			<div class="btndiv">			
 			<button type="button" onclick="exportPage()" class="btn">打印</button>
 			<button type="button" class="btn" onclick="history.back()">返回</button>
+			<c:if test="${type==1 }">
+			<button type="button" onclick="sureState(0)" class="btn">同意</button>
+			<button type="button" onclick="sureState(1)" class="btn">拒绝</button>
+			</c:if>
 		</div>
     </div>		
-    
+        <!-- 点退办时弹出的表单 -->
+	<div id="dgformDiv" class="easyui-dialog"
+		style="width:550px;padding:10px 20px 20px 20px;"
+		closed="true" buttons="#dlg-buttons2">
+		<form id="dgform" class="easyui-form" method="post">
+			<div class="tbdiv">
+			<input type="hidden" name="id" value="${ddcFlow.id }">
+			<input type="hidden" name="state">
+				<ul>
+				
+	   				<li><p>备注:</p></li>
+	   				<li>
+	   				<textarea rows="10" cols="65" name="note"></textarea>
+	   				</li>
+	   			</ul>	
+	   			
+			</div>
+		</form>
+		<div id="dlg-buttons2" style="text-align: center;">
+		<a href="javascript:void(0)" class="easyui-linkbutton" id="saveBtn"
+			iconCls="icon-ok" onclick="updateSaveData()" style="width:90px">确定</a>
+		<a href="javascript:void(0)" class="easyui-linkbutton"
+			iconCls="icon-cancel"
+			onclick="javascript:$('#dgformDiv').dialog('close')"
+			style="width:90px">取消</a>
+		</div>
+	</div>
+	
+	  <!-- 点同意时弹出的表单 -->
+	<div id="dgformDiv2" class="easyui-dialog"
+		style="width:550px;padding:10px 20px 20px 20px;"
+		closed="true" buttons="#dlg-buttons">
+		<form id="dgform2" class="easyui-form" method="post">
+			<div class="tbdiv">
+			<input type="hidden" name="id" value="${ddcFlow.id }">
+			<input type="hidden" name="state">
+				<ul>
+					
+	   				</li>
+	   				<li><p>备注:</p></li>
+	   				<li>
+	   				<textarea rows="10" cols="65" name="note"></textarea>
+	   				</li>
+	   			</ul>	
+	   			
+	   			
+			</div>
+		</form>
+		<div id="dlg-buttons" style="text-align: center;">
+		<a href="javascript:void(0)" class="easyui-linkbutton" id="saveBtn"
+			iconCls="icon-ok" onclick="updateSaveData2()" style="width:90px">确定</a>
+		<a href="javascript:void(0)" class="easyui-linkbutton"
+			iconCls="icon-cancel"
+			onclick="javascript:$('#dgformDiv2').dialog('close')"
+			style="width:90px">取消</a>
+		</div>
+	</div>
   </body>
 </html>

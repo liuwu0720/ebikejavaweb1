@@ -79,5 +79,6 @@ public class SystemConstants {
 	public static final String AGREE = "0";
 	public static final String SYSFLAG_ADD = "ADD";
 	public static final String SYSFLAG_UPDATE = "UP";
+	public static final String DDCFLOWTABLE = " DDC_FLOW";
 
 }

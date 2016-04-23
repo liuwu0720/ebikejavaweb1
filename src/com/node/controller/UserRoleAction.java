@@ -21,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mangofactory.swagger.annotations.ApiIgnore;
 import com.node.model.JtMenu;
 import com.node.model.JtRole;
 import com.node.model.JtRoleMenu;
@@ -37,6 +38,7 @@ import com.node.util.ServiceUtil;
  * @author: liuwu
  * @version: 2016年3月22日 下午7:01:18
  */
+@ApiIgnore
 @Controller
 @RequestMapping("/userRoleAction")
 public class UserRoleAction {

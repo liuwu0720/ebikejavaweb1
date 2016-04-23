@@ -19,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mangofactory.swagger.annotations.ApiIgnore;
 import com.node.model.DdcSjzd;
 import com.node.model.JtUser;
 import com.node.service.IDictionaryService;
@@ -35,6 +36,7 @@ import com.node.util.SystemConstants;
  * @author: liuwu
  * @version: 2016年3月23日 下午1:01:45
  */
+@ApiIgnore
 @Controller
 @RequestMapping("/dictionaryAction")
 public class DictionaryAction {

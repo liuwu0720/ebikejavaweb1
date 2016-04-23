@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mangofactory.swagger.annotations.ApiIgnore;
 import com.node.model.DdcHyxhBase;
 import com.node.model.DdcHyxhSsdw;
 import com.node.model.JtUser;
@@ -38,6 +39,7 @@ import com.node.util.SystemConstants;
  * @author: liuwu
  * @version: 2016年3月23日 下午5:03:00
  */
+@ApiIgnore
 @Controller
 @RequestMapping("/industryAction")
 public class IndustryAction {

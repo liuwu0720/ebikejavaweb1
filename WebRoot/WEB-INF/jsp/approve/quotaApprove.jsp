@@ -78,7 +78,12 @@ $(document).ready(function(){
 				}else if(value == 1){
 					return "<p style='color:red'>已拒绝</p>";
 				}else{
-					return "审批中";
+					if(row.slIndex==1){
+						return "民警审批中";
+					}else{
+						return "领导审批中";
+					}
+					
 				}
 			}
 		},{

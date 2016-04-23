@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mangofactory.swagger.annotations.ApiIgnore;
 import com.node.model.JtMenu;
 import com.node.service.ISystemService;
 import com.node.util.AjaxUtil;
@@ -33,6 +34,7 @@ import com.node.util.SystemConstants;
  * @author: liuwu
  * @version: 2016年3月21日 下午2:32:39
  */
+@ApiIgnore
 @Controller
 @RequestMapping("/systemAction")
 public class SystemAction {

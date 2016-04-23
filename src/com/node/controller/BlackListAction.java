@@ -19,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mangofactory.swagger.annotations.ApiIgnore;
 import com.node.model.DdcHmd;
 import com.node.model.JtUser;
 import com.node.service.IDdcHmdService;
@@ -34,6 +35,7 @@ import com.node.util.ServiceUtil;
  * @author: liuwu
  * @version: 2016年3月23日 上午10:56:02
  */
+@ApiIgnore
 @Controller
 @RequestMapping("/blackListAction")
 public class BlackListAction {

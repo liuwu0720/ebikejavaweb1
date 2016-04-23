@@ -21,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mangofactory.swagger.annotations.ApiIgnore;
 import com.node.object.JtViewDept;
 import com.node.service.ISystemService;
 
@@ -31,6 +32,7 @@ import com.node.service.ISystemService;
  * @author: liuwu
  * @version: 2016年3月21日 下午4:35:49
  */
+@ApiIgnore
 @Controller
 @RequestMapping("/deptAction")
 public class DeptAction {
