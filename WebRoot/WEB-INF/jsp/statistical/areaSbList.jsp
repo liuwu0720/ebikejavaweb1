@@ -34,7 +34,7 @@ $(document).ready(function(){
 	var xsqy = '${areacode}';
 	$("#dg").datagrid({
 
-		url : "<%=basePath%>approvalAction/queryRecordApprove?xsqy=" + xsqy,
+		url : "<%=basePath%>statisticalAction/queryRecordApprove?xsqy=" + xsqy,
 		title :  "已申报列表",
 		iconCls : 'icon-search',
 		striped : true,

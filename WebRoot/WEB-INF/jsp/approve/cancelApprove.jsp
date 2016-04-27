@@ -113,7 +113,7 @@ $(document).ready(function(){
 				}
 			}
 		},{
-			field : 'sqrq',
+			field : 'slrq',
 			title : '申请日期',
 			align:'center',
 			width : 50,

@@ -23,6 +23,7 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "DDC_HYXH_BASE")
+@org.hibernate.annotations.Entity(dynamicInsert = true, dynamicUpdate = true)
 public class DdcHyxhBase implements java.io.Serializable {
 
 	// Fields
@@ -46,6 +47,7 @@ public class DdcHyxhBase implements java.io.Serializable {
 	private String tranFlag;
 	private Date tranDate;
 	private Integer totalPe;// 总配额（在DDC_HYXH_BASB 支队领导批完并办结去加这个数
+	private Integer nEnable;// 有效性
 
 	// Constructors
 
@@ -80,9 +82,9 @@ public class DdcHyxhBase implements java.io.Serializable {
 		this.tranDate = tranDate;
 	}
 
-	@SequenceGenerator(name = "DDC_HYXH_BASE", sequenceName = "SEQ_DDC_HYXH_BASE", allocationSize = 1)
+	@SequenceGenerator(name = "DDC_HYXHBASE", sequenceName = "SEQ_DDC_HYXH_BASE", allocationSize = 1)
 	@Id
-	@GeneratedValue(strategy = SEQUENCE, generator = "DDC_HYXH_BASE")
+	@GeneratedValue(strategy = SEQUENCE, generator = "DDC_HYXHBASE")
 	@Column(name = "ID", unique = true, nullable = false, precision = 22, scale = 0)
 	public Long getId() {
 		return this.id;
@@ -239,6 +241,19 @@ public class DdcHyxhBase implements java.io.Serializable {
 	 */
 	public void setTotalPe(Integer totalPe) {
 		this.totalPe = totalPe;
+	}
+
+	@Column(name = "NENABLE", precision = 0)
+	public Integer getnEnable() {
+		return nEnable;
+	}
+
+	/**
+	 * @param nEnable
+	 *            : set the property nEnable.
+	 */
+	public void setnEnable(Integer nEnable) {
+		this.nEnable = nEnable;
 	}
 
 }

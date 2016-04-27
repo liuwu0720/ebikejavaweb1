@@ -1,14 +1,10 @@
 package com.node.model;
 
-import static javax.persistence.GenerationType.SEQUENCE;
-
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -25,7 +21,6 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(name = "DDC_HYXH_BASB", uniqueConstraints = @UniqueConstraint(columnNames = "LSH"))
-@org.hibernate.annotations.Entity(dynamicInsert = true, dynamicUpdate = true)
 public class DdcHyxhBasb implements java.io.Serializable {
 
 	/* serialVersionUID: serialVersionUID */
@@ -65,9 +60,7 @@ public class DdcHyxhBasb implements java.io.Serializable {
 		this.lsh = lsh;
 	}
 
-	@SequenceGenerator(name = "DDC_HYXH_BASB", sequenceName = "seq_hyxh_basb_xh", allocationSize = 1)
 	@Id
-	@GeneratedValue(strategy = SEQUENCE, generator = "DDC_HYXH_BASB")
 	@Column(name = "ID", unique = true, nullable = false, precision = 0)
 	public Long getId() {
 		return this.id;

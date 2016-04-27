@@ -95,7 +95,7 @@ $(document).ready(function(){
 			width : 120
 		},{
 			field : 'GDYJ',
-			title : '归档意见',
+			title : '审批意见',
 			align:'center',
 			width : 120,
 			formatter:function(value,index){

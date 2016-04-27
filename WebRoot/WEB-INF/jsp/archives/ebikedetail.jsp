@@ -147,7 +147,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<td colspan="2">
 					<div  class="imgdiv">
 					<p>车身照片</p>
-					<img   src="${ddcDaxxb.vcEbikeImg }"/>
+					<img   src="${ddcDaxxb.vcShowEbikeImg }"/>
 					</div></td>
 					<td colspan="2">
 					<div  class="imgdiv">

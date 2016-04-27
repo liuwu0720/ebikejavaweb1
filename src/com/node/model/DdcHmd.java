@@ -34,6 +34,7 @@ public class DdcHmd implements java.io.Serializable {
 	private String synFlag;
 	private String tranFlag;
 	private Date tranDate;
+	private Integer nNable;
 
 	// Constructors
 
@@ -168,6 +169,19 @@ public class DdcHmd implements java.io.Serializable {
 
 	public void setTranDate(Date tranDate) {
 		this.tranDate = tranDate;
+	}
+
+	@Column(name = "NENABLE")
+	public Integer getnNable() {
+		return nNable;
+	}
+
+	/**
+	 * @param nNable
+	 *            : set the property nNable.
+	 */
+	public void setnNable(Integer nNable) {
+		this.nNable = nNable;
 	}
 
 }

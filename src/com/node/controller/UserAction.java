@@ -69,16 +69,19 @@ public class UserAction {
 	public void checkUser(HttpServletRequest request,
 			HttpServletResponse response, String cuser, String cpassword,
 			String ccode) {
-		/*
-		 * String code = (String) request.getSession().getAttribute("certCode");
-		 * 
-		 * if (StringUtils.isEmpty(code) || StringUtils.isEmpty(ccode)) {
-		 * AjaxUtil.rendJson(response, false, "验证码获取失败，请刷新页面重试"); return; }
-		 * 
-		 * 
-		 * if (!code.equalsIgnoreCase(ccode)) { AjaxUtil.rendJson(response,
-		 * false, "验证码不正确"); return; }
-		 */
+
+		String code = (String) request.getSession().getAttribute("certCode");
+
+		if (StringUtils.isEmpty(code) || StringUtils.isEmpty(ccode)) {
+			AjaxUtil.rendJson(response, false, "验证码获取失败，请刷新页面重试");
+			return;
+		}
+
+		if (!code.equalsIgnoreCase(ccode)) {
+			AjaxUtil.rendJson(response, false, "验证码不正确");
+			return;
+		}
+
 		JtUser jtUser = iJtUserService.findByAccount(cuser);
 
 		if (jtUser == null || !jtUser.getUserPassword().equals(cpassword)) {
@@ -143,12 +146,12 @@ public class UserAction {
 			String deptId) {
 		Page p = ServiceUtil.getcurrPage(request);
 		StringBuffer sql = new StringBuffer(
-				"select t.id, t.USER_CODE, t.USER_NAME, t.ORG_ID,d.org_name, t.FLAG, j.id as jid,j.user_role,j.OP_DATE,j.USER_STATE  "
+				"select distinct t.USER_CODE, t.USER_NAME, t.ORG_ID,d.org_name, j.id as jid,j.user_role,j.OP_DATE,j.USER_STATE  "
 						+ " from oa_user_view t  left join jt_user j   on t.USER_CODE = j.user_code LEFT JOIN "
 						+ " OA_DEPT_VIEW D ON t.ORG_ID=d.ORG_ID where t.USER_CODE is not null");
 
 		if (StringUtils.isNotBlank(userCode)) {
-			sql.append(" and t.USER_CODE = '" + userCode + "'");
+			sql.append(" and t.USER_CODE like '%" + userCode + "%'");
 		}
 		if (StringUtils.isNotBlank(userName)) {
 			sql.append(" and t.USER_NAME like '%" + userName + "%'");

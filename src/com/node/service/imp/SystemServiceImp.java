@@ -97,7 +97,7 @@ public class SystemServiceImp implements ISystemService {
 	@Override
 	public List<JtViewDept> getDepts(String orgId, String orgName, String upOrg) {
 		StringBuffer sql = new StringBuffer(
-				"select id,org_id,up_org,org_name,jb,flag from oa_dept_view where 1=1");
+				"select org_id,up_org,org_name from oa_dept_view where 1=1");
 		if (orgId != null && !orgId.equals("")) {
 			sql.append(" and ORG_ID = '" + orgId + "'");
 		}
@@ -121,10 +121,10 @@ public class SystemServiceImp implements ISystemService {
 							: Integer.parseInt(objList.get(i).get("ID")
 									.toString()));
 			jtViewDept.setOrgId(objList.get(i).get("ORG_ID").toString());
-			jtViewDept.setFlag(objList.get(i).get("FLAG").toString());
+			// jtViewDept.setFlag(objList.get(i).get("FLAG").toString());
 			jtViewDept.setUpOrg(objList.get(i).get("UP_ORG").toString());
 			jtViewDept.setOrgName(objList.get(i).get("ORG_NAME").toString());
-			jtViewDept.setJb(objList.get(i).get("JB").toString());
+			// jtViewDept.setJb(objList.get(i).get("JB").toString());
 			jtViewDepts.add(jtViewDept);
 		}
 

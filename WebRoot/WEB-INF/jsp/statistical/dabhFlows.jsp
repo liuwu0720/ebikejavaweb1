@@ -87,6 +87,11 @@ $(document).ready(function(){
 			align:'center',
 			width : 120
 		},{
+			field : 'YWLXNAME',
+			title : '业务类型',
+			align:'center',
+			width : 120
+		},{
 			field : 'SLRQ',
 			title : '申请日期',
 			align:'center',
@@ -105,7 +110,7 @@ $(document).ready(function(){
 					return "已同意";
 				}else if(value == 1){
 					return "已拒绝";
-				}else{
+				}else if(value == null){
 					if(row.slIndex==1){
 						return "等待民警审批";
 					}else{
@@ -126,6 +131,7 @@ $(document).ready(function(){
 		] ],
 		onLoadSuccess:function(){  
             $('#dg').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题  
+            $("a").removeAttr("href");
         }
 	});
 	

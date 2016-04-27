@@ -1,4 +1,5 @@
 -- Create table
+drop table DDC_APPROVE_USER;
 create table DDC_APPROVE_USER
 (
   id              NUMBER not null,
@@ -16,7 +17,7 @@ create table DDC_APPROVE_USER
   tran_date       DATE,
   approve_no      VARCHAR2(100)
 )
-tablespace EBIKEOUT_DATA
+tablespace EBIKE2_DATA
   pctfree 10
   initrans 1
   maxtrans 255
@@ -62,7 +63,7 @@ comment on column DDC_APPROVE_USER.approve_no
 alter table DDC_APPROVE_USER
   add constraint PK_DDC_APPROVE_USER primary key (ID)
   using index 
-  tablespace EBIKEOUT_DATA
+  tablespace EBIKE2_DATA
   pctfree 10
   initrans 2
   maxtrans 255
@@ -75,7 +76,7 @@ alter table DDC_APPROVE_USER
 alter table DDC_APPROVE_USER
   add constraint UN_APPROVE_NO unique (APPROVE_NO)
   using index 
-  tablespace EBIKEIN_DATA
+  tablespace EBIKE2_DATA
   pctfree 10
   initrans 2
   maxtrans 255
@@ -86,6 +87,7 @@ alter table DDC_APPROVE_USER
     maxextents unlimited
   );
 -- Create table
+drop table DDC_DAXXB;
 create table DDC_DAXXB
 (
   id                NUMBER not null,
@@ -139,7 +141,7 @@ create table DDC_DAXXB
   vc_user2_cardimg2 VARCHAR2(100),
   vc_ebike_invoice  VARCHAR2(100)
 )
-tablespace EBIKEOUT_DATA
+tablespace EBIKE2_DATA
   pctfree 10
   initrans 1
   maxtrans 255
@@ -245,7 +247,7 @@ comment on column DDC_DAXXB.vc_ebike_img
 alter table DDC_DAXXB
   add primary key (ID)
   using index 
-  tablespace EBIKEOUT_DATA
+  tablespace EBIKE2_DATA
   pctfree 10
   initrans 2
   maxtrans 255
@@ -258,7 +260,7 @@ alter table DDC_DAXXB
 alter table DDC_DAXXB
   add constraint UNI_DDC_DAXXB unique (DABH)
   using index 
-  tablespace EBIKEOUT_DATA
+  tablespace EBIKE2_DATA
   pctfree 10
   initrans 2
   maxtrans 255
@@ -269,6 +271,7 @@ alter table DDC_DAXXB
     maxextents unlimited
   );
   -- Create table
+  drop table DDC_DAXXB_LOG;
 create table DDC_DAXXB_LOG
 (
   id                NUMBER not null,
@@ -322,7 +325,7 @@ create table DDC_DAXXB_LOG
   vc_user1_cardimg1 VARCHAR2(100),
   vc_ebike_img      VARCHAR2(100)
 )
-tablespace EBIKEIN_DATA
+tablespace EBIKE2_DATA
   pctfree 10
   initrans 1
   maxtrans 255
@@ -424,7 +427,7 @@ comment on column DDC_DAXXB_LOG.tran_date
 alter table DDC_DAXXB_LOG
   add primary key (ID)
   using index 
-  tablespace EBIKEIN_DATA
+  tablespace EBIKE2_DATA
   pctfree 10
   initrans 2
   maxtrans 255
@@ -435,6 +438,9 @@ alter table DDC_DAXXB_LOG
     maxextents unlimited
   );
   -- Create table
+    drop table DDC_DRIVER;
+-- Create table
+-- Create table
 create table DDC_DRIVER
 (
   id            NUMBER not null,
@@ -446,9 +452,11 @@ create table DDC_DRIVER
   syn_flag      VARCHAR2(50),
   tran_date     DATE default sysdate,
   user_code     VARCHAR2(50),
-  user_password VARCHAR2(50)
+  user_password VARCHAR2(50),
+  sfzhm         VARCHAR2(50),
+  vcuser_img    VARCHAR2(100)
 )
-tablespace EBIKEIN_DATA
+tablespace EBIKE2_DATA
   pctfree 10
   initrans 1
   maxtrans 255
@@ -471,7 +479,7 @@ comment on column DDC_DRIVER.daid
 comment on column DDC_DRIVER.jsrxm
   is '姓名';
 comment on column DDC_DRIVER.xb
-  is '姓名';
+  is '性别';
 comment on column DDC_DRIVER.lxdh
   is '联系电话';
 comment on column DDC_DRIVER.syn_flag
@@ -482,11 +490,13 @@ comment on column DDC_DRIVER.user_code
   is '用户名';
 comment on column DDC_DRIVER.user_password
   is '用户密码';
+comment on column DDC_DRIVER.sfzhm
+  is '身份证号码';
 -- Create/Recreate primary, unique and foreign key constraints 
 alter table DDC_DRIVER
   add constraint PK_DDC_DRIVER primary key (ID)
   using index 
-  tablespace EBIKEIN_DATA
+  tablespace EBIKE2_DATA
   pctfree 10
   initrans 2
   maxtrans 255
@@ -496,7 +506,9 @@ alter table DDC_DRIVER
     minextents 1
     maxextents unlimited
   );
-  -- Create table
+
+-- Create table
+    drop table DDC_FLOW;
 create table DDC_FLOW
 (
   id                NUMBER not null,
@@ -550,9 +562,10 @@ create table DDC_FLOW
   vc_ebike_invoice  VARCHAR2(100),
   ssdwid            VARCHAR2(200),
   tablename         VARCHAR2(20),
-  tableid           NUMBER
+  tableid           NUMBER,
+  sl_index          NUMBER
 )
-tablespace EBIKEOUT_DATA
+tablespace EBIKE2_DATA
   pctfree 10
   initrans 1
   maxtrans 255
@@ -662,11 +675,13 @@ comment on column DDC_FLOW.tablename
   is '业务表名';
 comment on column DDC_FLOW.tableid
   is '业务表ID';
+comment on column DDC_FLOW.sl_index
+  is '受理顺序--针对注销业务';
 -- Create/Recreate primary, unique and foreign key constraints 
 alter table DDC_FLOW
   add primary key (ID)
   using index 
-  tablespace EBIKEOUT_DATA
+  tablespace EBIKE2_DATA
   pctfree 10
   initrans 2
   maxtrans 255
@@ -676,7 +691,9 @@ alter table DDC_FLOW
     minextents 1
     maxextents unlimited
   );
+
   -- Create table
+     drop table DDC_FLOW_LOG; 
 create table DDC_FLOW_LOG
 (
   id                NUMBER not null,
@@ -734,7 +751,7 @@ create table DDC_FLOW_LOG
   vc_user1_cardimg1 VARCHAR2(100),
   vc_user1_cardimg2 VARCHAR2(100)
 )
-tablespace EBIKEIN_DATA
+tablespace EBIKE2_DATA
   pctfree 10
   initrans 1
   maxtrans 255
@@ -842,7 +859,7 @@ comment on column DDC_FLOW_LOG.yclb
 alter table DDC_FLOW_LOG
   add constraint PK_DDC_FLOW_LOG primary key (ID)
   using index 
-  tablespace EBIKEIN_DATA
+  tablespace EBIKE2_DATA
   pctfree 10
   initrans 2
   maxtrans 255
@@ -853,6 +870,7 @@ alter table DDC_FLOW_LOG
     maxextents unlimited
   );
   -- Create table
+  drop table DDC_HMD; 
 create table DDC_HMD
 (
   id        NUMBER(11) not null,
@@ -868,7 +886,7 @@ create table DDC_HMD
   tran_flag VARCHAR2(10),
   tran_date DATE
 )
-tablespace EBIKEIN_DATA
+tablespace EBIKE2_DATA
   pctfree 10
   initrans 1
   maxtrans 255
@@ -910,7 +928,7 @@ comment on column DDC_HMD.tran_date
 alter table DDC_HMD
   add primary key (ID)
   using index 
-  tablespace EBIKEIN_DATA
+  tablespace EBIKE2_DATA
   pctfree 10
   initrans 2
   maxtrans 255
@@ -937,7 +955,7 @@ create table DDC_HMD_LOG
   czrq  DATE,
   czlx  VARCHAR2(10)
 )
-tablespace EBIKEIN_DATA
+tablespace EBIKE2_DATA
   pctfree 10
   initrans 1
   maxtrans 255
@@ -981,7 +999,7 @@ comment on column DDC_HMD_LOG.czlx
 alter table DDC_HMD_LOG
   add primary key (ID)
   using index 
-  tablespace EBIKEIN_DATA
+  tablespace EBIKE2_DATA
   pctfree 10
   initrans 2
   maxtrans 255
@@ -992,6 +1010,7 @@ alter table DDC_HMD_LOG
     maxextents unlimited
   );
   -- Create table
+   drop table DDC_HYXH_BASB;  
 create table DDC_HYXH_BASB
 (
   id         NUMBER not null,
@@ -1013,7 +1032,7 @@ create table DDC_HYXH_BASB
   sl_index   NUMBER default 1,
   hyxhmc     VARCHAR2(50)
 )
-tablespace EBIKEOUT_DATA
+tablespace EBIKE2_DATA
   pctfree 10
   initrans 1
   maxtrans 255
@@ -1067,7 +1086,7 @@ comment on column DDC_HYXH_BASB.hyxhmc
 alter table DDC_HYXH_BASB
   add constraint PK_DDC_HYXH_BASB primary key (ID)
   using index 
-  tablespace EBIKEOUT_DATA
+  tablespace EBIKE2_DATA
   pctfree 10
   initrans 2
   maxtrans 255
@@ -1080,7 +1099,7 @@ alter table DDC_HYXH_BASB
 alter table DDC_HYXH_BASB
   add constraint NK_DDC_HYXH_BASB_XH unique (LSH)
   using index 
-  tablespace EBIKEOUT_DATA
+  tablespace EBIKE2_DATA
   pctfree 10
   initrans 2
   maxtrans 255
@@ -1091,6 +1110,7 @@ alter table DDC_HYXH_BASB
     maxextents unlimited
   );
   -- Create table
+  drop table DDC_HYXH_BASB_LOG;  
 create table DDC_HYXH_BASB_LOG
 (
   id        NUMBER not null,
@@ -1112,7 +1132,7 @@ create table DDC_HYXH_BASB_LOG
   hyxhmc    VARCHAR2(50),
   yxhbcsjpe NUMBER
 )
-tablespace EBIKEIN_DATA
+tablespace EBIKE2_DATA
   pctfree 10
   initrans 1
   maxtrans 255
@@ -1160,7 +1180,7 @@ comment on column DDC_HYXH_BASB_LOG.yxhbcsjpe
 alter table DDC_HYXH_BASB_LOG
   add constraint PK_DDC_HYXH_BASB_LOG primary key (ID)
   using index 
-  tablespace EBIKEIN_DATA
+  tablespace EBIKE2_DATA
   pctfree 10
   initrans 2
   maxtrans 255
@@ -1171,6 +1191,8 @@ alter table DDC_HYXH_BASB_LOG
     maxextents unlimited
   );
   -- Create table
+  drop table DDC_HYXH_BASE; 
+-- Create table
 create table DDC_HYXH_BASE
 (
   id        NUMBER not null,
@@ -1189,9 +1211,10 @@ create table DDC_HYXH_BASE
   syn_flag  VARCHAR2(10),
   tran_flag VARCHAR2(10),
   tran_date DATE,
-  totalpe   NUMBER
+  totalpe   NUMBER,
+  nenable   NUMBER default 1
 )
-tablespace EBIKEIN_DATA
+tablespace EBIKE2_DATA
   pctfree 10
   initrans 1
   maxtrans 255
@@ -1237,11 +1260,13 @@ comment on column DDC_HYXH_BASE.tran_date
   is '传送时间';
 comment on column DDC_HYXH_BASE.totalpe
   is '总配额';
+comment on column DDC_HYXH_BASE.nenable
+  is '1 禁用 0 启用';
 -- Create/Recreate primary, unique and foreign key constraints 
 alter table DDC_HYXH_BASE
   add primary key (ID)
   using index 
-  tablespace EBIKEIN_DATA
+  tablespace EBIKE2_DATA
   pctfree 10
   initrans 2
   maxtrans 255
@@ -1251,7 +1276,9 @@ alter table DDC_HYXH_BASE
     minextents 1
     maxextents unlimited
   );
+
   -- Create table
+  drop table DDC_HYXH_BASE_LOG;  
 create table DDC_HYXH_BASE_LOG
 (
   id        NUMBER not null,
@@ -1275,7 +1302,7 @@ create table DDC_HYXH_BASE_LOG
   czrq      DATE,
   cznr      VARCHAR2(20)
 )
-tablespace EBIKEIN_DATA
+tablespace EBIKE2_DATA
   pctfree 10
   initrans 1
   maxtrans 255
@@ -1331,7 +1358,7 @@ comment on column DDC_HYXH_BASE_LOG.cznr
 alter table DDC_HYXH_BASE_LOG
   add primary key (ID)
   using index 
-  tablespace EBIKEIN_DATA
+  tablespace EBIKE2_DATA
   pctfree 10
   initrans 2
   maxtrans 255
@@ -1342,6 +1369,7 @@ alter table DDC_HYXH_BASE_LOG
     maxextents unlimited
   );
   -- Create table
+   drop table DDC_HYXH_SSDW;   
 create table DDC_HYXH_SSDW
 (
   id         NUMBER not null,
@@ -1368,7 +1396,7 @@ create table DDC_HYXH_SSDW
   shflag     NUMBER default 0,
   totalpe    NUMBER
 )
-tablespace EBIKEOUT_DATA
+tablespace EBIKE2_DATA
   pctfree 10
   initrans 1
   maxtrans 255
@@ -1432,7 +1460,7 @@ comment on column DDC_HYXH_SSDW.totalpe
 alter table DDC_HYXH_SSDW
   add constraint PK_DDC_HYXH_SSDW primary key (ID)
   using index 
-  tablespace EBIKEOUT_DATA
+  tablespace EBIKE2_DATA
   pctfree 10
   initrans 2
   maxtrans 255
@@ -1445,7 +1473,7 @@ alter table DDC_HYXH_SSDW
 alter table DDC_HYXH_SSDW
   add constraint UNK_DDC_HYXH_SSDW unique (DWMC)
   using index 
-  tablespace EBIKEOUT_DATA
+  tablespace EBIKE2_DATA
   pctfree 10
   initrans 2
   maxtrans 255
@@ -1456,6 +1484,7 @@ alter table DDC_HYXH_SSDW
     maxextents unlimited
   );
   -- Create table
+    drop table DDC_HYXH_SSDWCLSB;    
 create table DDC_HYXH_SSDWCLSB
 (
   id                NUMBER not null,
@@ -1505,7 +1534,7 @@ create table DDC_HYXH_SSDWCLSB
   enable            NUMBER default 1,
   vc_ebike_invoice  VARCHAR2(100)
 )
-tablespace EBIKEOUT_DATA
+tablespace EBIKE2_DATA
   pctfree 10
   initrans 1
   maxtrans 255
@@ -1615,7 +1644,7 @@ comment on column DDC_HYXH_SSDWCLSB.vc_ebike_invoice
 alter table DDC_HYXH_SSDWCLSB
   add constraint PK_DDC_HYXH_SSDWCLSB primary key (ID)
   using index 
-  tablespace EBIKEOUT_DATA
+  tablespace EBIKE2_DATA
   pctfree 10
   initrans 2
   maxtrans 255
@@ -1628,7 +1657,7 @@ alter table DDC_HYXH_SSDWCLSB
 alter table DDC_HYXH_SSDWCLSB
   add constraint UNK_DDC_HYXH_SSDWCLSB unique (LSH)
   using index 
-  tablespace EBIKEOUT_DATA
+  tablespace EBIKE2_DATA
   pctfree 10
   initrans 2
   maxtrans 255
@@ -1639,6 +1668,7 @@ alter table DDC_HYXH_SSDWCLSB
     maxextents unlimited
   );
   -- Create table
+ drop table DDC_HYXH_SSDWCLSB_LOG;    
 create table DDC_HYXH_SSDWCLSB_LOG
 (
   id        NUMBER not null,
@@ -1681,7 +1711,7 @@ create table DDC_HYXH_SSDWCLSB_LOG
   cznr      VARCHAR2(20),
   sqip      VARCHAR2(50)
 )
-tablespace EBIKEIN_DATA
+tablespace EBIKE2_DATA
   pctfree 10
   initrans 1
   maxtrans 255
@@ -1775,7 +1805,7 @@ comment on column DDC_HYXH_SSDWCLSB_LOG.sqip
 alter table DDC_HYXH_SSDWCLSB_LOG
   add primary key (ID)
   using index 
-  tablespace EBIKEIN_DATA
+  tablespace EBIKE2_DATA
   pctfree 10
   initrans 2
   maxtrans 255
@@ -1786,6 +1816,7 @@ alter table DDC_HYXH_SSDWCLSB_LOG
     maxextents unlimited
   );
   -- Create table
+  drop table DDC_HYXH_SSDW_LOG;   
 create table DDC_HYXH_SSDW_LOG
 (
   id        NUMBER not null,
@@ -1811,7 +1842,7 @@ create table DDC_HYXH_SSDW_LOG
   cznr      VARCHAR2(20),
   dwpe      NUMBER
 )
-tablespace EBIKEIN_DATA
+tablespace EBIKE2_DATA
   pctfree 10
   initrans 1
   maxtrans 255
@@ -1873,7 +1904,7 @@ comment on column DDC_HYXH_SSDW_LOG.dwpe
 alter table DDC_HYXH_SSDW_LOG
   add constraint PK_DDC_HYXH_SSDW_LOG primary key (ID)
   using index 
-  tablespace EBIKEIN_DATA
+  tablespace EBIKE2_DATA
   pctfree 10
   initrans 2
   maxtrans 255
@@ -1884,6 +1915,7 @@ alter table DDC_HYXH_SSDW_LOG
     maxextents unlimited
   );
   -- Create table
+   drop table DDC_SJZD;    
 create table DDC_SJZD
 (
   id        NUMBER not null,
@@ -1899,7 +1931,7 @@ create table DDC_SJZD
   tran_flag VARCHAR2(10),
   tran_date DATE
 )
-tablespace EBIKEIN_DATA
+tablespace EBIKE2_DATA
   pctfree 10
   initrans 1
   maxtrans 255
@@ -1941,7 +1973,7 @@ comment on column DDC_SJZD.tran_date
 alter table DDC_SJZD
   add constraint DDC_SJZD_PK primary key (ID)
   using index 
-  tablespace EBIKEIN_DATA
+  tablespace EBIKE2_DATA
   pctfree 10
   initrans 2
   maxtrans 255
@@ -1952,6 +1984,7 @@ alter table DDC_SJZD
     maxextents unlimited
   );
   -- Create table
+    drop table FILERECORD;     
 create table FILERECORD
 (
   id        NUMBER,
@@ -1960,7 +1993,7 @@ create table FILERECORD
   flag      NUMBER,
   filepath  VARCHAR2(100)
 )
-tablespace EBIKEOUT_DATA
+tablespace EBIKE2_DATA
   pctfree 10
   initrans 1
   maxtrans 255
@@ -1974,6 +2007,7 @@ tablespace EBIKEOUT_DATA
 comment on column FILERECORD.flag
   is '0-导入 1-导出';
   -- Create table
+ drop table JT_DEPT;    
 create table JT_DEPT
 (
   id        NUMBER not null,
@@ -1986,7 +2020,7 @@ create table JT_DEPT
   op_remark VARCHAR2(200),
   org_state VARCHAR2(2)
 )
-tablespace EBIKEIN_DATA
+tablespace EBIKE2_DATA
   pctfree 10
   initrans 1
   maxtrans 255
@@ -2017,7 +2051,7 @@ comment on column JT_DEPT.org_state
 alter table JT_DEPT
   add constraint PK_DEPT_ID primary key (ID)
   using index 
-  tablespace EBIKEIN_DATA
+  tablespace EBIKE2_DATA
   pctfree 10
   initrans 2
   maxtrans 255
@@ -2028,6 +2062,7 @@ alter table JT_DEPT
     maxextents unlimited
   );
   -- Create table
+ drop table JT_MENU;      
 create table JT_MENU
 (
   id        NUMBER not null,
@@ -2040,7 +2075,7 @@ create table JT_MENU
   vc_parent VARCHAR2(50),
   vc_desc   VARCHAR2(200)
 )
-tablespace EBIKEIN_DATA
+tablespace EBIKE2_DATA
   pctfree 10
   initrans 1
   maxtrans 255
@@ -2074,7 +2109,7 @@ comment on column JT_MENU.vc_desc
 alter table JT_MENU
   add constraint PK_JT_MENU primary key (ID)
   using index 
-  tablespace EBIKEIN_DATA
+  tablespace EBIKE2_DATA
   pctfree 10
   initrans 2
   maxtrans 255
@@ -2085,6 +2120,7 @@ alter table JT_MENU
     maxextents unlimited
   );
   -- Create table
+  drop table JT_PRIVILEGE;  
 create table JT_PRIVILEGE
 (
   id         NUMBER not null,
@@ -2096,7 +2132,7 @@ create table JT_PRIVILEGE
   op_date    VARCHAR2(50),
   op_remark  VARCHAR2(200)
 )
-tablespace EBIKEIN_DATA
+tablespace EBIKE2_DATA
   pctfree 10
   initrans 1
   maxtrans 255
@@ -2128,7 +2164,7 @@ comment on column JT_PRIVILEGE.op_remark
 alter table JT_PRIVILEGE
   add primary key (ID)
   using index 
-  tablespace EBIKEIN_DATA
+  tablespace EBIKE2_DATA
   pctfree 10
   initrans 2
   maxtrans 255
@@ -2139,6 +2175,7 @@ alter table JT_PRIVILEGE
     maxextents unlimited
   );
   -- Create table
+  drop table JT_ROLE;   
 create table JT_ROLE
 (
   id         NUMBER not null,
@@ -2151,7 +2188,7 @@ create table JT_ROLE
   role_desc  VARCHAR2(200),
   role_sort  NUMBER
 )
-tablespace EBIKEIN_DATA
+tablespace EBIKE2_DATA
   pctfree 10
   initrans 1
   maxtrans 255
@@ -2185,7 +2222,7 @@ comment on column JT_ROLE.role_sort
 alter table JT_ROLE
   add primary key (ID)
   using index 
-  tablespace EBIKEIN_DATA
+  tablespace EBIKE2_DATA
   pctfree 10
   initrans 2
   maxtrans 255
@@ -2196,13 +2233,14 @@ alter table JT_ROLE
     maxextents unlimited
   );
   -- Create table
+   drop table JT_ROLE_MENU;    
 create table JT_ROLE_MENU
 (
   id     NUMBER not null,
   roleid NUMBER,
   menuid NUMBER
 )
-tablespace EBIKEIN_DATA
+tablespace EBIKE2_DATA
   pctfree 10
   initrans 1
   maxtrans 255
@@ -2219,7 +2257,7 @@ comment on table JT_ROLE_MENU
 alter table JT_ROLE_MENU
   add constraint PK_JT_ROLE_MENU primary key (ID)
   using index 
-  tablespace EBIKEIN_DATA
+  tablespace EBIKE2_DATA
   pctfree 10
   initrans 2
   maxtrans 255
@@ -2230,6 +2268,7 @@ alter table JT_ROLE_MENU
     maxextents unlimited
   );
   -- Create table
+  drop table JT_ROLE_PRIVILEGE;   
 create table JT_ROLE_PRIVILEGE
 (
   id        NUMBER not null,
@@ -2239,7 +2278,7 @@ create table JT_ROLE_PRIVILEGE
   op_date   VARCHAR2(50),
   op_remark VARCHAR2(200)
 )
-tablespace EBIKEIN_DATA
+tablespace EBIKE2_DATA
   pctfree 10
   initrans 1
   maxtrans 255
@@ -2267,7 +2306,7 @@ comment on column JT_ROLE_PRIVILEGE.op_remark
 alter table JT_ROLE_PRIVILEGE
   add primary key (ID)
   using index 
-  tablespace EBIKEIN_DATA
+  tablespace EBIKE2_DATA
   pctfree 10
   initrans 2
   maxtrans 255
@@ -2278,6 +2317,7 @@ alter table JT_ROLE_PRIVILEGE
     maxextents unlimited
   );
   -- Create table
+  drop table JT_USER;    
 create table JT_USER
 (
   id            NUMBER not null,
@@ -2293,7 +2333,7 @@ create table JT_USER
   user_pri      VARCHAR2(300 CHAR),
   flag          NUMBER default 0
 )
-tablespace EBIKEIN_DATA
+tablespace EBIKE2_DATA
   pctfree 10
   initrans 1
   maxtrans 255
@@ -2329,7 +2369,7 @@ comment on column JT_USER.op_remark
 alter table JT_USER
   add primary key (ID)
   using index 
-  tablespace EBIKEIN_DATA
+  tablespace EBIKE2_DATA
   pctfree 10
   initrans 2
   maxtrans 255
@@ -2340,6 +2380,7 @@ alter table JT_USER
     maxextents unlimited
   );
   -- Create table
+  drop table PIC_PATH;     
 create table PIC_PATH
 (
   id            NUMBER not null,
@@ -2349,7 +2390,7 @@ create table PIC_PATH
   vc_type       VARCHAR2(100),
   vc_parse_path VARCHAR2(100)
 )
-tablespace EBIKEIN_DATA
+tablespace EBIKE2_DATA
   pctfree 10
   initrans 1
   maxtrans 255
@@ -2379,7 +2420,7 @@ comment on column PIC_PATH.vc_parse_path
 alter table PIC_PATH
   add constraint PK_PICPATH primary key (ID)
   using index 
-  tablespace EBIKEIN_DATA
+  tablespace EBIKE2_DATA
   pctfree 10
   initrans 2
   maxtrans 255

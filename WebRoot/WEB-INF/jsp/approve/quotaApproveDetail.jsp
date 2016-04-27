@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-<title>档案详情</title>
+<title>配额审批</title>
 
 <%@include file="../common/common.jsp"%>
 <script type="text/javascript">
@@ -168,7 +168,7 @@ function updateSaveData(){
 		<form id="dgform" class="easyui-form" method="post">
 			<input type="hidden" name="id" value="${ddcHyxhBasb.id }">
 			<input type="hidden" name="state">
-			<textarea rows="10" cols="45" name="note"></textarea>
+			<textarea rows="10" cols="35" name="note"></textarea>
 				
 		</form>
 		<div id="dlg-buttons2">

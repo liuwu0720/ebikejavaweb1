@@ -134,19 +134,19 @@ public class IndustryAction {
 	 * @version: 2016年3月28日 下午2:56:41
 	 */
 	@RequestMapping("/saveOrUpdateQuota")
-	public void saveOrUpdateQuota(String hyxhsjzpe, String id,
+	public void saveOrUpdateQuota(String hyxhsjzpe, String id, String totalPe,
 			HttpServletRequest request, HttpServletResponse response) {
 		long dId = Long.parseLong(id);
 		DdcHyxhBase ddcHyxhBase = iInDustryService.getDdcHyxhBase(dId);
-		int pe = Integer.parseInt(hyxhsjzpe);
+		int total = Integer.parseInt(totalPe);
 		int hasUseNum = ddcHyxhBase.getTotalPe() - ddcHyxhBase.getHyxhsjzpe();// 已经用掉的配额
-		if (pe < hasUseNum) {
+		if (total < hasUseNum) {
 			AjaxUtil.rendJson(response, false, "修改失败,该协会已经用了【" + hasUseNum
 					+ "】个配额，需大于这个数!");
 			return;
 		}
-
-		ddcHyxhBase.setTotalPe(pe);
+		ddcHyxhBase.setnEnable(SystemConstants.ENABLE);
+		ddcHyxhBase.setTotalPe(total);
 		ddcHyxhBase.setHyxhsjzpe(ddcHyxhBase.getTotalPe() - hasUseNum);
 		ddcHyxhBase.setSynFlag(SystemConstants.SYSFLAG_UPDATE);
 		ddcHyxhBase.setTranDate(new Date());
@@ -170,10 +170,10 @@ public class IndustryAction {
 	 * @version: 2016年3月28日 下午3:19:37
 	 */
 	@RequestMapping("/saveOrUpdateCompanyQuota")
-	public void saveOrUpdateCompanyQuota(String dwpe, String id,
+	public void saveOrUpdateCompanyQuota(String totalPe, String id,
 			HttpServletResponse response) {
 		long dId = Long.parseLong(id);
-		int ssdwDwpe = Integer.parseInt(dwpe);
+		int ssdwDwpe = Integer.parseInt(totalPe);
 		DdcHyxhSsdw ddcHyxhSsdw = iInDustryService.getDdcHyxhSsdwById(dId);
 		// 所属的行业协会
 		DdcHyxhBase ddcHyxhBase = iInDustryService
@@ -202,6 +202,8 @@ public class IndustryAction {
 					iInDustryService.update(ddcHyxhSsdw);
 					ddcHyxhBase.setHyxhsjzpe(ddcHyxhBase.getHyxhsjzpe()
 							- minusNum);// 协会剩余配额
+					ddcHyxhBase.setSynFlag(SystemConstants.SYSFLAG_UPDATE);
+					ddcHyxhBase.setTranDate(new Date());
 					iInDustryService.update(ddcHyxhBase);
 					AjaxUtil.rendJson(response, true, "修改成功！");
 				}
@@ -256,9 +258,14 @@ public class IndustryAction {
 	 */
 	@RequestMapping("/queryAll")
 	@ResponseBody
-	public Map<String, Object> queryAll(HttpServletRequest request) {
+	public Map<String, Object> queryAll(HttpServletRequest request,
+			String hyxhmc) {
 		Page p = ServiceUtil.getcurrPage(request);
 		HqlHelper hql = new HqlHelper(DdcHyxhBase.class);
+		if (StringUtils.isNotBlank(hyxhmc)) {
+			hql.addLike("hyxhmc", hyxhmc);
+		}
+
 		hql.addOrderBy("id", "desc");
 		hql.setQueryPage(p);
 		Map<String, Object> resultMap = iInDustryService.queryByHql(hql);
@@ -343,6 +350,8 @@ public class IndustryAction {
 			long dId = Long.parseLong(id);
 			DdcHyxhSsdw ddcHyxhSsdw = iInDustryService.getDdcHyxhSsdwById(dId);
 			ddcHyxhSsdw.setZt("0");
+			ddcHyxhSsdw.setSynFlag(SystemConstants.SYSFLAG_UPDATE);
+			ddcHyxhSsdw.setTranDate(new Date());
 			iInDustryService.update(ddcHyxhSsdw);
 			AjaxUtil.rendJson(response, true, "操作成功");
 		} catch (Exception e) {
@@ -418,11 +427,14 @@ public class IndustryAction {
 		ddcHyxhBase.setCjr(jtUser.getUserName());
 		ddcHyxhBase.setCjbm(jtUser.getUserOrg());
 		ddcHyxhBase.setCjrq(new Date());
+		ddcHyxhBase.setnEnable(SystemConstants.ENABLE);
 		if (ddcHyxhBase.getId() == null) {
 			try {
 				ddcHyxhBase.setHyxhmm("123456");
 				ddcHyxhBase.setHyxhsjzpe(ddcHyxhBase.getTotalPe());// 新增时剩余配额=总配额
-				iInDustryService.save(ddcHyxhBase);
+				ddcHyxhBase.setSynFlag(SystemConstants.SYSFLAG_ADD);
+				ddcHyxhBase.setTranDate(new Date());
+				iInDustryService.saveDdcHyxhBase(ddcHyxhBase);
 				AjaxUtil.rendJson(response, true, "新增成功，默认密码为123456");
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -434,7 +446,8 @@ public class IndustryAction {
 					AjaxUtil.rendJson(response, false, "剩余配额应该小于总配额！");
 					return;
 				}
-
+				ddcHyxhBase.setSynFlag(SystemConstants.SYSFLAG_UPDATE);
+				ddcHyxhBase.setTranDate(new Date());
 				iInDustryService.update(ddcHyxhBase);
 				AjaxUtil.rendJson(response, true, "操作成功");
 			} catch (Exception e) {
@@ -446,7 +459,7 @@ public class IndustryAction {
 
 	/**
 	 * 
-	 * 方法描述：行业协会所属单位
+	 * 方法描述：修改行业协会所属单位
 	 * 
 	 * @param request
 	 * @param response
@@ -463,6 +476,8 @@ public class IndustryAction {
 			if (ddcHyxhSsdw.getId() == null) {
 				iInDustryService.save(ddcHyxhSsdw);
 			} else {
+				ddcHyxhSsdw.setSynFlag(SystemConstants.SYSFLAG_UPDATE);
+				ddcHyxhSsdw.setTranDate(new Date());
 				iInDustryService.update(ddcHyxhSsdw);
 			}
 			AjaxUtil.rendJson(response, true, "操作成功！");
@@ -491,6 +506,8 @@ public class IndustryAction {
 		try {
 			DdcHyxhBase ddcHyxhBase = iInDustryService.getDdcHyxhBase(dId);
 			ddcHyxhBase.setHyxhmm("123456");
+			ddcHyxhBase.setSynFlag(SystemConstants.SYSFLAG_UPDATE);
+			ddcHyxhBase.setTranDate(new Date());
 			iInDustryService.update(ddcHyxhBase);
 			AjaxUtil.rendJson(response, true, "新增成功，密码为123456");
 		} catch (Exception e) {

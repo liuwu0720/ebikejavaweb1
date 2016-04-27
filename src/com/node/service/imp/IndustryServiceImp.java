@@ -23,6 +23,7 @@ import com.node.model.PicPath;
 import com.node.service.IInDustryService;
 import com.node.util.HqlHelper;
 import com.node.util.Page;
+import com.node.util.SystemConstants;
 
 /**
  * 类描述：
@@ -64,8 +65,9 @@ public class IndustryServiceImp implements IInDustryService {
 	 */
 	@Override
 	public void deleteById(long dId) {
-		// TODO Auto-generated method stub
-		iDdcHyxhBaseDao.deleteByKey(dId);
+		DdcHyxhBase ddcHyxhBase = iDdcHyxhBaseDao.get(dId);
+		ddcHyxhBase.setnEnable(SystemConstants.DISABLE);
+		iDdcHyxhBaseDao.updateCleanBefore(ddcHyxhBase);
 	}
 
 	/*
@@ -231,6 +233,19 @@ public class IndustryServiceImp implements IInDustryService {
 	public List<DdcHyxhSsdw> getAllDdcHyxhSsdwByHyxh(String hyxhzh) {
 		// TODO Auto-generated method stub
 		return iDdcHyxhSsdwDao.findByProperty("hyxhzh", hyxhzh);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.node.service.IInDustryService#saveDdcHyxhBase(com.node.model.DdcHyxhBase
+	 * )
+	 */
+	@Override
+	public void saveDdcHyxhBase(DdcHyxhBase ddcHyxhBase) {
+		// TODO Auto-generated method stub
+		iDdcHyxhBaseDao.save(ddcHyxhBase);
 	}
 
 }

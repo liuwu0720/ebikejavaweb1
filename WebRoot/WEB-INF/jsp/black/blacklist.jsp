@@ -77,6 +77,18 @@ $(document).ready(function(){
 			align:'center',
 			width : 120
 		},{
+			field : 'nNable',
+			title : '是否有效',
+			align:'center',
+			width : 120,
+			formatter:function(value){
+				if(value == 0){
+					return "有效";
+				}else{
+					return "<p style='color:red'>已删除</p>";
+				}
+			}
+		},{
 			field : 'cjrq',
 			title : '录入日期',
 			align:'center',

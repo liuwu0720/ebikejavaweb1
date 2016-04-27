@@ -50,17 +50,17 @@ $(document).ready(function(){
 			width : 120
 		},{
 			field : 'SLR',
-			title : '受理人',
+			title : '办理人',
 			align:'center',
 			width : 120
 		},{
 			field : 'SLBM',
-			title : '受理部门',
+			title : '办理部门',
 			align:'center',
 			width : 120
 		},{
 			field : 'SLRQ',
-			title : '受理日期',
+			title : '申请日期',
 			align:'center',
 			width : 120
 		},{
@@ -121,7 +121,7 @@ function queryRow(id){
 					class="easyui-validatebox" type="text" >
 				<span>所属区域</span>
 				<input id="xsqy" style="height: 32px;"><br>
-				<span>受理时间</span>
+				<span>申请时间</span>
 				<input id="dtstart" type="text" class="easyui-datebox" style="height: 30px;"></input> 至：  
 				<input id="dtend" type="text" class="easyui-datebox" style="height: 30px;"></input>		
 				  

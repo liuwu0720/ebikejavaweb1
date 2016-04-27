@@ -67,7 +67,11 @@ $(document).ready(function(){
 			field : 'DABH',
 			title : '档案编号',
 			align:'center',
-			width : 120
+			width : 120,
+			formatter:function(value,row,index){
+				var query = "<a    onclick='queryFlowListByDabh(\""+row.DABH+"\")'>"+value+"</a>";
+				return query;	
+			}
 		},{
 			field : 'CPHM',
 			title : '车牌号',
@@ -184,7 +188,7 @@ function queryQRCode(id){
 }
 
 function excelExport(){
-	var titleArr = ["行业协会名称","单位名称","档案编号","车牌号","电机号","驾驶人","身份证号码","行驶区域","归档意见","车辆状态"]; 
+	var titleArr = ["行业协会名称","单位名称","档案编号","车牌号","电机号","驾驶人","身份证号码","行驶区域","审批意见","车辆状态"]; 
 	var keysArr =["HYXHMC","DWMC","DABH","CPHM","DJH","JSRXM1","SFZMHM1","XSQY","GDYJ","ZT"];
 	var rows = $('#dg').datagrid('getData').rows;
 	for(var i in rows) {
@@ -237,6 +241,12 @@ function queryHyxhDwDetail(obj){
 			  }
 		  }
 	})
+}
+function queryFlowListByDabh(obj){
+	$.messager.progress({
+		text:"正在处理，请稍候..."
+	});
+	window.location.href="<%=basePath%>statisticalAction/getFlowListByDabh?dabh="+obj ;
 }
 
 </script>

@@ -99,20 +99,6 @@ $(document).ready(function(){
 				}
 				
 			}
-		},{
-			field : 'jy',
-			title : '检验量',
-			align:'center',
-			width : 80,
-			formatter:function(value,row,index){
-				if(row.ename !== 'total'){
-					var detail = "<a    onclick='jydetail(\""+row.ename+"\")'>"+row.jy+"</a>";
-					return detail;
-				}else{
-					return value;
-				}
-				
-			}
 		}
 		] ],
 		toolbar : [ {

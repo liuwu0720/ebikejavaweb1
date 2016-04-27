@@ -73,7 +73,7 @@ $(document).ready(function(){
 		] ],
 		toolbar : [ {
 			id : 'btn1',
-			text : '导出外网数据',
+			text : '导出内网数据',
 			iconCls : 'icon-redo',
 			handler : function() {
 				exportRowData();

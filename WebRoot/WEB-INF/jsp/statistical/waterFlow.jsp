@@ -39,6 +39,11 @@ $(document).ready(function(){
 		width:w,
 		loadMsg:'正在加载,请稍等...',
 		columns : [ [{
+			field : 'DWMC',
+			title : '申报单位',
+			align:'center',
+			width : 220
+		},{
 			field : 'LSH',
 			title : '流水号',
 			align:'center',
@@ -55,7 +60,7 @@ $(document).ready(function(){
 			width : 220
 		},{
 			field : 'SLRQ',
-			title : '受理日期',
+			title : '申请日期',
 			align:'center',
 			width : 220,
 			formatter:function(value,index){
@@ -69,6 +74,20 @@ $(document).ready(function(){
 			title : '业务类型',
 			align:'center',
 			width : 220
+		},{
+			field : 'SLYJ',
+			title : '受理意见',
+			align:'center',
+			width : 120,
+			formatter:function(value,index){
+				if(value == 0){
+					return "同意";
+				}else if(value == 1){
+					return "不同意";
+				}else{
+					return "审批中 ";
+				}
+			}
 		},{
 			field : 'null',
 			title : '详细信息',
@@ -90,6 +109,20 @@ $(document).ready(function(){
 		 valueField:'dmz',    
 		 textField:'dmms1'
 	})
+$('#hyxsssdwmc').combobox()
+	
+	$('#hyxhzh').combobox({    
+	    url:'<%=basePath%>industryAction/getAllIndustry',    
+	    valueField:'hyxhzh',    
+	    textField:'hyxhmc',
+	    onSelect:function(param){
+	    	$('#hyxsssdwmc').combobox({
+	    		 	url:'<%=basePath%>industryAction/getDwmcByHyxh?hyxhzh='+param.hyxhzh,    
+	    		    valueField:'id',    
+	    		    textField:'dwmc'
+	    	})
+		}
+	});
 });
 
 //查询功能
@@ -98,7 +131,11 @@ function doSearch(){
 		 ywlx:$("#ywlx").combobox("getValue"),
 		 cphm: $("#cphm").val(),
 		djh: $('#djh').val(),
-		lsh:$("#lsh").val()
+		dtstart:$('#dtstart').datebox('getValue'),// 获取日期输入框的值)
+		dtend:$('#dtend').datebox('getValue'),
+		lsh:$("#lsh").val(),
+		 hyxhzh:$("#hyxhzh").combobox("getValue"),
+		 dwmcId:$("#hyxsssdwmc").combobox("getValue"),
 	}); 
 }
 //查看业务流水 详情
@@ -122,7 +159,14 @@ function flowDetail(id){
 				<span>电机号:</span> <input id="djh" 
 					class="easyui-validatebox" type="text" >
 				<span>流水号:</span> <input id="lsh" 
-					class="easyui-validatebox" type="text" >	
+					class="easyui-validatebox" type="text" ><br/>	
+				<span>申请时间</span>
+				<input id="dtstart" type="text" class="easyui-datebox" style="height: 30px;"></input> 至：  
+				<input id="dtend" type="text" class="easyui-datebox" style="height: 30px;"></input>		
+				<span>协会名称</span>
+				<input id="hyxhzh" style="height: 32px;">  
+				<span>公司名称</span>
+				<input id="hyxsssdwmc" style="height: 32px;">	
 				<a class="easyui-linkbutton" plain="true" onclick="doSearch()"
 					iconCls="icon-search">查询 </a>
 			</div>

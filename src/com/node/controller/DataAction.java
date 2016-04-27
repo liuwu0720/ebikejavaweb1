@@ -113,6 +113,10 @@ public class DataAction {
 					AjaxUtil.rendJson(response, false, "上传的文件为空");
 					return;
 				}
+				if (file.getOriginalFilename().endsWith("_N.xls")) {
+					AjaxUtil.rendJson(response, false, "你导入的是内网的文件！");
+					return;
+				}
 				message = iDataService.updateReadExcel(file.getInputStream());
 				if (message.equalsIgnoreCase("success")) {
 					try {
@@ -219,6 +223,17 @@ public class DataAction {
 			 */
 			WritableSheet ws7 = wwb.createSheet("ddc_hyxh_ssdwclsb", 6);
 			iDataService.createDdcHyxhSsdwClSb(wcfFC, wcfFC2, ws7);
+			/**
+			 * ddc_driver 司机，内网只新增
+			 */
+			WritableSheet ws8 = wwb.createSheet("ddc_driver", 7);
+			iDataService.createDdcDriver(wcfFC, wcfFC2, ws8);
+			/**
+			 * DDC_HMD 黑名单 内网新增或修改
+			 */
+			WritableSheet ws9 = wwb.createSheet("DDC_HMD ", 8);
+			iDataService.createDdcHmd(wcfFC, wcfFC2, ws9);
+
 			FileRecord fileRecord = new FileRecord();
 			fileRecord.setFilePath(outPath);
 			fileRecord.setFileName(fileName);

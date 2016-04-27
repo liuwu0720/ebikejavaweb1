@@ -349,9 +349,9 @@ public class JtUserServiceImp implements IJtUserService {
 		if (list != null && list.size() > 0) {
 			Map<String, Object> deptMap = list.get(0);
 			JtViewDept jtViewDept = new JtViewDept();
-			jtViewDept.setId(Integer.parseInt(deptMap.get("ID").toString()));
-			jtViewDept.setFlag(deptMap.get("FLAG").toString());
-			jtViewDept.setJb(deptMap.get("JB").toString());
+			// jtViewDept.setId(Integer.parseInt(deptMap.get("ID").toString()));
+			// jtViewDept.setFlag(deptMap.get("FLAG").toString());
+			// jtViewDept.setJb(deptMap.get("JB").toString());
 			jtViewDept.setOrgId(deptMap.get("ORG_ID").toString());
 			jtViewDept.setOrgName(deptMap.get("ORG_NAME").toString());
 			jtViewDept.setUpOrg(deptMap.get("UP_ORG").toString());

@@ -263,8 +263,8 @@ function excelExport (){
 		<form id="dgform" class="easyui-form" method="post"  >
 			<table class="table">
 				<tr>
-					<td>单位配额:</td>
-					<td><input id="hyxhsjzpe" class="easyui-numberspinner" name="dwpe"
+					<td>单位总配额:</td>
+					<td><input id="totalPe" class="easyui-numberspinner" name="totalPe"
 						data-options="increment:1,required:true,validType:'number'"  min="0" max="1000000"
 						style="width:120px;height:30px;"></input></td>
 				</tr>

@@ -143,7 +143,7 @@ public class EbikeAction {
 				+ " (select b.hyxhmc from ddc_hyxh_base b where b.hyxhzh=a.hyxhzh and rownum=1) as hyxhmc,"
 				+ "(SELECT S.DWMC FROM DDC_HYXH_SSDW S WHERE S.ID=A.SSDWID and rownum=1 ) AS DWMC,"
 				+ "(select d.DMMS1 from ddc_sjzd d where d.dmz=a.xsqy and d.dmlb='SSQY'  and rownum=1) as xsqy, "
-				+ "(SELECT D.DMMS1 FROM DDC_SJZD D WHERE D.DMZ=A.ZT AND D.DMLB='CLZT'  and rownum=1)AS ZT from DDC_DAXXB A where 1=1 and a.HYXHZH != 'cs'";
+				+ "(SELECT D.DMMS1 FROM DDC_SJZD D WHERE D.DMZ=A.ZT AND D.DMLB='CLZT'  and rownum=1)AS ZT from DDC_DAXXB A where 1=1 ";
 
 		if (StringUtils.isNotBlank(flag)) {
 			// 档案更正
@@ -613,6 +613,7 @@ public class EbikeAction {
 			ddcDaxxb.setXsqy(ddcDaxxb1.getXsqy());
 			ddcDaxxb.setBz(ddcDaxxb1.getBz());
 			ddcDaxxb.setSynFlag(SystemConstants.SYSFLAG_UPDATE);
+			ddcDaxxb.setTranDate(new Date());
 			/*
 			 * String ebike_jpgPath = uploadImg(request, fileupload);// 上传车身照片
 			 * if (StringUtils.isNotBlank(ebike_jpgPath)) {

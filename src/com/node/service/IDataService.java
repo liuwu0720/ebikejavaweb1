@@ -152,4 +152,34 @@ public interface IDataService {
 			WritableCellFormat wcfFC2, WritableSheet ws7)
 			throws RowsExceededException, WriteException;
 
+	/**
+	 * 方法描述：
+	 * 
+	 * @param wcfFC
+	 * @param wcfFC2
+	 * @param ws8
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年4月23日 下午2:04:06
+	 * @throws WriteException
+	 * @throws RowsExceededException
+	 */
+	void createDdcDriver(WritableCellFormat wcfFC, WritableCellFormat wcfFC2,
+			WritableSheet ws8) throws RowsExceededException, WriteException;
+
+	/**
+	 * 方法描述：
+	 * 
+	 * @param wcfFC
+	 * @param wcfFC2
+	 * @param ws9
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年4月23日 下午2:13:36
+	 * @throws WriteException
+	 * @throws RowsExceededException
+	 */
+	void createDdcHmd(WritableCellFormat wcfFC, WritableCellFormat wcfFC2,
+			WritableSheet ws9) throws RowsExceededException, WriteException;
+
 }

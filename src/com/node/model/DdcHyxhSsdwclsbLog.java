@@ -1,14 +1,10 @@
 package com.node.model;
 
-import static javax.persistence.GenerationType.SEQUENCE;
-
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -16,7 +12,6 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "DDC_HYXH_SSDWCLSB_LOG")
-@org.hibernate.annotations.Entity(dynamicInsert = true, dynamicUpdate = true)
 public class DdcHyxhSsdwclsbLog implements java.io.Serializable {
 
 	// Fields
@@ -125,8 +120,6 @@ public class DdcHyxhSsdwclsbLog implements java.io.Serializable {
 	}
 
 	@Id
-	@SequenceGenerator(name = "DDC_HYXH_SSDWCLSB_LOG", sequenceName = "seq_hyxh_ssdwclsb_log_xh", allocationSize = 1)
-	@GeneratedValue(strategy = SEQUENCE, generator = "DDC_HYXH_SSDWCLSB_LOG")
 	@Column(name = "ID", unique = true, nullable = false, precision = 22, scale = 0)
 	public Long getId() {
 		return this.id;

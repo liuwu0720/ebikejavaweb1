@@ -195,4 +195,14 @@ public interface IInDustryService {
 	 */
 	List<DdcHyxhSsdw> getAllDdcHyxhSsdwByHyxh(String hyxhzh);
 
+	/**
+	 * 方法描述：
+	 * 
+	 * @param ddcHyxhBase
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年4月24日 下午10:50:40
+	 */
+	void saveDdcHyxhBase(DdcHyxhBase ddcHyxhBase);
+
 }

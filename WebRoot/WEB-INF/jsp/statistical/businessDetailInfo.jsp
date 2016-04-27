@@ -133,7 +133,7 @@ function updateSaveData2(){
   <body>
    	 <div  class="maindiv">
     <!--startprint-->
-    	<h2>业务流水详情</h2>
+    	<h2>${ddcFlow.ywlxName }详情</h2>
     	<table id="main" class="table table-condensed"  border="1" cellpadding="0" cellspacing="0" width="98%">
     		
 				<tr>
@@ -207,21 +207,23 @@ function updateSaveData2(){
 					<td><fmt:formatDate value="${ddcFlow.gdrq }" pattern="yyyy/MM/dd HH:mm:ss"/></td>
 					<th>办结意见</th>
 					<td>
-						<c:if test="${ddcFlow.gdyj==null }">
+						<c:if test="${ddcFlow.slyj==null }">
 							审批中
 						</c:if>
-						<c:if test="${ddcFlow.gdyj==0 }">
+						<c:if test="${ddcFlow.slyj==0 }">
 							办结
 						</c:if>
-						<c:if test="${ddcFlow.gdyj==1 }">
+						<c:if test="${ddcFlow.slyj==1 }">
 							退办
 						</c:if>
 					</td>
+					<th>业务原因</th>
+					<td>${ddcFlow.ywyyName }</td>
 				</tr>
 				<tr>
     				<th>受理资料</th>
     				<td colspan="7">
-    				<c:forEach items="${slzlDdcSjzds }" var="sl">
+    				<c:forEach items="${selectSlzls }" var="sl">
     					<p>${sl.dmms1 }</p>
     				</c:forEach>
     				</td>
@@ -232,14 +234,14 @@ function updateSaveData2(){
 					
     			</tr>
     			<tr>
-    				<th>归档备注</th>
+    				<th>审批备注</th>
 					<td  colspan="7">${ddcFlow.gdbz }</td
     			</tr>
-    			<c:if test="${tbyyDdcSjzds!=null }">
+    			<c:if test="${selectTbyySjzds!=null }">
     			<tr>
-    				<th>退办资料</th>
+    				<th>退办原因</th>
     				<td colspan="7">
-    				<c:forEach items="${tbyyDdcSjzds }" var="tb">
+    				<c:forEach items="${selectTbyySjzds }" var="tb">
     					<p>${tb.dmms1 }</p>
     				</c:forEach>
     				</td>

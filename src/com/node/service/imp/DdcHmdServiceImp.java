@@ -16,6 +16,7 @@ import com.node.dao.IDdcHmdDao;
 import com.node.model.DdcHmd;
 import com.node.service.IDdcHmdService;
 import com.node.util.HqlHelper;
+import com.node.util.SystemConstants;
 
 /**
  * 类描述：
@@ -48,8 +49,9 @@ public class DdcHmdServiceImp implements IDdcHmdService {
 	 */
 	@Override
 	public void deleteHmdById(long blackId) {
-		// TODO Auto-generated method stub
-		iDdcHmdDao.deleteByKey(blackId);
+		DdcHmd ddcHmd = iDdcHmdDao.get(blackId);
+		ddcHmd.setnNable(SystemConstants.DISABLE);
+		iDdcHmdDao.updateCleanBefore(ddcHmd);
 	}
 
 	/*

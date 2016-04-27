@@ -27,6 +27,7 @@ import com.node.util.AjaxUtil;
 import com.node.util.HqlHelper;
 import com.node.util.Page;
 import com.node.util.ServiceUtil;
+import com.node.util.SystemConstants;
 
 /**
  * 类描述：黑名单管理
@@ -125,8 +126,11 @@ public class BlackListAction {
 		ddcHmd.setCjrq(new Date());
 		ddcHmd.setCjbm(jtUser.getUserOrg());
 		ddcHmd.setCjr(jtUser.getUserName());
+		ddcHmd.setnNable(SystemConstants.ENABLE);
 		if (ddcHmd.getId() == null) {
 			try {
+				ddcHmd.setSynFlag(SystemConstants.SYSFLAG_ADD);
+				ddcHmd.setTranDate(new Date());
 				iDdcHmdService.save(ddcHmd);
 				AjaxUtil.rendJson(response, true, "新增操作成功");
 			} catch (Exception e) {
@@ -135,6 +139,8 @@ public class BlackListAction {
 			}
 		} else {
 			try {
+				ddcHmd.setSynFlag(SystemConstants.SYSFLAG_UPDATE);
+				ddcHmd.setTranDate(new Date());
 				iDdcHmdService.update(ddcHmd);
 				AjaxUtil.rendJson(response, true, "修改操作成功");
 			} catch (Exception e) {

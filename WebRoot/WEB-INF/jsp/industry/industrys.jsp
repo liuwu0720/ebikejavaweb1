@@ -69,10 +69,17 @@ $(document).ready(function(){
 			align:'center',
 			width : 50
 		},{
-			field : 'cjr',
-			title : '创建人',
+			field : 'nEnable',
+			title : '是否有效',
 			align:'center',
-			width : 120
+			width : 120,
+			formatter:function(value,index){
+				if(value == 0){
+					return "有效";
+				}else{
+					return "已删除";
+				}
+			}   
 		},{
 			field : 'cjrq',
 			title : '创建日期',
@@ -285,7 +292,7 @@ function updateRow(){
 //保存操作
 
 function updateSaveData(){
-	$.messager.progress();
+	
 	$('#dgform').form('submit', {
 				url : "<%=basePath%>industryAction/saveOrUpdate",
 				onSubmit : function() {
@@ -344,6 +351,7 @@ function updateSaveData(){
 				<tr style="display: none">
 					<td>id</td>
 					<td><input class="easyui-validatebox" type="text" name="id"></input>
+					<input class="easyui-validatebox" type="text" name="hyxhmm"></input>
 					</td>
 				</tr>
 				<tr id="hyxhmc_tr">

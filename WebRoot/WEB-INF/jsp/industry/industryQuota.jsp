@@ -190,9 +190,9 @@ function updateSaveData(){
 	
 }
 function checkvalues(){
-	var hyxhsjzpe = parseInt($("#hyxhsjzpe").val());
-	var lastpe= parseInt($("#lastpe").val());
-	if(lastpe > hyxhsjzpe){
+	var totalPe = parseInt($("#totalPe").val());
+	var hyxhsjzpe= parseInt($("#hyxhsjzpe").val());
+	if(hyxhsjzpe > totalPe){
 		$.messager.alert('警告',"剩余配额为"+lastpe+"不能小于这个数");    
 		return false;
 	}else{
@@ -225,13 +225,13 @@ function checkvalues(){
 			<table class="table">
 				<tr>
 					<td>总配额:</td>
-					<td><input id="hyxhsjzpe" class="easyui-numberspinner" name="totalPe"
+					<td><input id="totalPe" class="easyui-numberspinner" name="totalPe"
 						data-options="increment:1,required:true,validType:'number'"  min="0"  max="1000000"
 						style="width:120px;height:30px;"></input></td>
 				</tr>
 				<tr>
 					<td>剩余配额</td>
-					<td><input type="text" id="lastpe" name="hyxhsjzpe" readonly="readonly" style="border: 0px;color: red"> </td>
+					<td><input type="text" id="hyxhsjzpe" name="hyxhsjzpe" readonly="readonly" style="border: 0px;color: red"> </td>
 				</tr>
 			</table>
 			<input type="hidden" name="id" />

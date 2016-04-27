@@ -199,7 +199,8 @@ public class EbikeServiceImp implements IEbikeService {
 		String[] propertyNames = { "approveTable", "approveTableid" };
 		Object[] values = { approveTableName, id };
 		List<DdcApproveUser> ddcApproveUsers = iDdcApprovalUserDao
-				.findByPropertysOrderBy(propertyNames, values, "id", "asc");
+				.findByPropertysOrderBy(propertyNames, values, "approveTime",
+						"asc");
 		if (ddcApproveUsers != null && ddcApproveUsers.size() > 0) {
 			return ddcApproveUsers;
 		} else {
@@ -340,11 +341,11 @@ public class EbikeServiceImp implements IEbikeService {
 		Object object = iDdcDaxxbDao.getDateBySQL(sql);
 		String cphm = "";
 		if (object == null) {
-			cphm = ddcHyxhBase.getHyxhlb() + "00000";
+			cphm = ddcHyxhBase.getHyxhlb() + "000001";
 		} else {
-			cphm = object.toString().substring(1);
+			cphm = object.toString().replace(ddcHyxhBase.getHyxhlb(), "1");
 			int daNo = Integer.parseInt(cphm) + 1;
-			cphm = ddcHyxhBase.getHyxhlb() + daNo + "";
+			cphm = (daNo + "").replace("1", ddcHyxhBase.getHyxhlb());
 		}
 		return cphm;
 	}
@@ -422,7 +423,7 @@ public class EbikeServiceImp implements IEbikeService {
 	@Override
 	public List<DdcApproveUser> findApproveUsersByLsh(String lsh) {
 		List<DdcApproveUser> ddcApproveUsers = iDdcApprovalUserDao
-				.findByPropertyOrderBy("lsh", lsh, "id");
+				.findByPropertyOrderBy("lsh", lsh, "approveTime");
 		if (ddcApproveUsers != null && ddcApproveUsers.size() > 0) {
 			return ddcApproveUsers;
 		} else {

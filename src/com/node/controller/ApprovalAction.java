@@ -765,6 +765,12 @@ public class ApprovalAction {
 				int nextRoleIndex = ddcHyxhBasb.getSlIndex() + 1;
 				ddcHyxhBasb.setSlIndex(nextRoleIndex);
 				DdcApproveUser approveUser = new DdcApproveUser();
+				String sql = "select SEQ_DDC_APPROVE_USER.nextval from dual";
+				Object object = iEbikeService.getDateBySQL(sql);
+				String seq = object.toString();
+				String md = new SimpleDateFormat("yyMMdd").format(new Date());
+				String approveNo = "N" + md + seq;// 生成审批编号
+				approveUser.setApproveNo(approveNo);
 				approveUser.setUserName(jtUser.getUserName());// 姓名
 				approveUser.setUserOrgname(jtUser.getUserOrgName());// 部门
 				approveUser.setUserRoleName(jtUser.getUserRoleName());// 角色
@@ -823,7 +829,7 @@ public class ApprovalAction {
 			ddcHyxhSsdwclsb.setSlr(jtUser.getUserName());
 			ddcHyxhSsdwclsb.setSlyj(SystemConstants.NOTAGREE);
 			ddcHyxhSsdwclsb.setSlbz(note);
-			ddcHyxhSsdwclsb.setSlrq(new Date());
+			ddcHyxhSsdwclsb.setSlrq(new Date());// 办结日期
 			ddcHyxhSsdwclsb.setSlbm(deptName);
 			ddcHyxhSsdwclsb.setSynFlag(SystemConstants.SYSFLAG_UPDATE);
 			ddcHyxhSsdwclsb.setTranDate(new Date());
@@ -852,17 +858,30 @@ public class ApprovalAction {
 			ddcFlow.setXsqy(ddcHyxhSsdwclsb.getXsqy());
 			ddcFlow.setBz(ddcHyxhSsdwclsb.getBz());
 			ddcFlow.setSlyj(SystemConstants.NOTAGREE);
+			ddcFlow.setVcEbikeImg(ddcHyxhSsdwclsb.getVcEbikeImg());
+			ddcFlow.setVcEbikeInvoiceImg(ddcHyxhSsdwclsb.getVcEbikeInvoiceImg());
+			ddcFlow.setVcUser1Img(ddcHyxhSsdwclsb.getVcUser1Img());
+			ddcFlow.setVcUser2Img(ddcHyxhSsdwclsb.getVcUser2Img());
+			ddcFlow.setVcUser1CardImg1(ddcHyxhSsdwclsb.getVcUser1CardImg1());
+			ddcFlow.setVcUser1CardImg2(ddcHyxhSsdwclsb.getVcUser1CardImg2());
+			ddcFlow.setVcUser2CardImg1(ddcHyxhSsdwclsb.getVcUser2CardImg1());
+			ddcFlow.setVcUser2CardImg2(ddcHyxhSsdwclsb.getVcUser2CardImg2());
+
 			ddcFlow.setSlbz(note);
 			ddcFlow.setSlr(jtUser.getUserCode());
-			ddcFlow.setSlrq(new Date());
+			ddcFlow.setSlrq(ddcHyxhSsdwclsb.getSqrq());// 申请时间
 			ddcFlow.setSlbm(jtUser.getUserOrg());
 			ddcFlow.setTbyy(tbyy);
 			ddcFlow.setGdbz(note);
 			ddcFlow.setGdr(jtUser.getUserCode());
 			ddcFlow.setGdrq(new Date());
+			ddcFlow.setGdyj(SystemConstants.NOTAGREE);
 			ddcFlow.setYclb("0");
+			ddcFlow.setSlIndex(ddcHyxhSsdwclsb.getSlIndex());
 			ddcFlow.setSynFlag(SystemConstants.SYSFLAG_ADD);
 			ddcFlow.setTranDate(new Date());
+			ddcFlow.setVcTableName(SystemConstants.RECORDSBTABLE);
+			ddcFlow.setiTableId(ddcHyxhSsdwclsb.getId());
 
 			// 审批 人
 			DdcApproveUser approveUser = new DdcApproveUser();
@@ -884,10 +903,17 @@ public class ApprovalAction {
 			approveUser.setLsh(ddcFlow.getLsh());
 			approveUser.setSysFlag(SystemConstants.SYSFLAG_ADD);
 			approveUser.setTranDate(new Date());
+			// 单位回收配额
+			DdcHyxhSsdw ddcHyxhSsdw = iInDustryService.getDdcHyxhSsdwById(Long
+					.parseLong(ddcHyxhSsdwclsb.getSsdwId()));
+			ddcHyxhSsdw.setDwpe(ddcHyxhSsdw.getDwpe() + 1);
+			ddcHyxhSsdw.setSynFlag(SystemConstants.SYSFLAG_UPDATE);
+			ddcHyxhSsdw.setTranDate(new Date());
 			try {
 				iEbikeService.updateDdcHyxhSsdwclsb(ddcHyxhSsdwclsb);
 				iEbikeService.saveDdcApproveUser(approveUser);
 				iEbikeService.saveDdcFlow(ddcFlow);
+				iInDustryService.update(ddcHyxhSsdw);
 				AjaxUtil.rendJson(response, true, "审批成功!");
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -898,7 +924,7 @@ public class ApprovalAction {
 			calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) + 2);
 			Date syrq = calendar.getTime();// 审验日期，当前时间+2年
 
-			// 同意:如果当前审批人是最后审批人，则整个流程结束,DdcHyxhBase实际配额数量改变
+			// 同意:如果当前审批人是最后审批人，则整个流程结束
 			List<JtRole> jtRoles = iJtUserService.getAllApproveRoles();
 			if (ddcHyxhSsdwclsb.getSlIndex() == jtRoles.size()) {
 				ddcHyxhSsdwclsb.setSlr(jtUser.getUserName());
@@ -911,11 +937,81 @@ public class ApprovalAction {
 				ddcHyxhSsdwclsb.setSynFlag(SystemConstants.SYSFLAG_UPDATE);
 				ddcHyxhSsdwclsb.setTranDate(new Date());
 
+				// 审批人及审批状态
+				DdcApproveUser approveUser = new DdcApproveUser();
+				String sql = "select SEQ_DDC_APPROVE_USER.nextval from dual";
+				Object object = iEbikeService.getDateBySQL(sql);
+				String seq = object.toString();
+				String md = new SimpleDateFormat("yyMMdd").format(new Date());
+				String approveNo = "N" + md + seq;// 生成审批编号
+				approveUser.setApproveNo(approveNo);
+				approveUser.setUserName(jtUser.getUserName());// 姓名
+				approveUser.setUserOrgname(jtUser.getUserOrgName());// 部门
+				approveUser.setUserRoleName(jtUser.getUserRoleName());// 角色
+				approveUser.setApproveIndex(ddcHyxhSsdwclsb.getSlIndex());
+				approveUser.setApproveNote(note);
+				approveUser.setApproveState(Integer.parseInt(state));
+				approveUser.setApproveTable(SystemConstants.RECORDSBTABLE);
+				approveUser.setApproveTableid(ddcHyxhSsdwclsb.getId());
+				approveUser.setApproveTime(new Date());
+				approveUser.setLsh(ddcHyxhSsdwclsb.getLsh());
+				approveUser.setSysFlag(SystemConstants.SYSFLAG_ADD);
+				approveUser.setTranDate(new Date());
+
+				// 档案信息表
+				DdcDaxxb daxxb = new DdcDaxxb();
+				daxxb.setDabh(createDabh());
+				daxxb.setYwlx("A");
+				daxxb.setYwyy("A");
+				daxxb.setHyxhzh(ddcHyxhSsdwclsb.getHyxhzh());
+				daxxb.setSsdwId(ddcHyxhSsdwclsb.getSsdwId());
+				daxxb.setCphm(ddcHyxhSsdwclsb.getCphm());
+				daxxb.setPpxh(ddcHyxhSsdwclsb.getPpxh());
+				daxxb.setCysy(ddcHyxhSsdwclsb.getCysy());
+				daxxb.setDjh(ddcHyxhSsdwclsb.getDjh());
+				daxxb.setJtzz(ddcHyxhSsdwclsb.getJtzz());
+				daxxb.setJsrxm1(ddcHyxhSsdwclsb.getJsrxm1());
+				daxxb.setXb1(ddcHyxhSsdwclsb.getXb1());
+				daxxb.setSfzmhm1(ddcHyxhSsdwclsb.getSfzmhm1());
+				daxxb.setLxdh1(ddcHyxhSsdwclsb.getLxdh1());
+				daxxb.setJsrxm2(ddcHyxhSsdwclsb.getJsrxm2());
+				daxxb.setXb2(ddcHyxhSsdwclsb.getXb2());
+				daxxb.setSfzmhm2(ddcHyxhSsdwclsb.getSfzmhm2());
+				daxxb.setLxdh2(ddcHyxhSsdwclsb.getLxdh2());
+				daxxb.setXsqy(ddcHyxhSsdwclsb.getXsqy());
+				daxxb.setBz(ddcHyxhSsdwclsb.getBz());
+				daxxb.setZt("A");
+				daxxb.setSyrq(syrq);
+				daxxb.setSlzl(slzl);
+				daxxb.setSlyj(SystemConstants.AGREE);
+				daxxb.setSlbz(note);
+				daxxb.setSlr(jtUser.getUserCode());
+				daxxb.setSlrq(new Date());
+				daxxb.setSlbm(jtUser.getUserOrg());
+				daxxb.setGdyj(SystemConstants.AGREE);
+				daxxb.setGdr(jtUser.getUserCode());
+				daxxb.setGdrq(new Date());
+				daxxb.setGdbm(jtUser.getUserOrg());
+				daxxb.setVcEbikeImg(ddcHyxhSsdwclsb.getVcEbikeImg());
+				daxxb.setVcEbikeInvoiceImg(ddcHyxhSsdwclsb
+						.getVcEbikeInvoiceImg());
+				daxxb.setVcUser1Img(ddcHyxhSsdwclsb.getVcUser1Img());
+				daxxb.setVcUser2Img(ddcHyxhSsdwclsb.getVcUser2Img());
+				daxxb.setVcUser1CardImg1(ddcHyxhSsdwclsb.getVcUser1CardImg1());
+				daxxb.setVcUser1CardImg2(ddcHyxhSsdwclsb.getVcUser1CardImg2());
+				daxxb.setVcUser2CardImg1(ddcHyxhSsdwclsb.getVcUser2CardImg1());
+				daxxb.setVcUser2CardImg2(ddcHyxhSsdwclsb.getVcUser2CardImg2());
+
+				daxxb.setSynFlag(SystemConstants.SYSFLAG_ADD);
+				daxxb.setTranDate(new Date());
+
 				// 业务流水
 				DdcFlow ddcFlow = new DdcFlow();
 				ddcFlow.setLsh(ddcHyxhSsdwclsb.getLsh());
 				ddcFlow.setYwlx("A");
 				ddcFlow.setYwyy("A");
+				ddcFlow.setDabh(daxxb.getDabh());
+				ddcFlow.setCphm(ddcHyxhSsdwclsb.getCphm());
 				ddcFlow.setHyxhzh(ddcHyxhBase.getHyxhzh());
 				ddcFlow.setSsdwId(ddcHyxhSsdwclsb.getSsdwId());
 				ddcFlow.setPpxh(ddcHyxhSsdwclsb.getPpxh());
@@ -936,72 +1032,28 @@ public class ApprovalAction {
 				ddcFlow.setSlbz(note);
 				ddcFlow.setSlr(jtUser.getUserCode());
 				ddcFlow.setSlzl(slzl);
-				ddcFlow.setSlrq(new Date());
+				ddcFlow.setSlrq(ddcHyxhSsdwclsb.getSqrq());
+				ddcFlow.setSlIndex(ddcHyxhSsdwclsb.getSlIndex());
 				ddcFlow.setSlbm(jtUser.getUserOrg());
 				ddcFlow.setTbyy(tbyy);
 				ddcFlow.setGdbz(note);
 				ddcFlow.setGdr(jtUser.getUserCode());
+				ddcFlow.setGdyj(SystemConstants.AGREE);
 				ddcFlow.setGdrq(new Date());
 				ddcFlow.setYclb("0");
+				ddcFlow.setVcEbikeImg(ddcHyxhSsdwclsb.getVcEbikeImg());
+				ddcFlow.setVcEbikeInvoiceImg(ddcHyxhSsdwclsb
+						.getVcEbikeInvoiceImg());
+				ddcFlow.setVcUser1Img(ddcHyxhSsdwclsb.getVcUser1Img());
+				ddcFlow.setVcUser2Img(ddcHyxhSsdwclsb.getVcUser2Img());
+				ddcFlow.setVcUser1CardImg1(ddcHyxhSsdwclsb.getVcUser1CardImg1());
+				ddcFlow.setVcUser1CardImg2(ddcHyxhSsdwclsb.getVcUser1CardImg2());
+				ddcFlow.setVcUser2CardImg1(ddcHyxhSsdwclsb.getVcUser2CardImg1());
+				ddcFlow.setVcUser2CardImg2(ddcHyxhSsdwclsb.getVcUser2CardImg2());
 				ddcFlow.setSynFlag(SystemConstants.SYSFLAG_ADD);
 				ddcFlow.setTranDate(new Date());
-				// 审批人及审批状态
-				DdcApproveUser approveUser = new DdcApproveUser();
-				String sql = "select SEQ_DDC_APPROVE_USER.nextval from dual";
-				Object object = iEbikeService.getDateBySQL(sql);
-				String seq = object.toString();
-				String md = new SimpleDateFormat("yyMMdd").format(new Date());
-				String approveNo = "N" + md + seq;// 生成审批编号
-				approveUser.setApproveNo(approveNo);
-				approveUser.setUserName(jtUser.getUserName());// 姓名
-				approveUser.setUserOrgname(jtUser.getUserOrgName());// 部门
-				approveUser.setUserRoleName(jtUser.getUserRoleName());// 角色
-				approveUser.setApproveIndex(ddcHyxhSsdwclsb.getSlIndex());
-				approveUser.setApproveNote(note);
-				approveUser.setApproveState(Integer.parseInt(state));
-				approveUser.setApproveTable(SystemConstants.RECORDSBTABLE);
-				approveUser.setApproveTableid(ddcHyxhSsdwclsb.getId());
-				approveUser.setApproveTime(new Date());
-				approveUser.setSysFlag(SystemConstants.SYSFLAG_ADD);
-				approveUser.setTranDate(new Date());
-
-				// 档案信息表
-				DdcDaxxb daxxb = new DdcDaxxb();
-				daxxb.setDabh(createDabh());
-				daxxb.setYwlx(ddcFlow.getYwlx());
-				daxxb.setYwyy(ddcFlow.getYwyy());
-				daxxb.setHyxhzh(ddcHyxhSsdwclsb.getHyxhzh());
-				daxxb.setSsdwId(ddcHyxhSsdwclsb.getSsdwId());
-				daxxb.setCphm(ddcHyxhSsdwclsb.getCphm());
-				daxxb.setPpxh(ddcHyxhSsdwclsb.getPpxh());
-				daxxb.setCysy(ddcHyxhSsdwclsb.getCysy());
-				daxxb.setDjh(ddcHyxhSsdwclsb.getDjh());
-				daxxb.setJtzz(ddcHyxhSsdwclsb.getJtzz());
-				daxxb.setJsrxm1(ddcHyxhSsdwclsb.getJsrxm1());
-				daxxb.setXb1(ddcHyxhSsdwclsb.getXb1());
-				daxxb.setSfzmhm1(ddcHyxhSsdwclsb.getSfzmhm1());
-				daxxb.setLxdh1(ddcHyxhSsdwclsb.getLxdh1());
-				daxxb.setJsrxm2(ddcHyxhSsdwclsb.getJsrxm2());
-				daxxb.setXb2(ddcHyxhSsdwclsb.getXb2());
-				daxxb.setSfzmhm2(ddcHyxhSsdwclsb.getSfzmhm2());
-				daxxb.setLxdh2(ddcHyxhSsdwclsb.getLxdh2());
-				daxxb.setXsqy(ddcHyxhSsdwclsb.getXsqy());
-				daxxb.setBz(ddcHyxhSsdwclsb.getBz());
-				daxxb.setZt("A");
-				daxxb.setSyrq(syrq);
-				daxxb.setSlzl(ddcFlow.getSlzl());
-				daxxb.setSlyj(ddcFlow.getSlyj());
-				daxxb.setSlbz(ddcFlow.getSlbz().trim());
-				daxxb.setSlr(jtUser.getUserCode());
-				daxxb.setSlrq(new Date());
-				daxxb.setSlbm(jtUser.getUserOrg());
-				daxxb.setGdyj(ddcFlow.getGdyj());
-				daxxb.setGdr(jtUser.getUserCode());
-				daxxb.setGdrq(new Date());
-				daxxb.setGdbm(jtUser.getUserOrg());
-				daxxb.setSynFlag(SystemConstants.SYSFLAG_ADD);
-				daxxb.setTranDate(new Date());
-
+				ddcFlow.setVcTableName(SystemConstants.RECORDSBTABLE);
+				ddcFlow.setiTableId(ddcHyxhSsdwclsb.getId());
 				try {
 					iEbikeService.updateDdcHyxhSsdwclsb(ddcHyxhSsdwclsb);
 					iEbikeService.saveDdcApproveUser(approveUser);
@@ -1015,7 +1067,10 @@ public class ApprovalAction {
 					ddcDriver.setLxdh(daxxb.getLxdh1());
 					ddcDriver.setUserCode(daxxb.getLxdh1());
 					ddcDriver.setUserPassword("123456");
+					ddcDriver.setSfzhm(daxxb.getSfzmhm1());
 					ddcDriver.setSynFlag(SystemConstants.SYSFLAG_ADD);
+					ddcDriver.setTranDate(new Date());
+					ddcDriver.setVcUserImg(daxxb.getVcUser1Img());
 					iEbikeService.saveDdcDriver(ddcDriver);
 					if (StringUtils.isNotBlank(daxxb.getJsrxm2())) {
 						DdcDriver ddcDriver2 = new DdcDriver();
@@ -1026,8 +1081,11 @@ public class ApprovalAction {
 						ddcDriver2.setLxdh(daxxb.getLxdh2());
 						ddcDriver2.setUserCode(daxxb.getLxdh2());
 						ddcDriver2.setUserPassword("123456");
+						ddcDriver2.setSfzhm(daxxb.getSfzmhm2());
 						ddcDriver2.setSynFlag(SystemConstants.SYSFLAG_ADD);
-						iEbikeService.saveDdcDriver(ddcDriver);
+						ddcDriver2.setTranDate(new Date());
+						ddcDriver2.setVcUserImg(daxxb.getVcUser2Img());
+						iEbikeService.saveDdcDriver(ddcDriver2);
 					}
 					AjaxUtil.rendJson(response, true, "保存成功!");
 				} catch (Exception e) {
@@ -1058,6 +1116,7 @@ public class ApprovalAction {
 				approveUser.setApproveTime(new Date());
 				approveUser.setSysFlag(SystemConstants.SYSFLAG_ADD);
 				approveUser.setTranDate(new Date());
+				approveUser.setLsh(ddcHyxhSsdwclsb.getLsh());
 				try {
 					iEbikeService.updateDdcHyxhSsdwclsb(ddcHyxhSsdwclsb);
 					iEbikeService.saveDdcApproveUser(approveUser);
@@ -1274,7 +1333,7 @@ public class ApprovalAction {
 				.getUserRole());
 		String deptName = iJtUserService.getDeptNameByUser(jtUser.getUserOrg());
 		jtUser.setUserRoleName(roleName);
-		jtUser.setUserOrgName(deptName);
+		jtUser.setUserOrgName(deptName);// 部门
 		DdcHyxhBase ddcHyxhBase = iInDustryService.getDdcHyxhBaseByCode(ddcFlow
 				.getHyxhzh());// 行业协会账号
 		DdcDaxxb daxxb = iEbikeService.getDdcDaxxbByDabh(ddcFlow.getDabh());
@@ -1287,17 +1346,19 @@ public class ApprovalAction {
 			daxxb.setSlyj(state);
 			daxxb.setGdyj(state);
 			daxxb.setSynFlag(SystemConstants.SYSFLAG_UPDATE);
+			daxxb.setTranDate(new Date());
 			// 拒绝，审批结束
 			ddcFlow.setSlyj(state);
-			ddcFlow.setSlbm(deptName);
+			ddcFlow.setSlbm(jtUser.getUserOrg());
 			ddcFlow.setSlbz(note);
 			ddcFlow.setSlr(jtUser.getUserName());
-			ddcFlow.setGdbm(deptName);
+			ddcFlow.setGdbm(jtUser.getUserOrg());
 			ddcFlow.setGdyj(state);
-			ddcFlow.setGdbm(note);
+			ddcFlow.setGdbz(note);
 			ddcFlow.setGdrq(new Date());
 
 			ddcFlow.setSynFlag(SystemConstants.SYSFLAG_UPDATE);
+			ddcFlow.setTranDate(new Date());
 			// 审批人及审批状态
 			DdcApproveUser approveUser = new DdcApproveUser();
 			String sql = "select SEQ_DDC_APPROVE_USER.nextval from dual";
@@ -1312,7 +1373,8 @@ public class ApprovalAction {
 			approveUser.setApproveIndex(ddcFlow.getSlIndex());
 			approveUser.setApproveNote(note);
 			approveUser.setApproveState(Integer.parseInt(state));
-			approveUser.setApproveTable(ddcFlow.getClass().getSimpleName());
+			approveUser.setApproveTable(SystemConstants.DDCFLOWTABLE);
+			approveUser.setLsh(ddcFlow.getLsh());
 			approveUser.setApproveTableid(ddcFlow.getId());
 			approveUser.setApproveTime(new Date());
 			approveUser.setSysFlag(SystemConstants.SYSFLAG_ADD);
@@ -1342,12 +1404,12 @@ public class ApprovalAction {
 				daxxb.setSynFlag(SystemConstants.SYSFLAG_UPDATE);
 				// 流水表
 				ddcFlow.setSlyj(state);
-				ddcFlow.setSlbm(deptName);
+				ddcFlow.setSlbm(jtUser.getUserOrg());
 				ddcFlow.setSlbz(note);
 				ddcFlow.setSlr(jtUser.getUserName());
-				ddcFlow.setGdbm(deptName);
+				ddcFlow.setGdbm(jtUser.getUserOrg());
 				ddcFlow.setGdyj(state);
-				ddcFlow.setGdbm(note);
+				ddcFlow.setGdbz(note);
 				ddcFlow.setGdrq(new Date());
 
 				ddcFlow.setSynFlag(SystemConstants.SYSFLAG_UPDATE);
@@ -1368,11 +1430,13 @@ public class ApprovalAction {
 				approveUser.setApproveTable(ddcFlow.getClass().getSimpleName());
 				approveUser.setApproveTableid(ddcFlow.getId());
 				approveUser.setApproveTime(new Date());
+				approveUser.setLsh(ddcFlow.getLsh());
 				approveUser.setSysFlag(SystemConstants.SYSFLAG_ADD);
 				approveUser.setTranDate(new Date());
 				// 同意注销，则配额回收协会名下
 				ddcHyxhBase.setHyxhsjzpe(ddcHyxhBase.getHyxhsjzpe() + 1);
-
+				ddcHyxhBase.setSynFlag(SystemConstants.SYSFLAG_UPDATE);
+				ddcHyxhBase.setTranDate(new Date());
 				try {
 					iEbikeService.updateDdcDaxxb(daxxb);
 					iEbikeService.updateDdcFlow(ddcFlow);
@@ -1404,6 +1468,7 @@ public class ApprovalAction {
 				approveUser.setApproveTable(SystemConstants.DDCFLOWTABLE);
 				approveUser.setApproveTableid(ddcFlow.getId());
 				approveUser.setApproveTime(new Date());
+				approveUser.setLsh(ddcFlow.getLsh());
 				approveUser.setSysFlag(SystemConstants.SYSFLAG_ADD);
 				approveUser.setTranDate(new Date());
 				try {
