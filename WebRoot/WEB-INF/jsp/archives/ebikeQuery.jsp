@@ -86,17 +86,26 @@ $(document).ready(function(){
 			field : 'JSRXM1',
 			title : '驾驶人',
 			align:'center',
-			width : 120
+			width : 80
 		},{
 			field : 'XSQY',
 			title : '行驶区域',
 			align:'center',
-			width : 120
+			width : 50
+		},{
+			field : 'SLRQ',
+			title : '备案时间',
+			align:'center',
+			width : 120,
+			formatter:function(value,index){
+				var unixTimestamp = new Date(value);   
+				return unixTimestamp.toLocaleString();
+			}   
 		},{
 			field : 'ZT',
 			title : '车辆状态',
 			align:'center',
-			width : 120,
+			width : 50,
 			formatter:function(value,index){
 				if(value == '注销'){
 					

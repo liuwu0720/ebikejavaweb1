@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%
 String path = request.getContextPath();
+String url =  request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 
@@ -19,19 +20,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-
-  </head>
-  
-  <body class="foot" >
-      <br>
-  </body>
-  
-  <style>
-  	.foot{
-  		margin-top:26px;
-  	  background-image: url(./static/images/footbackground.png);
-  	 
+ <style>
+  	.foot{  		
+  		background-color: #675CE6;
+  	    text-align: center;
+  	}
+  	.foot a{
+  		color: #fff;
   	}
   
   </style>
+  </head>
+  
+  <body class="foot" >
+      <div><a href="${url}/2.doc" target="_blank">帮助文档</a></div>
+  </body>
+  
+ 
 </html>

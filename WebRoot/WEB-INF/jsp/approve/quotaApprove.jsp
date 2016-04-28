@@ -66,7 +66,12 @@ $(document).ready(function(){
 			field : 'sqrq',
 			title : '申请日期',
 			align:'center',
-			width : 120
+			width : 120,
+			formatter:function(value){
+				var formateDate = new Date(value);
+				return formateDate.toLocaleString();
+			}
+			
 		},{
 			field : 'bjjg',
 			title : '审批状态',

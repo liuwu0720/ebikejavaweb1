@@ -29,6 +29,8 @@ public class FlowStatis implements Serializable {
 	private String slrq;
 	private String ddmc;// 大队名称
 	private String zdmc;// 中队名称
+	private String hyxhmc;
+	private String dwmc;
 
 	public FlowStatis() {
 		super();
@@ -128,6 +130,36 @@ public class FlowStatis implements Serializable {
 
 	public String getLsh() {
 		return lsh;
+	}
+
+	/**
+	 * @return hyxhmc : return the property hyxhmc.
+	 */
+	public String getHyxhmc() {
+		return hyxhmc;
+	}
+
+	/**
+	 * @param hyxhmc
+	 *            : set the property hyxhmc.
+	 */
+	public void setHyxhmc(String hyxhmc) {
+		this.hyxhmc = hyxhmc;
+	}
+
+	/**
+	 * @return dwmc : return the property dwmc.
+	 */
+	public String getDwmc() {
+		return dwmc;
+	}
+
+	/**
+	 * @param dwmc
+	 *            : set the property dwmc.
+	 */
+	public void setDwmc(String dwmc) {
+		this.dwmc = dwmc;
 	}
 
 }

@@ -876,7 +876,8 @@ public class StatisticalAction {
 			String dabh, String djh, String cphm, String dwmcId, String xsqy,
 			String hyxhzh, HttpServletRequest request) {
 		Page p = ServiceUtil.getcurrPage(request);
-		String sql1 = "select t.id,";
+		String sql1 = "select t.id,(select b.hyxhmc from ddc_hyxh_base b where b.hyxhzh=t.hyxhzh and rownum=1) as hyxhmc,"
+				+ "(SELECT S.DWMC FROM DDC_HYXH_SSDW S WHERE S.ID=t.SSDWID and rownum=1 ) AS DWMC,";
 		sql1 += "t.cphm,t.djh,(select user_name from jt_user where user_code=t.slr and rownum = 1) as slr,t.dabh,";
 		sql1 += "t.slbm,to_char(t.slrq,'yyyy-mm-dd hh24:mi:ss') as slrq from ddc_flow t where 1=1 and t.slyj=0 and t.hyxhzh != 'cs'";
 		sql1 += " and t.ywlx='" + type + "' and t.xsqy='" + area + "'";
@@ -926,8 +927,9 @@ public class StatisticalAction {
 			String dabh, String dtstart, String dtend, String cphm,
 			String type, String hyxhzh, String dwId, HttpServletRequest request) {
 		Page p = ServiceUtil.getcurrPage(request);
-		String sql1 = "select t.id,t.cphm,t.djh,t.dabh,t.JSRXM1,t.SFZMHM1,(select s.dmms1 from ddc_sjzd s where s.dmz = t.XSQY "
-				+ "and s.dmlb = 'SSQY' and rownum = 1) as xsqyName,";
+		String sql1 = "select t.id,t.cphm,t.djh,t.dabh,t.JSRXM1,t.SFZMHM1,t.hyxhzh,t.SSDWID,(select s.dmms1 from ddc_sjzd s where s.dmz = t.XSQY "
+				+ "and s.dmlb = 'SSQY' and rownum = 1) as xsqyName, "
+				+ "(select b.hyxhmc from ddc_hyxh_base b where b.hyxhzh=t.hyxhzh and rownum=1) as hyxhmc,";
 		sql1 += "t.slrq,(select d.DWMC from DDC_HYXH_SSDW d where d.id=t.SSDWID) as dwmc from ddc_flow t where t.cphm is not null and t.hyxhzh != 'cs'";
 		sql1 += " and t.ywlx='" + type + "' and t.xsqy='" + area + "'";
 		if (StringUtils.isNotBlank(djh)) {

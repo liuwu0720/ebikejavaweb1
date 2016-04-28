@@ -91,6 +91,16 @@ $(document).ready(function(){
 			align:'center',
 			width : 120
 		},{
+			field : 'hyxhmc',
+			title : '所属协会',
+			align:'center',
+			width : 120
+		},{
+			field : 'dwmc',
+			title : '所属单位',
+			align:'center',
+			width : 120
+		},{
 			field : 'slrq',
 			title : '受理日期',
 			align:'center',
@@ -191,5 +201,7 @@ function doSearch(){
 	</div>
 	
 	</div>
+	
+	
 </body>
 </html>

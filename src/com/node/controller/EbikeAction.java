@@ -139,7 +139,7 @@ public class EbikeAction {
 
 		Page p = ServiceUtil.getcurrPage(request);
 
-		String sql = "select A.ID,A.DABH,A.CPHM,A.DJH,A.JSRXM1,A.GDYJ,A.SFZMHM1,A.SLYJ,  A.hyxhzh,A.SSDWID, "
+		String sql = "select A.ID,A.DABH,A.CPHM,A.DJH,A.JSRXM1,A.GDYJ,A.SFZMHM1,A.SLYJ,  A.hyxhzh,A.SSDWID, A.SLRQ,"
 				+ " (select b.hyxhmc from ddc_hyxh_base b where b.hyxhzh=a.hyxhzh and rownum=1) as hyxhmc,"
 				+ "(SELECT S.DWMC FROM DDC_HYXH_SSDW S WHERE S.ID=A.SSDWID and rownum=1 ) AS DWMC,"
 				+ "(select d.DMMS1 from ddc_sjzd d where d.dmz=a.xsqy and d.dmlb='SSQY'  and rownum=1) as xsqy, "
@@ -333,9 +333,9 @@ public class EbikeAction {
 		JtUser jtUser = iJtUserService.getJtUserByUserCode(ddcDaxxb.getSlr());
 		ddcDaxxb.setSlrName(jtUser.getUserName());
 		// 部门
-		// JtViewDept jtViewDept = iJtUserService.getJtDeptByOrg(ddcDaxxb
-		// .getSlbm());
-		// ddcDaxxb.setSlbmName(jtViewDept.getOrgName());
+		JtViewDept jtViewDept = iJtUserService.getJtDeptByOrg(ddcDaxxb
+				.getSlbm());
+		ddcDaxxb.setSlbmName(jtViewDept.getOrgName());
 
 		List<DdcSjzd> slzls = iEbikeService.getSelectSlzl(ddcDaxxb.getSlzl());// 选中的退办原因
 		String showEbikeImg = parseUrl(ddcDaxxb.getVcEbikeImg());
