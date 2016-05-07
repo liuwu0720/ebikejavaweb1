@@ -31,7 +31,7 @@ import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
 
 /**
- * 类描述：
+ * 类描述：霏霏地
  * 
  * @version: 1.0
  * @author: liuwu
