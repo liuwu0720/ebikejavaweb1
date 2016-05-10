@@ -178,7 +178,7 @@ function deleteRow(id){
 function addRowData(){
 	 $('#dgformDiv').dialog('open').dialog('setTitle', '编辑信息');
 	 $('#dgform').form('clear');
-	  $('#hyxhmc_tr,#hyxhlb_tr').show();
+	  $('#hyxhlb_tr').show();
 	  $("#hyxhsjzpe_tr").hide();
 	 $("#hyxhlb").combobox({
 		 	valueField:'label',    
@@ -279,7 +279,7 @@ function updateRow(){
 	 $('#dgform').form('clear');
 	 var row = $('#dg').datagrid('getSelected');
 	   if (row){
-		     $('#hyxhmc_tr,#hyxhlb_tr').hide();
+		     $('#hyxhlb_tr').hide();
 		     $("#hyxhsjzpe_tr").show();
 	    	 $('#dgformDiv').dialog('open').dialog('setTitle', '编辑信息');
 	    	 $('#dgform').form('load', row);
@@ -354,7 +354,7 @@ function updateSaveData(){
 					<input class="easyui-validatebox" type="text" name="hyxhmm"></input>
 					</td>
 				</tr>
-				<tr id="hyxhmc_tr">
+				<tr>
 					<th>协会名称:</th>
 					<td><input  name="hyxhmc" class="easyui-validatebox" data-options="required:true" style="height: 32px;" >  
 					</td>

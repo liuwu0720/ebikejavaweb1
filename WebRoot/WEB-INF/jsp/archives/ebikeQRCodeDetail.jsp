@@ -77,7 +77,7 @@ function exportPage() {
 		    <div  class="qrcode" >
 		      <div id="qrcode">
 		      </div>
-		      <span class="warm">二维码仅供交警扫描</span>
+		      <span class="warm">二维码仅供公安扫描有效</span>
 		    </div>
 	   </div>
 	   <div class="contentRight">
@@ -111,7 +111,7 @@ function exportPage() {
 	<div  class="qrcode">
 	<div id="qrcode2">
 	</div>
-	<span class="warm" style="text-align:center">二维码仅供交警扫描</span>
+	<span class="warm" style="text-align:center">二维码仅供公安扫描有效</span>
 	</div>
 	</div>
 	<div class="contentRight">

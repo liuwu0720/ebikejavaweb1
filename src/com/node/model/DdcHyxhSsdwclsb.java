@@ -67,7 +67,7 @@ public class DdcHyxhSsdwclsb implements java.io.Serializable {
 	private String vcShowEbikeImg;
 	private String vcShowUser1Img;
 	private String vcShowUser2Img;
-	private Integer slIndex;// 受理审批顺序 0-等待行业协会审批 1-民敬审批
+	private Integer slIndex;// 受理审批顺序 0-等待行业协会审批 1-民敬审批 2-领导审批
 	private String tbyy;// 退办原因
 	private String vcUser1CardImg1;// 驾驶人1身份证照片正面
 	private String vcUser1CardImg2;// 驾驶人1身份证照片反面

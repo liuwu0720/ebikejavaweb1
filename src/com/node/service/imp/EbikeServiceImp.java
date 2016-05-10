@@ -496,4 +496,22 @@ public class EbikeServiceImp implements IEbikeService {
 		iDdcHyxhBaseDao.updateCleanBefore(ddcHyxhBase);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.node.service.IEbikeService#getDdcHyxhSsdwclsbByLsh(java.lang.String)
+	 */
+	@Override
+	public DdcHyxhSsdwclsb getDdcHyxhSsdwclsbByLsh(String lsh) {
+		List<DdcHyxhSsdwclsb> ddcHyxhSsdwclsbs = iDdcHyxhSsdwclsbDao
+				.findByProperty("lsh", lsh);
+		if (CollectionUtils.isNotEmpty(ddcHyxhSsdwclsbs)) {
+			return ddcHyxhSsdwclsbs.get(0);
+		} else {
+			return null;
+		}
+
+	}
+
 }

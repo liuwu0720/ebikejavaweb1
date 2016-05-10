@@ -343,4 +343,15 @@ public interface IEbikeService {
 	 */
 	void updateDdcHyxhBase(DdcHyxhBase ddcHyxhBase);
 
+	/**
+	 * 方法描述：
+	 * 
+	 * @param lsh
+	 * @return
+	 * @version: 1.0
+	 * @author: liuwu
+	 * @version: 2016年5月10日 下午3:27:19
+	 */
+	DdcHyxhSsdwclsb getDdcHyxhSsdwclsbByLsh(String lsh);
+
 }
