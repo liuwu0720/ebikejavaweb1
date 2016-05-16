@@ -509,7 +509,7 @@ public class IndustryAction {
 			ddcHyxhBase.setSynFlag(SystemConstants.SYSFLAG_UPDATE);
 			ddcHyxhBase.setTranDate(new Date());
 			iInDustryService.update(ddcHyxhBase);
-			AjaxUtil.rendJson(response, true, "新增成功，密码为123456");
+			AjaxUtil.rendJson(response, true, "操作成功，密码为123456");
 		} catch (Exception e) {
 			AjaxUtil.rendJson(response, false, "操作失败，系统错误!");
 		}

@@ -26,19 +26,21 @@
 		<property name="driverClass" value="oracle.jdbc.OracleDriver" />
 		<property name="jdbcUrl" value="jdbc:oracle:thin:@127.0.0.1:1521:orcl" />
 		<property name="user" value="ebike2" />
-		<property name="password" value="ebike2" />
+		<property name="password" value="ebike2" /> 
 		<!--服务器  -->
 		<!-- <property name="jdbcUrl" value="jdbc:oracle:thin:@100.100.21.101:1521:edb" />
 		<property name="user" value="ddcglxt" />
-		<property name="password" value="ddcglxt2016##" /> -->
+		<property name="password" value="ddcglxt2016##" />  -->
 		<!-- 指定连接数据库连接池的最大连接数 -->
-		<property name="maxPoolSize" value="40" />
+		<property name="maxPoolSize" value="600" />
+		<!--每60秒检查所有连接池中的空闲连接。Default: 0 -->
+		<property name="idleConnectionTestPeriod" value="60" />
 		<!-- 指定连接数据库连接池的最小连接数 -->
-		<property name="minPoolSize" value="1" />
+		<property name="minPoolSize" value="10" />
 		<!-- 指定连接数据库连接池的初始化连接数 -->
-		<property name="initialPoolSize" value="5" />
+		<property name="initialPoolSize" value="15" />
 		<!-- 指定连接数据库连接池的连接最大空闲时间 -->
-		<property name="maxIdleTime" value="1800" />
+		<property name="maxIdleTime" value="60" />
 	</bean>
 	
 	<bean id="sessionFactory"
