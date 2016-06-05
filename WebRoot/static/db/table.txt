@@ -9249,3 +9249,807 @@ alter table PIC_PATH enable all triggers;
 set feedback on
 set define on
 prompt Done.
+
+
+
+
+
+*****************************************
+***************************************
+create table OA_DEPT_VIEW
+(
+  id       NUMBER,
+  org_id   VARCHAR2(50),
+  up_org   VARCHAR2(50),
+  org_name VARCHAR2(50),
+  ssqy     VARCHAR2(50)
+)
+;
+comment on table OA_DEPT_VIEW
+  is 'OA部门表';
+
+prompt Disabling triggers for OA_DEPT_VIEW...
+alter table OA_DEPT_VIEW disable all triggers;
+prompt Deleting OA_DEPT_VIEW...
+delete from OA_DEPT_VIEW;
+commit;
+prompt Loading OA_DEPT_VIEW...
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (1, '30015', '0', '深圳市交通警察支队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (2, '30019', '30015', '局领导', '0');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (3, '30020', '30019', '局领导秘书室', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (4, '30021', '30019', '局领导司机', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (5, '30172', '30019', '局领导', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (6, '30022', '30015', '指挥处', '0');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (7, '30023', '30022', '勤务科', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (8, '30158', '30023', '勤务科民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (9, '30465', '30023', '禁摩办', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (10, '30502', '30023', '绩效考核办', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (11, '30024', '30022', '宣传科', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (12, '30159', '30024', '宣传科民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (13, '30328', '30024', '宣传科职工', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (14, '30025', '30022', '拯救中心', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (15, '30160', '30025', '拯救中心民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (16, '30026', '30022', '指挥科', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (17, '30161', '30026', '指挥科民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (18, '30028', '30022', '秘书科', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (19, '30162', '30028', '秘书科民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (20, '30240', '30022', '调研员', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (21, '30385', '30022', '泥头车整治办', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (22, '30027', '30015', '综合处', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (23, '30029', '30027', '政工科', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (24, '30157', '30029', '政工科民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (25, '30274', '30029', '内勤', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (26, '30030', '30027', '行政科', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (27, '30163', '30030', '行政科民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (28, '30310', '30030', '政秘处职工', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (29, '30031', '30027', '法制科', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (30, '30164', '30031', '法制科民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (31, '30439', '30027', '机动训练大队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (32, '30440', '30439', '机动训练大队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (33, '30449', '30027', '协管办', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (34, '30567', '30449', '督导员管理办公室', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (35, '30570', '30027', '调研二组', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (36, '30032', '30015', '交通管理处', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (37, '30033', '30032', '道路使用管理科', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (38, '30192', '30033', '道路使用管理科民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (39, '30034', '30032', '综合治理科', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (40, '30309', '30034', '综合治理科民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (41, '30504', '30034', '绿联办民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (42, '30035', '30032', '涉外事故处理科', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (43, '30259', '30035', '涉外事故处理科民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (44, '30036', '30032', '事故处理科', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (45, '30233', '30036', '事故处理科民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (46, '30037', '30032', '停车场地管理科', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (47, '30308', '30037', '停车场地管理科民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (48, '30038', '30032', '违例处理科', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (49, '30199', '30038', '违例处理科民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (50, '30503', '30032', '绿联办', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (51, '30039', '30015', '车辆管理处', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (52, '30040', '30039', '档案科', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (53, '30312', '30040', '档案科民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (54, '30324', '30040', '档案科公务员、职工', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (55, '30041', '30039', '福田分所', '440304');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (56, '30313', '30041', '福田分所民警', '440304');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (57, '30042', '30039', '机动车管理科', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (58, '30314', '30042', '机动车管理科民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (59, '30043', '30039', '驾驶证管理科', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (60, '30315', '30043', '驾驶证管理科民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (61, '30044', '30039', '考试科', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (62, '30316', '30044', '考试科民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (63, '30045', '30039', '龙岗分所', '440307');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (64, '30317', '30045', '龙岗分所民警', '440307');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (65, '30046', '30039', '龙华分所', '440306');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (66, '30322', '30046', '龙华分所民警', '440306');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (67, '30047', '30039', '审验科', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (68, '30311', '30047', '审验科民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (69, '30048', '30039', '宝安分所', '440306');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (70, '30321', '30048', '宝安分所民警', '440306');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (71, '30049', '30039', '罗湖分所', '440303');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (72, '30320', '30049', '罗湖分所民警', '440303');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (73, '30050', '30039', '训考场', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (74, '30319', '30050', '训考场民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (75, '30051', '30039', '盐田分所', '440308');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (76, '30396', '30051', '盐田分所民警', '440308');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (77, '30052', '30039', '政秘科', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (78, '30318', '30052', '政秘科民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (79, '30323', '30052', '政秘科职工', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (80, '30450', '30039', '坪山分所', '440318');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (81, '30451', '30450', '坪山分所民警', '440318');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (82, '30483', '30039', '光明分所', '440317');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (83, '30484', '30483', '光明分所民警', '440317');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (84, '30487', '30039', '业务督导组', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (85, '30488', '30039', '澳康达服务站', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (86, '30492', '30039', '桃源服务站', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (87, '30494', '30039', '前海分所', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (88, '30495', '30494', '前海分所民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (89, '30496', '30039', '佳鸿服务站', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (90, '30533', '30039', '车管e中心', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (91, '30534', '30533', '车管e中心民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (92, '30535', '30039', '一通服务站', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (93, '30536', '30039', '建达成服务站', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (94, '30537', '30039', '奔宝服务站', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (95, '30538', '30039', '东益服务站', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (96, '30539', '30039', '龙珠服务站', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (97, '30540', '30039', '湘雅通服务站', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (98, '30541', '30039', '百威年服务站', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (99, '30568', '30039', '绩效考核组', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (100, '30053', '30015', '交通科技处', '0');
+commit;
+prompt 100 records committed...
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (101, '30054', '30053', '科技管理科', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (102, '30167', '30054', '科技管理科民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (103, '30055', '30053', '计算机管理科', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (104, '30168', '30055', '计算机管理科民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (105, '30056', '30053', '科学技术研究所', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (106, '30169', '30056', '科学技术研究所民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (107, '30506', '30056', '视频分析组', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (108, '30057', '30053', '监控管理科', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (109, '30166', '30057', '监控管理科民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (110, '30478', '30057', '信号配时组', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (111, '30372', '30053', '退休干部', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (112, '30423', '30372', '退休干部民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (113, '30464', '30053', '科技员', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (114, '30058', '30015', '罗湖大队', '440303');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (115, '30059', '30058', '东门中队', '440303');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (116, '30214', '30059', '东门中队民警', '440303');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (117, '30060', '30058', '笋岗中队', '440303');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (118, '30276', '30060', '笋岗中队民警', '440303');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (119, '30061', '30058', '桂园中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (120, '30277', '30061', '桂园中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (121, '30062', '30058', '黄贝中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (122, '30278', '30062', '黄贝中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (123, '30063', '30058', '东湖中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (124, '30200', '30063', '东湖中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (125, '30064', '30058', '机动中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (126, '30219', '30064', '机动中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (127, '30065', '30058', '特勤中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (128, '30282', '30065', '特勤中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (129, '30066', '30058', '事故中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (130, '30283', '30066', '事故中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (131, '30068', '30015', '福田大队', '440304');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (132, '30069', '30068', '八卦岭中队', '440304');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (133, '30180', '30069', '八卦岭中队民警', '440304');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (134, '30070', '30068', '梅莲中队', '440304');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (135, '30249', '30070', '梅莲中队民警', '440304');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (136, '30071', '30068', '园岭中队', '440304');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (137, '30255', '30071', '园岭中队民警', '440304');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (138, '30072', '30068', '华富中队', '440304');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (139, '30257', '30072', '华富中队民警', '440304');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (140, '30073', '30068', '南园中队', '440304');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (141, '30261', '30073', '南园中队民警', '440304');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (142, '30074', '30068', '深南中队', '440304');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (143, '30263', '30074', '深南中队民警', '440304');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (144, '30075', '30068', '香蜜湖中队', '440304');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (145, '30265', '30075', '香蜜湖中队民警', '440304');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (146, '30076', '30068', '中心区中队', '440304');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (147, '30267', '30076', '中心区中队民警', '440304');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (148, '30077', '30068', '机动中队', '440304');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (149, '30269', '30077', '机动中队民警', '440304');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (150, '30078', '30068', '特勤中队', '440304');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (151, '30271', '30078', '特勤中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (152, '30079', '30068', '事故中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (153, '30273', '30079', '事故中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (154, '30426', '30068', '突击队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (155, '30427', '30426', '突击队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (156, '30479', '30068', '000001', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (157, '30081', '30015', '口岸大队', '440304');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (158, '30082', '30081', '罗湖口岸中队', '440303');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (159, '30181', '30082', '罗湖口岸中队领导', '440303');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (160, '30182', '30082', '罗湖口岸民警', '440303');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (161, '30083', '30081', '皇岗口岸中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (162, '30183', '30083', '皇岗口岸中队领导', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (163, '30184', '30083', '皇岗口岸民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (164, '30084', '30081', '特勤中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (165, '30173', '30084', '口岸大队内勤', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (166, '30174', '30084', '口岸大队指挥室', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (167, '30185', '30084', '口岸大队特勤中队领导', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (168, '30186', '30084', '特勤中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (169, '30085', '30081', '事故中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (170, '30187', '30085', '事故中队领导', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (171, '30188', '30085', '事故中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (172, '30189', '30081', '保税区中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (173, '30190', '30189', '保税区临时中队领导', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (174, '30191', '30189', '保税区临时中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (175, '30354', '30081', '福田口岸中队', '440304');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (176, '30355', '30354', '福田口岸中队民警', '440304');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (177, '30490', '30081', '机动(临时)中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (178, '30491', '30490', '机动(临时)中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (179, '30086', '30015', '机训大队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (180, '30087', '30086', '一中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (181, '30202', '30087', '一中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (182, '30088', '30086', '二中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (183, '30203', '30088', '二中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (184, '30089', '30086', '三中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (185, '30209', '30089', '三中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (186, '30090', '30086', '四中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (187, '30211', '30090', '四中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (188, '30542', '30086', '五中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (189, '30547', '30542', '五中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (190, '30543', '30086', '六中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (191, '30548', '30543', '六中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (192, '30544', '30086', '七中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (193, '30549', '30544', '七中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (194, '30545', '30086', '八中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (195, '30550', '30545', '八中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (196, '30546', '30086', '九中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (197, '30551', '30546', '九中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (198, '30091', '30015', '南山大队', '440305');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (199, '30092', '30091', '事故中队', '440305');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (200, '30236', '30092', '事故中队民警', '440305');
+commit;
+prompt 200 records committed...
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (201, '30093', '30091', '特勤中队', '440305');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (202, '30239', '30093', '特勤中队民警', '444403050305');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (203, '30369', '30093', '机动队', '440305');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (204, '30094', '30091', '西丽中队', '440305');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (205, '30247', '30094', '西丽中队民警', '440305');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (206, '30095', '30091', '侨城中队', '440305');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (207, '30197', '30095', '侨城中队民警', '440305');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (208, '30096', '30091', '蛇口中队', '440305');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (209, '30198', '30096', '蛇口中队民警', '440305');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (210, '30454', '30091', '桃源中队', '440305');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (211, '30460', '30454', '桃源中队民警', '440305');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (212, '30455', '30091', '机动中队', '440305');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (213, '30461', '30455', '机动中队民警', '440305');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (214, '30456', '30091', '南头中队', '440305');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (215, '30459', '30456', '南头中队民警', '440305');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (216, '30457', '30091', '粤海中队', '440305');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (217, '30462', '30457', '粤海中队民警', '440305');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (218, '30458', '30091', '深圳湾口岸中队', '440305');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (219, '30463', '30458', '深圳湾口岸中队民警', '440305');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (220, '30498', '30091', '南山中队', '440305');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (221, '30499', '30498', '南山中队民警', '440305');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (222, '30097', '30015', '盐田大队', '440308');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (223, '30098', '30097', '梅沙中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (224, '30205', '30098', '梅沙中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (225, '30099', '30097', '沙头角中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (226, '30206', '30099', '沙头角中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (227, '30100', '30097', '事故特勤中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (228, '30204', '30100', '事故特勤中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (229, '30101', '30097', '盐田港中队', '440308');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (230, '30207', '30101', '盐田港中队民警', '440308');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (231, '30102', '30015', '龙岗大队', '440307');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (232, '30103', '30102', '特勤中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (233, '30201', '30103', '特勤中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (234, '30104', '30102', '龙岗中队', '440307');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (235, '30223', '30104', '龙岗中队民警', '440307');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (236, '30105', '30102', '事故中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (237, '30231', '30105', '事故中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (238, '30106', '30102', '横岗中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (239, '30227', '30106', '横岗中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (240, '30107', '30102', '布吉中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (241, '30230', '30107', '布吉中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (242, '30109', '30102', '平湖中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (243, '30235', '30109', '平湖中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (244, '30375', '30102', '坂田中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (245, '30380', '30375', '坂田中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (246, '30376', '30102', '坪地中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (247, '30381', '30376', '坪地中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (248, '30378', '30102', '宝龙中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (249, '30383', '30378', '宝龙中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (250, '30379', '30102', '龙城中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (251, '30384', '30379', '龙城中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (252, '30441', '30102', '南湾中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (253, '30442', '30441', '南湾中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (254, '30111', '30015', '宝安大队', '440306');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (255, '30112', '30111', '新安中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (256, '30295', '30112', '新安中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (257, '30113', '30111', '西乡中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (258, '30296', '30113', '西乡中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (259, '30114', '30111', '沙井中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (260, '30297', '30114', '沙井中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (261, '30115', '30111', '松岗中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (262, '30299', '30115', '松岗中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (263, '30118', '30111', '石岩中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (264, '30303', '30118', '石岩中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (265, '30120', '30111', '特勤中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (266, '30289', '30120', '特勤中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (267, '30121', '30111', '事故中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (268, '30305', '30121', '事故中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (269, '30122', '30111', '福永中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (270, '30298', '30122', '福永中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (271, '30124', '30015', '侦查大队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (272, '30125', '30124', '一中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (273, '30229', '30125', '一中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (274, '30126', '30124', '二中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (275, '30226', '30126', '二中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (276, '30127', '30124', '三中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (277, '30224', '30127', '三中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (278, '30482', '30124', '打击刑事犯罪办公室', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (279, '30128', '30015', '高速公路梅观大队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (280, '30129', '30128', '二中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (281, '30251', '30129', '二中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (282, '30130', '30128', '五中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (283, '30252', '30130', '五中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (284, '30131', '30128', '六中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (285, '30250', '30131', '六中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (286, '30133', '30128', '九中队（龙大中队）', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (287, '30253', '30133', '龙大中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (288, '30134', '30015', '高速公路惠盐大队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (289, '30135', '30134', '一中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (290, '30286', '30135', '一中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (291, '30136', '30134', '二中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (292, '30290', '30136', '二中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (293, '30137', '30134', '三中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (294, '30293', '30137', '三中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (295, '30138', '30134', '四中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (296, '30287', '30138', '四中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (297, '30139', '30015', '高速公路同乐大队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (298, '30140', '30139', '一中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (299, '30306', '30140', '一中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (300, '30141', '30139', '事故中队', null);
+commit;
+prompt 300 records committed...
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (301, '30307', '30141', '事故中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (302, '30411', '30139', '七中队(南光中队)', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (303, '30412', '30411', '南光中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (304, '30500', '30139', '沿江临时中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (305, '30501', '30500', '沿江临时中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (306, '30144', '30015', '机场大队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (307, '30566', '30144', '一中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (308, '30145', '30566', '一中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (309, '30146', '30015', '蛇口港大队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (310, '30147', '30146', '一中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (311, '30468', '30147', '一中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (312, '30148', '30146', '二中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (313, '30562', '30148', '二中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (314, '30149', '30146', '三中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (315, '30563', '30149', '三中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (316, '30150', '30146', '特勤中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (317, '30564', '30150', '特勤中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (318, '30151', '30146', '事故中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (319, '30565', '30151', '事故中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (320, '30346', '30015', '测试大队(处)', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (321, '30347', '30346', '测试中队(科)', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (322, '30348', '30347', '测试中队(科)民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (323, '30367', '30346', '测试中队2(科)', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (324, '30554', '30346', '测试中队3', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (325, '30556', '30554', '测试单位民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (326, '30555', '30346', '测试单位44', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (327, '30557', '30555', '测试单位4民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (328, '30368', '30015', '深圳市公安局领导', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (329, '30393', '30015', '光明大队', '440317');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (330, '30116', '30393', '公明中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (331, '30300', '30116', '公明中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (332, '30123', '30393', '光明中队', '440317');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (333, '30301', '30123', '光明中队民警', '440317');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (334, '30394', '30393', '事故（特勤）中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (335, '30395', '30394', '事故处理中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (336, '30401', '30394', '事故（特勤）中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (337, '30402', '30015', '坪山大队', '440318');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (338, '30413', '30402', '坪山中队', '440318');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (339, '30421', '30413', '坪山中队民警', '440318');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (340, '30414', '30402', '坑梓中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (341, '30419', '30414', '坑梓中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (342, '30415', '30402', '事故处理(机动特勤)中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (343, '30420', '30415', '事故处理(机动特勤)中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (344, '30404', '30015', '纪委', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (345, '30407', '30404', '监察科', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (346, '30408', '30407', '监察科民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (347, '30409', '30404', '警务督察大队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (348, '30410', '30409', '警务督察大队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (349, '30416', '30404', '派驻专干组', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (350, '30417', '30416', '派驻专干组民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (351, '30422', '30015', '停车场推进办', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (352, '30469', '30015', '龙华大队', '440306');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (353, '30117', '30469', '龙华中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (354, '30302', '30117', '龙华中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (355, '30119', '30469', '观澜中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (356, '30304', '30119', '观澜中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (357, '30364', '30469', '大浪中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (358, '30366', '30364', '大浪中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (359, '30433', '30469', '民治中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (360, '30434', '30433', '民治中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (361, '30471', '30469', '北站中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (362, '30472', '30471', '北站中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (363, '30475', '30469', '事故中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (364, '30476', '30475', '事故中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (365, '30470', '30015', '大鹏大队', '440320');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (366, '30110', '30470', '葵涌中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (367, '30238', '30110', '葵涌中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (368, '30447', '30470', '南澳中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (369, '30448', '30447', '南澳中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (370, '30452', '30470', '大鹏中队（临时）', '440320');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (371, '30453', '30452', '大鹏中队民警', '440320');
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (372, '30473', '30470', '事故（特勤）中队', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (373, '30474', '30473', '事故（特勤）中队民警', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (374, '30553', '30015', '改革创新办', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (375, '30558', '30015', '1501办公室', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (376, '30559', '30558', '工作专班', null);
+insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
+values (377, '30560', '30559', '民警', null);
+commit;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

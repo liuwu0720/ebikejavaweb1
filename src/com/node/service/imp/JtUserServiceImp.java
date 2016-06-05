@@ -411,4 +411,15 @@ public class JtUserServiceImp implements IJtUserService {
 		Object object = iJtUserDao.getDateBySQL(sql);
 		return object.toString();
 	}
+
+	
+		/* (non-Javadoc)
+		 * @see com.node.service.IJtUserService#getXsqyCodeByJtUser(java.lang.String)
+		 */
+	@Override
+	public String getXsqyCodeByJtUser(String dept) {
+		String sql = "select t.ssqy from OA_DEPT_VIEW t  where t.up_org=30015 start with t.org_id= '"+dept+"'  connect by prior t.up_org = t.org_id";
+		Object object = iJtUserDao.getDateBySQL(sql);
+		return object.toString();
+	}
 }

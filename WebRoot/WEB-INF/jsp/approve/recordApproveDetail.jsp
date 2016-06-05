@@ -190,7 +190,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     			 <td>无</td>
     			</c:if>
     			<th>行驶区域</th>
-    			<td>${ddcHyxhSsdwclsb.xsqyName }</td>
+    			<td>全市范围(${ddcHyxhSsdwclsb.xsqyName }交警大队审批)</td>
     			<th>车身颜色</th>
     			<td>${ddcHyxhSsdwclsb.cysyName }</td>
     		</tr>
@@ -279,19 +279,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     			</td>
     		</tr>
 			
-				<tr>
+			<tr>
 					<td colspan="2">
 					<div class="imgdiv"> 
-					<p>驾驶人1照片</p>
-					<a href="${ddcHyxhSsdwclsb.vcShowUser1Img }" target="_blank">
-					<img  src="${ddcHyxhSsdwclsb.vcShowUser1Img }"/>
+					<p>车辆合格证照片</p>
+					<a href="${ddcHyxhSsdwclsb.vcQualifiedImgShow }" target="_blank">
+					<img  src="${ddcHyxhSsdwclsb.vcQualifiedImgShow }"/>
 					</a></div>
 					</td>
 					<td colspan="2">
 					<div  class="imgdiv">
-					<p>驾驶人2照片</p>
-					<a href="${ddcHyxhSsdwclsb.vcShowUser2Img }" target="_blank">
-					<img  src="${ddcHyxhSsdwclsb.vcShowUser2Img }"/>
+					<p>投保凭证照片</p>
+					<a href="${ddcHyxhSsdwclsb.vcEbikeInsuranceImgShow }" target="_blank">
+					<img  src="${ddcHyxhSsdwclsb.vcEbikeInsuranceImgShow }"/>
 					</a>
 					</div></td>
 					<td colspan="2">
@@ -307,8 +307,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<img   src="${ddcHyxhSsdwclsb.vcEbikeInvoiceImgShow }"/>
 					</div></a></td>
 				</tr>
-			<tr>
-				<td colspan="2">
+			
+				<tr>
+					<td colspan="2">
+					<div class="imgdiv"> 
+					<p>驾驶人1照片</p>
+					<a href="${ddcHyxhSsdwclsb.vcShowUser1Img }" target="_blank">
+					<img  src="${ddcHyxhSsdwclsb.vcShowUser1Img }"/>
+					</a></div>
+					</td>
+					<td colspan="2">
 					<div class="imgdiv"> 
 					<p>驾驶人1身份证正面</p>
 					<a href="${ddcHyxhSsdwclsb.vcUser1CardImg1Show }" target="_blank">
@@ -324,16 +332,39 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</td>
 				<td colspan="2">
 					<div class="imgdiv"> 
+					<p>驾驶人1在职证明或居住证</p>
+					<a href="${ddcHyxhSsdwclsb.vcUser1WorkImgShow }" target="_blank">
+					<img  src="${ddcHyxhSsdwclsb.vcUser1WorkImgShow }"/>
+					</a></div>
+				</td>
+				</tr>
+			<tr>
+				<td colspan="2">
+					<div class="imgdiv"> 
+					<p>驾驶人2照片</p>
+					<a href="${ddcHyxhSsdwclsb.vcShowUser2Img }" target="_blank">
+					<img  src="${ddcHyxhSsdwclsb.vcShowUser2Img }"/>
+					</a></div>
+					</td>
+					<td colspan="2">
+					<div class="imgdiv"> 
 					<p>驾驶人2身份证正面</p>
 					<a href="${ddcHyxhSsdwclsb.vcUser2CardImg1Show }" target="_blank">
-					<img  src="${ddcHyxhSsdwclsb.vcUser2CardImg1Show }"/>
+					<img   src="${ddcHyxhSsdwclsb.vcUser2CardImg1Show }"/>
 					</a></div>
 				</td>
 				<td colspan="2">
 					<div class="imgdiv"> 
 					<p>驾驶人2身份证反面</p>
 					<a href="${ddcHyxhSsdwclsb.vcUser2CardImg2Show }" target="_blank">
-					<img   src="${ddcHyxhSsdwclsb.vcUser2CardImg2Show }"/>
+					<img  src="${ddcHyxhSsdwclsb.vcUser2CardImg2Show }"/>
+					</a></div>
+				</td>
+				<td colspan="2">
+					<div class="imgdiv"> 
+					<p>驾驶人2在职证明或居住证</p>
+					<a href="${ddcHyxhSsdwclsb.vcUser2WorkImgShow }" target="_blank">
+					<img  src="${ddcHyxhSsdwclsb.vcUser2WorkImgShow }"/>
 					</a></div>
 				</td>
 			</tr>		

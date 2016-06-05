@@ -22,7 +22,6 @@ import jxl.write.WritableSheet;
 import jxl.write.WriteException;
 import jxl.write.biff.RowsExceededException;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.EncryptedDocumentException;
@@ -36,23 +35,18 @@ import org.springframework.stereotype.Service;
 
 import com.node.dao.IDdcApprovalUserDao;
 import com.node.dao.IDdcDaxxbDao;
-import com.node.dao.IDdcDaxxbLogDao;
 import com.node.dao.IDdcDriverDao;
 import com.node.dao.IDdcFlowDao;
-import com.node.dao.IDdcFlowLogDao;
 import com.node.dao.IDdcHmdDao;
 import com.node.dao.IDdcHyxhBasbDao;
-import com.node.dao.IDdcHyxhBasbLogDao;
 import com.node.dao.IDdcHyxhBaseDao;
 import com.node.dao.IDdcHyxhSsdwDao;
 import com.node.dao.IDdcHyxhSsdwclsbDao;
 import com.node.dao.IFileRecordDao;
 import com.node.model.DdcApproveUser;
 import com.node.model.DdcDaxxb;
-import com.node.model.DdcDaxxbLog;
 import com.node.model.DdcDriver;
 import com.node.model.DdcFlow;
-import com.node.model.DdcFlowLog;
 import com.node.model.DdcHmd;
 import com.node.model.DdcHyxhBasb;
 import com.node.model.DdcHyxhBase;
@@ -83,16 +77,12 @@ public class DataServiceImp implements IDataService {
 	@Autowired
 	IFileRecordDao iFileRecordDao;
 
-	@Autowired
-	IDdcDaxxbLogDao iDdcDaxxbLogDao;
 
-	@Autowired
-	IDdcFlowLogDao iDdcFlowLogDao;
+	
 
 	@Autowired
 	IDdcHyxhBasbDao iDdcHyxhBasbDao;
-	@Autowired
-	IDdcHyxhBasbLogDao iDdcHyxhBasbLogDao;
+	
 	@Autowired
 	IDdcHyxhBaseDao iDdcHyxhBaseDao;
 
@@ -135,7 +125,10 @@ public class DataServiceImp implements IDataService {
 
 			Sheet ssdwClsbSheet = wb.getSheetAt(6);// DDC_HYXH_SSDWCLSB 外网只新增数据
 			saveSsdwClsb(ssdwClsbSheet);
-
+			
+			Sheet ddcDriver = wb.getSheetAt(7);// DDC_Driver 外网只新增数据
+			saveDdcDriver(ddcDriver);
+			
 		} catch (EncryptedDocumentException | InvalidFormatException
 				| IOException e) {
 			e.printStackTrace();
@@ -146,6 +139,47 @@ public class DataServiceImp implements IDataService {
 		}
 
 		return message;
+	}
+
+	
+	/**
+	  * 方法描述：
+	  * @param ddcDriver 
+	  * @version: 1.0
+	  * @author: liuwu
+	  * @version: 2016年6月5日 下午7:23:33
+	  */
+	private void saveDdcDriver(Sheet ddcDriver) {
+		for(int i=3;i<=ddcDriver.getLastRowNum();i++){
+			Row row = ddcDriver.getRow(i);
+			if(row !=null){
+				int j=0;
+				DdcDriver driver = new DdcDriver();
+				driver.setId(Long.parseLong(row.getCell(j) + ""));
+				driver.setDabh(row.getCell(j+=1) + "");
+				driver.setDaid(row.getCell(j+=1) + ""==null?null:Long.parseLong(row.getCell(j+=1) + ""));
+				driver.setJsrxm(row.getCell(j+=1) + "");
+				driver.setXb(row.getCell(j+=1) + "");
+				driver.setLxdh(row.getCell(j+=1) + "");
+				driver.setSynFlag(row.getCell(j+=1) + "_W");
+				driver.setUserCode(row.getCell(j+=1) + "");
+				driver.setUserPassword(row.getCell(j+=1) + "");
+				driver.setSfzhm(row.getCell(j+=1) + "");
+				driver.setVcUserImg(row.getCell(j+=1) + "");
+				driver.setUserStatus(Integer.parseInt(row.getCell(j+=1) + ""));
+				driver.setIlleagalTimes(Integer.parseInt(row.getCell(j+=1) + ""));
+				List<DdcDriver> ddcDrivers = iDdcDriverDao.findByProperty("id", driver.getId());
+				if(CollectionUtils.isEmpty(ddcDrivers)){
+					try {
+						iDdcDriverDao.save(driver);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			
+		}
+		
 	}
 
 	/**
@@ -211,6 +245,11 @@ public class DataServiceImp implements IDataService {
 				ddcHyxhSsdwclsb.setnEnable(Integer.parseInt(row.getCell(j += 1)
 						+ ""));
 				ddcHyxhSsdwclsb.setVcEbikeInvoiceImg(row.getCell(j += 1) + "");
+				
+				ddcHyxhSsdwclsb.setVcUser1WorkImg(row.getCell(j += 1) + "");
+				ddcHyxhSsdwclsb.setVcUser2WorkImg(row.getCell(j += 1) + "");
+				ddcHyxhSsdwclsb.setVcQualifiedImg(row.getCell(j += 1) + "");
+				ddcHyxhSsdwclsb.setVcEbikeInsuranceImg(row.getCell(j += 1) + "");
 				List<DdcHyxhSsdwclsb> ddcHyxhSsdwclsbs = iDdcHyxhSsdwclsbDao
 						.findByProperty("lsh", ddcHyxhSsdwclsb.getLsh());
 				if (CollectionUtils.isEmpty(ddcHyxhSsdwclsbs)) {
@@ -494,13 +533,17 @@ public class DataServiceImp implements IDataService {
 					}
 					ddcFlow.setSlIndex(Integer.parseInt(row.getCell(j += 1)
 							+ ""));
+					ddcFlow.setVcUser1WorkImg(row.getCell(j += 1) + "");
+					ddcFlow.setVcUser2WorkImg(row.getCell(j += 1) + "");
+					ddcFlow.setVcQualifiedImg(row.getCell(j += 1) + "");
+					ddcFlow.setVcEbikeInsuranceImg(row.getCell(j += 1) + "");
 					ddcFlow.setTranDate(new Date());
 					// 根据流水号查询是否存在，存在则是重复导入
 					List<DdcFlow> ddcFlows = iDdcFlowDao.findByProperty("lsh",
 							ddcFlow.getLsh());
-					DdcFlowLog ddcFlowLog = new DdcFlowLog();
+					/*DdcFlowLog ddcFlowLog = new DdcFlowLog();
 					BeanUtils beanUtils = new BeanUtils();
-					beanUtils.copyProperties(ddcFlowLog, ddcFlow);
+					beanUtils.copyProperties(ddcFlowLog, ddcFlow);*/
 					if (CollectionUtils.isEmpty(ddcFlows)) {
 						ddcFlow.setTranDate(new Date());
 						iDdcFlowDao.save(ddcFlow);
@@ -632,6 +675,10 @@ public class DataServiceImp implements IDataService {
 					daxxb.setVcUser2CardImg1(row.getCell(j += 1) + "");
 					daxxb.setVcUser2CardImg2(row.getCell(j += 1) + "");
 					daxxb.setVcEbikeInvoiceImg(row.getCell(j += 1) + "");
+					daxxb.setVcUser1WorkImg(row.getCell(j += 1) + "");
+					daxxb.setVcUser2WorkImg(row.getCell(j += 1) + "");
+					daxxb.setVcQualifiedImg(row.getCell(j += 1) + "");
+					daxxb.setVcEbikeInsuranceImg(row.getCell(j += 1) + "");
 					daxxb.setTranDate(new Date());
 					iDdcDaxxbDao.update(daxxb);
 					// saveDaxxbLog(daxxb);
@@ -643,24 +690,7 @@ public class DataServiceImp implements IDataService {
 		}
 	}
 
-	/**
-	 * 方法描述：
-	 * 
-	 * @param daxxb
-	 * @version: 1.0
-	 * @author: liuwu
-	 * @version: 2016年4月18日 下午5:00:42
-	 * @throws InvocationTargetException
-	 * @throws IllegalAccessException
-	 */
-	@SuppressWarnings("static-access")
-	private void saveDaxxbLog(DdcDaxxb daxxb) throws IllegalAccessException,
-			InvocationTargetException {
-		DdcDaxxbLog dest = new DdcDaxxbLog();
-		BeanUtils copyBeanUtils = new BeanUtils();
-		copyBeanUtils.copyProperties(dest, daxxb);
-		iDdcDaxxbLogDao.save(dest);
-	}
+
 
 	/*
 	 * (non-Javadoc)

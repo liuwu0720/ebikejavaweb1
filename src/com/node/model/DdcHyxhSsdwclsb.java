@@ -42,10 +42,6 @@ public class DdcHyxhSsdwclsb implements java.io.Serializable {
 	private String xb2;
 	private String sfzmhm2;
 	private String lxdh2;
-	private String jsrxm3;
-	private String xb3;
-	private String sfzmhm3;
-	private String lxdh3;
 	private String xsqy;// 行驶区域
 	private String xsqyName;
 	private String bz;
@@ -82,6 +78,120 @@ public class DdcHyxhSsdwclsb implements java.io.Serializable {
 	private Integer nEnable;
 	private String note;
 	private boolean isApprove = false;
+
+	// 201606增加
+	private String vcUser1WorkImg;// 驾驶人1 在职证明或居住证
+	private String vcUser2WorkImg;// 驾驶人2 在职证明或居住证
+	private String vcQualifiedImg;// 车辆合格证
+	private String vcEbikeInsuranceImg;// 投保凭证
+	private String vcUser1WorkImgShow;// 驾驶人1 在职证明或居住证
+	private String vcUser2WorkImgShow;// 驾驶人2 在职证明或居住证
+	private String vcQualifiedImgShow;// 车辆合格证
+	private String vcEbikeInsuranceImgShow;// 投保凭证
+
+	@Transient
+	public String getVcUser1WorkImgShow() {
+		return vcUser1WorkImgShow;
+	}
+
+	/**
+	 * @param vcUser1WorkImgShow
+	 *            : set the property vcUser1WorkImgShow.
+	 */
+	public void setVcUser1WorkImgShow(String vcUser1WorkImgShow) {
+		this.vcUser1WorkImgShow = vcUser1WorkImgShow;
+	}
+
+	@Transient
+	public String getVcUser2WorkImgShow() {
+		return vcUser2WorkImgShow;
+	}
+
+	/**
+	 * @param vcUser2WorkImgShow
+	 *            : set the property vcUser2WorkImgShow.
+	 */
+	public void setVcUser2WorkImgShow(String vcUser2WorkImgShow) {
+		this.vcUser2WorkImgShow = vcUser2WorkImgShow;
+	}
+
+	@Transient
+	public String getVcQualifiedImgShow() {
+		return vcQualifiedImgShow;
+	}
+
+	/**
+	 * @param vcQualifiedImgShow
+	 *            : set the property vcQualifiedImgShow.
+	 */
+	public void setVcQualifiedImgShow(String vcQualifiedImgShow) {
+		this.vcQualifiedImgShow = vcQualifiedImgShow;
+	}
+
+	@Transient
+	public String getVcEbikeInsuranceImgShow() {
+		return vcEbikeInsuranceImgShow;
+	}
+
+	/**
+	 * @param vcEbikeInsuranceImgShow
+	 *            : set the property vcEbikeInsuranceImgShow.
+	 */
+	public void setVcEbikeInsuranceImgShow(String vcEbikeInsuranceImgShow) {
+		this.vcEbikeInsuranceImgShow = vcEbikeInsuranceImgShow;
+	}
+
+	@Column(name = "VC_USER1WORKIMG", length = 100)
+	public String getVcUser1WorkImg() {
+		return vcUser1WorkImg;
+	}
+
+	/**
+	 * @param vcUser1WorkImg
+	 *            : set the property vcUser1WorkImg.
+	 */
+	public void setVcUser1WorkImg(String vcUser1WorkImg) {
+		this.vcUser1WorkImg = vcUser1WorkImg;
+	}
+
+	@Column(name = "VC_USER2WORKIMG", length = 100)
+	public String getVcUser2WorkImg() {
+		return vcUser2WorkImg;
+	}
+
+	/**
+	 * @param vcUser2WorkImg
+	 *            : set the property vcUser2WorkImg.
+	 */
+	public void setVcUser2WorkImg(String vcUser2WorkImg) {
+		this.vcUser2WorkImg = vcUser2WorkImg;
+	}
+
+	@Column(name = "VC_EBIKE_QUALIFIEDIMG", length = 100)
+	public String getVcQualifiedImg() {
+		return vcQualifiedImg;
+	}
+
+	/**
+	 * @param vcQualifiedImg
+	 *            : set the property vcQualifiedImg.
+	 */
+	public void setVcQualifiedImg(String vcQualifiedImg) {
+		this.vcQualifiedImg = vcQualifiedImg;
+	}
+
+	@Column(name = "VC_EBIKE_INSURANCEIMG", length = 100)
+	public String getVcEbikeInsuranceImg() {
+		return vcEbikeInsuranceImg;
+	}
+
+	/**
+	 * @param vcEbikeInsuranceImg
+	 *            : set the property vcEbikeInsuranceImg.
+	 */
+	public void setVcEbikeInsuranceImg(String vcEbikeInsuranceImg) {
+		this.vcEbikeInsuranceImg = vcEbikeInsuranceImg;
+	}
 
 	// Constructors
 
@@ -248,41 +358,6 @@ public class DdcHyxhSsdwclsb implements java.io.Serializable {
 		this.lxdh2 = lxdh2;
 	}
 
-	@Column(name = "JSRXM3", length = 50)
-	public String getJsrxm3() {
-		return this.jsrxm3;
-	}
-
-	public void setJsrxm3(String jsrxm3) {
-		this.jsrxm3 = jsrxm3;
-	}
-
-	@Column(name = "XB3", length = 50)
-	public String getXb3() {
-		return this.xb3;
-	}
-
-	public void setXb3(String xb3) {
-		this.xb3 = xb3;
-	}
-
-	@Column(name = "SFZMHM3", length = 50)
-	public String getSfzmhm3() {
-		return this.sfzmhm3;
-	}
-
-	public void setSfzmhm3(String sfzmhm3) {
-		this.sfzmhm3 = sfzmhm3;
-	}
-
-	@Column(name = "LXDH3", length = 50)
-	public String getLxdh3() {
-		return this.lxdh3;
-	}
-
-	public void setLxdh3(String lxdh3) {
-		this.lxdh3 = lxdh3;
-	}
 
 	@Column(name = "XSQY", length = 50)
 	public String getXsqy() {

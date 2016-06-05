@@ -292,4 +292,15 @@ public interface IJtUserService {
 	 */
 	String getDeptNameByUser(String userOrg);
 
+	
+	/**
+	  * 方法描述：
+	  * @param sql
+	  * @return 
+	  * @version: 1.0
+	  * @author: liuwu
+	  * @version: 2016年6月5日 下午7:48:17
+	  */
+	String getXsqyCodeByJtUser(String sql);
+
 }

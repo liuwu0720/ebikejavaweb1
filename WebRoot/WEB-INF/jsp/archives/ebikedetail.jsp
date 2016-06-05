@@ -132,6 +132,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     			</td>
     		</tr>
     		
+				<tr>
+    			<td colspan="2">
+					<div  class="imgdiv">
+					<p>车身照片</p>
+					<img   src="${ddcDaxxb.vcEbikeImg }"/>
+					</div></td>
+					<td colspan="2">
+					<div  class="imgdiv">
+					<p>购车发票</p>
+					<img  src="${ddcDaxxb.vcEbikeInvoiceImgShow }"/>
+					</div></td>
+    		   <td colspan="2">
+					<div  class="imgdiv">
+					<p>车辆合格证照片</p>
+					<img   src="${ddcDaxxb.vcQualifiedImgShow }"/>
+					</div></td>
+					<td colspan="2">
+					<div  class="imgdiv">
+					<p>投保凭证</p>
+					<img  src="${ddcDaxxb.vcEbikeInsuranceImgShow }"/>
+					</div></td>
+    		</tr>
 			
 				<tr>
 					<td colspan="2">
@@ -140,23 +162,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<img  src="${ddcDaxxb.vcShowUser1Img }"/></div>
 					</td>
 					<td colspan="2">
-					<div  class="imgdiv">
-					<p>驾驶人2照片</p>
-					<img   src="${ddcDaxxb.vcShowUser2Img }"/>
-					</div></td>
-					<td colspan="2">
-					<div  class="imgdiv">
-					<p>车身照片</p>
-					<img   src="${ddcDaxxb.vcShowEbikeImg }"/>
-					</div></td>
-					<td colspan="2">
-					<div  class="imgdiv">
-					<p>购车发票</p>
-					<img  src="${ddcDaxxb.vcEbikeInvoiceImgShow }"/>
-					</div></td>
-				</tr>
-				<tr>
-				<td colspan="2">
 					<div class="imgdiv"> 
 					<p>驾驶人1身份证正面</p>
 					<a href="${ddcDaxxb.vcUser1CardImg1Show }" target="_blank">
@@ -172,6 +177,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</td>
 				<td colspan="2">
 					<div class="imgdiv"> 
+					<p>驾驶人1在职证明或居住证</p>
+					<a href="${ddcDaxxb.vcUser1WorkImgShow }" target="_blank">
+					<img  src="${ddcDaxxb.vcUser1WorkImgShow }"/>
+					</a></div>
+				</td>	
+					
+				</tr>
+				
+				<tr>
+						<td colspan="2">
+					<div class="imgdiv"> 
+					<p>驾驶人2照片</p>
+					<img  src="${ddcDaxxb.vcShowUser2Img }"/></div>
+					</td>
+					<td colspan="2">
+					<div class="imgdiv"> 
 					<p>驾驶人2身份证正面</p>
 					<a href="${ddcDaxxb.vcUser2CardImg1Show }" target="_blank">
 					<img   src="${ddcDaxxb.vcUser2CardImg1Show }"/>
@@ -182,6 +203,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<p>驾驶人2身份证反面</p>
 					<a href="${ddcDaxxb.vcUser2CardImg2Show }" target="_blank">
 					<img  src="${ddcDaxxb.vcUser2CardImg2Show }"/>
+					</a></div>
+				</td>
+				<td colspan="2">
+					<div class="imgdiv"> 
+					<p>驾驶人2在职证明或居住证</p>
+					<a href="${ddcDaxxb.vcUser2WorkImgShow }" target="_blank">
+					<img  src="${ddcDaxxb.vcUser2WorkImgShow }"/>
 					</a></div>
 				</td>
 			</tr>	

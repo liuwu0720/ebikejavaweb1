@@ -224,7 +224,7 @@ public class DataAction {
 			WritableSheet ws7 = wwb.createSheet("ddc_hyxh_ssdwclsb", 6);
 			iDataService.createDdcHyxhSsdwClSb(wcfFC, wcfFC2, ws7);
 			/**
-			 * ddc_driver 司机，内网只新增
+			 * ddc_driver 司机，内网修改
 			 */
 			WritableSheet ws8 = wwb.createSheet("ddc_driver", 7);
 			iDataService.createDdcDriver(wcfFC, wcfFC2, ws8);

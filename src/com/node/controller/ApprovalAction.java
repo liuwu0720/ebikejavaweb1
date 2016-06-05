@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.mangofactory.swagger.annotations.ApiIgnore;
 import com.node.model.DdcApproveUser;
 import com.node.model.DdcDaxxb;
-import com.node.model.DdcDriver;
 import com.node.model.DdcFlow;
 import com.node.model.DdcHyxhBasb;
 import com.node.model.DdcHyxhBase;
@@ -171,17 +170,24 @@ public class ApprovalAction {
 		if (StringUtils.isNotBlank(hyxhzh)) {
 			sql += " and a.HYXHZH = '" + hyxhzh + "'";
 		}
-		// 行驶区域
-		if (StringUtils.isNotBlank(xsqy)) {
-			sql += " and a.XSQY = '" + xsqy + "'";
-		}
 
+		JtUser jtUser = (JtUser) request.getSession().getAttribute("jtUser");
+		String xsqyCode = iJtUserService.getXsqyCodeByJtUser(jtUser.getUserOrg());
+
+		// 行驶区域
+		if (StringUtils.isNotBlank(xsqyCode)) {
+			if(!xsqyCode.equals("0")){
+				sql += " and a.XSQY = '" + xsqyCode + "'";
+			}
+		}else {
+			sql += " and a.XSQY = 'AAAA'";
+		}
 		sql += "  order by A.ID DESC";
 		Page p = ServiceUtil.getcurrPage(request);
 		Map<String, Object> resultMap = iEbikeService.queryBySpringSql(sql, p);
 		List<Map<String, Object>> listMaps = (List<Map<String, Object>>) resultMap
 				.get("rows");
-		JtUser jtUser = (JtUser) request.getSession().getAttribute("jtUser");
+
 		// 获取该用户的审批角色，可能为多重审批角色
 		List<JtRole> approveJtRoles = iJtUserService
 				.getApproveRolesByUser(jtUser);
@@ -593,9 +599,13 @@ public class ApprovalAction {
 		String vcUser2CardImg1Show = parseUrl(ddcHyxhSsdwclsb
 				.getVcUser2CardImg1());
 		String vcUser2CardImg2Show = parseUrl(ddcHyxhSsdwclsb
-				.getVcUser1CardImg2());
+				.getVcUser2CardImg2());
 		String vcEbikeInvoiceImgShow = parseUrl(ddcHyxhSsdwclsb
 				.getVcEbikeInvoiceImg());
+		String vcUser1WorkImgShow = parseUrl(ddcHyxhSsdwclsb.getVcUser1WorkImg());
+		String vcUser2WorkImgShow = parseUrl(ddcHyxhSsdwclsb.getVcUser2WorkImg());
+		String vcQualifiedImgShow = parseUrl(ddcHyxhSsdwclsb.getVcQualifiedImg());
+		String vcEbikeInsuranceImgShow = parseUrl(ddcHyxhSsdwclsb.getVcEbikeInsuranceImg());
 		ddcHyxhSsdwclsb.setVcShowEbikeImg(showEbikeImg);
 		ddcHyxhSsdwclsb.setVcShowUser1Img(showUser1Img);
 		ddcHyxhSsdwclsb.setVcShowUser2Img(showUser2Img);
@@ -604,6 +614,11 @@ public class ApprovalAction {
 		ddcHyxhSsdwclsb.setVcUser2CardImg1Show(vcUser2CardImg1Show);
 		ddcHyxhSsdwclsb.setVcUser2CardImg2Show(vcUser2CardImg2Show);
 		ddcHyxhSsdwclsb.setVcEbikeInvoiceImgShow(vcEbikeInvoiceImgShow);
+		ddcHyxhSsdwclsb.setVcUser1WorkImgShow(vcUser1WorkImgShow);
+		ddcHyxhSsdwclsb.setVcUser2WorkImgShow(vcUser2WorkImgShow);
+		ddcHyxhSsdwclsb.setVcQualifiedImgShow(vcQualifiedImgShow);
+		ddcHyxhSsdwclsb.setVcEbikeInsuranceImgShow(vcEbikeInsuranceImgShow);
+		
 		String approveTableName = SystemConstants.RECORDSBTABLE;
 		List<DdcApproveUser> approveUsers = iEbikeService
 				.findApproveUsersByProperties(approveTableName,
@@ -866,6 +881,11 @@ public class ApprovalAction {
 			ddcFlow.setVcUser1CardImg2(ddcHyxhSsdwclsb.getVcUser1CardImg2());
 			ddcFlow.setVcUser2CardImg1(ddcHyxhSsdwclsb.getVcUser2CardImg1());
 			ddcFlow.setVcUser2CardImg2(ddcHyxhSsdwclsb.getVcUser2CardImg2());
+			
+			ddcFlow.setVcUser1WorkImg(ddcHyxhSsdwclsb.getVcUser1WorkImg());
+			ddcFlow.setVcUser2WorkImg(ddcHyxhSsdwclsb.getVcUser2WorkImg());
+			ddcFlow.setVcEbikeInsuranceImg(ddcHyxhSsdwclsb.getVcEbikeInsuranceImg());
+			ddcFlow.setVcQualifiedImg(ddcHyxhSsdwclsb.getVcQualifiedImg());
 
 			ddcFlow.setSlbz(note);
 			ddcFlow.setSlr(jtUser.getUserCode());
@@ -1001,6 +1021,11 @@ public class ApprovalAction {
 				daxxb.setVcUser1CardImg2(ddcHyxhSsdwclsb.getVcUser1CardImg2());
 				daxxb.setVcUser2CardImg1(ddcHyxhSsdwclsb.getVcUser2CardImg1());
 				daxxb.setVcUser2CardImg2(ddcHyxhSsdwclsb.getVcUser2CardImg2());
+				
+				daxxb.setVcUser1WorkImg(ddcHyxhSsdwclsb.getVcUser1WorkImg());
+				daxxb.setVcUser2WorkImg(ddcHyxhSsdwclsb.getVcUser2WorkImg());
+				daxxb.setVcQualifiedImg(ddcHyxhSsdwclsb.getVcQualifiedImg());
+				daxxb.setVcEbikeInsuranceImg(ddcHyxhSsdwclsb.getVcEbikeInsuranceImg());
 
 				daxxb.setSynFlag(SystemConstants.SYSFLAG_ADD);
 				daxxb.setTranDate(new Date());
@@ -1054,12 +1079,17 @@ public class ApprovalAction {
 				ddcFlow.setTranDate(new Date());
 				ddcFlow.setVcTableName(SystemConstants.RECORDSBTABLE);
 				ddcFlow.setiTableId(ddcHyxhSsdwclsb.getId());
+				
+				ddcFlow.setVcUser1WorkImg(ddcHyxhSsdwclsb.getVcUser1WorkImg());
+				ddcFlow.setVcUser2WorkImg(ddcHyxhSsdwclsb.getVcUser2WorkImg());
+				ddcFlow.setVcEbikeInsuranceImg(ddcHyxhSsdwclsb.getVcEbikeInsuranceImg());
+				ddcFlow.setVcQualifiedImg(ddcHyxhSsdwclsb.getVcQualifiedImg());
 				try {
 					iEbikeService.updateDdcHyxhSsdwclsb(ddcHyxhSsdwclsb);
 					iEbikeService.saveDdcApproveUser(approveUser);
 					iEbikeService.saveDdcFlow(ddcFlow);
 					iEbikeService.saveDaxxb(daxxb);
-					DdcDriver ddcDriver = new DdcDriver();
+					/*DdcDriver ddcDriver = new DdcDriver();
 					ddcDriver.setDabh(daxxb.getDabh());
 					ddcDriver.setDaid(daxxb.getId());
 					ddcDriver.setXb(daxxb.getXb1());
@@ -1086,7 +1116,7 @@ public class ApprovalAction {
 						ddcDriver2.setTranDate(new Date());
 						ddcDriver2.setVcUserImg(daxxb.getVcUser2Img());
 						iEbikeService.saveDdcDriver(ddcDriver2);
-					}
+					}*/
 					AjaxUtil.rendJson(response, true, "保存成功!");
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -1219,6 +1249,10 @@ public class ApprovalAction {
 		String vcUser2CardImg1Show = parseUrl(ddcDaxxb.getVcUser2CardImg1());
 		String vcUser2CardImg2Show = parseUrl(ddcDaxxb.getVcUser2CardImg2());
 		String vcEbikeInvoiceImgShow = parseUrl(ddcDaxxb.getVcEbikeInvoiceImg());
+		String vcUser1WorkImgShow = parseUrl(ddcDaxxb.getVcUser1WorkImg());
+		String vcUser2WorkImgShow = parseUrl(ddcDaxxb.getVcUser2WorkImg());
+		String vcQualifiedImgShow = parseUrl(ddcDaxxb.getVcQualifiedImg());
+		String vcEbikeInsuranceImgShow = parseUrl(ddcDaxxb.getVcEbikeInsuranceImg());
 		ddcDaxxb.setVcShowEbikeImg(showEbikeImg);
 		ddcDaxxb.setVcShowUser1Img(showUser1Img);
 		ddcDaxxb.setVcShowUser2Img(showUser2Img);
@@ -1227,6 +1261,10 @@ public class ApprovalAction {
 		ddcDaxxb.setVcUser2CardImg1Show(vcUser2CardImg1Show);
 		ddcDaxxb.setVcUser2CardImg2Show(vcUser2CardImg2Show);
 		ddcDaxxb.setVcEbikeInvoiceImgShow(vcEbikeInvoiceImgShow);
+		ddcDaxxb.setVcUser1WorkImgShow(vcUser1WorkImgShow);
+		ddcDaxxb.setVcUser2WorkImgShow(vcUser2WorkImgShow);
+		ddcDaxxb.setVcQualifiedImgShow(vcQualifiedImgShow);
+		ddcDaxxb.setVcEbikeInsuranceImgShow(vcEbikeInsuranceImgShow);
 		request.setAttribute("ddcDaxxb", ddcDaxxb);
 		request.setAttribute("slzls", slzls);
 		return "approve/checkApproveDetail";
