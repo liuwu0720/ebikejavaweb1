@@ -420,6 +420,11 @@ public class JtUserServiceImp implements IJtUserService {
 	public String getXsqyCodeByJtUser(String dept) {
 		String sql = "select t.ssqy from OA_DEPT_VIEW t  where t.up_org=30015 start with t.org_id= '"+dept+"'  connect by prior t.up_org = t.org_id";
 		Object object = iJtUserDao.getDateBySQL(sql);
-		return object.toString();
+		if(object == null){
+			return null;
+		}else {
+			return object.toString();
+		}
+		
 	}
 }

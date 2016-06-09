@@ -341,11 +341,11 @@ public class EbikeServiceImp implements IEbikeService {
 		Object object = iDdcDaxxbDao.getDateBySQL(sql);
 		String cphm = "";
 		if (object == null) {
-			cphm = ddcHyxhBase.getHyxhlb() + "00001";
+			cphm = ddcHyxhBase.getHyxhlb() + "000001";
 		} else {
 			cphm = object.toString().replace(ddcHyxhBase.getHyxhlb(), "1");
 			int daNo = Integer.parseInt(cphm) + 1;
-			cphm = (daNo + "").replace("1", ddcHyxhBase.getHyxhlb());
+			cphm = (daNo + "").replace("1", "");
 		}
 		return cphm;
 	}

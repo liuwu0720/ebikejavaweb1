@@ -552,8 +552,6 @@ public class AppAction {
 					iEbikeService.saveDdcFlow(ddcFlow);
 					iEbikeService.saveDaxxb(daxxb);
 					DdcDriver ddcDriver = new DdcDriver();
-					ddcDriver.setDabh(daxxb.getDabh());
-					ddcDriver.setDaid(daxxb.getId());
 					ddcDriver.setXb(daxxb.getXb1());
 					ddcDriver.setJsrxm(daxxb.getJsrxm1());
 					ddcDriver.setLxdh(daxxb.getLxdh1());
@@ -566,8 +564,6 @@ public class AppAction {
 					iEbikeService.saveDdcDriver(ddcDriver);
 					if (StringUtils.isNotBlank(daxxb.getJsrxm2())) {
 						DdcDriver ddcDriver2 = new DdcDriver();
-						ddcDriver2.setDabh(daxxb.getDabh());
-						ddcDriver2.setDaid(daxxb.getId());
 						ddcDriver2.setXb(daxxb.getXb2());
 						ddcDriver2.setJsrxm(daxxb.getJsrxm2());
 						ddcDriver2.setLxdh(daxxb.getLxdh2());

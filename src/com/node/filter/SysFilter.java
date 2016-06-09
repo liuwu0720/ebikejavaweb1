@@ -92,7 +92,7 @@ public class SysFilter implements Filter {
 					return true;
 				}
 			} else if (url.endsWith("*")) {
-				if (uri.startsWith(url.substring(0, url.length() - 1))) {
+				if (uri.startsWith(path+url.substring(0, url.length() - 1))) {
 					return true;
 				}
 			} else {

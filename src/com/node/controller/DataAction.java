@@ -231,8 +231,8 @@ public class DataAction {
 			/**
 			 * DDC_HMD 黑名单 内网新增或修改
 			 */
-			WritableSheet ws9 = wwb.createSheet("DDC_HMD ", 8);
-			iDataService.createDdcHmd(wcfFC, wcfFC2, ws9);
+			/*WritableSheet ws9 = wwb.createSheet("DDC_HMD ", 8);
+			iDataService.createDdcHmd(wcfFC, wcfFC2, ws9);*/
 
 			FileRecord fileRecord = new FileRecord();
 			fileRecord.setFilePath(outPath);

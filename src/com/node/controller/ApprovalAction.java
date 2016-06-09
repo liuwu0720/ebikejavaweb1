@@ -172,14 +172,20 @@ public class ApprovalAction {
 		}
 
 		JtUser jtUser = (JtUser) request.getSession().getAttribute("jtUser");
-		String xsqyCode = iJtUserService.getXsqyCodeByJtUser(jtUser.getUserOrg());
+		String xsqyCode = iJtUserService.getXsqyCodeByJtUser(jtUser
+				.getUserOrg());
 
 		// 行驶区域
 		if (StringUtils.isNotBlank(xsqyCode)) {
-			if(!xsqyCode.equals("0")){
+			if (!xsqyCode.equals("0")) {
 				sql += " and a.XSQY = '" + xsqyCode + "'";
+			}else {
+				if (StringUtils.isNotBlank(xsqy)) {
+					sql += " and sb.xsqy ='" + xsqy + "'";
+				}
 			}
-		}else {
+			
+		} else {
 			sql += " and a.XSQY = 'AAAA'";
 		}
 		sql += "  order by A.ID DESC";
@@ -343,9 +349,10 @@ public class ApprovalAction {
 		if (StringUtils.isNotBlank(dwmcId)) {
 			sql += " and sb.SSDWID =" + dwmcId + "";
 		}
-		if (StringUtils.isNotBlank(xsqy)) {
-			sql += " and sb.xsqy ='" + xsqy + "'";
-		}
+		/*
+		 * if (StringUtils.isNotBlank(xsqy)) { sql += " and sb.xsqy ='" + xsqy +
+		 * "'"; }
+		 */
 		if (StringUtils.isNotBlank(bjjg)) {
 			if (bjjg.equals("0") || bjjg.equals("1")) {
 				sql += " and sb.slyj =" + Integer.parseInt(bjjg);
@@ -354,6 +361,22 @@ public class ApprovalAction {
 			}
 
 		}
+		String xsqyCode = iJtUserService.getXsqyCodeByJtUser(jtUser
+				.getUserOrg());
+
+		// 行驶区域
+		if (StringUtils.isNotBlank(xsqyCode)) {
+			if (!xsqyCode.equals("0")) {
+				sql += " and sb.XSQY = '" + xsqyCode + "'";
+			} else {
+				if (StringUtils.isNotBlank(xsqy)) {
+					sql += " and sb.xsqy ='" + xsqy + "'";
+				}
+			}
+		} else {
+			sql += " and sb.XSQY = 'AAAA'";
+		}
+
 		sql += " order by sb.id desc ";
 
 		Map<String, Object> resultMap = iEbikeService.queryBySpringSql(sql, p);
@@ -602,10 +625,14 @@ public class ApprovalAction {
 				.getVcUser2CardImg2());
 		String vcEbikeInvoiceImgShow = parseUrl(ddcHyxhSsdwclsb
 				.getVcEbikeInvoiceImg());
-		String vcUser1WorkImgShow = parseUrl(ddcHyxhSsdwclsb.getVcUser1WorkImg());
-		String vcUser2WorkImgShow = parseUrl(ddcHyxhSsdwclsb.getVcUser2WorkImg());
-		String vcQualifiedImgShow = parseUrl(ddcHyxhSsdwclsb.getVcQualifiedImg());
-		String vcEbikeInsuranceImgShow = parseUrl(ddcHyxhSsdwclsb.getVcEbikeInsuranceImg());
+		String vcUser1WorkImgShow = parseUrl(ddcHyxhSsdwclsb
+				.getVcUser1WorkImg());
+		String vcUser2WorkImgShow = parseUrl(ddcHyxhSsdwclsb
+				.getVcUser2WorkImg());
+		String vcQualifiedImgShow = parseUrl(ddcHyxhSsdwclsb
+				.getVcQualifiedImg());
+		String vcEbikeInsuranceImgShow = parseUrl(ddcHyxhSsdwclsb
+				.getVcEbikeInsuranceImg());
 		ddcHyxhSsdwclsb.setVcShowEbikeImg(showEbikeImg);
 		ddcHyxhSsdwclsb.setVcShowUser1Img(showUser1Img);
 		ddcHyxhSsdwclsb.setVcShowUser2Img(showUser2Img);
@@ -618,7 +645,7 @@ public class ApprovalAction {
 		ddcHyxhSsdwclsb.setVcUser2WorkImgShow(vcUser2WorkImgShow);
 		ddcHyxhSsdwclsb.setVcQualifiedImgShow(vcQualifiedImgShow);
 		ddcHyxhSsdwclsb.setVcEbikeInsuranceImgShow(vcEbikeInsuranceImgShow);
-		
+
 		String approveTableName = SystemConstants.RECORDSBTABLE;
 		List<DdcApproveUser> approveUsers = iEbikeService
 				.findApproveUsersByProperties(approveTableName,
@@ -881,10 +908,11 @@ public class ApprovalAction {
 			ddcFlow.setVcUser1CardImg2(ddcHyxhSsdwclsb.getVcUser1CardImg2());
 			ddcFlow.setVcUser2CardImg1(ddcHyxhSsdwclsb.getVcUser2CardImg1());
 			ddcFlow.setVcUser2CardImg2(ddcHyxhSsdwclsb.getVcUser2CardImg2());
-			
+
 			ddcFlow.setVcUser1WorkImg(ddcHyxhSsdwclsb.getVcUser1WorkImg());
 			ddcFlow.setVcUser2WorkImg(ddcHyxhSsdwclsb.getVcUser2WorkImg());
-			ddcFlow.setVcEbikeInsuranceImg(ddcHyxhSsdwclsb.getVcEbikeInsuranceImg());
+			ddcFlow.setVcEbikeInsuranceImg(ddcHyxhSsdwclsb
+					.getVcEbikeInsuranceImg());
 			ddcFlow.setVcQualifiedImg(ddcHyxhSsdwclsb.getVcQualifiedImg());
 
 			ddcFlow.setSlbz(note);
@@ -1021,11 +1049,12 @@ public class ApprovalAction {
 				daxxb.setVcUser1CardImg2(ddcHyxhSsdwclsb.getVcUser1CardImg2());
 				daxxb.setVcUser2CardImg1(ddcHyxhSsdwclsb.getVcUser2CardImg1());
 				daxxb.setVcUser2CardImg2(ddcHyxhSsdwclsb.getVcUser2CardImg2());
-				
+
 				daxxb.setVcUser1WorkImg(ddcHyxhSsdwclsb.getVcUser1WorkImg());
 				daxxb.setVcUser2WorkImg(ddcHyxhSsdwclsb.getVcUser2WorkImg());
 				daxxb.setVcQualifiedImg(ddcHyxhSsdwclsb.getVcQualifiedImg());
-				daxxb.setVcEbikeInsuranceImg(ddcHyxhSsdwclsb.getVcEbikeInsuranceImg());
+				daxxb.setVcEbikeInsuranceImg(ddcHyxhSsdwclsb
+						.getVcEbikeInsuranceImg());
 
 				daxxb.setSynFlag(SystemConstants.SYSFLAG_ADD);
 				daxxb.setTranDate(new Date());
@@ -1079,44 +1108,46 @@ public class ApprovalAction {
 				ddcFlow.setTranDate(new Date());
 				ddcFlow.setVcTableName(SystemConstants.RECORDSBTABLE);
 				ddcFlow.setiTableId(ddcHyxhSsdwclsb.getId());
-				
+
 				ddcFlow.setVcUser1WorkImg(ddcHyxhSsdwclsb.getVcUser1WorkImg());
 				ddcFlow.setVcUser2WorkImg(ddcHyxhSsdwclsb.getVcUser2WorkImg());
-				ddcFlow.setVcEbikeInsuranceImg(ddcHyxhSsdwclsb.getVcEbikeInsuranceImg());
+				ddcFlow.setVcEbikeInsuranceImg(ddcHyxhSsdwclsb
+						.getVcEbikeInsuranceImg());
 				ddcFlow.setVcQualifiedImg(ddcHyxhSsdwclsb.getVcQualifiedImg());
 				try {
 					iEbikeService.updateDdcHyxhSsdwclsb(ddcHyxhSsdwclsb);
 					iEbikeService.saveDdcApproveUser(approveUser);
 					iEbikeService.saveDdcFlow(ddcFlow);
 					iEbikeService.saveDaxxb(daxxb);
-					/*DdcDriver ddcDriver = new DdcDriver();
-					ddcDriver.setDabh(daxxb.getDabh());
-					ddcDriver.setDaid(daxxb.getId());
-					ddcDriver.setXb(daxxb.getXb1());
-					ddcDriver.setJsrxm(daxxb.getJsrxm1());
-					ddcDriver.setLxdh(daxxb.getLxdh1());
-					ddcDriver.setUserCode(daxxb.getLxdh1());
-					ddcDriver.setUserPassword("123456");
-					ddcDriver.setSfzhm(daxxb.getSfzmhm1());
-					ddcDriver.setSynFlag(SystemConstants.SYSFLAG_ADD);
-					ddcDriver.setTranDate(new Date());
-					ddcDriver.setVcUserImg(daxxb.getVcUser1Img());
-					iEbikeService.saveDdcDriver(ddcDriver);
-					if (StringUtils.isNotBlank(daxxb.getJsrxm2())) {
-						DdcDriver ddcDriver2 = new DdcDriver();
-						ddcDriver2.setDabh(daxxb.getDabh());
-						ddcDriver2.setDaid(daxxb.getId());
-						ddcDriver2.setXb(daxxb.getXb2());
-						ddcDriver2.setJsrxm(daxxb.getJsrxm2());
-						ddcDriver2.setLxdh(daxxb.getLxdh2());
-						ddcDriver2.setUserCode(daxxb.getLxdh2());
-						ddcDriver2.setUserPassword("123456");
-						ddcDriver2.setSfzhm(daxxb.getSfzmhm2());
-						ddcDriver2.setSynFlag(SystemConstants.SYSFLAG_ADD);
-						ddcDriver2.setTranDate(new Date());
-						ddcDriver2.setVcUserImg(daxxb.getVcUser2Img());
-						iEbikeService.saveDdcDriver(ddcDriver2);
-					}*/
+					/*
+					 * DdcDriver ddcDriver = new DdcDriver();
+					 * ddcDriver.setDabh(daxxb.getDabh());
+					 * ddcDriver.setDaid(daxxb.getId());
+					 * ddcDriver.setXb(daxxb.getXb1());
+					 * ddcDriver.setJsrxm(daxxb.getJsrxm1());
+					 * ddcDriver.setLxdh(daxxb.getLxdh1());
+					 * ddcDriver.setUserCode(daxxb.getLxdh1());
+					 * ddcDriver.setUserPassword("123456");
+					 * ddcDriver.setSfzhm(daxxb.getSfzmhm1());
+					 * ddcDriver.setSynFlag(SystemConstants.SYSFLAG_ADD);
+					 * ddcDriver.setTranDate(new Date());
+					 * ddcDriver.setVcUserImg(daxxb.getVcUser1Img());
+					 * iEbikeService.saveDdcDriver(ddcDriver); if
+					 * (StringUtils.isNotBlank(daxxb.getJsrxm2())) { DdcDriver
+					 * ddcDriver2 = new DdcDriver();
+					 * ddcDriver2.setDabh(daxxb.getDabh());
+					 * ddcDriver2.setDaid(daxxb.getId());
+					 * ddcDriver2.setXb(daxxb.getXb2());
+					 * ddcDriver2.setJsrxm(daxxb.getJsrxm2());
+					 * ddcDriver2.setLxdh(daxxb.getLxdh2());
+					 * ddcDriver2.setUserCode(daxxb.getLxdh2());
+					 * ddcDriver2.setUserPassword("123456");
+					 * ddcDriver2.setSfzhm(daxxb.getSfzmhm2());
+					 * ddcDriver2.setSynFlag(SystemConstants.SYSFLAG_ADD);
+					 * ddcDriver2.setTranDate(new Date());
+					 * ddcDriver2.setVcUserImg(daxxb.getVcUser2Img());
+					 * iEbikeService.saveDdcDriver(ddcDriver2); }
+					 */
 					AjaxUtil.rendJson(response, true, "保存成功!");
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -1252,7 +1283,8 @@ public class ApprovalAction {
 		String vcUser1WorkImgShow = parseUrl(ddcDaxxb.getVcUser1WorkImg());
 		String vcUser2WorkImgShow = parseUrl(ddcDaxxb.getVcUser2WorkImg());
 		String vcQualifiedImgShow = parseUrl(ddcDaxxb.getVcQualifiedImg());
-		String vcEbikeInsuranceImgShow = parseUrl(ddcDaxxb.getVcEbikeInsuranceImg());
+		String vcEbikeInsuranceImgShow = parseUrl(ddcDaxxb
+				.getVcEbikeInsuranceImg());
 		ddcDaxxb.setVcShowEbikeImg(showEbikeImg);
 		ddcDaxxb.setVcShowUser1Img(showUser1Img);
 		ddcDaxxb.setVcShowUser2Img(showUser2Img);

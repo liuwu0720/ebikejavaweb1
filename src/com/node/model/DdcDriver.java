@@ -21,8 +21,6 @@ public class DdcDriver implements java.io.Serializable {
 	/* serialVersionUID: serialVersionUID */
 	private static final long serialVersionUID = 7678082016832049336L;
 	private Long id;
-	private String dabh;
-	private Long daid;
 	private String jsrxm;
 	private String xb;
 	private String lxdh;
@@ -36,7 +34,8 @@ public class DdcDriver implements java.io.Serializable {
 	private String vcUserWorkImg;//居住证或在职证明
 	private Integer userStatus;
 	private Integer illeagalTimes;
-
+	private Integer ssdwId;
+	private String hyxhzh;
 	// Constructors
 
 	/** default constructor */
@@ -54,23 +53,6 @@ public class DdcDriver implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "DABH", length = 50)
-	public String getDabh() {
-		return this.dabh;
-	}
-
-	public void setDabh(String dabh) {
-		this.dabh = dabh;
-	}
-
-	@Column(name = "DAID", precision = 0)
-	public Long getDaid() {
-		return this.daid;
-	}
-
-	public void setDaid(Long daid) {
-		this.daid = daid;
-	}
 
 	@Column(name = "JSRXM", length = 50)
 	public String getJsrxm() {
@@ -208,5 +190,28 @@ public class DdcDriver implements java.io.Serializable {
 	 */
 	public void setIlleagalTimes(Integer illeagalTimes) {
 		this.illeagalTimes = illeagalTimes;
+	}
+	@Column(name = "SSDWID")
+	public Integer getSsdwId() {
+		return ssdwId;
+	}
+
+	/**
+	 * @param ssdwId : set the property ssdwId.
+	 */
+	public void setSsdwId(Integer ssdwId) {
+		this.ssdwId = ssdwId;
+	}
+
+	@Column(name = "HYXHZH", length = 20)
+	public String getHyxhzh() {
+		return hyxhzh;
+	}
+
+	/**
+	 * @param hyxhzh : set the property hyxhzh.
+	 */
+	public void setHyxhzh(String hyxhzh) {
+		this.hyxhzh = hyxhzh;
 	}
 }
