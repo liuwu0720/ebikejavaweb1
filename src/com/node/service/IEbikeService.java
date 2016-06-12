@@ -354,4 +354,14 @@ public interface IEbikeService {
 	 */
 	DdcHyxhSsdwclsb getDdcHyxhSsdwclsbByLsh(String lsh);
 
+	
+	/**
+	  * 方法描述：
+	  * @param daxxb 
+	  * @version: 1.0
+	  * @author: liuwu
+	  * @version: 2016年6月11日 下午5:56:17
+	  */
+	void saveDdcDriverDaxx(DdcDaxxb daxxb);
+
 }

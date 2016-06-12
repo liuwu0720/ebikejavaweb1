@@ -229,6 +229,38 @@ function updateSaveData2(){
     				</td>
     			</tr>
     			<tr>
+    			<td colspan="8">
+    				<c:if test="${ddcFlow.vcReportImgShow!=null }">
+    				
+					<a href="${ddcFlow.vcReportImgShow }" target="_blank">
+					<div  class="imgdiv">
+					<img   src="${ddcFlow.vcReportImgShow }"/>
+					</div></a>
+					</c:if>
+					<c:if test="${ddcFlow.vcScrapImgShow!=null }">
+    				
+					<a href="${ddcFlow.vcScrapImgShow }" target="_blank">
+					<div  class="imgdiv">
+					<img   src="${ddcFlow.vcScrapImgShow }"/>
+					</div></a>
+					</c:if>
+						<c:if test="${ddcFlow.vcOtherImgShow!=null }">
+    				
+					<a href="${ddcFlow.vcOtherImgShow }" target="_blank">
+					<div  class="imgdiv">
+					<img   src="${ddcFlow.vcOtherImgShow }"/>
+					</div></a>
+					</c:if>
+					<c:if test="${ddcFlow.vcDjImgShow!=null }">
+    			
+					<a href="${ddcFlow.vcDjImgShow }" target="_blank">
+					<div  class="imgdiv">
+					<img   src="${ddcFlow.vcDjImgShow }"/>
+					</div></a>
+					</c:if>
+					</td>
+    			</tr>
+    			<tr>
     				<th>申请备注</th>
 					<td colspan="7">${ddcFlow.bz }</td>
 					

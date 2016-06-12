@@ -10036,7 +10036,19 @@ insert into OA_DEPT_VIEW (id, org_id, up_org, org_name, ssqy)
 values (377, '30560', '30559', '民警', null);
 commit;
 
-
+create or replace view DDCDRIVER_VIEW as
+  select *
+    from DDC_DRIVER
+    
+    
+-- Create sequence 
+create sequence SEQ_DDC_DRIVER_DAXX
+minvalue 1
+maxvalue 9999999999999999999999999999
+start with 1
+increment by 1
+cache 20;
+    
 
 
 

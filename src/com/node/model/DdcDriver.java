@@ -37,6 +37,37 @@ public class DdcDriver implements java.io.Serializable {
 	private Integer ssdwId;
 	private String hyxhzh;
 	// Constructors
+	
+	private String vcUserCardImg1;//身份证正面
+	private String vcUserCardImg2;
+	
+	
+
+
+
+	@Column(name = "VC_USER_CARDIMG1", length = 100)
+	public String getVcUserCardImg1() {
+		return vcUserCardImg1;
+	}
+
+	/**
+	 * @param vcUserCardImg1 : set the property vcUserCardImg1.
+	 */
+	public void setVcUserCardImg1(String vcUserCardImg1) {
+		this.vcUserCardImg1 = vcUserCardImg1;
+	}
+
+	@Column(name = "VC_USER_CARDIMG2", length = 100)
+	public String getVcUserCardImg2() {
+		return vcUserCardImg2;
+	}
+
+	/**
+	 * @param vcUserCarImg2 : set the property vcUserCarImg2.
+	 */
+	public void setVcUserCardImg2(String vcUserCardImg2) {
+		this.vcUserCardImg2 = vcUserCardImg2;
+	}
 
 	/** default constructor */
 	public DdcDriver() {

@@ -56,10 +56,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     		<tr>
     			<th>档案编号</th>
     			<td>${ddcDaxxb.dabh }</td>
-    			<th>协会名称</th>
-    			<td>${ddcDaxxb.hyxhzhName }</td>
+    			<th>车辆号码</th>
+    			<td>${ddcDaxxb.cphm }</td>
     			<th>单位名称</th>
-    			<td>${ddcDaxxb.ssdwName }</td>
+    			<td>${ddcDaxxb.ssdwName }(所属协会:${ddcDaxxb.hyxhzhName })</td>
     			<th>品牌型号</th>
     			<td>${ddcDaxxb.ppxh }</td>
     		</tr>
@@ -74,7 +74,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     			 <td>无</td>
     			</c:if>
     			<th>行驶区域</th>
-    			<td>${ddcDaxxb.xsqyName }</td>
+    			<td>全市范围(${ddcDaxxb.xsqyName }交警大队备案 )</td>
     			<th>车身颜色</th>
     			<td>${ddcDaxxb.cysyName }</td>
     		</tr>
@@ -136,7 +136,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     			<td colspan="2">
 					<div  class="imgdiv">
 					<p>车身照片</p>
-					<img   src="${ddcDaxxb.vcEbikeImg }"/>
+					<img   src="${ddcDaxxb.vcShowEbikeImg }"/>
 					</div></td>
 					<td colspan="2">
 					<div  class="imgdiv">

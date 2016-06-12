@@ -102,6 +102,114 @@ public class DdcFlow implements java.io.Serializable {
 	private String vcUser2WorkImgShow;// 驾驶人2 在职证明或居住证
 	private String vcQualifiedImgShow;// 车辆合格证
 	private String vcEbikeInsuranceImgShow;// 投保凭证
+	
+	private String vcReportImg;//报案回执
+	private String vcScrapImg;//报废回执
+	private String vcOtherImg;//备案车辆喷涂为其它颜色的照片
+	private String vcDjImg;//电机号照片
+	private String vcReportImgShow;//报案回执
+	private String vcScrapImgShow;//报废回执
+	private String vcOtherImgShow;//备案车辆喷涂为其它颜色的照片
+	private String vcDjImgShow;//电机号照片
+	
+	
+	
+	@Transient
+	public String getVcReportImgShow() {
+		return vcReportImgShow;
+	}
+
+	/**
+	 * @param vcReportImgShow : set the property vcReportImgShow.
+	 */
+	public void setVcReportImgShow(String vcReportImgShow) {
+		this.vcReportImgShow = vcReportImgShow;
+	}
+
+	@Transient
+	public String getVcScrapImgShow() {
+		return vcScrapImgShow;
+	}
+
+	/**
+	 * @param vcScrapImgShow : set the property vcScrapImgShow.
+	 */
+	public void setVcScrapImgShow(String vcScrapImgShow) {
+		this.vcScrapImgShow = vcScrapImgShow;
+	}
+
+	@Transient
+	public String getVcOtherImgShow() {
+		return vcOtherImgShow;
+	}
+
+	/**
+	 * @param vcOtherImgShow : set the property vcOtherImgShow.
+	 */
+	public void setVcOtherImgShow(String vcOtherImgShow) {
+		this.vcOtherImgShow = vcOtherImgShow;
+	}
+
+	@Transient
+	public String getVcDjImgShow() {
+		return vcDjImgShow;
+	}
+
+	/**
+	 * @param vcDjImgShow : set the property vcDjImgShow.
+	 */
+	public void setVcDjImgShow(String vcDjImgShow) {
+		this.vcDjImgShow = vcDjImgShow;
+	}
+
+	@Column(name = "VC_REPORTIMG", length = 100)
+	public String getVcReportImg() {
+		return vcReportImg;
+	}
+
+	/**
+	 * @param vcReportImg : set the property vcReportImg.
+	 */
+	public void setVcReportImg(String vcReportImg) {
+		this.vcReportImg = vcReportImg;
+	}
+
+	@Column(name = "VC_SCRAPTIMG", length = 100)
+	public String getVcScrapImg() {
+		return vcScrapImg;
+	}
+
+	/**
+	 * @param vcScrapImg : set the property vcScrapImg.
+	 */
+	public void setVcScrapImg(String vcScrapImg) {
+		this.vcScrapImg = vcScrapImg;
+	}
+
+	@Column(name = "VC_OTHERIMG", length = 100)
+	public String getVcOtherImg() {
+		return vcOtherImg;
+	}
+
+	/**
+	 * @param vcOtherImg : set the property vcOtherImg.
+	 */
+	public void setVcOtherImg(String vcOtherImg) {
+		this.vcOtherImg = vcOtherImg;
+	}
+
+	@Column(name = "VC_DJIMG", length = 100)
+	public String getVcDjImg() {
+		return vcDjImg;
+	}
+
+	/**
+	 * @param vcDjImg : set the property vcDjImg.
+	 */
+	public void setVcDjImg(String vcDjImg) {
+		this.vcDjImg = vcDjImg;
+	}
+
 
 	@Transient
 	public String getVcUser1WorkImgShow() {

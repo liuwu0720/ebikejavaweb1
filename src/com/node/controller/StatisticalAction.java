@@ -1087,9 +1087,14 @@ public class StatisticalAction {
 
 		ddcFlow.setVcUser1WorkImgShow(parseUrl(ddcFlow.getVcUser1WorkImg()));
 		ddcFlow.setVcUser2WorkImgShow(parseUrl(ddcFlow.getVcUser2WorkImg()));
-		ddcFlow.setVcEbikeInsuranceImg(parseUrl(ddcFlow
+		ddcFlow.setVcEbikeInsuranceImgShow(parseUrl(ddcFlow
 				.getVcEbikeInsuranceImg()));
-		ddcFlow.setVcQualifiedImg(parseUrl(ddcFlow.getVcQualifiedImg()));
+		ddcFlow.setVcQualifiedImgShow(parseUrl(ddcFlow.getVcQualifiedImg()));
+		
+		ddcFlow.setVcReportImgShow(parseUrl(ddcFlow.getVcReportImg()));
+		ddcFlow.setVcScrapImgShow(parseUrl(ddcFlow.getVcScrapImg()));
+		ddcFlow.setVcOtherImgShow(parseUrl(ddcFlow.getVcOtherImg()));
+		ddcFlow.setVcDjImgShow(parseUrl(ddcFlow.getVcDjImg()));
 		request.setAttribute("ddcFlow", ddcFlow);
 		request.setAttribute("selectSlzls", selectSlzls);
 		request.setAttribute("ddcApproveUsers", ddcApproveUsers);

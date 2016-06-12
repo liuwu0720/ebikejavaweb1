@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import com.node.dao.IDdcApprovalUserDao;
 import com.node.dao.IDdcDaxxbDao;
 import com.node.dao.IDdcDriverDao;
+import com.node.dao.IDdcDriverDaxxDao;
 import com.node.dao.IDdcFlowDao;
 import com.node.dao.IDdcHyxhBasbDao;
 import com.node.dao.IDdcHyxhBaseDao;
@@ -29,6 +30,7 @@ import com.node.dao.IFileRecordDao;
 import com.node.model.DdcApproveUser;
 import com.node.model.DdcDaxxb;
 import com.node.model.DdcDriver;
+import com.node.model.DdcDriverDaxx;
 import com.node.model.DdcFlow;
 import com.node.model.DdcHyxhBasb;
 import com.node.model.DdcHyxhBase;
@@ -37,6 +39,7 @@ import com.node.model.DdcSjzd;
 import com.node.service.IEbikeService;
 import com.node.util.HqlHelper;
 import com.node.util.Page;
+import com.node.util.SystemConstants;
 
 /**
  * 类描述：
@@ -76,6 +79,9 @@ public class EbikeServiceImp implements IEbikeService {
 
 	@Autowired
 	IDdcHyxhSsdwDao iDdcHyxhSsdwDao;
+	
+	@Autowired
+	IDdcDriverDaxxDao iDdcDriverDaxxDao;
 
 	/*
 	 * (non-Javadoc)
@@ -512,6 +518,36 @@ public class EbikeServiceImp implements IEbikeService {
 			return null;
 		}
 
+	}
+
+	
+		/* (non-Javadoc)
+		 * @see com.node.service.IEbikeService#saveDdcDriverDaxx(com.node.model.DdcDaxxb)
+		 */
+	@Override
+	public void saveDdcDriverDaxx(DdcDaxxb daxxb) {
+	   List<DdcDriver> ddcDrivers = iDdcDriverDao.findByProperty("sfzhm", daxxb.getSfzmhm1());
+	   if(CollectionUtils.isNotEmpty(ddcDrivers)){
+		   DdcDriver ddcDriver1 = ddcDrivers.get(0);
+		   DdcDriverDaxx ddcDriverDaxx = new DdcDriverDaxx();
+		   ddcDriverDaxx.setDaId(daxxb.getId());
+		   ddcDriverDaxx.setDriverId(ddcDriver1.getId());
+		   ddcDriverDaxx.setSysFlag(SystemConstants.SYSFLAG_ADD);
+		   iDdcDriverDaxxDao.save(ddcDriverDaxx);
+	   }
+	   if(StringUtils.isNotBlank(daxxb.getSfzmhm2())){
+		   List<DdcDriver> ddcDrivers2 = iDdcDriverDao.findByProperty("sfzhm", daxxb.getSfzmhm2());
+		   if(CollectionUtils.isNotEmpty(ddcDrivers2)){
+			   DdcDriver ddcDriver2 = ddcDrivers.get(0);
+			   DdcDriverDaxx ddcDriverDaxx = new DdcDriverDaxx();
+			   ddcDriverDaxx.setDaId(daxxb.getId());
+			   ddcDriverDaxx.setDriverId(ddcDriver2.getId());
+			   ddcDriverDaxx.setSysFlag(SystemConstants.SYSFLAG_ADD);
+			   iDdcDriverDaxxDao.save(ddcDriverDaxx);
+		   }
+	   }
+	 
+		
 	}
 
 }

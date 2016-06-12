@@ -203,9 +203,9 @@ public class ApprovalAction {
 			Map<String, Object> objMap = listMaps.get(i);
 			DdcFlow ddcFlow = new DdcFlow();
 			ddcFlow.setId(Long.parseLong(objMap.get("ID").toString()));
-			ddcFlow.setDabh(objMap.get("DABH").toString());
-			ddcFlow.setCphm(objMap.get("CPHM").toString());
-			ddcFlow.setDjh(objMap.get("DJH").toString());
+			ddcFlow.setDabh(objMap.get("DABH")==null?null:objMap.get("DABH").toString());
+			ddcFlow.setCphm(objMap.get("CPHM")==null?null:objMap.get("CPHM").toString());
+			ddcFlow.setDjh(objMap.get("DJH")==null?null:objMap.get("DJH").toString());
 			ddcFlow.setJsrxm1(objMap.get("JSRXM1").toString());
 			ddcFlow.setSlyj(objMap.get("SLYJ") == null ? null : objMap.get(
 					"SLYJ").toString());
@@ -1119,35 +1119,7 @@ public class ApprovalAction {
 					iEbikeService.saveDdcApproveUser(approveUser);
 					iEbikeService.saveDdcFlow(ddcFlow);
 					iEbikeService.saveDaxxb(daxxb);
-					/*
-					 * DdcDriver ddcDriver = new DdcDriver();
-					 * ddcDriver.setDabh(daxxb.getDabh());
-					 * ddcDriver.setDaid(daxxb.getId());
-					 * ddcDriver.setXb(daxxb.getXb1());
-					 * ddcDriver.setJsrxm(daxxb.getJsrxm1());
-					 * ddcDriver.setLxdh(daxxb.getLxdh1());
-					 * ddcDriver.setUserCode(daxxb.getLxdh1());
-					 * ddcDriver.setUserPassword("123456");
-					 * ddcDriver.setSfzhm(daxxb.getSfzmhm1());
-					 * ddcDriver.setSynFlag(SystemConstants.SYSFLAG_ADD);
-					 * ddcDriver.setTranDate(new Date());
-					 * ddcDriver.setVcUserImg(daxxb.getVcUser1Img());
-					 * iEbikeService.saveDdcDriver(ddcDriver); if
-					 * (StringUtils.isNotBlank(daxxb.getJsrxm2())) { DdcDriver
-					 * ddcDriver2 = new DdcDriver();
-					 * ddcDriver2.setDabh(daxxb.getDabh());
-					 * ddcDriver2.setDaid(daxxb.getId());
-					 * ddcDriver2.setXb(daxxb.getXb2());
-					 * ddcDriver2.setJsrxm(daxxb.getJsrxm2());
-					 * ddcDriver2.setLxdh(daxxb.getLxdh2());
-					 * ddcDriver2.setUserCode(daxxb.getLxdh2());
-					 * ddcDriver2.setUserPassword("123456");
-					 * ddcDriver2.setSfzhm(daxxb.getSfzmhm2());
-					 * ddcDriver2.setSynFlag(SystemConstants.SYSFLAG_ADD);
-					 * ddcDriver2.setTranDate(new Date());
-					 * ddcDriver2.setVcUserImg(daxxb.getVcUser2Img());
-					 * iEbikeService.saveDdcDriver(ddcDriver2); }
-					 */
+					iEbikeService.saveDdcDriverDaxx(daxxb);//司机与档案关联表
 					AjaxUtil.rendJson(response, true, "保存成功!");
 				} catch (Exception e) {
 					e.printStackTrace();
