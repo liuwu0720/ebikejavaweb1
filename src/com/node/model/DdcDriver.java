@@ -47,6 +47,47 @@ public class DdcDriver implements java.io.Serializable {
 	private byte[] blobUserCardImg1;
 	private byte[] blobUserCardImg2;
 	private byte[] blobUserImg;
+	private String xjFlag;
+	private String xjMsg;
+	private Date xjRq;
+	
+	
+
+	@Column(name = "XJ_FLAG", length = 10)
+	public String getXjFlag() {
+		return xjFlag;
+	}
+
+	/**
+	 * @param xjFlag : set the property xjFlag.
+	 */
+	public void setXjFlag(String xjFlag) {
+		this.xjFlag = xjFlag;
+	}
+
+	@Column(name = "XJ_MSG", length = 200)
+	public String getXjMsg() {
+		return xjMsg;
+	}
+
+	/**
+	 * @param xjMsg : set the property xjMsg.
+	 */
+	public void setXjMsg(String xjMsg) {
+		this.xjMsg = xjMsg;
+	}
+
+	@Column(name = "XJ_RQ", length = 7)
+	public Date getXjRq() {
+		return xjRq;
+	}
+
+	/**
+	 * @param xjRq : set the property xjRq.
+	 */
+	public void setXjRq(Date xjRq) {
+		this.xjRq = xjRq;
+	}
 
 	@Lob
 	@Basic(fetch = FetchType.LAZY)

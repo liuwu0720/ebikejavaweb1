@@ -56,6 +56,7 @@ import com.node.model.DdcHyxhSsdw;
 import com.node.model.DdcHyxhSsdwclsb;
 import com.node.model.FileRecord;
 import com.node.service.IDataService;
+import com.node.util.DateStrUtil;
 import com.node.util.SystemConstants;
 
 /**
@@ -1486,14 +1487,17 @@ public class DataServiceImp implements IDataService {
 	public void createDdcDriver(WritableCellFormat wcfFC,
 			WritableCellFormat wcfFC2, WritableSheet ws)
 			throws RowsExceededException, WriteException {
-		List<DdcDriver> ddcDrivers = iDdcDriverDao.findByProperty("synFlag",
-				SystemConstants.SYSFLAG_UPDATE);
+		List<DdcDriver> ddcDrivers = iDdcDriverDao.findXjDriver();
 		Label label = new Label(0, 0, "ddc_driver", wcfFC);
 		ws.mergeCells(0, 0, 6, 0);
 		ws.addCell(label);
 		int j = 0;
 		ws.addCell(new Label(j, 2, "ID", wcfFC2));
-		ws.addCell(new Label(j += 1, 2, "JSRXM", wcfFC2));
+		ws.addCell(new Label(j += 1, 2, "USER_STATUS", wcfFC2));
+		ws.addCell(new Label(j += 1, 2, "XJ_FLAG", wcfFC2));
+		ws.addCell(new Label(j += 1, 2, "XJ_MSG", wcfFC2));
+		ws.addCell(new Label(j += 1, 2, "XJ_RQ", wcfFC2));
+		/*ws.addCell(new Label(j += 1, 2, "JSRXM", wcfFC2));
 		ws.addCell(new Label(j += 1, 2, "XB", wcfFC2));
 		ws.addCell(new Label(j += 1, 2, "LXDH", wcfFC2));
 		ws.addCell(new Label(j += 1, 2, "SYN_FLAG", wcfFC2));
@@ -1508,12 +1512,16 @@ public class DataServiceImp implements IDataService {
 		ws.addCell(new Label(j += 1, 2, "HYXHZH", wcfFC2));
 		
 		ws.addCell(new Label(j += 1, 2, "VC_USER_CARDIMG1", wcfFC2));
-		ws.addCell(new Label(j += 1, 2, "VC_USER_CARDIMG2", wcfFC2));
+		ws.addCell(new Label(j += 1, 2, "VC_USER_CARDIMG2", wcfFC2));*/
 		int i = 3;
 		for (DdcDriver ddcDriver : ddcDrivers) {
 			int j1 = 0;
 			ws.addCell(new Label(j1, i, ddcDriver.getId() + ""));
-			ws.addCell(new Label(j1 += 1, i, ddcDriver.getJsrxm() ));
+			ws.addCell(new Label(j1 += 1, i, ddcDriver.getUserStatus()+"" ));
+			ws.addCell(new Label(j1 += 1, i, ddcDriver.getXjFlag() ));
+			ws.addCell(new Label(j1 += 1, i, ddcDriver.getXjMsg() ));
+			ws.addCell(new Label(j1 += 1, i, DateStrUtil.toString(ddcDriver.getXjRq()) ));
+		/*	ws.addCell(new Label(j1 += 1, i, ddcDriver.getJsrxm() ));
 			ws.addCell(new Label(j1 += 1, i, ddcDriver.getXb() ));
 			ws.addCell(new Label(j1 += 1, i, ddcDriver.getLxdh() ));
 			ws.addCell(new Label(j1 += 1, i, ddcDriver.getSynFlag() ));
@@ -1528,7 +1536,7 @@ public class DataServiceImp implements IDataService {
 			ws.addCell(new Label(j1 += 1, i, ddcDriver.getHyxhzh()));
 			
 			ws.addCell(new Label(j1 += 1, i, ddcDriver.getVcUserCardImg1()));
-			ws.addCell(new Label(j1 += 1, i, ddcDriver.getVcUserCardImg2()));
+			ws.addCell(new Label(j1 += 1, i, ddcDriver.getVcUserCardImg2()));*/
 			i++;
 			ddcDriver.setSynFlag(null);
 			iDdcDriverDao.updateCleanBefore(ddcDriver);

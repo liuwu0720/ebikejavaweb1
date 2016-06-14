@@ -7,6 +7,8 @@
  */
 package com.node.dao;
 
+import java.util.List;
+
 import com.node.model.DdcDriver;
 
 /**
@@ -17,5 +19,15 @@ import com.node.model.DdcDriver;
  * @version: 2016年4月16日 下午7:15:15
  */
 public interface IDdcDriverDao extends GenericDao<DdcDriver, Long> {
+
+	
+	/**
+	  * 方法描述：
+	  * @return 
+	  * @version: 1.0
+	  * @author: liuwu
+	  * @version: 2016年6月14日 上午10:17:20
+	  */
+	List<DdcDriver> findXjDriver();
 
 }

@@ -226,8 +226,8 @@ public class DataAction {
 			/**
 			 * ddc_driver 司机，内网修改
 			 */
-			//WritableSheet ws8 = wwb.createSheet("ddc_driver", 7);
-			//iDataService.createDdcDriver(wcfFC, wcfFC2, ws8);
+			WritableSheet ws8 = wwb.createSheet("ddc_driver", 7);
+			iDataService.createDdcDriver(wcfFC, wcfFC2, ws8);
 			/**
 			 * DDC_DRIVER_DAXX 内网只新增
 			 */
