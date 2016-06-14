@@ -2,9 +2,12 @@ package com.node.model;
 
 import java.util.Date;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -31,19 +34,64 @@ public class DdcDriver implements java.io.Serializable {
 	private String sfzhm;
 	private String vcUserImg;// 驾驶人1图片
 	private String vcShowUserImg;
-	private String vcUserWorkImg;//居住证或在职证明
+	private String vcUserWorkImg;// 居住证或在职证明
 	private Integer userStatus;
 	private Integer illeagalTimes;
 	private Integer ssdwId;
 	private String hyxhzh;
 	// Constructors
-	
-	private String vcUserCardImg1;//身份证正面
+
+	private String vcUserCardImg1;// 身份证正面
 	private String vcUserCardImg2;
-	
-	
 
+	private byte[] blobUserCardImg1;
+	private byte[] blobUserCardImg2;
+	private byte[] blobUserImg;
 
+	@Lob
+	@Basic(fetch = FetchType.LAZY)
+	@Column(name = "BLOB_USER_CARDIMG1", columnDefinition = "BLOB", nullable = true)
+	public byte[] getBlobUserCardImg1() {
+		return blobUserCardImg1;
+	}
+
+	/**
+	 * @param blobUserCardImg1
+	 *            : set the property blobUserCardImg1.
+	 */
+	public void setBlobUserCardImg1(byte[] blobUserCardImg1) {
+		this.blobUserCardImg1 = blobUserCardImg1;
+	}
+
+	@Lob
+	@Basic(fetch = FetchType.LAZY)
+	@Column(name = "BLOB_USER_CARDIMG2", columnDefinition = "BLOB", nullable = true)
+	public byte[] getBlobUserCardImg2() {
+		return blobUserCardImg2;
+	}
+
+	/**
+	 * @param blobUserCardImg2
+	 *            : set the property blobUserCardImg2.
+	 */
+	public void setBlobUserCardImg2(byte[] blobUserCardImg2) {
+		this.blobUserCardImg2 = blobUserCardImg2;
+	}
+
+	@Lob
+	@Basic(fetch = FetchType.LAZY)
+	@Column(name = "BLOB_USER_IMG", columnDefinition = "BLOB", nullable = true)
+	public byte[] getBlobUserImg() {
+		return blobUserImg;
+	}
+
+	/**
+	 * @param blobUserImg
+	 *            : set the property blobUserImg.
+	 */
+	public void setBlobUserImg(byte[] blobUserImg) {
+		this.blobUserImg = blobUserImg;
+	}
 
 	@Column(name = "VC_USER_CARDIMG1", length = 100)
 	public String getVcUserCardImg1() {
@@ -51,7 +99,8 @@ public class DdcDriver implements java.io.Serializable {
 	}
 
 	/**
-	 * @param vcUserCardImg1 : set the property vcUserCardImg1.
+	 * @param vcUserCardImg1
+	 *            : set the property vcUserCardImg1.
 	 */
 	public void setVcUserCardImg1(String vcUserCardImg1) {
 		this.vcUserCardImg1 = vcUserCardImg1;
@@ -63,7 +112,8 @@ public class DdcDriver implements java.io.Serializable {
 	}
 
 	/**
-	 * @param vcUserCarImg2 : set the property vcUserCarImg2.
+	 * @param vcUserCarImg2
+	 *            : set the property vcUserCarImg2.
 	 */
 	public void setVcUserCardImg2(String vcUserCardImg2) {
 		this.vcUserCardImg2 = vcUserCardImg2;
@@ -73,7 +123,6 @@ public class DdcDriver implements java.io.Serializable {
 	public DdcDriver() {
 	}
 
-	// Property accessors
 	@Id
 	@Column(name = "ID", unique = true, nullable = false, precision = 22, scale = 0)
 	public Long getId() {
@@ -83,7 +132,6 @@ public class DdcDriver implements java.io.Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
 
 	@Column(name = "JSRXM", length = 50)
 	public String getJsrxm() {
@@ -193,7 +241,8 @@ public class DdcDriver implements java.io.Serializable {
 	}
 
 	/**
-	 * @param vcUserWorkImg : set the property vcUserWorkImg.
+	 * @param vcUserWorkImg
+	 *            : set the property vcUserWorkImg.
 	 */
 	public void setVcUserWorkImg(String vcUserWorkImg) {
 		this.vcUserWorkImg = vcUserWorkImg;
@@ -205,7 +254,8 @@ public class DdcDriver implements java.io.Serializable {
 	}
 
 	/**
-	 * @param userStatus : set the property userStatus.
+	 * @param userStatus
+	 *            : set the property userStatus.
 	 */
 	public void setUserStatus(Integer userStatus) {
 		this.userStatus = userStatus;
@@ -217,18 +267,21 @@ public class DdcDriver implements java.io.Serializable {
 	}
 
 	/**
-	 * @param illeagalTimes : set the property illeagalTimes.
+	 * @param illeagalTimes
+	 *            : set the property illeagalTimes.
 	 */
 	public void setIlleagalTimes(Integer illeagalTimes) {
 		this.illeagalTimes = illeagalTimes;
 	}
+
 	@Column(name = "SSDWID")
 	public Integer getSsdwId() {
 		return ssdwId;
 	}
 
 	/**
-	 * @param ssdwId : set the property ssdwId.
+	 * @param ssdwId
+	 *            : set the property ssdwId.
 	 */
 	public void setSsdwId(Integer ssdwId) {
 		this.ssdwId = ssdwId;
@@ -240,7 +293,8 @@ public class DdcDriver implements java.io.Serializable {
 	}
 
 	/**
-	 * @param hyxhzh : set the property hyxhzh.
+	 * @param hyxhzh
+	 *            : set the property hyxhzh.
 	 */
 	public void setHyxhzh(String hyxhzh) {
 		this.hyxhzh = hyxhzh;

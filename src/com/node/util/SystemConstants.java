@@ -80,5 +80,6 @@ public class SystemConstants {
 	public static final String SYSFLAG_ADD = "ADD";
 	public static final String SYSFLAG_UPDATE = "UP";
 	public static final String DDCFLOWTABLE = " DDC_FLOW";
-
+  
+	public static final String FILE_READPATH="D:/apache-tomcat-6.0.45/webapps/ROOT/images/";
 }

@@ -134,8 +134,8 @@ public class DataServiceImp implements IDataService {
 			Sheet ddcDriver = wb.getSheetAt(7);// DDC_Driver 外网只新增数据
 			saveDdcDriver(ddcDriver);
 			
-			Sheet driverDaxxbSheet = wb.getSheetAt(8);//ddc_driver_daxx内网只新增 外网只会更新
-			updateDriverDaxxb(driverDaxxbSheet);
+			//Sheet driverDaxxbSheet = wb.getSheetAt(8);//ddc_driver_daxx内网只新增 外网只会更新
+			//updateDriverDaxxb(driverDaxxbSheet);
 			
 		} catch (EncryptedDocumentException | InvalidFormatException
 				| IOException e) {
