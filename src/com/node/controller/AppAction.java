@@ -97,11 +97,11 @@ public class AppAction {
 			+ "private String vcShowUser2Img;//驾驶人2图片地址《br/>" + "", position = 5)
 	@RequestMapping(value = "/getEbikeInfoByDabh", method = RequestMethod.GET)
 	@ResponseBody
-	public Map<String, Object> getEbikeInfoByDabh(
-			@ApiParam(value = "档案编号", required = true) @RequestParam("dabh") String dabh) {
+	public void getEbikeInfoByDabh(
+			@ApiParam(value = "档案编号", required = true) @RequestParam("dabh") String dabh,HttpServletResponse response) {
 		DdcDaxxb ddcDaxxb = iEbikeService.getDdcDaxxbByDabh(dabh);
 		if (ddcDaxxb == null) {
-			return AjaxUtil.getMapByNotException(false, null);
+			 AjaxUtil.getMapByNotExceptionObj(false, null,response);
 		} else {
 			String cysyName = iEbikeService.findByProPerties("CSYS",
 					ddcDaxxb.getCysy());
@@ -133,7 +133,7 @@ public class AppAction {
 			ddcDaxxb.setVcShowEbikeImg(showEbikeImg);
 			ddcDaxxb.setVcShowUser1Img(showUser1Img);
 			ddcDaxxb.setVcShowUser2Img(showUser2Img);
-			return AjaxUtil.getMapByNotException(true, ddcDaxxb);
+			AjaxUtil.getMapByNotExceptionObj(true, ddcDaxxb,response);
 		}
 
 	}

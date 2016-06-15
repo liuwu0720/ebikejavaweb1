@@ -89,4 +89,30 @@ public class AjaxUtil {
 		return appMap;
 	}
 
+	
+	/**
+	  * 方法描述：
+	  * @param b
+	  * @param object 
+	  * @version: 1.0
+	  * @author: liuwu
+	  * @version: 2016年6月15日 上午10:26:17
+	  */
+	public static void getMapByNotExceptionObj(boolean isSuccess, Object object,HttpServletResponse response) {
+		JSONObject json = new JSONObject();
+		json.put("isSuccess", isSuccess);
+		if(!isSuccess){
+			json.put("message",  "没有获取到相关数据！");
+		}else {
+			json.put("message", "获取成功！");
+			json.put("data", object);
+		}
+		
+		try {
+			rendText(response, json.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 }
