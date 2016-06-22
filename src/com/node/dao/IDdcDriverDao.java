@@ -30,4 +30,15 @@ public interface IDdcDriverDao extends GenericDao<DdcDriver, Long> {
 	  */
 	List<DdcDriver> findXjDriver();
 
+	
+	/**
+	  * 方法描述：
+	  * @param sfzmhm1
+	  * @return 
+	  * @version: 1.0
+	  * @author: liuwu
+	  * @version: 2016年6月22日 下午2:42:26
+	  */
+	List<DdcDriver> findAllBySfzhm(String sfzmhm1);
+
 }

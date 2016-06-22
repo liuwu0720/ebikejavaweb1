@@ -39,6 +39,7 @@ public class DdcDriver implements java.io.Serializable {
 	private Integer illeagalTimes;
 	private Integer ssdwId;
 	private String hyxhzh;
+	private String userNote;
 	// Constructors
 
 	private String vcUserCardImg1;// 身份证正面
@@ -52,6 +53,61 @@ public class DdcDriver implements java.io.Serializable {
 	private Date xjRq;
 	
 	
+	private String vcShowUserImgShow;
+	private String vcUserWorkImgShow;
+	private String vcUserCardImg1Show;// 身份证正面
+	private String vcUserCardImg2Show;
+	
+	
+	
+
+	@Transient
+	public String getVcUserCardImg1Show() {
+		return vcUserCardImg1Show;
+	}
+
+	/**
+	 * @param vcUserCardImg1Show : set the property vcUserCardImg1Show.
+	 */
+	public void setVcUserCardImg1Show(String vcUserCardImg1Show) {
+		this.vcUserCardImg1Show = vcUserCardImg1Show;
+	}
+
+	@Transient
+	public String getVcUserCardImg2Show() {
+		return vcUserCardImg2Show;
+	}
+
+	/**
+	 * @param vcUserCardImg2Show : set the property vcUserCardImg2Show.
+	 */
+	public void setVcUserCardImg2Show(String vcUserCardImg2Show) {
+		this.vcUserCardImg2Show = vcUserCardImg2Show;
+	}
+
+	@Transient
+	public String getVcShowUserImgShow() {
+		return vcShowUserImgShow;
+	}
+
+	/**
+	 * @param vcShowUserImgShow : set the property vcShowUserImgShow.
+	 */
+	public void setVcShowUserImgShow(String vcShowUserImgShow) {
+		this.vcShowUserImgShow = vcShowUserImgShow;
+	}
+
+	@Transient
+	public String getVcUserWorkImgShow() {
+		return vcUserWorkImgShow;
+	}
+
+	/**
+	 * @param vcUserWorkImgShow : set the property vcUserWorkImgShow.
+	 */
+	public void setVcUserWorkImgShow(String vcUserWorkImgShow) {
+		this.vcUserWorkImgShow = vcUserWorkImgShow;
+	}
 
 	@Column(name = "XJ_FLAG", length = 10)
 	public String getXjFlag() {
@@ -340,4 +396,18 @@ public class DdcDriver implements java.io.Serializable {
 	public void setHyxhzh(String hyxhzh) {
 		this.hyxhzh = hyxhzh;
 	}
+
+	@Column(name = "USER_NOTE", length = 100)
+	public String getUserNote() {
+		return userNote;
+	}
+
+	/**
+	 * @param userNote : set the property userNote.
+	 */
+	public void setUserNote(String userNote) {
+		this.userNote = userNote;
+	}
+	
+	
 }

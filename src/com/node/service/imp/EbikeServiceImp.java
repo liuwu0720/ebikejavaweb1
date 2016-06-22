@@ -526,7 +526,7 @@ public class EbikeServiceImp implements IEbikeService {
 		 */
 	@Override
 	public void saveDdcDriverDaxx(DdcDaxxb daxxb) {
-	   List<DdcDriver> ddcDrivers = iDdcDriverDao.findByProperty("sfzhm", daxxb.getSfzmhm1());
+	   List<DdcDriver> ddcDrivers = iDdcDriverDao.findAllBySfzhm(daxxb.getSfzmhm1());
 	   if(CollectionUtils.isNotEmpty(ddcDrivers)){
 		   DdcDriver ddcDriver1 = ddcDrivers.get(0);
 		   DdcDriverDaxx ddcDriverDaxx = new DdcDriverDaxx();
@@ -536,9 +536,9 @@ public class EbikeServiceImp implements IEbikeService {
 		   iDdcDriverDaxxDao.save(ddcDriverDaxx);
 	   }
 	   if(StringUtils.isNotBlank(daxxb.getSfzmhm2())){
-		   List<DdcDriver> ddcDrivers2 = iDdcDriverDao.findByProperty("sfzhm", daxxb.getSfzmhm2());
+		   List<DdcDriver> ddcDrivers2 = iDdcDriverDao.findAllBySfzhm(daxxb.getSfzmhm1());
 		   if(CollectionUtils.isNotEmpty(ddcDrivers2)){
-			   DdcDriver ddcDriver2 = ddcDrivers.get(0);
+			   DdcDriver ddcDriver2 = ddcDrivers2.get(0);
 			   DdcDriverDaxx ddcDriverDaxx = new DdcDriverDaxx();
 			   ddcDriverDaxx.setDaId(daxxb.getId());
 			   ddcDriverDaxx.setDriverId(ddcDriver2.getId());

@@ -32,7 +32,12 @@ public class DateStrUtil {
 	 */
 	public static String toString(Date date) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		return sdf.format(date);
+		if(date == null){
+			return null;
+		}else {
+			return sdf.format(date);
+		}
+		
 	}
 
 	/**

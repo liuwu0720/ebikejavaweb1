@@ -231,8 +231,8 @@ public class DataAction {
 			/**
 			 * DDC_DRIVER_DAXX 内网只新增
 			 */
-			//WritableSheet ws9 = wwb.createSheet("DDC_DRIVER_DAXX ", 8);
-			//iDataService.createDdcDriverDaxxb(wcfFC, wcfFC2, ws9);
+			WritableSheet ws9 = wwb.createSheet("DDC_DRIVER_DAXX ", 8);
+			iDataService.createDdcDriverDaxxb(wcfFC, wcfFC2, ws9);
 
 			FileRecord fileRecord = new FileRecord();
 			fileRecord.setFilePath(outPath);
