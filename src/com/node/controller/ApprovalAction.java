@@ -952,16 +952,16 @@ public class ApprovalAction {
 			approveUser.setSysFlag(SystemConstants.SYSFLAG_ADD);
 			approveUser.setTranDate(new Date());
 			// 单位回收配额
-			DdcHyxhSsdw ddcHyxhSsdw = iInDustryService.getDdcHyxhSsdwById(Long
+			/*DdcHyxhSsdw ddcHyxhSsdw = iInDustryService.getDdcHyxhSsdwById(Long
 					.parseLong(ddcHyxhSsdwclsb.getSsdwId()));
 			ddcHyxhSsdw.setDwpe(ddcHyxhSsdw.getDwpe() + 1);
 			ddcHyxhSsdw.setSynFlag(SystemConstants.SYSFLAG_UPDATE);
-			ddcHyxhSsdw.setTranDate(new Date());
+			ddcHyxhSsdw.setTranDate(new Date());*/
 			try {
 				iEbikeService.updateDdcHyxhSsdwclsb(ddcHyxhSsdwclsb);
 				iEbikeService.saveDdcApproveUser(approveUser);
 				iEbikeService.saveDdcFlow(ddcFlow);
-				iInDustryService.update(ddcHyxhSsdw);
+				//iInDustryService.update(ddcHyxhSsdw);
 				AjaxUtil.rendJson(response, true, "审批成功!");
 			} catch (Exception e) {
 				e.printStackTrace();
