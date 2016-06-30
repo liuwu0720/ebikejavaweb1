@@ -91,8 +91,8 @@ $(document).ready(function(){
 			align:'center',
 			width : 120,
 			formatter:function(value,row,index){
-				var query = "<a  href='javascript:void(0)'  onclick='queryRow("+row.ID+")'>查看</a>&nbsp;&nbsp;&nbsp;"
-				var update = "<a  href='javascript:void(0)'  onclick='updateRow("+row.ID+")'>审核</a>&nbsp;&nbsp;&nbsp;"
+				var query = "<a   onclick='queryRow("+row.ID+")'>查看</a>&nbsp;&nbsp;&nbsp;"
+				var update = "<a   onclick='updateRow("+row.ID+")'>审核</a>&nbsp;&nbsp;&nbsp;"
 				return query+update;
 			}
 		}
@@ -122,14 +122,14 @@ function queryRow(id){
 	$.messager.progress({
 		text:"正在处理，请稍候..."
 	});
-	window.location.href="<%=basePath%>driverAction/queryInfoById?id="+id;
+	window.location.href="<%=basePath%>driverAction/queryInfoById?id="+id
 }
 //审核详情
 function updateRow(id){
 	$.messager.progress({
 		text:"正在处理，请稍候..."
 	});
-	window.location.href="<%=basePath%>driverAction/updateInfoById?id="+id;
+	window.location.href="<%=basePath%>driverAction/updateInfoById?id="+id
 
 }
 

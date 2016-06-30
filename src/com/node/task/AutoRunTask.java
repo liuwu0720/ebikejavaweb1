@@ -32,8 +32,16 @@ public class AutoRunTask {
 	  * @author: liuwu
 	  * @version: 2016年6月13日 下午8:53:35
 	 */
-	@Scheduled(cron = "0 35 22 * * *?")
+	@Scheduled(cron = "0 50 16 * * *?")
 	public void autoTask(){
+		String sql="update  DDC_DRIVER t set t.user_status=2  where t.xj_flag is not null";
+		iTaskService.updateBySql(sql);
 		iTaskService.updateDdcDriverImg();
+	}
+	
+	@Scheduled(cron = "0 02 04 * * *?")
+	public void updateDriverState(){
+		String sql=" update DDC_DRIVER t set t.syn_flag='ADD' where t.xj_rq>(select sysdate - interval '7' day from dual )";
+		iTaskService.updateBySql(sql);
 	}
 }

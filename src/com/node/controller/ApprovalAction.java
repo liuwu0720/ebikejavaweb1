@@ -875,6 +875,7 @@ public class ApprovalAction {
 			ddcHyxhSsdwclsb.setSlbm(deptName);
 			ddcHyxhSsdwclsb.setSynFlag(SystemConstants.SYSFLAG_UPDATE);
 			ddcHyxhSsdwclsb.setTranDate(new Date());
+			ddcHyxhSsdwclsb.setSlIndex(0);
 			if (StringUtils.isNotBlank(tbyy)) {
 				ddcHyxhSsdwclsb.setTbyy(tbyy);
 			}

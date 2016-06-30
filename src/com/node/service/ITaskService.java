@@ -30,4 +30,14 @@ public interface ITaskService {
 	  */
 	void updateDdcDriverImg() ;
 
+	
+	/**
+	  * 方法描述：
+	  * @param sql 
+	  * @version: 1.0
+	  * @author: liuwu
+	  * @version: 2016年6月25日 下午5:57:58
+	  */
+	void updateBySql(String sql);
+
 }

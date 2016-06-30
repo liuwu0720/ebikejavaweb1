@@ -21,9 +21,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body>
     <div class="maindiv">
-
-
-
 		<h2>司机档案详情</h2>
 		<!--startprint-->
 		<table id="main" class="table table-condensed" border="1"

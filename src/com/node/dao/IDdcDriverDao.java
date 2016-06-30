@@ -41,4 +41,15 @@ public interface IDdcDriverDao extends GenericDao<DdcDriver, Long> {
 	  */
 	List<DdcDriver> findAllBySfzhm(String sfzmhm1);
 
+
+	
+	/**
+	  * 方法描述：
+	  * @param sql 
+	  * @version: 1.0
+	  * @author: liuwu
+	  * @version: 2016年6月25日 下午5:58:27
+	  */
+	void updateBySql(String sql);
+
 }

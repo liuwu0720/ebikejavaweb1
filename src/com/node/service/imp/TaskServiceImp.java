@@ -53,7 +53,7 @@ public class TaskServiceImp implements ITaskService {
 		sessions = cfg.buildSessionFactory();
 		session = sessions.openSession();*/
 		try {
-			List<DdcDriver> ddcDrivers = iDdcDriverDao.findByProperty("synFlag", "ADD_W");
+			List<DdcDriver> ddcDrivers = iDdcDriverDao.findByProperty("userStatus", 1);
 			if(CollectionUtils.isNotEmpty(ddcDrivers)){
 				for(DdcDriver ddcDriver:ddcDrivers){
 					if(StringUtils.isNotBlank(ddcDriver.getVcUserImg())){
@@ -65,7 +65,8 @@ public class TaskServiceImp implements ITaskService {
 						in.close();
 						ddcDriver.setBlobUserImg(b);
 						iDdcDriverDao.update(ddcDriver);
-					}else if (StringUtils.isNotBlank(ddcDriver.getVcUserCardImg1())) {
+					}
+					if (StringUtils.isNotBlank(ddcDriver.getVcUserCardImg1())) {
 						String imgPath = SystemConstants.FILE_READPATH+ddcDriver.getVcUserCardImg1();
 						System.out.println(imgPath);
 						in = new FileInputStream(imgPath);
@@ -74,7 +75,8 @@ public class TaskServiceImp implements ITaskService {
 						in.close();
 						ddcDriver.setBlobUserCardImg1(b);
 						iDdcDriverDao.update(ddcDriver);
-					}else if (StringUtils.isNotBlank(ddcDriver.getVcUserCardImg2())) {
+					}
+					if (StringUtils.isNotBlank(ddcDriver.getVcUserCardImg2())) {
 						String imgPath = SystemConstants.FILE_READPATH+ddcDriver.getVcUserCardImg2();
 						System.out.println(imgPath);
 						in = new FileInputStream(imgPath);
@@ -91,12 +93,22 @@ public class TaskServiceImp implements ITaskService {
 			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("没找到文件");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
+	}
+
+	
+		/* (non-Javadoc)
+		 * @see com.node.service.ITaskService#updateBySql(java.lang.String)
+		 */
+	@Override
+	public void updateBySql(String sql) {
+		// TODO Auto-generated method stub
+		iDdcDriverDao.updateBySql(sql);
 	}
 
 }

@@ -122,13 +122,15 @@ function save(){
 			<tr>
 				<th>选择权限</th>
 				<td>
-					<table id="menu">
+					<table>
 						<c:forEach items="${jtMenus }" var="pri">
 							<c:if test="${pri.iParent == 0 }">
 								<tr>
 									<td>
 										<p style="font-weight: bold;">
 											<input  id="${pri.id }" type="checkbox" value="${pri.id }"   name="priBox" onclick="parentClick(this);">${pri.vcMenu }</p>
+									</td>	
+								</tr>			
 								<tr>
 									<c:forEach items="${jtMenus }" var="sonpri">
 										<c:if test="${pri.id == sonpri.iParent }">
@@ -136,8 +138,6 @@ function save(){
 											</td>
 										</c:if>
 									</c:forEach>
-								</tr>
-								</td>
 								</tr>
 							</c:if>
 						</c:forEach>

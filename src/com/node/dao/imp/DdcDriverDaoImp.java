@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.node.dao.IDdcDriverDao;
@@ -28,7 +30,8 @@ import com.node.util.DateStrUtil;
 public class DdcDriverDaoImp extends GenericHibernateDao<DdcDriver, Long>
 		implements IDdcDriverDao {
 
-	
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 		/* (non-Javadoc)
 		 * @see com.node.dao.IDdcDriverDao#findXjDriver()
 		 */
@@ -100,6 +103,18 @@ public class DdcDriverDaoImp extends GenericHibernateDao<DdcDriver, Long>
 			
 		}
 		return ddcDrivers;
+	}
+
+
+	
+		/* (non-Javadoc)
+		 * @see com.node.dao.IDdcDriverDao#updateBySql(java.lang.String)
+		 */
+	@Override
+	public void updateBySql(String sql) {
+		// TODO Auto-generated method stub
+	  int row=	jdbcTemplate.update(sql);
+	  System.out.println("row="+row);
 	}
 
 }
