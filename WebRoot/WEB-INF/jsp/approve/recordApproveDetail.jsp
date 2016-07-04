@@ -166,11 +166,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
     <div  class="maindiv">
     	<form action="">
-    	<h2>车辆备案申报详情</h2>
+    	<h2>车辆备案申报详情</h2><br/>
+    	<p style="text-align: center">流水号:${ddcHyxhSsdwclsb.lsh }</p>
     	<table id="main" class="table table-condensed"  border="1" cellpadding="0" cellspacing="0" width="98%">
     		<tr>
-    			<th>流水号</th>
-    			<td>${ddcHyxhSsdwclsb.lsh }</td>
+    			<th>车牌号</th>
+    			<td>${ddcHyxhSsdwclsb.cphm }</td>
     			
     			<th>申报单位</th>
     			<td>${ddcHyxhSsdwclsb.ssdwName }</td>

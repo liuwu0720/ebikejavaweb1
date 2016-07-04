@@ -56,7 +56,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     		<tr>
     			<th>档案编号</th>
     			<td>${ddcDaxxb.dabh }</td>
-    			<th>车辆号码</th>
+    			<th>车牌号码</th>
     			<td>${ddcDaxxb.cphm }</td>
     			<th>单位名称</th>
     			<td>${ddcDaxxb.ssdwName }(所属协会:${ddcDaxxb.hyxhzhName })</td>

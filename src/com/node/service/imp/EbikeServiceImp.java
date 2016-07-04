@@ -352,6 +352,7 @@ public class EbikeServiceImp implements IEbikeService {
 			cphm = object.toString().replace(ddcHyxhBase.getHyxhlb(), "1");
 			int daNo = Integer.parseInt(cphm) + 1;
 			cphm = (daNo + "").replace("1", "");
+			cphm = ddcHyxhBase.getHyxhlb() + ""+cphm;
 		}
 		return cphm;
 	}

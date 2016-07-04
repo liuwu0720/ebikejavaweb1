@@ -56,6 +56,7 @@ import com.node.model.DdcHyxhSsdw;
 import com.node.model.DdcHyxhSsdwclsb;
 import com.node.model.FileRecord;
 import com.node.service.IDataService;
+import com.node.service.ITaskService;
 import com.node.util.DateStrUtil;
 import com.node.util.SystemConstants;
 
@@ -102,6 +103,9 @@ public class DataServiceImp implements IDataService {
 	
 	@Autowired
 	IDdcDriverDaxxDao iDdcDriverDaxxDao;
+	
+	@Autowired
+	ITaskService iTaskService;
 
 	/*
 	 * (non-Javadoc)
@@ -235,7 +239,13 @@ public class DataServiceImp implements IDataService {
 						e.printStackTrace();
 					}
 				}else {
+					DdcDriver oldDdcDriver = iDdcDriverDao.get(driver.getId());
+					driver.setXjFlag(oldDdcDriver.getXjFlag());
+					driver.setXjMsg(oldDdcDriver.getXjMsg());
+					driver.setXjRq(oldDdcDriver.getXjRq());
 					iDdcDriverDao.updateCleanBefore(driver);
+					iTaskService.updateDdcDriverImg();
+					
 				}
 			}
 			

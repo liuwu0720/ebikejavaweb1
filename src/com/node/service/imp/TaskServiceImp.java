@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -22,6 +23,7 @@ import org.hibernate.cfg.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSON;
 import com.node.dao.IDdcDriverDao;
 import com.node.model.DdcDriver;
 import com.node.service.ITaskService;
@@ -36,7 +38,7 @@ import com.node.util.SystemConstants;
  */
 @Service
 public class TaskServiceImp implements ITaskService {
-
+	private static final Logger logger = Logger.getLogger("内外网数据同步service");
 	@Autowired
 	IDdcDriverDao iDdcDriverDao;
 	InputStream in = null;
@@ -52,52 +54,76 @@ public class TaskServiceImp implements ITaskService {
 		/*cfg = new Configuration().configure();
 		sessions = cfg.buildSessionFactory();
 		session = sessions.openSession();*/
-		try {
+		
 			List<DdcDriver> ddcDrivers = iDdcDriverDao.findByProperty("userStatus", 1);
 			if(CollectionUtils.isNotEmpty(ddcDrivers)){
 				for(DdcDriver ddcDriver:ddcDrivers){
 					if(StringUtils.isNotBlank(ddcDriver.getVcUserImg())){
 						String imgPath = SystemConstants.FILE_READPATH+ddcDriver.getVcUserImg();
 						System.out.println(imgPath);
-						in = new FileInputStream(imgPath);
-						byte[] b = new byte[in.available()];
-						in.read(b);
-						in.close();
-						ddcDriver.setBlobUserImg(b);
-						iDdcDriverDao.update(ddcDriver);
+						try {
+							in = new FileInputStream(imgPath);
+							byte[] b = new byte[in.available()];
+							in.read(b);
+							in.close();
+							ddcDriver.setBlobUserImg(b);
+							iDdcDriverDao.update(ddcDriver);
+						} catch (FileNotFoundException e) {
+							logger.warn("找不到头像文件:"+imgPath+"司机信息:"+JSON.toJSONString(ddcDriver));
+							System.out.println("找不到文件："+imgPath);
+							e.printStackTrace();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
 					}
 					if (StringUtils.isNotBlank(ddcDriver.getVcUserCardImg1())) {
 						String imgPath = SystemConstants.FILE_READPATH+ddcDriver.getVcUserCardImg1();
 						System.out.println(imgPath);
-						in = new FileInputStream(imgPath);
-						byte[] b = new byte[in.available()];
-						in.read(b);
-						in.close();
-						ddcDriver.setBlobUserCardImg1(b);
-						iDdcDriverDao.update(ddcDriver);
+						try {
+							in = new FileInputStream(imgPath);
+							byte[] b = new byte[in.available()];
+							in.read(b);
+							in.close();
+							ddcDriver.setBlobUserCardImg1(b);
+							iDdcDriverDao.update(ddcDriver);
+						} catch (FileNotFoundException e) {
+							logger.warn("找不到身份证正面:"+imgPath+"司机信息:"+JSON.toJSONString(ddcDriver));
+							System.out.println("找不到文件："+imgPath);
+							e.printStackTrace();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
 					}
 					if (StringUtils.isNotBlank(ddcDriver.getVcUserCardImg2())) {
 						String imgPath = SystemConstants.FILE_READPATH+ddcDriver.getVcUserCardImg2();
 						System.out.println(imgPath);
-						in = new FileInputStream(imgPath);
-						byte[] b = new byte[in.available()];
-						in.read(b);
-						in.close();
-						ddcDriver.setBlobUserCardImg2(b);
-						iDdcDriverDao.update(ddcDriver);
+						try {
+							in = new FileInputStream(imgPath);
+							byte[] b = new byte[in.available()];
+							in.read(b);
+							in.close();
+							ddcDriver.setBlobUserCardImg2(b);
+							iDdcDriverDao.update(ddcDriver);
+						} catch (FileNotFoundException e) {
+							logger.warn("找不到身份证反面:"+imgPath+"司机信息:"+JSON.toJSONString(ddcDriver));
+							System.out.println("找不到文件："+imgPath);
+							e.printStackTrace();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
 					}
 					
 				}
 			}
 			
 			
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			System.out.println("没找到文件");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 
 	}
 

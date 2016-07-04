@@ -147,7 +147,6 @@ function updateRow(id){
 				<input id="jsrxm" class="easyui-validatebox">
 				<span>状态</span>	
 				<select class="easyui-combobox" style="width:100px;height:32px; " id="userStatus">
-					<option value="">所有</option>
 					<option value="0">未认证</option>
 					<option value="1">实名认证</option>
 					<option value="2">星级认证</option>

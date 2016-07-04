@@ -166,7 +166,7 @@ public class EbikeAction {
 		}
 		// 车牌号
 		if (StringUtils.isNotBlank(cphm)) {
-			sql += " and a.sfzhm1 like '%" + cphm + "%'";
+			sql += " and a.cphm like '%" + cphm + "%'";
 		}
 		// 驾驶人
 		if (StringUtils.isNotBlank(jsrxm1)) {

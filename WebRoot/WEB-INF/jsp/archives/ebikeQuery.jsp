@@ -178,7 +178,8 @@ function doSearch(){
 		xsqy: $("#xsqy").combobox("getValue"),
 		 hyxhzh:$("#hyxhzh").combobox("getValue"),
 		 dwmcId:$("#hyxsssdwmc").combobox("getValue"),
-		 zt:$("#zt").combobox("getValue")
+		 zt:$("#zt").combobox("getValue"),
+		 cphm:$("#cphm").val()
 	}); 
 }
 
@@ -278,6 +279,8 @@ function queryFlowListByDabh(obj){
 				<input id="hyxsssdwmc" style="height: 32px;">	
 				<span>车辆状态</span>
 				<input id="zt" style="height: 32px;">	
+				<span>车牌号码</span>
+				<input id="cphm" style="height: 32px;">  
 				<a class="easyui-linkbutton" plain="true" onclick="doSearch()"
 					iconCls="icon-search">查询 </a>
 			</div>

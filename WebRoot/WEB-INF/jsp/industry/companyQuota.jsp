@@ -111,7 +111,8 @@ $(document).ready(function(){
 					return "启用";
 				}
 			}
-		},{
+		}
+		/* ,{
 			field : 'null',
 			title:'操作',
 			align:'center',
@@ -123,7 +124,7 @@ $(document).ready(function(){
 				}
 					
 			}
-		}
+		} */
 
 		] ],
 		

@@ -89,7 +89,8 @@ $(document).ready(function(){
 				var unixTimestamp = new Date(value);   
 				return unixTimestamp.toLocaleString();
 			}   
-		},{
+		}
+		/* ,{
 			field : 'null',
 			title:'操作',
 			align:'center',
@@ -99,7 +100,7 @@ $(document).ready(function(){
 				
 				return reset;	
 			}
-		}
+		} */
 
 		] ],
 		onLoadSuccess:function(){  

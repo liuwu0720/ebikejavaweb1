@@ -7,6 +7,7 @@
   */
 package com.node.task;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -22,7 +23,7 @@ import com.node.service.ITaskService;
  */
 @Component("scheduledTaskManager")
 public class AutoRunTask {
-	
+	private static final Logger logger = Logger.getLogger("内外网数据同步");
 	@Autowired
 	ITaskService iTaskService;
 	/**
@@ -39,7 +40,7 @@ public class AutoRunTask {
 		iTaskService.updateDdcDriverImg();
 	}
 	
-	@Scheduled(cron = "0 02 04 * * *?")
+	@Scheduled(cron = "0 52 21 * * *?")
 	public void updateDriverState(){
 		String sql=" update DDC_DRIVER t set t.syn_flag='ADD' where t.xj_rq>(select sysdate - interval '7' day from dual )";
 		iTaskService.updateBySql(sql);
