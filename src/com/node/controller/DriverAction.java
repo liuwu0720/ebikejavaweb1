@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.node.model.DdcDriver;
+import com.node.model.DdcHyxhBase;
+import com.node.model.DdcHyxhSsdw;
 import com.node.model.PicPath;
 import com.node.service.IDriverService;
 import com.node.service.IInDustryService;
@@ -51,7 +53,9 @@ public class DriverAction {
 	
 	@RequestMapping("/queryAll")
 	@ResponseBody
-	public Map<String, Object> queryAll(HttpServletRequest request,HttpServletResponse response,String sfzhm, String jsrxm,Integer userStatus){
+	public Map<String, Object> queryAll(HttpServletRequest request,
+			HttpServletResponse response,String sfzhm,
+			String jsrxm,Integer userStatus,String hyxhzh,String dwmcId){
 		Page p = ServiceUtil.getcurrPage(request);
 
 		String sql="select id, jsrxm, xb, lxdh, syn_flag, tran_date, user_code, user_password, sfzhm, "
@@ -69,6 +73,14 @@ public class DriverAction {
 		}else {
 			sql += " and user_status = 0";
 		}
+		if(StringUtils.isNotBlank(hyxhzh)){
+			sql += " and HYXHZH = '"+hyxhzh+"'";
+		}
+		if(StringUtils.isNotBlank(dwmcId)){
+			long dwId = Long.parseLong(dwmcId);
+			sql += " and SSDWID = "+dwId;
+		}
+		
 		sql += " order by id desc";
 		Page page = ServiceUtil.getcurrPage(request);
 		Map<String, Object> resultMap = iDriverService.queryBySpringsql(sql,page);
@@ -98,6 +110,10 @@ public class DriverAction {
 				.setVcUserCardImg1Show(parseUrl(ddcDriver.getVcUserCardImg1()));
 		ddcDriver
 				.setVcUserCardImg2Show(parseUrl(ddcDriver.getVcUserCardImg2()));
+		DdcHyxhBase ddcHyxhBase =  iInDustryService.getDdcHyxhBaseByCode(ddcDriver.getHyxhzh());
+		DdcHyxhSsdw ddcHyxhSsdw = iInDustryService.getDdcHyxhSsdwById(ddcDriver.getSsdwId());
+		ddcDriver.setHyxhmc(ddcHyxhBase.getHyxhmc());
+		ddcDriver.setSsdwmc(ddcHyxhSsdw.getDwmc());
 		ddcDriver.setVcUserWorkImgShow(parseUrl(ddcDriver.getVcUserWorkImg()));
 		request.setAttribute("ddcDriver", ddcDriver);
 		return "driver/driverinfo";

@@ -58,7 +58,9 @@ public class TaskServiceImp implements ITaskService {
 			List<DdcDriver> ddcDrivers = iDdcDriverDao.findByProperty("userStatus", 1);
 			if(CollectionUtils.isNotEmpty(ddcDrivers)){
 				for(DdcDriver ddcDriver:ddcDrivers){
+					ddcDriver.setSynFlag(SystemConstants.SYSFLAG_ADD);
 					if(StringUtils.isNotBlank(ddcDriver.getVcUserImg())){
+						ddcDriver.setSynFlag(SystemConstants.SYSFLAG_ADD);
 						String imgPath = SystemConstants.FILE_READPATH+ddcDriver.getVcUserImg();
 						System.out.println(imgPath);
 						try {
@@ -70,7 +72,10 @@ public class TaskServiceImp implements ITaskService {
 							iDdcDriverDao.update(ddcDriver);
 						} catch (FileNotFoundException e) {
 							logger.warn("找不到头像文件:"+imgPath+"司机信息:"+JSON.toJSONString(ddcDriver));
-							System.out.println("找不到文件："+imgPath);
+							ddcDriver.setUserNote("找不到头像文件");
+							ddcDriver.setSynFlag(SystemConstants.SYSFLAG_ADD);
+							ddcDriver.setUserStatus(0);
+							iDdcDriverDao.update(ddcDriver);
 							e.printStackTrace();
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
@@ -91,6 +96,10 @@ public class TaskServiceImp implements ITaskService {
 						} catch (FileNotFoundException e) {
 							logger.warn("找不到身份证正面:"+imgPath+"司机信息:"+JSON.toJSONString(ddcDriver));
 							System.out.println("找不到文件："+imgPath);
+							ddcDriver.setUserNote("找不到身份证正面");
+							ddcDriver.setUserStatus(0);
+							ddcDriver.setSynFlag(SystemConstants.SYSFLAG_ADD);
+							iDdcDriverDao.update(ddcDriver);
 							e.printStackTrace();
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
@@ -111,6 +120,10 @@ public class TaskServiceImp implements ITaskService {
 						} catch (FileNotFoundException e) {
 							logger.warn("找不到身份证反面:"+imgPath+"司机信息:"+JSON.toJSONString(ddcDriver));
 							System.out.println("找不到文件："+imgPath);
+							ddcDriver.setUserNote("找不到身份证反面");
+							ddcDriver.setUserStatus(0);
+							ddcDriver.setSynFlag(SystemConstants.SYSFLAG_ADD);
+							iDdcDriverDao.update(ddcDriver);
 							e.printStackTrace();
 						} catch (IOException e) {
 							// TODO Auto-generated catch block

@@ -17,6 +17,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -73,6 +74,33 @@ public class AppAction {
 		return "system/apiIndex";
 	}
 
+	@ApiOperation(value = "根据身份证号码或电话号码查询司机个人信息", notes = "根据身份证号码查询司机个人信息", position = 5)
+	@RequestMapping(value = "/getDriverInfo", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> getDriverInfo(
+			@ApiParam(value = "身份证号码")  @RequestParam(value = "sfzhm",required=false) String sfzhm,
+			@ApiParam(value = "电话号码")  @RequestParam(value = "lxdh",required=false) String lxdh) {
+		if(StringUtils.isBlank(sfzhm)&&StringUtils.isBlank(lxdh)){
+			return AjaxUtil.getMapByNotException(false, null);
+		}
+		
+		List<DdcDriver> ddcDrivers = iEbikeService.getDriverInfoByProperties(sfzhm,lxdh);
+		if(CollectionUtils.isNotEmpty(ddcDrivers)){
+			DdcDriver ddcDriver = ddcDrivers.get(0);
+			DdcHyxhBase ddcHyxhBase =  iInDustryService.getDdcHyxhBaseByCode(ddcDriver.getHyxhzh());
+			DdcHyxhSsdw ddcHyxhSsdw = iInDustryService.getDdcHyxhSsdwById(ddcDriver.getSsdwId());
+			ddcDriver.setHyxhmc(ddcHyxhBase.getHyxhmc());
+			ddcDriver.setSsdwmc(ddcHyxhSsdw.getDwmc());
+			ddcDriver.setVcShowUserImg(parseUrl(ddcDriver.getVcUserImg()));
+			ddcDriver.setVcUserCardImg1Show(parseUrl(ddcDriver.getVcUserCardImg1()));
+			ddcDriver.setVcUserCardImg2Show(parseUrl(ddcDriver.getVcUserCardImg2()));
+			ddcDriver.setVcUserWorkImgShow(parseUrl(ddcDriver.getVcUserWorkImg()));
+			return AjaxUtil.getMapByNotException(true, ddcDriver);
+		}else {
+			return AjaxUtil.getMapByNotException(false, null);
+		}
+	}
+	
 	/**
 	 * 
 	 * 方法描述：

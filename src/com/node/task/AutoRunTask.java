@@ -40,9 +40,12 @@ public class AutoRunTask {
 		iTaskService.updateDdcDriverImg();
 	}
 	
-	@Scheduled(cron = "0 52 21 * * *?")
+	@Scheduled(cron = "0 52 15 * * *?")
 	public void updateDriverState(){
-		String sql=" update DDC_DRIVER t set t.syn_flag='ADD' where t.xj_rq>(select sysdate - interval '7' day from dual )";
+		String sql="update  DDC_DRIVER t set t.user_status=2  where t.xj_flag is not null";
 		iTaskService.updateBySql(sql);
+		iTaskService.updateDdcDriverImg();
+		String sql2=" update DDC_DRIVER t set t.syn_flag='ADD' where t.xj_rq>(select sysdate - interval '4' day from dual ) and t.syn_flag is not null ";
+		iTaskService.updateBySql(sql2);
 	}
 }

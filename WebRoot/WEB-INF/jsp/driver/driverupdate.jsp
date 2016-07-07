@@ -96,6 +96,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<td><input class="easyui-validatebox" type="text" name="id" value="${ddcDriver.id }"></input>
 					</td>
 				</tr>
+				
+			<tr>
+				<th>所属协会</th>
+				<td>${hyxhName }</td>
+				<th>单位名称</th>
+				<td>${ssdwName }</td>
+				
+			</tr>
 				<tr>
 				<th>驾驶人姓名</th>
 					<td><input class="easyui-validatebox" type="text"

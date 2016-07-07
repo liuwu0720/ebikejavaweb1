@@ -102,7 +102,20 @@ $(document).ready(function(){
             $('#dg').datagrid('clearSelections'); //一定要加上这一句，要不然datagrid会记住之前的选择状态，删除时会出问题  
         }
 	});
+	$('#hyxsssdwmc').combobox()
 	
+	$('#hyxhzh').combobox({    
+	    url:'<%=basePath%>industryAction/getAllIndustry',    
+	    valueField:'hyxhzh',    
+	    textField:'hyxhmc',
+	    onSelect:function(param){
+	    	$('#hyxsssdwmc').combobox({
+	    		 	url:'<%=basePath%>industryAction/getDwmcByHyxh?hyxhzh='+param.hyxhzh,    
+	    		    valueField:'id',    
+	    		    textField:'dwmc'
+	    	})
+		}
+	});
 });
 
 
@@ -113,7 +126,9 @@ function doSearch(){
 	 $('#dg').datagrid('load',{
 		 sfzhm: $('#sfzhm').val(),
 		 jsrxm: $('#jsrxm').val(),
-		 userStatus:$('#userStatus').combobox('getValue')
+		 userStatus:$('#userStatus').combobox('getValue'),
+		 hyxhzh:$("#hyxhzh").combobox("getValue"),
+		 dwmcId:$("#hyxsssdwmc").combobox("getValue")
 	}); 
 }
 
@@ -142,6 +157,10 @@ function updateRow(id){
 
 	<div>
 		<div id="tb" class="searchdiv">
+				<span>协会名称</span>
+				<input id="hyxhzh" style="height: 32px;">  
+				<span>公司名称：</span>
+				<input id="hyxsssdwmc" style="height: 32px;"><br>
 				<span>身份证号:</span> <input id="sfzhm" class="easyui-validatebox">
 				<span>姓名:</span>
 				<input id="jsrxm" class="easyui-validatebox">

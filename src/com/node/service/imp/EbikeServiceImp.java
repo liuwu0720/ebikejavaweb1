@@ -551,4 +551,21 @@ public class EbikeServiceImp implements IEbikeService {
 		
 	}
 
+	
+		/* (non-Javadoc)
+		 * @see com.node.service.IEbikeService#getDriverInfoByProperties(java.lang.String, java.lang.String)
+		 */
+	@Override
+	public List<DdcDriver> getDriverInfoByProperties(String sfzhm, String lxdh) {
+		if(StringUtils.isNotBlank(sfzhm)){
+			List<DdcDriver> ddcDrivers = iDdcDriverDao.findByProperty("sfzhm", sfzhm);
+			return ddcDrivers;
+		}
+		if(StringUtils.isNotBlank(lxdh)){
+			List<DdcDriver> ddcDrivers = iDdcDriverDao.findByProperty("lxdh", lxdh);
+			return ddcDrivers;
+		}
+		return null;
+	}
+
 }

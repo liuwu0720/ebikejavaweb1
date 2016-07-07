@@ -58,6 +58,37 @@ public class DdcDriver implements java.io.Serializable {
 	private String vcUserCardImg1Show;// 身份证正面
 	private String vcUserCardImg2Show;
 	
+	private String hyxhmc;
+	private String ssdwmc;
+	
+	
+	
+	
+
+	@Transient
+	public String getHyxhmc() {
+		return hyxhmc;
+	}
+
+	/**
+	 * @param hyxhmc : set the property hyxhmc.
+	 */
+	public void setHyxhmc(String hyxhmc) {
+		this.hyxhmc = hyxhmc;
+	}
+
+	@Transient
+	public String getSsdwmc() {
+		return ssdwmc;
+	}
+
+	/**
+	 * @param ssdwmc : set the property ssdwmc.
+	 */
+	public void setSsdwmc(String ssdwmc) {
+		this.ssdwmc = ssdwmc;
+	}
+	
 	
 	
 

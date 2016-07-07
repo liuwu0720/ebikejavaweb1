@@ -364,4 +364,16 @@ public interface IEbikeService {
 	  */
 	void saveDdcDriverDaxx(DdcDaxxb daxxb);
 
+	
+	/**
+	  * 方法描述：
+	  * @param sfzhm
+	  * @param lxdh
+	  * @return 
+	  * @version: 1.0
+	  * @author: liuwu
+	  * @version: 2016年7月5日 上午11:12:39
+	  */
+	List<DdcDriver> getDriverInfoByProperties(String sfzhm, String lxdh);
+
 }

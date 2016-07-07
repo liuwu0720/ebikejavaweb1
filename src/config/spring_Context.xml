@@ -27,13 +27,13 @@
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
 		destroy-method="close">
 		<property name="driverClass" value="oracle.jdbc.OracleDriver" />
-	 	<property name="jdbcUrl" value="jdbc:oracle:thin:@127.0.0.1:1521:orcl" />
+	 	 <!-- <property name="jdbcUrl" value="jdbc:oracle:thin:@127.0.0.1:1521:orcl" />
 		<property name="user" value="ebike2" />
-		<property name="password" value="ebike2" />  
+		<property name="password" value="ebike2" />  -->
 		
-		 <!-- <property name="jdbcUrl" value="jdbc:oracle:thin:@100.100.21.101:1521:edb" />
+		 <property name="jdbcUrl" value="jdbc:oracle:thin:@100.100.21.101:1521:edb" />
 		<property name="user" value="ddcglxt" />
-		<property name="password" value="ddcglxt2016##" />   -->
+		<property name="password" value="ddcglxt2016##" />   
 		<!-- 指定连接数据库连接池的最大连接数 -->
 		<property name="maxPoolSize" value="600" />
 		<!--每60秒检查所有连接池中的空闲连接。Default: 0 -->
@@ -107,7 +107,7 @@
 	<!-- 此处对于定时时间的配置会被注解中的时间配置覆盖，因此，以注解配置为准 -->
 	<task:scheduled-tasks scheduler="myScheduler">
 		<task:scheduled ref="scheduledTaskManager" method="autoTask"
-			cron="0 05 17 * * *?" />
+			cron="0 21 22 * * *?" />
 	</task:scheduled-tasks>
 	<task:scheduler id="myScheduler" pool-size="10" />
 
