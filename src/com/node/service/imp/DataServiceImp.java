@@ -243,6 +243,7 @@ public class DataServiceImp implements IDataService {
 					driver.setXjFlag(oldDdcDriver.getXjFlag());
 					driver.setXjMsg(oldDdcDriver.getXjMsg());
 					driver.setXjRq(oldDdcDriver.getXjRq());
+					driver.setTranDate(new Date());
 					iDdcDriverDao.updateCleanBefore(driver);
 					iTaskService.updateDdcDriverImg();
 					
