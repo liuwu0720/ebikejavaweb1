@@ -71,6 +71,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						pattern="yyyy-MM-dd" /></td>
 			</tr>
 			<tr>
+				<th>星级说明</th>
+				<td colspan="3">${ddcDriver.xjMsg }</td>
+			</tr>
+			<tr>
 				<td colspan="2">
 					<div class="imgdiv">
 						<p>驾驶人头像照片</p>

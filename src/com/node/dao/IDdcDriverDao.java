@@ -52,4 +52,16 @@ public interface IDdcDriverDao extends GenericDao<DdcDriver, Long> {
 	  */
 	void updateBySql(String sql);
 
+
+	
+	/**
+	  * 方法描述：
+	  * @param sql
+	  * @return 
+	  * @version: 1.0
+	  * @author: liuwu
+	  * @version: 2016年7月19日 上午11:02:46
+	  */
+	int updateBySql2(String sql);
+
 }

@@ -51,103 +51,287 @@ public class TaskServiceImp implements ITaskService {
 	@Override
 	public void updateDdcDriverImg() {
 		// 得到session
-		/*cfg = new Configuration().configure();
-		sessions = cfg.buildSessionFactory();
-		session = sessions.openSession();*/
-		
-			List<DdcDriver> ddcDrivers = iDdcDriverDao.findByProperty("userStatus", 1);
-			if(CollectionUtils.isNotEmpty(ddcDrivers)){
-				for(DdcDriver ddcDriver:ddcDrivers){
+		/*
+		 * cfg = new Configuration().configure(); sessions =
+		 * cfg.buildSessionFactory(); session = sessions.openSession();
+		 */
+
+		List<DdcDriver> ddcDrivers = iDdcDriverDao.findByProperty("userStatus",
+				0);
+		if (CollectionUtils.isNotEmpty(ddcDrivers)) {
+			for (DdcDriver ddcDriver : ddcDrivers) {
+				ddcDriver.setSynFlag(SystemConstants.SYSFLAG_ADD);
+				if (StringUtils.isNotBlank(ddcDriver.getVcUserImg())) {
 					ddcDriver.setSynFlag(SystemConstants.SYSFLAG_ADD);
-					if(StringUtils.isNotBlank(ddcDriver.getVcUserImg())){
+					String imgPath = SystemConstants.FILE_READPATH
+							+ ddcDriver.getVcUserImg();
+					System.out.println(imgPath);
+					try {
+						in = new FileInputStream(imgPath);
+						byte[] b = new byte[in.available()];
+						in.read(b);
+						in.close();
+						ddcDriver.setBlobUserImg(b);
+						ddcDriver.setUserStatus(1);
+						iDdcDriverDao.update(ddcDriver);
+					} catch (FileNotFoundException e) {
+						logger.warn("找不到头像文件:" + imgPath + "司机信息:"
+								+ JSON.toJSONString(ddcDriver));
+						ddcDriver.setUserNote("找不到头像文件");
 						ddcDriver.setSynFlag(SystemConstants.SYSFLAG_ADD);
-						String imgPath = SystemConstants.FILE_READPATH+ddcDriver.getVcUserImg();
-						System.out.println(imgPath);
-						try {
-							in = new FileInputStream(imgPath);
-							byte[] b = new byte[in.available()];
-							in.read(b);
-							in.close();
-							ddcDriver.setBlobUserImg(b);
-							iDdcDriverDao.update(ddcDriver);
-						} catch (FileNotFoundException e) {
-							logger.warn("找不到头像文件:"+imgPath+"司机信息:"+JSON.toJSONString(ddcDriver));
-							ddcDriver.setUserNote("找不到头像文件");
-							ddcDriver.setSynFlag(SystemConstants.SYSFLAG_ADD);
-							ddcDriver.setUserStatus(0);
-							iDdcDriverDao.update(ddcDriver);
-							e.printStackTrace();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						
+						ddcDriver.setUserStatus(0);
+						iDdcDriverDao.update(ddcDriver);
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
-					if (StringUtils.isNotBlank(ddcDriver.getVcUserCardImg1())) {
-						String imgPath = SystemConstants.FILE_READPATH+ddcDriver.getVcUserCardImg1();
-						System.out.println(imgPath);
-						try {
-							in = new FileInputStream(imgPath);
-							byte[] b = new byte[in.available()];
-							in.read(b);
-							in.close();
-							ddcDriver.setBlobUserCardImg1(b);
-							iDdcDriverDao.update(ddcDriver);
-						} catch (FileNotFoundException e) {
-							logger.warn("找不到身份证正面:"+imgPath+"司机信息:"+JSON.toJSONString(ddcDriver));
-							System.out.println("找不到文件："+imgPath);
-							ddcDriver.setUserNote("找不到身份证正面");
-							ddcDriver.setUserStatus(0);
-							ddcDriver.setSynFlag(SystemConstants.SYSFLAG_ADD);
-							iDdcDriverDao.update(ddcDriver);
-							e.printStackTrace();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						
-					}
-					if (StringUtils.isNotBlank(ddcDriver.getVcUserCardImg2())) {
-						String imgPath = SystemConstants.FILE_READPATH+ddcDriver.getVcUserCardImg2();
-						System.out.println(imgPath);
-						try {
-							in = new FileInputStream(imgPath);
-							byte[] b = new byte[in.available()];
-							in.read(b);
-							in.close();
-							ddcDriver.setBlobUserCardImg2(b);
-							iDdcDriverDao.update(ddcDriver);
-						} catch (FileNotFoundException e) {
-							logger.warn("找不到身份证反面:"+imgPath+"司机信息:"+JSON.toJSONString(ddcDriver));
-							System.out.println("找不到文件："+imgPath);
-							ddcDriver.setUserNote("找不到身份证反面");
-							ddcDriver.setUserStatus(0);
-							ddcDriver.setSynFlag(SystemConstants.SYSFLAG_ADD);
-							iDdcDriverDao.update(ddcDriver);
-							e.printStackTrace();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						
-					}
-					
+
 				}
+				if (StringUtils.isNotBlank(ddcDriver.getVcUserCardImg1())) {
+					String imgPath = SystemConstants.FILE_READPATH
+							+ ddcDriver.getVcUserCardImg1();
+					System.out.println(imgPath);
+					try {
+						in = new FileInputStream(imgPath);
+						byte[] b = new byte[in.available()];
+						in.read(b);
+						in.close();
+						ddcDriver.setBlobUserCardImg1(b);
+						ddcDriver.setUserStatus(1);
+						iDdcDriverDao.update(ddcDriver);
+					} catch (FileNotFoundException e) {
+						logger.warn("找不到身份证正面:" + imgPath + "司机信息:"
+								+ JSON.toJSONString(ddcDriver));
+						System.out.println("找不到文件：" + imgPath);
+						ddcDriver.setUserNote("找不到身份证正面");
+						ddcDriver.setUserStatus(0);
+						ddcDriver.setSynFlag(SystemConstants.SYSFLAG_ADD);
+						iDdcDriverDao.update(ddcDriver);
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+				}
+				if (StringUtils.isNotBlank(ddcDriver.getVcUserCardImg2())) {
+					String imgPath = SystemConstants.FILE_READPATH
+							+ ddcDriver.getVcUserCardImg2();
+					System.out.println(imgPath);
+					try {
+						in = new FileInputStream(imgPath);
+						byte[] b = new byte[in.available()];
+						in.read(b);
+						in.close();
+						ddcDriver.setBlobUserCardImg2(b);
+						ddcDriver.setUserStatus(1);
+						iDdcDriverDao.update(ddcDriver);
+					} catch (FileNotFoundException e) {
+						logger.warn("找不到身份证反面:" + imgPath + "司机信息:"
+								+ JSON.toJSONString(ddcDriver));
+						System.out.println("找不到文件：" + imgPath);
+						ddcDriver.setUserNote("找不到身份证反面");
+						ddcDriver.setUserStatus(0);
+						ddcDriver.setSynFlag(SystemConstants.SYSFLAG_ADD);
+						iDdcDriverDao.update(ddcDriver);
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+				}
+
 			}
-			
-			
-		
+		}
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.node.service.ITaskService#updateBySql(java.lang.String)
+	 */
+	@Override
+	public void updateBySql(String sql) {
+		// TODO Auto-generated method stub
+		iDdcDriverDao.updateBySql(sql);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.node.service.ITaskService#updateDdcDriverImgByDriver(com.node.model
+	 * .DdcDriver)
+	 */
+	@Override
+	public void updateDdcDriverImgByDriver(DdcDriver ddcDriver) {
+		if (StringUtils.isNotBlank(ddcDriver.getVcUserImg())) {
+			String imgPath = SystemConstants.FILE_READPATH
+					+ ddcDriver.getVcUserImg();
+			System.out.println(imgPath);
+			try {
+				in = new FileInputStream(imgPath);
+				byte[] b = new byte[in.available()];
+				in.read(b);
+				in.close();
+				ddcDriver.setBlobUserImg(b);
+				iDdcDriverDao.update(ddcDriver);
+			} catch (FileNotFoundException e) {
+				logger.warn("找不到头像文件:" + imgPath + "司机信息:"
+						+ JSON.toJSONString(ddcDriver));
+				ddcDriver.setUserStatus(0);
+				iDdcDriverDao.update(ddcDriver);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+			}
+
+		}
+		if (StringUtils.isNotBlank(ddcDriver.getVcUserCardImg1())) {
+			String imgPath = SystemConstants.FILE_READPATH
+					+ ddcDriver.getVcUserCardImg1();
+			System.out.println(imgPath);
+			try {
+				in = new FileInputStream(imgPath);
+				byte[] b = new byte[in.available()];
+				in.read(b);
+				in.close();
+				ddcDriver.setBlobUserCardImg1(b);
+				iDdcDriverDao.update(ddcDriver);
+			} catch (FileNotFoundException e) {
+				logger.warn("找不到身份证正面:" + imgPath + "司机信息:"
+						+ JSON.toJSONString(ddcDriver));
+				System.out.println("找不到文件：" + imgPath);
+				ddcDriver.setUserStatus(0);
+				iDdcDriverDao.update(ddcDriver);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+			}
+
+		}
+		if (StringUtils.isNotBlank(ddcDriver.getVcUserCardImg2())) {
+			String imgPath = SystemConstants.FILE_READPATH
+					+ ddcDriver.getVcUserCardImg2();
+			System.out.println(imgPath);
+			try {
+				in = new FileInputStream(imgPath);
+				byte[] b = new byte[in.available()];
+				in.read(b);
+				in.close();
+				ddcDriver.setBlobUserCardImg2(b);
+				iDdcDriverDao.update(ddcDriver);
+			} catch (FileNotFoundException e) {
+				logger.warn("找不到身份证反面:" + imgPath + "司机信息:"
+						+ JSON.toJSONString(ddcDriver));
+				System.out.println("找不到文件：" + imgPath);
+				ddcDriver.setUserStatus(0);
+				iDdcDriverDao.update(ddcDriver);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+			}
+
+		}
 
 	}
 
 	
 		/* (non-Javadoc)
-		 * @see com.node.service.ITaskService#updateBySql(java.lang.String)
+		 * @see com.node.service.ITaskService#updateDriverImgBlob()
 		 */
 	@Override
-	public void updateBySql(String sql) {
-		// TODO Auto-generated method stub
-		iDdcDriverDao.updateBySql(sql);
+	public void updateDriverImgBlob() {
+		List<DdcDriver> ddcDrivers = iDdcDriverDao.findByProperty("synFlag",
+				SystemConstants.SYSFLAG_AG);
+		if (CollectionUtils.isNotEmpty(ddcDrivers)) {
+			for (DdcDriver ddcDriver : ddcDrivers) {
+				if (StringUtils.isNotBlank(ddcDriver.getVcUserImg())) {
+					String imgPath = SystemConstants.FILE_READPATH
+							+ ddcDriver.getVcUserImg();
+					System.out.println(imgPath);
+					try {
+						in = new FileInputStream(imgPath);
+						byte[] b = new byte[in.available()];
+						in.read(b);
+						in.close();
+						ddcDriver.setUserStatus(1);
+						ddcDriver.setBlobUserImg(b);
+						iDdcDriverDao.update(ddcDriver);
+					} catch (FileNotFoundException e) {
+						logger.warn("找不到头像文件:" + imgPath + "司机信息:"
+								+ JSON.toJSONString(ddcDriver));
+						ddcDriver.setUserNote("找不到头像文件");
+						ddcDriver.setUserStatus(0);
+						iDdcDriverDao.update(ddcDriver);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+					}
+
+				}
+				if (StringUtils.isNotBlank(ddcDriver.getVcUserCardImg1())) {
+					String imgPath = SystemConstants.FILE_READPATH
+							+ ddcDriver.getVcUserCardImg1();
+					System.out.println(imgPath);
+					try {
+						in = new FileInputStream(imgPath);
+						byte[] b = new byte[in.available()];
+						in.read(b);
+						in.close();
+						ddcDriver.setUserStatus(1);
+						ddcDriver.setBlobUserCardImg1(b);
+						iDdcDriverDao.update(ddcDriver);
+					} catch (FileNotFoundException e) {
+						logger.warn("找不到身份证正面:" + imgPath + "司机信息:"
+								+ JSON.toJSONString(ddcDriver));
+						System.out.println("找不到文件：" + imgPath);
+						ddcDriver.setUserStatus(0);
+						iDdcDriverDao.update(ddcDriver);
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+				}
+				if (StringUtils.isNotBlank(ddcDriver.getVcUserCardImg2())) {
+					String imgPath = SystemConstants.FILE_READPATH
+							+ ddcDriver.getVcUserCardImg2();
+					System.out.println(imgPath);
+					try {
+						in = new FileInputStream(imgPath);
+						byte[] b = new byte[in.available()];
+						in.read(b);
+						in.close();
+						ddcDriver.setUserStatus(1);
+						ddcDriver.setBlobUserCardImg2(b);
+						iDdcDriverDao.update(ddcDriver);
+					} catch (FileNotFoundException e) {
+						logger.warn("找不到身份证反面:" + imgPath + "司机信息:"
+								+ JSON.toJSONString(ddcDriver));
+						System.out.println("找不到文件：" + imgPath);
+						ddcDriver.setUserStatus(0);
+						iDdcDriverDao.update(ddcDriver);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+				}
+
+			}
+		}
+		
+	}
+
+	
+		/* (non-Javadoc)
+		 * @see com.node.service.ITaskService#updateBySql2(java.lang.String)
+		 */
+	@Override
+	public int updateBySql2(String sql) {
+		 int row = iDdcDriverDao.updateBySql2(sql);
+		return row;
 	}
 
 }

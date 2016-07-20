@@ -10,6 +10,8 @@ package com.node.service;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import com.node.model.DdcDriver;
+
 
 /**
  * 类描述：
@@ -39,5 +41,38 @@ public interface ITaskService {
 	  * @version: 2016年6月25日 下午5:57:58
 	  */
 	void updateBySql(String sql);
+
+
+	
+	/**
+	  * 方法描述：
+	  * @param driver 
+	  * @version: 1.0
+	  * @author: liuwu
+	  * @version: 2016年7月11日 下午5:48:17
+	  */
+	void updateDdcDriverImgByDriver(DdcDriver driver);
+
+
+	
+	/**
+	  * 方法描述： 
+	  * @version: 1.0
+	  * @author: liuwu
+	  * @version: 2016年7月13日 上午9:35:22
+	  */
+	void updateDriverImgBlob();
+
+
+	
+	/**
+	  * 方法描述：
+	  * @param sql
+	  * @return 
+	  * @version: 1.0
+	  * @author: liuwu
+	  * @version: 2016年7月19日 上午11:01:55
+	  */
+	int updateBySql2(String sql);
 
 }

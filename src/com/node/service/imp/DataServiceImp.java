@@ -136,11 +136,14 @@ public class DataServiceImp implements IDataService {
 			Sheet ssdwClsbSheet = wb.getSheetAt(6);// DDC_HYXH_SSDWCLSB 外网只新增数据
 			saveSsdwClsb(ssdwClsbSheet);
 			
-			Sheet ddcDriver = wb.getSheetAt(7);// DDC_Driver 外网只新增数据
-			saveDdcDriver(ddcDriver);
+			
 			
 			Sheet driverDaxxbSheet = wb.getSheetAt(8);//ddc_driver_daxx内网只新增 外网只会更新
 			updateDriverDaxxb(driverDaxxbSheet);
+			
+			
+			Sheet ddcDriver = wb.getSheetAt(7);// DDC_Driver 外网只新增数据
+			saveDdcDriver(ddcDriver);
 			
 		} catch (EncryptedDocumentException | InvalidFormatException
 				| IOException e) {
@@ -234,18 +237,21 @@ public class DataServiceImp implements IDataService {
 				List<DdcDriver> ddcDrivers = iDdcDriverDao.findByProperty("id", driver.getId());
 				if(CollectionUtils.isEmpty(ddcDrivers)){
 					try {
+						driver.setUserStatus(0);
 						iDdcDriverDao.save(driver);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				}else {
 					DdcDriver oldDdcDriver = iDdcDriverDao.get(driver.getId());
+					driver.setSynFlag(SystemConstants.SYSFLAG_AG);
 					driver.setXjFlag(oldDdcDriver.getXjFlag());
 					driver.setXjMsg(oldDdcDriver.getXjMsg());
 					driver.setXjRq(oldDdcDriver.getXjRq());
 					driver.setTranDate(new Date());
+					driver.setUserStatus(0);
 					iDdcDriverDao.updateCleanBefore(driver);
-					iTaskService.updateDdcDriverImg();
+					//iTaskService.updateDdcDriverImgByDriver(driver);
 					
 				}
 			}

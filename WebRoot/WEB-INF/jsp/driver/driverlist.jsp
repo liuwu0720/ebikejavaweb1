@@ -86,6 +86,31 @@ $(document).ready(function(){
 				}
 			} 
 		},{
+			field : 'TRAN_DATE',
+			title : '导入日期',
+			align:'center',
+			width : 120,
+			formatter:function(value){
+				var formateDate = new Date(value);
+				return formateDate.toLocaleString();
+			}
+			
+		},{
+			field : 'XJ_RQ',
+			title : '星级认证日期',
+			align:'center',
+			width : 120,
+			formatter:function(value){
+				var formateDate = new Date(value);
+				return formateDate.toLocaleString();
+			}
+			
+		},{
+			field : 'XJ_MSG',
+			title : '星级认证说明',
+			align:'center',
+			width : 120
+		},{
 			field : 'null',
 			title:'操作',
 			align:'center',
