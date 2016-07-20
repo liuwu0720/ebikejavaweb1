@@ -23,7 +23,7 @@ import com.node.service.ITaskService;
  */
 @Component("scheduledTaskManager")
 public class AutoRunTask {
-	private static final Logger logger = Logger.getLogger("内外网数据同步");
+	private static final Logger logger = Logger.getLogger("自动任务处理");
 	@Autowired
 	ITaskService iTaskService;
 
