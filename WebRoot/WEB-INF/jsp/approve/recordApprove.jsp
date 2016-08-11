@@ -179,17 +179,13 @@ function doSearch(){
 
 //查看
 function queryRow(id){
-	$.messager.progress({
-		text:"正在处理，请稍候..."
-	});
-	window.location.href="<%=basePath%>approvalAction/queryRecordApprovalInfoById?id="+id+"&&type=1";
+	window.open("<%=basePath%>approvalAction/queryRecordApprovalInfoById?id="+id+"&&type=1","_blank");
+	<%-- window.location.href="<%=basePath%>approvalAction/queryRecordApprovalInfoById?id="+id+"&&type=1"; --%>
 }
 //审批
 function approveRow(id){
-	$.messager.progress({
-		text:"正在处理，请稍候..."
-	});
-	window.location.href="<%=basePath%>approvalAction/queryRecordApprovalInfoById?id="+id+"&&type=2"
+	window.open("<%=basePath%>approvalAction/queryRecordApprovalInfoById?id="+id+"&&type=2","_blank");
+	<%-- window.location.href="<%=basePath%>approvalAction/queryRecordApprovalInfoById?id="+id+"&&type=2" --%>
 }
 //查看行业协会详情
 function queryHyxhDetail(obj){

@@ -69,12 +69,12 @@ public class AutoRunTask {
 	  * @author: liuwu
 	  * @version: 2016年7月13日 上午9:34:39
 	 */
-	@Scheduled(cron = "0 30 18 * * *?")
+	@Scheduled(fixedRate=1000 *60*30)
 	public void updateDriverImgBlob() {
 		iTaskService.updateDriverImgBlob();
 	}
 	
-	@Scheduled(fixedRate=1000 *60*60)
+	@Scheduled(fixedRate=1000 *60*90)
 	public void autoTask2() {
 		iTaskService.updateDdcDriverImg();
 	}
@@ -90,7 +90,7 @@ public class AutoRunTask {
 	@Scheduled(cron = "0 52 15 * * *?")
 	public void updateDriverState() {
 		String sql = "update  DDC_DRIVER t set t.user_status=2  where t.xj_flag is not null and t.xj_flag != -99";
-		iTaskService.updateBySql(sql);
+		iTaskService.updateBySql2(sql);
 
 	}
 
@@ -108,7 +108,7 @@ public class AutoRunTask {
 	@Scheduled(fixedRate=1000 *60*60)
 	public void updateDriverState4() {
 		String sql2 = " update DDC_DRIVER t set t.syn_flag='ADD' where t.xj_rq>(select sysdate - interval '10' day from dual ) and t.syn_flag is not null  and t.xj_flag != -99";
-		iTaskService.updateBySql(sql2);
+		iTaskService.updateBySql2(sql2);
 	}
 
 }

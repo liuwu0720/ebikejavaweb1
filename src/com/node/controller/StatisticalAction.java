@@ -690,6 +690,7 @@ public class StatisticalAction {
 		sb.append(" full join (select s.dmz, s.dmms1, x.total from ddc_sjzd s");
 		sb.append(" left join (select d.xsqy, count(*) total from ddc_daxxb d where d.hyxhzh != 'cs' and d.ZT != 'E' group by d.xsqy) x");
 		sb.append(" on s.dmz = x.xsqy where s.dmlb = 'SSQY' ) b on a.dmz = b.dmz order by a.dmms1 asc");
+		System.out.println("sql = "+sb.toString());
 		Map<String, Object> sqlMap = iStatisticalService.findBySpringSqlPage(
 				sb.toString(), p);
 		List<Map<String, Object>> sqlList = (List<Map<String, Object>>) sqlMap

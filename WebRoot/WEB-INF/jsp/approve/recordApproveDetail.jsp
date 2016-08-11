@@ -130,7 +130,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								msg : data.message
 							});
 							$('#dgformDiv2').dialog('close');
-							window.location.href="<%=basePath%>approvalAction/recordApprove"
+							window.location.reload();
+							//window.location.href="<%=basePath%>approvalAction/recordApprove"
 						}else{
 							alert(data.message);
 						}
@@ -406,7 +407,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</c:if>	
 		<c:if test="${type == 1 }">
 			<div class="btndiv">
-			<button type="button" class="btn" onclick="history.back()">返回</button>
+			<button type="button" class="btn" onclick="window.close()">关闭</button>
 			</div>
 		</c:if>	
     </form>

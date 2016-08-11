@@ -24,6 +24,7 @@ import jxl.write.biff.RowsExceededException;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Row;
@@ -69,6 +70,7 @@ import com.node.util.SystemConstants;
  */
 @Service
 public class DataServiceImp implements IDataService {
+	private static final Logger logger = Logger.getLogger("内外网数据service");
 	@Autowired
 	IDdcDaxxbDao iDdcDaxxbDao;
 
@@ -181,7 +183,11 @@ public class DataServiceImp implements IDataService {
 				if(CollectionUtils.isNotEmpty(ddcDriverDaxxs)){
 					for(DdcDriverDaxx ddcDriverDaxxb:ddcDriverDaxxs){
 						ddcDriverDaxxb.setSysFlag(ddcDriverDaxxb.getSysFlag()+"_W");
-						iDdcDriverDaxxDao.updateCleanBefore(ddcDriverDaxxb);
+						try {
+							iDdcDriverDaxxDao.updateCleanBefore(ddcDriverDaxxb);
+						} catch (Exception e) {
+							logger.warn("司机档案关联表保存异常:"+e.getMessage());
+						}
 					}
 				}
 			}
@@ -240,6 +246,7 @@ public class DataServiceImp implements IDataService {
 						driver.setUserStatus(0);
 						iDdcDriverDao.save(driver);
 					} catch (Exception e) {
+						logger.warn("司机表保存异常:"+e.getMessage());
 						e.printStackTrace();
 					}
 				}else {
@@ -250,8 +257,12 @@ public class DataServiceImp implements IDataService {
 					driver.setXjRq(oldDdcDriver.getXjRq());
 					driver.setTranDate(new Date());
 					driver.setUserStatus(0);
-					iDdcDriverDao.updateCleanBefore(driver);
-					//iTaskService.updateDdcDriverImgByDriver(driver);
+					try {
+						iDdcDriverDao.updateCleanBefore(driver);
+						//iTaskService.updateDdcDriverImgByDriver(driver);
+					} catch (Exception e) {
+						logger.warn("司机表保存异常:"+e.getMessage());
+					}
 					
 				}
 			}
@@ -334,7 +345,14 @@ public class DataServiceImp implements IDataService {
 					try {
 						iDdcHyxhSsdwclsbDao.save(ddcHyxhSsdwclsb);
 					} catch (Exception e) {
+						logger.warn("车辆申报表保存异常:"+e.getMessage());
 						e.printStackTrace();
+					}
+				}else{
+					try {
+						iDdcHyxhSsdwclsbDao.updateCleanBefore(ddcHyxhSsdwclsb);
+					} catch (Exception e) {
+						logger.warn("车辆申报表修改异常"+e.getMessage());
 					}
 				}
 			}
@@ -538,6 +556,7 @@ public class DataServiceImp implements IDataService {
 					try {
 						iDdcHyxhBasbDao.save(ddcHyxhBasb);
 					} catch (Exception e) {
+						logger.warn("行业协会配额申请表保存异常:"+e.getMessage());
 						e.printStackTrace();
 					}
 				}
@@ -640,7 +659,11 @@ public class DataServiceImp implements IDataService {
 					beanUtils.copyProperties(ddcFlowLog, ddcFlow);*/
 					if (CollectionUtils.isEmpty(ddcFlows)) {
 						ddcFlow.setTranDate(new Date());
-						iDdcFlowDao.save(ddcFlow);
+						try {
+							iDdcFlowDao.save(ddcFlow);
+						} catch (Exception e) {
+							logger.warn("流水表保存异常:"+e.getMessage());
+						}
 					}
 
 				}
@@ -692,6 +715,7 @@ public class DataServiceImp implements IDataService {
 					try {
 						iDdcApprovalUserDao.save(ddcApproveUser);
 					} catch (Exception e) {
+						logger.warn("审批人员表保存异常:"+e.getMessage());
 						e.printStackTrace();
 					}
 				}
@@ -773,9 +797,13 @@ public class DataServiceImp implements IDataService {
 					daxxb.setVcUser2WorkImg(row.getCell(j += 1) + "");
 					daxxb.setVcQualifiedImg(row.getCell(j += 1) + "");
 					daxxb.setVcEbikeInsuranceImg(row.getCell(j += 1) + "");
-					daxxb.setTranDate(new Date());
-					iDdcDaxxbDao.update(daxxb);
-					// saveDaxxbLog(daxxb);
+					try {
+						daxxb.setTranDate(new Date());
+						iDdcDaxxbDao.update(daxxb);
+						// saveDaxxbLog(daxxb);
+					} catch (Exception e) {
+						logger.warn("档案信息表保存异常："+e.getMessage());
+					}
 				}
 
 			}

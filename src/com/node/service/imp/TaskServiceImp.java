@@ -78,11 +78,11 @@ public class TaskServiceImp implements ITaskService {
 						in.read(b);
 						in.close();
 						ddcDriver.setBlobUserImg(b);
+						ddcDriver.setUserNote(null);
 						ddcDriver.setUserStatus(1);
 						iDdcDriverDao.update(ddcDriver);
 					} catch (FileNotFoundException e) {
-						logger.warn("找不到头像文件:" + imgPath + "司机信息:"
-								+ JSON.toJSONString(ddcDriver));
+						logger.warn("找不到头像文件:" + imgPath + "司机信息:"+ddcDriver.getJsrxm()+",sfz="+ddcDriver.getSfzhm());
 						ddcDriver.setUserNote("找不到头像文件");
 						ddcDriver.setSynFlag(SystemConstants.SYSFLAG_ADD);
 						ddcDriver.setUserStatus(0);
@@ -104,11 +104,11 @@ public class TaskServiceImp implements ITaskService {
 						in.read(b);
 						in.close();
 						ddcDriver.setBlobUserCardImg1(b);
+						ddcDriver.setUserNote(null);
 						ddcDriver.setUserStatus(1);
 						iDdcDriverDao.update(ddcDriver);
 					} catch (FileNotFoundException e) {
-						logger.warn("找不到身份证正面:" + imgPath + "司机信息:"
-								+ JSON.toJSONString(ddcDriver));
+						logger.warn("找不到身份证正面:" + imgPath + "司机信息:"+ddcDriver.getJsrxm()+",sfz="+ddcDriver.getSfzhm());
 						System.out.println("找不到文件：" + imgPath);
 						ddcDriver.setUserNote("找不到身份证正面");
 						ddcDriver.setUserStatus(0);
@@ -131,11 +131,11 @@ public class TaskServiceImp implements ITaskService {
 						in.read(b);
 						in.close();
 						ddcDriver.setBlobUserCardImg2(b);
+						ddcDriver.setUserNote(null);
 						ddcDriver.setUserStatus(1);
 						iDdcDriverDao.update(ddcDriver);
 					} catch (FileNotFoundException e) {
-						logger.warn("找不到身份证反面:" + imgPath + "司机信息:"
-								+ JSON.toJSONString(ddcDriver));
+						logger.warn("找不到身份证反面:" + imgPath  + "司机信息:"+ddcDriver.getJsrxm()+",sfz="+ddcDriver.getSfzhm());
 						System.out.println("找不到文件：" + imgPath);
 						ddcDriver.setUserNote("找不到身份证反面");
 						ddcDriver.setUserStatus(0);
@@ -207,8 +207,7 @@ public class TaskServiceImp implements ITaskService {
 				ddcDriver.setBlobUserCardImg1(b);
 				iDdcDriverDao.update(ddcDriver);
 			} catch (FileNotFoundException e) {
-				logger.warn("找不到身份证正面:" + imgPath + "司机信息:"
-						+ JSON.toJSONString(ddcDriver));
+				logger.warn("找不到身份证正面:" + imgPath+  "司机信息:"+ddcDriver.getJsrxm()+",sfz="+ddcDriver.getSfzhm());
 				System.out.println("找不到文件：" + imgPath);
 				ddcDriver.setUserStatus(0);
 				iDdcDriverDao.update(ddcDriver);
@@ -229,8 +228,7 @@ public class TaskServiceImp implements ITaskService {
 				ddcDriver.setBlobUserCardImg2(b);
 				iDdcDriverDao.update(ddcDriver);
 			} catch (FileNotFoundException e) {
-				logger.warn("找不到身份证反面:" + imgPath + "司机信息:"
-						+ JSON.toJSONString(ddcDriver));
+				logger.warn("找不到身份证反面:" + imgPath + "司机信息:"+ddcDriver.getJsrxm()+",sfz="+ddcDriver.getSfzhm());
 				System.out.println("找不到文件：" + imgPath);
 				ddcDriver.setUserStatus(0);
 				iDdcDriverDao.update(ddcDriver);
@@ -265,8 +263,7 @@ public class TaskServiceImp implements ITaskService {
 						ddcDriver.setBlobUserImg(b);
 						iDdcDriverDao.update(ddcDriver);
 					} catch (FileNotFoundException e) {
-						logger.warn("找不到头像文件:" + imgPath + "司机信息:"
-								+ JSON.toJSONString(ddcDriver));
+						logger.warn("找不到头像文件:" + imgPath +  "司机信息:"+ddcDriver.getJsrxm()+",sfz="+ddcDriver.getSfzhm());
 						ddcDriver.setUserNote("找不到头像文件");
 						ddcDriver.setUserStatus(0);
 						iDdcDriverDao.update(ddcDriver);
@@ -288,8 +285,7 @@ public class TaskServiceImp implements ITaskService {
 						ddcDriver.setBlobUserCardImg1(b);
 						iDdcDriverDao.update(ddcDriver);
 					} catch (FileNotFoundException e) {
-						logger.warn("找不到身份证正面:" + imgPath + "司机信息:"
-								+ JSON.toJSONString(ddcDriver));
+						logger.warn("找不到身份证正面:" + imgPath  +"司机信息:"+ddcDriver.getJsrxm()+",sfz="+ddcDriver.getSfzhm());
 						System.out.println("找不到文件：" + imgPath);
 						ddcDriver.setUserStatus(0);
 						iDdcDriverDao.update(ddcDriver);
@@ -313,8 +309,7 @@ public class TaskServiceImp implements ITaskService {
 						ddcDriver.setBlobUserCardImg2(b);
 						iDdcDriverDao.update(ddcDriver);
 					} catch (FileNotFoundException e) {
-						logger.warn("找不到身份证反面:" + imgPath + "司机信息:"
-								+ JSON.toJSONString(ddcDriver));
+						logger.warn("找不到身份证反面:" + imgPath + "司机信息:"+ddcDriver.getJsrxm()+",sfz="+ddcDriver.getSfzhm());
 						System.out.println("找不到文件：" + imgPath);
 						ddcDriver.setUserStatus(0);
 						iDdcDriverDao.update(ddcDriver);
