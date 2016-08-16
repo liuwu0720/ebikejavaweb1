@@ -60,12 +60,7 @@ public class TaskServiceImp implements ITaskService {
 				0);
 		
 		if (CollectionUtils.isNotEmpty(ddcDrivers)) {
-			int  index = 0;
 			for (DdcDriver ddcDriver : ddcDrivers) {
-				index ++;
-				if(index == 500){
-					break;
-				}
 				ddcDriver.setSynFlag(SystemConstants.SYSFLAG_ADD);
 				if (StringUtils.isNotBlank(ddcDriver.getVcUserImg())) {
 					ddcDriver.setSynFlag(SystemConstants.SYSFLAG_ADD);

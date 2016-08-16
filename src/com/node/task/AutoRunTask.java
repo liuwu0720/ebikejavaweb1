@@ -29,7 +29,7 @@ public class AutoRunTask {
 
 	/**
 	 * 
-	 * 方法描述：当天晚上开始写入BLOB
+	 * 方法描述：下午导数据前改变一次
 	 * 
 	 * @version: 1.0
 	 * @author: liuwu
@@ -41,11 +41,6 @@ public class AutoRunTask {
 		iTaskService.updateBySql(sql);
 	}
 	
-	@Scheduled(cron = "0 35 18 * * *?")
-	public void autoTaskN() {
-		String sql = "update  DDC_DRIVER t set t.user_status=0,t.xj_flag=null,t.xj_rq=null,t.xj_msg=null   where t.xj_flag =-99";
-		iTaskService.updateBySql(sql);
-	}
 	
 	@Scheduled(fixedRate=1000 *60*30)
 	public void updateXjFlag(){
@@ -54,56 +49,41 @@ public class AutoRunTask {
 		logger.warn("修改了条数："+row);
 	}
 	
-	@Scheduled(fixedRate=1000 *60*20)
-	public void updateXjFlag2(){
-		String sql = "update  DDC_DRIVER t set t.user_status=0,t.xj_flag=null,t.xj_rq=null,t.xj_msg=null   where t.xj_msg ='图片信息不能为空'";
-		int row = iTaskService.updateBySql2(sql);
-		logger.warn("修改了条数2："+row);
-	}
-	
 	
 	/**
 	 * 
-	  * 方法描述： 外网重复导入的图片重新写入BLOB
+	  * 方法描述： 外网重复导入的图片重新写入BLOB，上午一次 下午一次
 	  * @version: 1.0
 	  * @author: liuwu
 	  * @version: 2016年7月13日 上午9:34:39
 	 */
-	@Scheduled(fixedRate=1000 *60*30)
+	@Scheduled(fixedRate=1000 *60*180)
 	public void updateDriverImgBlob() {
 		iTaskService.updateDriverImgBlob();
 	}
 	
-	@Scheduled(fixedRate=1000 *60*90)
+	
+	@Scheduled(fixedRate=1000 *60*180)
 	public void autoTask2() {
 		iTaskService.updateDdcDriverImg();
 	}
 
+
 	/**
 	 * 
-	 * 方法描述：下午3点前修改状态 分步进行
+	 * 方法描述：上午导数据前改变一次
 	 * 
 	 * @version: 1.0
 	 * @author: liuwu
 	 * @version: 2016年7月11日 下午7:41:33
 	 */
-	@Scheduled(cron = "0 52 15 * * *?")
+	@Scheduled(cron = "0 52 06 * * *?")
 	public void updateDriverState() {
 		String sql = "update  DDC_DRIVER t set t.user_status=2  where t.xj_flag is not null and t.xj_flag != -99";
 		iTaskService.updateBySql2(sql);
 
 	}
 
-	@Scheduled(cron = "0 53 15 * * *?")
-	public void updateDriverState2() {
-		iTaskService.updateDdcDriverImg();
-	}
-
-	@Scheduled(cron = "0 12 16 * * *?")
-	public void updateDriverState3() {
-		String sql = "update  DDC_DRIVER t set t.user_status=2  where t.xj_flag is not null and t.xj_flag != -99";
-		iTaskService.updateBySql(sql);
-	}
 
 	@Scheduled(fixedRate=1000 *60*60)
 	public void updateDriverState4() {
