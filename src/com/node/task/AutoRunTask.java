@@ -57,7 +57,7 @@ public class AutoRunTask {
 	  * @author: liuwu
 	  * @version: 2016年7月13日 上午9:34:39
 	 */
-	@Scheduled(fixedRate=1000 *60*180)
+	@Scheduled(fixedRate=1000 *60*120)
 	public void updateDriverImgBlob() {
 		iTaskService.updateDriverImgBlob();
 	}
