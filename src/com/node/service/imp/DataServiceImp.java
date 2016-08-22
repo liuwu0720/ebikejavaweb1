@@ -900,7 +900,7 @@ public class DataServiceImp implements IDataService {
 		int index = 0;
 		for (DdcDaxxb daxxb : allDaxxbs) {
 			index ++;
-			if(index == 2000){
+			if(index == SystemConstants.LIMIT_INDEX){
 				break;
 			}
 			
@@ -1006,7 +1006,7 @@ public class DataServiceImp implements IDataService {
 		int index = 0;
 		for (DdcApproveUser ddcApproveUser : ddcApproveUsers) {
 			index ++;
-			if(index == 2000){
+			if(index == SystemConstants.LIMIT_INDEX){
 				break;
 			}
 			int j = 0;
@@ -1115,7 +1115,7 @@ public class DataServiceImp implements IDataService {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		for (DdcFlow ddcFlow : ddcFlows) {
 			index ++;
-			if(index == 2000){
+			if(index == SystemConstants.LIMIT_INDEX){
 				break;
 			}
 			
@@ -1489,7 +1489,7 @@ public class DataServiceImp implements IDataService {
 		int index = 0;
 		for (DdcHyxhSsdwclsb ddcHyxhSsdwclsb : ddcHyxhSsdwclsbs) {
 			index ++;
-			if(index == 2000){
+			if(index == SystemConstants.LIMIT_INDEX){
 				break;
 			}
 			
@@ -1609,7 +1609,7 @@ public class DataServiceImp implements IDataService {
 		int index = 0;
 		for (DdcDriver ddcDriver : ddcDrivers) {
 			index ++;
-			if(index == 2000){
+			if(index == SystemConstants.LIMIT_INDEX){
 				break;
 			}
 			
@@ -1712,7 +1712,7 @@ public class DataServiceImp implements IDataService {
 		int index = 0;
 		for(DdcDriverDaxx ddcDriverDaxx:ddcDriverDaxxs){
 			index ++;
-			if(index == 2000){
+			if(index == SystemConstants.LIMIT_INDEX){
 				break;
 			}
 			int j1 = 0;

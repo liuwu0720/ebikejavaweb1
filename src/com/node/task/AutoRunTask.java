@@ -57,6 +57,14 @@ public class AutoRunTask {
 	  * @author: liuwu
 	  * @version: 2016年7月13日 上午9:34:39
 	 */
+	@Scheduled(cron = "0 50 12 * * *?")
+	public void updateDdcDriverImg() {
+		iTaskService.updateDdcDriverImg();
+	}
+	@Scheduled(cron = "0 50 18 * * *?")
+	public void updateDdcDriverImg1() {
+		iTaskService.updateDdcDriverImg();
+	}
 	@Scheduled(fixedRate=1000 *60*120)
 	public void updateDriverImgBlob() {
 		iTaskService.updateDriverImgBlob();
