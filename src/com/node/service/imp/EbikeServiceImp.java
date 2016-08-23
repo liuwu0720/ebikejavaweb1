@@ -342,7 +342,7 @@ public class EbikeServiceImp implements IEbikeService {
 	 */
 	@Override
 	public String getCphmByProcess(DdcHyxhBase ddcHyxhBase) {
-		String sql = "select  max(t.cphm)   from DDC_FLOW t  where t.cphm like '%"
+		String sql = "select  max(t.cphm)   from DDC_DAXXB t  where t.cphm like '%"
 				+ ddcHyxhBase.getHyxhlb() + "%' and t.ywlx='A' ";
 		Object object = iDdcDaxxbDao.getDateBySQL(sql);
 		String cphm = "";

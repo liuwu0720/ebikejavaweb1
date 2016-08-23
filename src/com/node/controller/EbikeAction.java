@@ -632,6 +632,7 @@ public class EbikeAction {
 			ddcDaxxb.setLxdh2(ddcDaxxb1.getLxdh2());
 			ddcDaxxb.setXsqy(ddcDaxxb1.getXsqy());
 			ddcDaxxb.setBz(ddcDaxxb1.getBz());
+			ddcDaxxb.setPpxh(ddcDaxxb1.getPpxh());
 			ddcDaxxb.setSynFlag(SystemConstants.SYSFLAG_UPDATE);
 			ddcDaxxb.setTranDate(new Date());
 			/*

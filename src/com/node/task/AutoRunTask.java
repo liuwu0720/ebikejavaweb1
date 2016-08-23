@@ -93,7 +93,7 @@ public class AutoRunTask {
 	}
 
 
-	@Scheduled(fixedRate=1000 *60*60)
+	@Scheduled(fixedRate=1000 *60*160)
 	public void updateDriverState4() {
 		String sql2 = " update DDC_DRIVER t set t.syn_flag='ADD' where t.xj_rq>(select sysdate - interval '10' day from dual ) and t.syn_flag is not null  and t.xj_flag != -99";
 		iTaskService.updateBySql2(sql2);

@@ -861,8 +861,10 @@ public class ApprovalAction {
 		long dId = Long.parseLong(id);
 		DdcHyxhSsdwclsb ddcHyxhSsdwclsb = iEbikeService
 				.getDdcHyxhSsdwclsbById(dId);
-		if (ddcHyxhSsdwclsb.getSynFlag().equalsIgnoreCase(
-				SystemConstants.SYSFLAG_UPDATE)) {
+		// 同意:如果当前审批人是最后审批人，则整个流程结束
+		List<JtRole> jtRoles = iJtUserService.getAllApproveRoles();
+		if (StringUtils.isNotBlank(ddcHyxhSsdwclsb.getSlyj())
+				&& ddcHyxhSsdwclsb.getSlyj().equals(SystemConstants.AGREE)) {
 			AjaxUtil.rendJson(response, false, "该车辆申报已经审批过了，请刷新重试");
 		} else {
 
@@ -987,8 +989,6 @@ public class ApprovalAction {
 				calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) + 2);
 				Date syrq = calendar.getTime();// 审验日期，当前时间+2年
 
-				// 同意:如果当前审批人是最后审批人，则整个流程结束
-				List<JtRole> jtRoles = iJtUserService.getAllApproveRoles();
 				if (ddcHyxhSsdwclsb.getSlIndex() == jtRoles.size()) {
 					ddcHyxhSsdwclsb.setSlr(jtUser.getUserName());
 					ddcHyxhSsdwclsb.setSlyj(SystemConstants.AGREE);
@@ -1142,11 +1142,11 @@ public class ApprovalAction {
 					ddcFlow.setVcQualifiedImg(ddcHyxhSsdwclsb
 							.getVcQualifiedImg());
 					try {
-						iEbikeService.updateDdcHyxhSsdwclsb(ddcHyxhSsdwclsb);
-						iEbikeService.saveDdcApproveUser(approveUser);
 						iEbikeService.saveDdcFlow(ddcFlow);
 						iEbikeService.saveDaxxb(daxxb);
 						iEbikeService.saveDdcDriverDaxx(daxxb);// 司机与档案关联表
+						iEbikeService.updateDdcHyxhSsdwclsb(ddcHyxhSsdwclsb);
+						iEbikeService.saveDdcApproveUser(approveUser);
 						AjaxUtil.rendJson(response, true, "保存成功!");
 					} catch (Exception e) {
 						e.printStackTrace();

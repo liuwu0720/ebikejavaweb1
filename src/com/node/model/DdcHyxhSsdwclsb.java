@@ -241,7 +241,7 @@ public class DdcHyxhSsdwclsb implements java.io.Serializable {
 		this.ssdwId = ssdwId;
 	}
 
-	@Column(name = "CPHM", length = 50)
+	@Column(name = "CPHM", unique = true,nullable = true, length = 50)
 	public String getCphm() {
 		return this.cphm;
 	}

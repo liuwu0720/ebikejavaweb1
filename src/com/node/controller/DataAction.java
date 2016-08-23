@@ -165,7 +165,7 @@ public class DataAction {
 			HttpServletResponse response) throws IOException, WriteException {
 		try {
 			PicPath imgPath = iInDustryService
-					.getImgPathById(SystemConstants.PIC_IMG);
+					.getImgPathById(SystemConstants.PIC_EXCEL);
 			String path = imgPath.getVcAddpath();
 			String fileName = createFileName() + ".xls";
 			String filePath = path + "/" + fileName;// 写入

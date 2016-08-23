@@ -28,10 +28,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				    value:'${ddcDaxxb.cysy}'   
 			});
 			$('#xb1').combobox({
-				value:${ddcDaxxb.xb1 }
+				value:'${ddcDaxxb.xb1 }'
 			});
 			$('#xb2').combobox({
-				value:${ddcDaxxb.xb2 }
+				value:'${ddcDaxxb.xb2 }'
 			});
 			
 			
@@ -39,7 +39,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				 url:'<%=basePath%>ebikeAction/getArea',    
 				    valueField:'dmz',    
 				    textField:'dmms1',
-				    value:${ddcDaxxb.xsqy }
+				    value:'${ddcDaxxb.xsqy }'
 			})
 	}) 
 	

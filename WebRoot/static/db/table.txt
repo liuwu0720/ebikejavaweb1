@@ -10050,7 +10050,13 @@ increment by 1
 cache 20;
     
 
-
+alter table DDC_HYXH_SSDWCLSB
+  add constraint UNK_DDC_HYXH_SSDWCLSB unique (LSH)
+  using index ;
+  
+  alter table DDC_DAXXB
+  add constraint UNI_DDC_DAXXB unique (DABH)
+  using index 
 
 
 

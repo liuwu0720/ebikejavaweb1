@@ -170,13 +170,13 @@ function doSearch(){
 
 //查看
 function queryRow(id){
-	window.location.href="<%=basePath%>ebikeAction/queryInfoById?id="+id
+	window.location.href="<%=basePath%>ebikeAction/queryInfoById?id="+id;
 
 }
 
 //修改
 function updateRow(id){
-	window.location.href="<%=basePath%>ebikeAction/updateDaxxb?id="+id
+	window.location.href="<%=basePath%>ebikeAction/updateDaxxb?id="+id;
 
 }
 
