@@ -57,24 +57,29 @@ public class AutoRunTask {
 	  * @author: liuwu
 	  * @version: 2016年7月13日 上午9:34:39
 	 */
-	@Scheduled(cron = "0 50 12 * * *?")
+	@Scheduled(cron = "0 40 12 * * *?")
 	public void updateDdcDriverImg() {
-		iTaskService.updateDdcDriverImg();
+		int maxIndex=100;
+		iTaskService.updateDdcDriverImg(maxIndex);
 	}
-	@Scheduled(cron = "0 50 18 * * *?")
+	@Scheduled(cron = "0 50 19 * * *?")
 	public void updateDdcDriverImg1() {
-		iTaskService.updateDdcDriverImg();
-	}
-	@Scheduled(fixedRate=1000 *60*120)
-	public void updateDriverImgBlob() {
-		iTaskService.updateDriverImgBlob();
+		int maxIndex=100;
+		iTaskService.updateDdcDriverImg(maxIndex);
 	}
 	
-	
-	@Scheduled(fixedRate=1000 *60*180)
+	@Scheduled(fixedRate=1000 *60*60)
 	public void autoTask2() {
-		iTaskService.updateDdcDriverImg();
+		int maxIndex=50;
+		iTaskService.updateDdcDriverImg(maxIndex);
 	}
+	
+	@Scheduled(cron = "0 50 22 * * *?")
+	public void autoTask3() {
+		int maxIndex=500;
+		iTaskService.updateDdcDriverImg(maxIndex);
+	}
+
 
 
 	/**

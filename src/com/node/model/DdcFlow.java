@@ -406,7 +406,7 @@ public class DdcFlow implements java.io.Serializable {
 		this.cphm = cphm;
 	}
 
-	@Column(name = "PPXH", length = 20)
+	@Column(name = "PPXH", length = 100)
 	public String getPpxh() {
 		return this.ppxh;
 	}
@@ -424,7 +424,7 @@ public class DdcFlow implements java.io.Serializable {
 		this.cysy = cysy;
 	}
 
-	@Column(name = "DJH", length = 30)
+	@Column(name = "DJH", length = 50)
 	public String getDjh() {
 		return this.djh;
 	}
@@ -606,7 +606,7 @@ public class DdcFlow implements java.io.Serializable {
 		this.tbyy = tbyy;
 	}
 
-	@Column(name = "GDBZ", length = 100)
+	@Column(name = "GDBZ", length = 500)
 	public String getGdbz() {
 		return this.gdbz;
 	}

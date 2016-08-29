@@ -376,4 +376,29 @@ public interface IEbikeService {
 	  */
 	List<DdcDriver> getDriverInfoByProperties(String sfzhm, String lxdh);
 
+	
+	/**
+	  * 方法描述：
+	  * @param dabh
+	  * @return 
+	  * @version: 1.0
+	  * @author: liuwu
+	  * @version: 2016年8月23日 下午10:42:37
+	  */
+	List<DdcFlow> findDdcFlowsByDabh(String dabh);
+
+	
+	/**
+	  * 方法描述：
+	  * @param ddcHyxhSsdwclsb
+	  * @param ddcFlow
+	  * @param daxxb
+	  * @param approveUser 
+	  * @version: 1.0
+	  * @author: liuwu
+	  * @version: 2016年8月25日 上午10:32:30
+	  */
+	void saveNewDaxxb(DdcHyxhSsdwclsb ddcHyxhSsdwclsb, DdcFlow ddcFlow,
+			DdcDaxxb daxxb, DdcApproveUser approveUser);
+
 }

@@ -277,7 +277,7 @@ public class EbikeServiceImp implements IEbikeService {
 	@Override
 	public void updateDdcHyxhSsdwclsb(DdcHyxhSsdwclsb ddcHyxhSsdwclsb) {
 		// TODO Auto-generated method stub
-		iDdcHyxhSsdwclsbDao.save(ddcHyxhSsdwclsb);
+		iDdcHyxhSsdwclsbDao.update(ddcHyxhSsdwclsb);
 	}
 
 	/*
@@ -527,7 +527,9 @@ public class EbikeServiceImp implements IEbikeService {
 		 */
 	@Override
 	public void saveDdcDriverDaxx(DdcDaxxb daxxb) {
-	   List<DdcDriver> ddcDrivers = iDdcDriverDao.findAllBySfzhm(daxxb.getSfzmhm1());
+		String[] propertyNames = { "sfzhm", "ssdwId" };
+		Object[] values = { daxxb.getSfzmhm1(), Integer.parseInt(daxxb.getSsdwId()) };
+	   List<DdcDriver> ddcDrivers = iDdcDriverDao.findByPropertys(propertyNames, values);
 	   if(CollectionUtils.isNotEmpty(ddcDrivers)){
 		   DdcDriver ddcDriver1 = ddcDrivers.get(0);
 		   DdcDriverDaxx ddcDriverDaxx = new DdcDriverDaxx();
@@ -537,7 +539,9 @@ public class EbikeServiceImp implements IEbikeService {
 		   iDdcDriverDaxxDao.save(ddcDriverDaxx);
 	   }
 	   if(StringUtils.isNotBlank(daxxb.getSfzmhm2())){
-		   List<DdcDriver> ddcDrivers2 = iDdcDriverDao.findAllBySfzhm(daxxb.getSfzmhm1());
+			String[] propertyNames2 = { "sfzhm", "ssdwId" };
+			Object[] values2 = { daxxb.getSfzmhm2(), Integer.parseInt(daxxb.getSsdwId()) };
+		   List<DdcDriver> ddcDrivers2 = iDdcDriverDao.findByPropertys(propertyNames2, values2);
 		   if(CollectionUtils.isNotEmpty(ddcDrivers2)){
 			   DdcDriver ddcDriver2 = ddcDrivers2.get(0);
 			   DdcDriverDaxx ddcDriverDaxx = new DdcDriverDaxx();
@@ -566,6 +570,31 @@ public class EbikeServiceImp implements IEbikeService {
 			return ddcDrivers;
 		}
 		return null;
+	}
+
+	
+		/* (non-Javadoc)
+		 * @see com.node.service.IEbikeService#findDdcFlowsByDabh(java.lang.String)
+		 */
+	@Override
+	public List<DdcFlow> findDdcFlowsByDabh(String dabh) {
+		List<DdcFlow> ddcFlows = iDdcFlowDao.findByProperty("dabh", dabh);
+		return ddcFlows;
+	}
+
+	
+		/* (non-Javadoc)
+		 * @see com.node.service.IEbikeService#saveNewDaxxb(com.node.model.DdcHyxhSsdwclsb, com.node.model.DdcFlow, com.node.model.DdcDaxxb, com.node.model.DdcApproveUser)
+		 */
+	@Override
+	public void saveNewDaxxb(DdcHyxhSsdwclsb ddcHyxhSsdwclsb, DdcFlow ddcFlow,
+			DdcDaxxb daxxb, DdcApproveUser approveUser) {
+		// TODO Auto-generated method stub
+		iDdcHyxhSsdwclsbDao.update(ddcHyxhSsdwclsb);
+		iDdcFlowDao.save(ddcFlow);
+		iDdcDaxxbDao.save(daxxb);
+		saveDdcDriverDaxx(daxxb);
+		iDdcApprovalUserDao.save(approveUser);
 	}
 
 }

@@ -49,7 +49,7 @@ public class TaskServiceImp implements ITaskService {
 	Transaction tx = null;
 
 	@Override
-	public void updateDdcDriverImg() {
+	public void updateDdcDriverImg(int maxIndex) {
 		// 得到session
 		/*
 		 * cfg = new Configuration().configure(); sessions =
@@ -60,13 +60,17 @@ public class TaskServiceImp implements ITaskService {
 				0);
 		
 		if (CollectionUtils.isNotEmpty(ddcDrivers)) {
+			int index=0;
 			for (DdcDriver ddcDriver : ddcDrivers) {
+				index ++;
+				if(index == maxIndex){
+					break;
+				}
 				ddcDriver.setSynFlag(SystemConstants.SYSFLAG_ADD);
 				if (StringUtils.isNotBlank(ddcDriver.getVcUserImg())) {
 					ddcDriver.setSynFlag(SystemConstants.SYSFLAG_ADD);
 					String imgPath = SystemConstants.FILE_READPATH
 							+ ddcDriver.getVcUserImg();
-					System.out.println(imgPath);
 					try {
 						in = new FileInputStream(imgPath);
 						byte[] b = new byte[in.available()];
@@ -75,7 +79,7 @@ public class TaskServiceImp implements ITaskService {
 						ddcDriver.setBlobUserImg(b);
 						ddcDriver.setUserNote(null);
 						ddcDriver.setUserStatus(1);
-						iDdcDriverDao.update(ddcDriver);
+						//iDdcDriverDao.update(ddcDriver);
 					} catch (FileNotFoundException e) {
 						logger.warn("找不到头像文件:" + imgPath + "司机信息:"+ddcDriver.getJsrxm()+",sfz="+ddcDriver.getSfzhm());
 						ddcDriver.setUserNote("找不到头像文件");
@@ -101,7 +105,7 @@ public class TaskServiceImp implements ITaskService {
 						ddcDriver.setBlobUserCardImg1(b);
 						ddcDriver.setUserNote(null);
 						ddcDriver.setUserStatus(1);
-						iDdcDriverDao.update(ddcDriver);
+						//iDdcDriverDao.update(ddcDriver);
 					} catch (FileNotFoundException e) {
 						logger.warn("找不到身份证正面:" + imgPath + "司机信息:"+ddcDriver.getJsrxm()+",sfz="+ddcDriver.getSfzhm());
 						System.out.println("找不到文件：" + imgPath);
@@ -128,10 +132,9 @@ public class TaskServiceImp implements ITaskService {
 						ddcDriver.setBlobUserCardImg2(b);
 						ddcDriver.setUserNote(null);
 						ddcDriver.setUserStatus(1);
-						iDdcDriverDao.update(ddcDriver);
+						//iDdcDriverDao.update(ddcDriver);
 					} catch (FileNotFoundException e) {
 						logger.warn("找不到身份证反面:" + imgPath  + "司机信息:"+ddcDriver.getJsrxm()+",sfz="+ddcDriver.getSfzhm());
-						System.out.println("找不到文件：" + imgPath);
 						ddcDriver.setUserNote("找不到身份证反面");
 						ddcDriver.setUserStatus(0);
 						ddcDriver.setSynFlag(SystemConstants.SYSFLAG_ADD);
@@ -143,7 +146,10 @@ public class TaskServiceImp implements ITaskService {
 					}
 
 				}
-
+				if(ddcDriver.getUserStatus()==1){
+					iDdcDriverDao.update(ddcDriver);
+				}
+				
 			}
 		}
 
@@ -329,5 +335,6 @@ public class TaskServiceImp implements ITaskService {
 		 int row = iDdcDriverDao.updateBySql2(sql);
 		return row;
 	}
+
 
 }

@@ -108,7 +108,8 @@ function updateSaveData(){
 				</tr>
     		<tr>
     			<th>档案编号</th>
-    			<td>${ddcDaxxb.dabh }</td>
+    			<td><input class="easyui-validatebox" type="text" value="${ddcDaxxb.dabh }"
+						data-options="required:true" name="dabh"></td>
     			
     			<th>所属单位</th>
     			<td>${ddcDaxxb.ssdwName }</td>

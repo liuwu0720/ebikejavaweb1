@@ -36,6 +36,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.mangofactory.swagger.annotations.ApiIgnore;
 import com.node.model.DdcDaxxb;
+import com.node.model.DdcFlow;
 import com.node.model.DdcHyxhBase;
 import com.node.model.DdcHyxhSsdw;
 import com.node.model.DdcSjzd;
@@ -598,7 +599,7 @@ public class EbikeAction {
 
 	/**
 	 * 
-	 * 方法描述：
+	 * 方法描述：档案更正
 	 * 
 	 * @param request
 	 * @param response
@@ -618,6 +619,12 @@ public class EbikeAction {
 		try {
 			DdcDaxxb ddcDaxxb = iEbikeService
 					.getDdcDaxxbById(ddcDaxxb1.getId());
+			//流水号修改
+			List<DdcFlow> ddcFlows = iEbikeService.findDdcFlowsByDabh(ddcDaxxb.getDabh());
+			for(DdcFlow ddcFlow:ddcFlows){
+				ddcFlow.setDabh(ddcDaxxb1.getDabh());
+				iEbikeService.updateDdcFlow(ddcFlow);
+			}
 			ddcDaxxb.setCphm(ddcDaxxb1.getCphm());
 			ddcDaxxb.setCysy(ddcDaxxb1.getCysy());
 			ddcDaxxb.setDjh(ddcDaxxb1.getDjh());
@@ -635,22 +642,77 @@ public class EbikeAction {
 			ddcDaxxb.setPpxh(ddcDaxxb1.getPpxh());
 			ddcDaxxb.setSynFlag(SystemConstants.SYSFLAG_UPDATE);
 			ddcDaxxb.setTranDate(new Date());
-			/*
-			 * String ebike_jpgPath = uploadImg(request, fileupload);// 上传车身照片
-			 * if (StringUtils.isNotBlank(ebike_jpgPath)) {
-			 * ddcDaxxb.setVcEbikeImg(ebike_jpgPath); } else {
-			 * ddcDaxxb.setVcEbikeImg(ddcDaxxb.getVcEbikeImg()); }
-			 * 
-			 * String vcUser1_img = uploadImg(request, file_upload1);// 上传驾驶人1照片
-			 * if (StringUtils.isNotBlank(vcUser1_img)) {
-			 * ddcDaxxb.setVcUser1Img(vcUser1_img); } else {
-			 * ddcDaxxb.setVcUser1Img(ddcDaxxb.getVcUser1Img()); }
-			 * 
-			 * String vcUser2_img = uploadImg(request, file_upload2);// 上传驾驶人2照片
-			 * if (StringUtils.isNotBlank(vcUser2_img)) {
-			 * ddcDaxxb.setVcUser2Img(vcUser2_img); } else {
-			 * ddcDaxxb.setVcUser2Img(ddcDaxxb.getVcUser2Img()); }
-			 */
+			ddcDaxxb.setDabh(ddcDaxxb1.getDabh());
+			
+			// 业务流水
+			DdcFlow flow = new DdcFlow();
+			JtUser jtUser = (JtUser) request.getSession().getAttribute("jtUser");
+			// 生成流水号
+			String sql = "select seq_ddl_flow.nextval from dual";
+			Object object = iEbikeService.getDateBySQL(sql);
+			String seq = object.toString();
+			String md = new SimpleDateFormat("yyMMdd").format(new Date());
+			String lsh = "F" + md + seq;// 生成流水表流水号
+			flow.setLsh(lsh);
+			flow.setYwlx("F");
+			flow.setYwyy("A");
+			flow.setHyxhzh(ddcDaxxb.getHyxhzh());
+			flow.setSsdwId(ddcDaxxb.getSsdwId());
+			flow.setDabh(ddcDaxxb.getDabh());
+			flow.setCphm(ddcDaxxb.getCphm());
+			flow.setPpxh(ddcDaxxb.getPpxh());
+			flow.setCysy(ddcDaxxb.getCysy());
+			flow.setDjh(ddcDaxxb.getDjh());
+			flow.setJtzz(ddcDaxxb.getJtzz());
+			flow.setSlyj(ddcDaxxb.getSlyj());
+			flow.setSlzl(ddcDaxxb.getSlzl());
+			flow.setSlbz(ddcDaxxb.getSlbz());
+			flow.setSlr(jtUser.getUserCode());
+			flow.setSlrq(new Date());
+			flow.setSlIndex(0);
+			flow.setSlbm(jtUser.getUserOrg());
+			flow.setJsrxm1(ddcDaxxb.getJsrxm1());
+			flow.setXb1(ddcDaxxb.getXb1());
+			flow.setSfzmhm1(ddcDaxxb.getSfzmhm1());
+			flow.setLxdh1(ddcDaxxb.getLxdh1());
+			flow.setJsrxm2(ddcDaxxb.getJsrxm2());
+			flow.setXb2(ddcDaxxb.getXb2());
+			flow.setSfzmhm2(ddcDaxxb.getSfzmhm2());
+			flow.setLxdh2(ddcDaxxb.getLxdh2());
+			flow.setXsqy(ddcDaxxb.getXsqy());
+			flow.setBz(ddcDaxxb.getBz());
+			flow.setGdyj(ddcDaxxb.getGdyj());
+			flow.setGdr(jtUser.getUserCode());
+			flow.setGdbm(jtUser.getUserOrg());
+			flow.setGdrq(new Date());
+			flow.setTranDate(new Date());
+			flow.setVcEbikeImg(ddcDaxxb.getVcEbikeImg());
+			flow.setVcEbikeInvoiceImg(ddcDaxxb
+					.getVcEbikeInvoiceImg());
+			flow.setVcUser1Img(ddcDaxxb.getVcUser1Img());
+			flow.setVcUser2Img(ddcDaxxb.getVcUser2Img());
+			flow.setVcUser1CardImg1(ddcDaxxb
+					.getVcUser1CardImg1());
+			flow.setVcUser1CardImg2(ddcDaxxb
+					.getVcUser1CardImg2());
+			flow.setVcUser2CardImg1(ddcDaxxb
+					.getVcUser2CardImg1());
+			flow.setVcUser2CardImg2(ddcDaxxb
+					.getVcUser2CardImg2());
+			flow.setSynFlag(SystemConstants.SYSFLAG_ADD);
+			flow.setTranDate(new Date());
+			flow.setVcTableName(SystemConstants.RECORDSBTABLE);
+			flow.setiTableId(ddcDaxxb.getId());
+
+			flow.setVcUser1WorkImg(ddcDaxxb
+					.getVcUser1WorkImg());
+			flow.setVcUser2WorkImg(ddcDaxxb
+					.getVcUser2WorkImg());
+			flow.setVcEbikeInsuranceImg(ddcDaxxb
+					.getVcEbikeInsuranceImg());
+			flow.setVcQualifiedImg(ddcDaxxb
+					.getVcQualifiedImg());
+			iEbikeService.saveDdcFlow(flow);
 			iEbikeService.updateDdcDaxxb(ddcDaxxb);
 
 			AjaxUtil.rendJson(response, true, "操作成功");

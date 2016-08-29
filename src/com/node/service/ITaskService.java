@@ -27,10 +27,11 @@ public interface ITaskService {
 	  * @version: 1.0
 	  * @author: liuwu
 	  * @version: 2016年6月13日 下午9:05:52
+	 * @param maxIndex 
 	 * @throws FileNotFoundException 
 	 * @throws IOException 
 	  */
-	void updateDdcDriverImg() ;
+	void updateDdcDriverImg(int maxIndex) ;
 
 	
 	/**
@@ -74,5 +75,8 @@ public interface ITaskService {
 	  * @version: 2016年7月19日 上午11:01:55
 	  */
 	int updateBySql2(String sql);
+
+
+	
 
 }
