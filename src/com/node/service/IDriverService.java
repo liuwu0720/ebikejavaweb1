@@ -92,4 +92,15 @@ public interface IDriverService {
 	  */
 	void updateDdcDriver(DdcDriver ddcDriver);
 
+
+	
+	/**
+	  * 方法描述：
+	  * @param driverId 
+	  * @version: 1.0
+	  * @author: liuwu
+	  * @version: 2016年8月31日 下午2:08:08
+	  */
+	void deleteById(long driverId);
+
 }

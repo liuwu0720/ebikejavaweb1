@@ -102,4 +102,14 @@ public class DriverServiceImp implements IDriverService{
 		iDdcDriverDao.update(ddcDriver);
 	}
 
+	
+		/* (non-Javadoc)
+		 * @see com.node.service.IDriverService#deleteById(long)
+		 */
+	@Override
+	public void deleteById(long driverId) {
+		// TODO Auto-generated method stub
+		iDdcDriverDao.deleteByKey(driverId);
+	}
+
 }

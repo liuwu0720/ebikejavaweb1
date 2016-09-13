@@ -343,7 +343,7 @@ public class EbikeServiceImp implements IEbikeService {
 	@Override
 	public String getCphmByProcess(DdcHyxhBase ddcHyxhBase) {
 		String sql = "select  max(t.cphm)   from DDC_DAXXB t  where t.cphm like '%"
-				+ ddcHyxhBase.getHyxhlb() + "%' and t.ywlx='A' ";
+				+ ddcHyxhBase.getHyxhlb() + "%'  ";
 		Object object = iDdcDaxxbDao.getDateBySQL(sql);
 		String cphm = "";
 		if (object == null) {
@@ -595,6 +595,18 @@ public class EbikeServiceImp implements IEbikeService {
 		iDdcDaxxbDao.save(daxxb);
 		saveDdcDriverDaxx(daxxb);
 		iDdcApprovalUserDao.save(approveUser);
+	}
+
+	
+		/* (non-Javadoc)
+		 * @see com.node.service.IEbikeService#updateDdcDaxxbDisable(com.node.model.DdcHyxhSsdwclsb, com.node.model.DdcApproveUser, com.node.model.DdcFlow)
+		 */
+	@Override
+	public void updateDdcDaxxbDisable(DdcHyxhSsdwclsb ddcHyxhSsdwclsb,
+			DdcApproveUser approveUser, DdcFlow ddcFlow) {
+		iDdcHyxhSsdwclsbDao.update(ddcHyxhSsdwclsb);
+		iDdcApprovalUserDao.save(approveUser);
+		iDdcFlowDao.save(ddcFlow);
 	}
 
 }

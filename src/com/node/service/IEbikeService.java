@@ -401,4 +401,17 @@ public interface IEbikeService {
 	void saveNewDaxxb(DdcHyxhSsdwclsb ddcHyxhSsdwclsb, DdcFlow ddcFlow,
 			DdcDaxxb daxxb, DdcApproveUser approveUser);
 
+	
+	/**
+	  * 方法描述：
+	  * @param ddcHyxhSsdwclsb
+	  * @param approveUser
+	  * @param ddcFlow 
+	  * @version: 1.0
+	  * @author: liuwu
+	  * @version: 2016年8月31日 上午10:52:02
+	  */
+	void updateDdcDaxxbDisable(DdcHyxhSsdwclsb ddcHyxhSsdwclsb,
+			DdcApproveUser approveUser, DdcFlow ddcFlow);
+
 }

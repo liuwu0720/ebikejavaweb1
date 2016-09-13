@@ -118,7 +118,13 @@ $(document).ready(function(){
 			formatter:function(value,row,index){
 				var query = "<a   onclick='queryRow("+row.ID+")'>查看</a>&nbsp;&nbsp;&nbsp;"
 				var update = "<a   onclick='updateRow("+row.ID+")'>审核</a>&nbsp;&nbsp;&nbsp;"
-				return query+update;
+				var del = "<a   onclick='deleteRow("+row.ID+")'>删除</a>&nbsp;&nbsp;&nbsp;"
+				if(row.USER_STATUS>0){
+					return query+update;
+				}else{
+					return query+update+del;
+				}
+				
 			}
 		}
 
@@ -173,7 +179,30 @@ function updateRow(id){
 
 }
 
-
+function deleteRow(id){
+	$.messager.confirm('警告', '该条记录将删除，请确认', function(r){
+		if (r){
+			$.post("<%=basePath%>driverAction/deleteRow", 
+					{id:id},    
+					   function (data, textStatus)
+					   {     
+							
+						if (data.isSuccess) {
+							$.messager.show({ // show error message
+								title : '提示',
+								msg : data.message
+							});
+							$("#dg").datagrid('reload');
+						
+						}else{
+							alert(data.message);
+							$("#dg").datagrid('reload');
+						}
+					   }
+				  ,"json");
+		}
+	});
+}
 
 
 </script>
