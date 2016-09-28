@@ -1512,7 +1512,7 @@ public class ApprovalAction {
 					approveUser.setSysFlag(SystemConstants.SYSFLAG_ADD);
 					approveUser.setTranDate(new Date());
 					// 同意注销，则配额回收协会名下
-					ddcHyxhBase.setHyxhsjzpe(ddcHyxhBase.getHyxhsjzpe() + 1);
+					ddcHyxhBase.setHyxhsjzpe(ddcHyxhBase.getTotalPe() + 1);
 					ddcHyxhBase.setSynFlag(SystemConstants.SYSFLAG_UPDATE);
 					ddcHyxhBase.setTranDate(new Date());
 					try {

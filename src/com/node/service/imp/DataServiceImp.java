@@ -250,11 +250,14 @@ public class DataServiceImp implements IDataService {
 						e.printStackTrace();
 					}
 				}else {
-					DdcDriver oldDdcDriver = iDdcDriverDao.get(driver.getId());
+					//DdcDriver oldDdcDriver = iDdcDriverDao.get(driver.getId());
 					driver.setSynFlag(SystemConstants.SYSFLAG_AG);
-					driver.setXjFlag(oldDdcDriver.getXjFlag());
+					/*driver.setXjFlag(oldDdcDriver.getXjFlag());
 					driver.setXjMsg(oldDdcDriver.getXjMsg());
-					driver.setXjRq(oldDdcDriver.getXjRq());
+					driver.setXjRq(oldDdcDriver.getXjRq());*/
+					driver.setXjFlag(null);
+					driver.setXjMsg(null);
+					driver.setXjRq(null);
 					driver.setTranDate(new Date());
 					driver.setUserStatus(0);
 					try {
